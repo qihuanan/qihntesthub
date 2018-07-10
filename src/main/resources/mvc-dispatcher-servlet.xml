@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                        http://www.springframework.org/schema/mvc
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+                        http://www.springframework.org/schema/tx
+                        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+                        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
+        "
+       default-autowire="byName"
+        >
+
+    <context:property-placeholder location="classpath:conf.properties" />
+    <!-- 启动自动扫描该包下所有的Bean(例如@Controller) -->
+    <context:component-scan base-package="com.qihn.*" />
+
+    <task:executor id="executor" pool-size="5" />
+    <task:scheduler id="scheduler" pool-size="10" />
+    <task:annotation-driven executor="executor" scheduler="scheduler" />
+
+    <bean class="com.qihn.utils.ThrottleFilter">
+        <property name="maxConcurrentRequests" value="5"></property>
+    </bean>
+
+    <bean id="asyncContext" class="com.qihn.controller.DynamicAsyncContext" destroy-method="stop">
+        <property name="asyncTimeoutInSeconds" value="${zero.level.request.async.timeout.seconds}"/>
+        <property name="poolSize" value="${zero.level.request.async.pool.size}"/>
+        <property name="keepAliveTimeInSeconds" value="${zero.level.request.async.keepalive.seconds}"/>
+        <property name="queueCapacity" value="${zero.level.request.async.queue.capacity}"/>
+    </bean>
+
+    <!-- 基于注释的事务，当注释中发现@Transactional时，使用id为“transactionManager”的事务管理器  -->
+    <!-- 如果没有设置transaction-manager的值，则spring以缺省默认的事务管理器来处理事务，默认事务管理器为第一个加载的事务管理器 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- 定义视图解析器 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix">
+            <value>/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/html;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <mvc:annotation-driven />
+
+</beans>
