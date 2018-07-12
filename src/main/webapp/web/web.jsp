@@ -20,9 +20,9 @@
 <body>
 
 
-<form action="/goods/web" method="post">
+<form action="/" method="post">
 <div class="nav white">
-    <div class="logo"><img src="" /></div>
+    <div class="logo"><img src="../images/tomcat.png" /></div>
     <div class="logoBig">
         <li><img src="" /></li>
     </div>
@@ -31,7 +31,7 @@
             <input id="searchInput" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
             <input id="ai-topsearch" class="submit am-btn"  value="搜索"  type="button" onclick="submitform();">
         </div>
-        <div style="line-height: 30px;margin-bottom: 10px;font-size: 15px;">
+        <div style="line-height: 30px;margin-bottom: 10px;font-size: 15px;background: #e6e6e6; ">&nbsp;
             <a href="#" onclick="$('#searchInput').val('空调');document.forms[0].submit();">空调</a>&nbsp;&nbsp;
             <a href="#" onclick="$('#searchInput').val('冰箱');document.forms[0].submit();">冰箱</a>&nbsp;&nbsp;
 

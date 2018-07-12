@@ -60,9 +60,11 @@ public class IndexController extends BaseController {
         String ascdesc = "desc";
         if(orderby.equals("price")) ascdesc = "asc";
         List<Goods> list = null;
-        if(orderby.equals("id") && ascdesc.equals("desc") && StringUtils.isEmpty(qs) && StringUtils.isEmpty(goods.getName())){// 默认没有查询参数进来使用缓存数据
+        if(pageInfo.getCurPage()==1 && orderby.equals("id") && ascdesc.equals("desc") && StringUtils.isEmpty(qs) && StringUtils.isEmpty(goods.getName())){// 默认没有查询参数进来使用缓存数据
             list= (List<Goods>)mmap.get("list");
             pageInfo = (PageInfo) mmap.get("pageInfo");
+            list = null;
+            pageInfo = null;
             if(list==null || list.isEmpty()){
                 list = goodsService.findByProperties(goods,pageInfo,0,goods.getOrderby(),ascdesc);
                 pageInfo = new PageInfo();
