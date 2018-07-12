@@ -65,9 +65,6 @@ public class ThrottleFilter implements Filter {
         if (enable) {
             final String ip = request.getRemoteAddr();
             boolean isOverflow;
-
-            log.info("ip filter: "+ip);
-
             HttpServletRequest httpRequest=(HttpServletRequest)request;
             String requestUrl = httpRequest.getScheme() //当前链接使用的协议
                     +"://" + httpRequest.getServerName()//服务器地址
@@ -76,7 +73,7 @@ public class ThrottleFilter implements Filter {
                     + httpRequest.getServletPath() //请求的相对url
                     + "?" + httpRequest.getQueryString(); //请求参数
 
-            log.info("ip filter-url: "+requestUrl);
+            log.info("ip:"+ip+"filter-url: "+requestUrl);
             synchronized (this) {
                 Integer count = ip2countCache.get(ip);
 
@@ -99,6 +96,7 @@ public class ThrottleFilter implements Filter {
 
                 if (response instanceof HttpServletResponse) {
                     ((HttpServletResponse) response).sendError(503, "亲，你刷新太快啦！服务器累了，休息5秒回来");
+                    ip2countCache.put(ip, maxConcurrentRequests-9);
                     //((HttpServletResponse) response).sendError(503, ip + " has too many concurrent requests per " + PERIOD + " second");
                 }
                 return;

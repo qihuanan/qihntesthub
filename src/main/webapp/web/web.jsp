@@ -6,6 +6,7 @@
     <meta name="keywords" content="优惠查询-优惠推荐-买什么查一查">
     <meta name="description" content="薅羊毛-BUG价-最新优惠-买前查一查">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <jsp:useBean id="time" class="java.util.Date"/>
     <title>${huashu}-${dtitle}-<fmt:formatDate value="${time }" type="date" pattern="MM-dd HH:mm"/> </title>
@@ -20,16 +21,16 @@
 <body>
 
 
-<form action="/" method="post">
+<form action="/" method="get">
 <div class="nav white">
-    <div class="logo"><img src="../images/tomcat.png" /></div>
+    <div class="logo"><a href="/"><img src="../images/tomcat.png" /></a></div>
     <div class="logoBig">
         <li><img src="" /></li>
     </div>
     <div class="search-bar pr">
         <div class="search1">
             <input id="searchInput" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
-            <input id="ai-topsearch" class="submit am-btn"  value="搜索"  type="button" onclick="submitform();">
+            <input id="ai-topsearch" class="submit am-btn"  value="搜索"  type="button" onclick="$('#curPage').val(1);submitform();">
         </div>
         <div style="line-height: 30px;margin-bottom: 10px;font-size: 15px;background: #e6e6e6; ">&nbsp;
             <a href="#" onclick="$('#searchInput').val('空调');document.forms[0].submit();">空调</a>&nbsp;&nbsp;
@@ -58,7 +59,7 @@
                         </div>
                     </ul>
 
-                    <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
+                    <ul id="data_goods" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
                         <c:forEach var="obj" items="${list }" >
                             <li>
                                 <div class="i-pic limit">
@@ -77,28 +78,17 @@
                                 </div>
                             </li>
                         </c:forEach>
-
-                        <!--
-                        <li>
-                            <div class="i-pic limit">
-                                <img src="../images/imgsearch1.jpg" />
-                                <p class="title fl">【良品铺子旗舰店】手剥松子218g 炒货零食巴西松子包邮</p>
-                                <p class="price fl">
-                                    <b>¥</b><strong>56.90</strong>
-                                </p>
-                                <p class="number fl">
-                                    销量<span>1110</span>
-                                </p>
-                            </div>
-                        </li>
-                        -->
-
                     </ul>
                 </div>
 
                 <div class="clear"></div>
+
+
                 <!--分页 -->
-                <ul class="am-pagination am-pagination-right">
+                <ul class="am-pagination am-pagination-right" style="text-align: center;">
+                    <div id="load_more" onclick="showmore();" style="cursor: pointer;padding-bottom: 10px;font-size: 16px;">查看更多</div>
+                    <span id="load_more_loading"></span>
+                    <!--
                     <li ><a href="#">${pageInfo.curPage}/${pageInfo.pageCount}</a></li>
                     <li ><a href="javascript:gotoPage(1)">&laquo;</a></li>
                     <li>
@@ -112,6 +102,7 @@
                         </c:if>
                     </li>
                     <li><a href="javascript:gotoPage(${pageInfo.pageCount})">&raquo;</a></li>
+                    -->
                 </ul>
 
             </div>
@@ -176,7 +167,6 @@ function goodsdetail(skuid,type) {
         success:function(result){
             if(result!= ""){
                 historyprice(result,skuid);
-
             }
         }
     });
@@ -201,6 +191,30 @@ function historyprice(id,skuid) {
     });
 }
 
+function showmore() {
+    var curPage = $('#curPage').val();
+    $('#curPage').val(parseInt(curPage)+1);
+    curPage = $('#curPage').val();
+    var formtext = $("form").serialize();
+    $.ajax({
+        url: "/more",
+        type: 'get', async:true,
+        dataType: 'text',
+        data: formtext,
+        beforeSend:function () {
+            //$("#load_more_loading").html("<div><img src='../images/loading.gif' /><div>");
+        },
+        success: function (result) {
+            //$("#load_more_loading").html("");
+            if($.trim(result) != ""){
+                $('#data_goods').append(result);
+            }else{
+                $('#load_more').text('┭┮﹏┭┮ 没有更多啦...');
+            }
+        }
+    });
+
+}
 
 </script>
 

@@ -133,5 +133,17 @@ public class IndexController extends BaseController {
         return mv;
     }
 
+    @RequestMapping(value = "/more", method = { RequestMethod.GET})
+    public ModelAndView more(@ModelAttribute("goods") Goods goods,@ModelAttribute("pageInfo") PageInfo pageInfo,HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView();
+        String orderby = goods.getOrderby()==null?"id":goods.getOrderby();
+        String ascdesc = "desc";
+        if(orderby.equals("price")) ascdesc = "asc";
+        List<Goods> list = goodsService.findByProperties(goods,pageInfo,0,goods.getOrderby(),ascdesc);
+        mv.addObject("list", list);
+        mv.setViewName("web/more");
+        return mv;
+    }
+
 
 }
