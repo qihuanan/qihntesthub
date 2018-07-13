@@ -38,6 +38,22 @@ public class JSONUtils {
 		return new String(om.writeValueAsBytes(obj), JSON_CHARSET);
 	}
 
+    public static String toJSON2(Object obj) {
+        if ( obj == null ) {
+            return null;
+        }
+
+        if(obj instanceof String) {
+            return (String)obj;
+        }
+        try {
+            return new String(om.writeValueAsBytes(obj), JSON_CHARSET);
+        }catch (Exception e){
+                    e.printStackTrace();
+        }
+        return null;
+    }
+
     public static String toPrettyJSON(Object obj) throws Exception {
 
         if ( obj == null ) {

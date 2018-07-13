@@ -105,7 +105,8 @@
                                         <div class="form-group">
                                             <label>file </label>
                                             <input class="form-control" id="file_id" name="filepath" type="file"  accept="image/*" capture="camera" />
-                                            <a class="btn btn-default" onclick="upfile();" href="#" >upfile</a>
+                                            <a class="btn btn-default" onclick="upfile();" href="javascript:void(0);" >upfile</a>
+                                            <div id="upfileimgdiv_id" style="display: none;"><img id="upfileimg_id" src="" width="50px" height="50px"> </div>
                                         </div>
 
                                         <div class="form-group">
@@ -139,10 +140,6 @@
                                         <div class="form-group">
                                             <label>name </label>
                                             <input class="form-control" name="name" type="text" value="${goods.name}" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>skulink </label>
-                                            <input class="form-control" name="skulink" type="text" value="${goods.skulink}" />
                                         </div>
                                         <div class="form-group">
                                             <label>domain </label>
@@ -256,7 +253,10 @@ function upfile() {
         contentType: false,// 告诉jQuery不要去设置Content-Type请求头
         data: form,
         success: function(data){
-            alert(data);
+            var obj = eval('(' + data + ')');
+            $('#upfileimg_id').attr("src","/download?filename="+obj.filepath);
+            $('#upfileimgdiv_id').show();
+            $('#file_id').val(obj.filepath);
         },
         error: function(err) {
             alert(err);
