@@ -33,6 +33,11 @@
         <property name="maxConcurrentRequests" value="5"></property>
     </bean>
 
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"></property>
+        <property name="maxInMemorySize" value="10240000"></property>
+    </bean>
+
     <bean id="asyncContext" class="com.qihn.controller.DynamicAsyncContext" destroy-method="stop">
         <property name="asyncTimeoutInSeconds" value="${zero.level.request.async.timeout.seconds}"/>
         <property name="poolSize" value="${zero.level.request.async.pool.size}"/>

@@ -356,7 +356,7 @@ public class Utils  {
 			return null;
 		}
 		Properties pp = new Properties();
-		InputStream in = Utils.class.getResourceAsStream("/config.properties");
+		InputStream in = Utils.class.getResourceAsStream("/conf.properties");
 		try {
 			pp.load(in);
 			revalue = pp.getProperty(name.trim());

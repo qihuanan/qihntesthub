@@ -78,7 +78,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <form role="form" action="${sysPath}/goods/merge" method="post" >
+                                    <form id="form_id" role="form" action="${sysPath}/goods/merge" method="post" >
 
                                         <div class="form-group">
                                             <label>orilink: ${goods.id}</label>
@@ -101,6 +101,13 @@
                                                 <input class="form-control" name="huashu" type="text" value="${huashu}" />
                                             </c:if>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label>file </label>
+                                            <input class="form-control" id="file_id" name="filepath" type="file"  accept="image/*" capture="camera" />
+                                            <a class="btn btn-default" onclick="upfile();" href="#" >upfile</a>
+                                        </div>
+
                                         <div class="form-group">
                                             <label>pricel </label>
                                             <input class="form-control" id="price1" name="pricel" type="text" value="${goods.pricel}" />
@@ -115,10 +122,6 @@
                                         <div class="form-group">
                                             <label>upindex </label>
                                             <input class="form-control" name="upindex" type="text" value="${goods.upindex}" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>skuid</label>
-                                            <input class="form-control" name="skuid" type="text" value="${goods.skuid}" />
                                         </div>
                                         <div class="form-group">
                                             <label>skulink </label>
@@ -241,7 +244,25 @@ $(document).ready(function () {
 
 });
 
-
+function upfile() {
+    var file = document.getElementById("file_id").files[0];
+    var form = new FormData(document.getElementById("form_id"));
+    $.ajax({
+        url: '/upload',
+        type: "POST",
+        async: false,
+        cache: false,
+        processData: false,// 告诉jQuery不要去处理发送的数据
+        contentType: false,// 告诉jQuery不要去设置Content-Type请求头
+        data: form,
+        success: function(data){
+            alert(data);
+        },
+        error: function(err) {
+            alert(err);
+        }
+    });
+}
 
 </script>
 <script src="../assets/js/custom-scripts.js"></script>
