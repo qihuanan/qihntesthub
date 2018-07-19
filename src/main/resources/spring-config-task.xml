@@ -8,9 +8,6 @@
         http://www.springframework.org/schema/task/spring-task.xsd"
        default-autowire="byName">
 
-    <task:executor id="asyncTaskExecutor"
-                   pool-size="${executor.pool.size}"
-                   queue-capacity="${executor.queue.capacity}"
-                   keep-alive="600"/><!--10min-->
+
 
 </beans>
