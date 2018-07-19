@@ -101,14 +101,14 @@
                                                 <input class="form-control" name="huashu" type="text" value="${huashu}" />
                                             </c:if>
                                         </div>
-
+                                        <!--
                                         <div class="form-group">
                                             <label>file </label>
                                             <input class="form-control" id="file_id" name="filepath" type="file"  accept="image/*" capture="camera" />
                                             <a class="btn btn-default" onclick="upfile();" href="javascript:void(0);" >upfile</a>
                                             <div id="upfileimgdiv_id" style="display: none;"><img id="upfileimg_id" src="" width="50px" height="50px"> </div>
                                         </div>
-
+                                        -->
                                         <div class="form-group">
                                             <label>pricel </label>
                                             <input class="form-control" id="price1" name="pricel" type="text" value="${goods.pricel}" />
