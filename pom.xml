@@ -330,11 +330,15 @@
       <artifactId>taobaosdk</artifactId>
       <version>2018</version>
       <scope>system</scope>
-        <!--
-      <systemPath>${project.basedir}/lib/taobaosdk-2018.jar</systemPath>
-      -->
-        <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/taobaosdk-2018.jar</systemPath>
+      <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/taobaosdk-2018.jar</systemPath>
     </dependency>
+
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4</version>
+    </dependency>
+
 
   </dependencies>
   <build>
