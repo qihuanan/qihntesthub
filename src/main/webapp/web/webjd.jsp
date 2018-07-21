@@ -9,7 +9,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <jsp:useBean id="time" class="java.util.Date"/>
-    <title>${huashu}-${dtitle}-<fmt:formatDate value="${time }" type="date" pattern="MM-dd HH:mm"/> </title>
+    <title>jd ${huashu}-${dtitle}-<fmt:formatDate value="${time }" type="date" pattern="MM-dd HH:mm"/> </title>
     <link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/basic/css/demo.css" rel="stylesheet" type="text/css" />
@@ -21,7 +21,7 @@
 <body>
 
 
-<form id="form_id" action="/tbs" method="get">
+<form id="form_id" action="/jds" method="get">
 <div class="nav white">
     <div class="logo"><a href="/"><img src="../images/tomcat.png" /></a></div>
     <div class="logoBig">
@@ -30,13 +30,12 @@
     <div class="search-bar pr">
         <div class="search1">
             <input id="searchInput" style="width: 60%;" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
-
-            <input id="ai-topsearch" class="submit am-btn" style="background-color: yellowgreen;width: 20%;"  value="搜淘宝"  type="button" onclick="$('#curPage').val(1);submitform();">
-            <input id="ai-topsearch2" class="submit am-btn" style="background-color: red; width: 20%;" value="搜京东"  type="button" onclick="$('#curPage').val(1);searchjd();">
+            <input id="ai-topsearch2" class="submit am-btn" style="background-color: yellowgreen;width: 20%;"  value="搜淘宝"  type="button" onclick="$('#curPage').val(1);searchtb();">
+            <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 20%;" value="搜京东"  type="button" onclick="$('#curPage').val(1);submitform();">
         </div>
         <div style="line-height: 30px;margin-bottom: 10px;font-size: 15px;background: #e6e6e6; ">&nbsp;
-            <a href="#" onclick="$('#searchInput').val('抽纸');document.forms[0].submit();">抽纸</a>&nbsp;&nbsp;
-            <a href="#" onclick="$('#searchInput').val('美的空调');document.forms[0].submit();">美的空调</a>&nbsp;&nbsp;
+            <a href="#" onclick="$('#searchInput').val('空调');document.forms[0].submit();">空调</a>&nbsp;&nbsp;
+            <a href="#" onclick="$('#searchInput').val('冰箱');document.forms[0].submit();">冰箱</a>&nbsp;&nbsp;
 
         </div>
     </div>
@@ -51,15 +50,15 @@
                     <ul class="select" style="margin-top: 5px;border: none;box-shadow:none;">
                         <div class="sort" style="margin-top: -3px;" >
                             <p class="title font-normal">
-                                <a <c:if test="${goods.orderby eq 'tk_rate_desc'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('tk_rate_desc');$('#recpoint_id').val('');document.forms[0].submit();">综合</a>
-                                <a <c:if test="${goods.orderby eq 'total_sales_desc'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('total_sales_desc');document.forms[0].submit();">销量</a>
-                                <a <c:if test="${goods.orderby eq 'price_asc'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('price_asc');document.forms[0].submit();">价格</a>
-                                <a <c:if test="${goods.recpoint eq '1'}">class="div-selected"</c:if> href="#" onclick="$('#recpoint_id').val('1');document.forms[0].submit();">只看天猫</a>
-                                <a  href="#" onclick="searchjd();">瞧瞧京东</a>
-                                <a  href="#" onclick="searchjd2();">瞧瞧京东2</a>
 
+                                <a <c:if test="${goods.orderby eq 'id'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('id');document.forms[0].submit();">最新</a>
+                                <a <c:if test="${goods.orderby eq 'inOrderCount'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('inOrderCount');document.forms[0].submit();">销量</a>
+                                <a <c:if test="${goods.orderby eq 'price'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('price');document.forms[0].submit();">价格</a>
+                                <a <c:if test="${goods.orderby eq 'upindex'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('upindex');document.forms[0].submit();"><span >特别</span></a>
                                 <input id="orderby_id" type="hidden" name="orderby" value="${goods.orderby}">
                                 <input id="recpoint_id" type="hidden" name="recpoint" value="${goods.recpoint}">
+                                <a href="#" onclick="searchtb();">瞧瞧淘宝</a>
+
                             </p>
                         </div>
                     </ul>
@@ -68,17 +67,19 @@
                         <c:forEach var="obj" items="${list }" >
                             <li>
                                 <div class="i-pic limit">
-                                    <a href="${obj.url}" target="_blank"><img src="${obj.pictUrl }" /></a>
-                                    <a href="${obj.url}" target="_blank"><p class="title fl">${obj.title }</p></a>
+                                    <a href="${obj.skulink}" target="_blank"><img src="${obj.goods_img }" /></a>
+                                    <a href="${obj.skulink}" ><p class="title fl">${obj.goods_name }</p></a>
                                     <p class="price fl" style="font-weight: normal;"  >
-                                        <span style="color: black;">一口价:</span><b>¥</b><strong style="font-size:large ;text-decoration: line-through;">${obj.reservePrice }</strong>&nbsp;
-                                        <span style="color: black;">折扣价:</span><b>¥</b><strong style="font-size: x-large;">${obj.zkFinalPrice}</strong><br>
-                                        <a target="_blank" style="" href="${obj.couponShareUrl}">
-                                        <span style="font-size: 16px;color: green;margin-top: 20px;" >券：${obj.couponInfo}</span>
+                                        价格:<b>¥</b><strong>${obj.goods_price }</strong>&nbsp;
+                                        最低:<strong>
+                                            ${obj.discount_price}
+                                            </strong><br>
+                                        <a target="_blank" style="" href="${obj.discount_link}">
+                                            <span style="font-size: 16px;color: green;margin-top: 20px;" >券：${obj.discount_price}</span>
                                         </a>
                                     </p>
                                     <p class="number fl">
-                                        月销量<span>${(obj.volume+100)*1 }</span>
+                                        销量<span>${obj.goods_id}</span>
                                     </p>
                                 </div>
                             </li>
@@ -93,7 +94,21 @@
                 <ul class="am-pagination am-pagination-right" style="text-align: center;">
                     <div id="load_more" onclick="showmore();" style="cursor: pointer;padding-bottom: 10px;font-size: 16px;">查看更多</div>
                     <span id="load_more_loading"></span>
-
+                    <!--
+                    <li ><a href="#">${pageInfo.curPage}/${pageInfo.pageCount}</a></li>
+                    <li ><a href="javascript:gotoPage(1)">&laquo;</a></li>
+                    <li>
+                        <c:if test="${pageInfo.curPage gt 1}">
+                            <a href="javascript:gotoPage(${pageInfo.curPage - 1})">[上一页]</a>
+                        </c:if>
+                    </li>
+                    <li>
+                        <c:if test="${pageInfo.curPage lt pageInfo.pageCount}">
+                            <a href="javascript:gotoPage(${pageInfo.curPage + 1})">[下一页]</a>
+                        </c:if>
+                    </li>
+                    <li><a href="javascript:gotoPage(${pageInfo.pageCount})">&raquo;</a></li>
+                    -->
                 </ul>
 
             </div>
@@ -113,26 +128,34 @@
 </form>
 </body>
 <script type="text/javascript">
-function searchjd() {
-    $('#form_id').attr('action','/');
-    $('#orderby_id').val('id');
-    $('#curPage').val('1');
-    $('#recpoint_id').val('');
-    document.forms[0].submit();
+    function searchtb() {
+        $('#form_id').attr('action','/tbs');
+        $('#orderby_id').val('');
+        $('#recpoint_id').val('');
+        document.forms[0].submit();
+    }
+    function submitform() {
+        document.forms[0].submit();
+    }
+
+
+function getinfo(type) {
+    var orilink = $('#searchInput').val();
+    var skuid = orilink.match(/\d+/gi);
+    skuid = skuid.toString().split(",")[0];
+    goodsdetail(skuid,type);
 }
 
-function searchjd2() {
-    $('#form_id').attr('action','/jds');
-    $('#orderby_id').val('id');
-    $('#curPage').val('1');
-    $('#recpoint_id').val('');
-    document.forms[0].submit();
+function goodsdetail(skuid,type) {
+    $.ajax({type:"get",datatype:"html",url:"/goods/jttGoodDetail.htm?skuid="+skuid+"&type="+type,
+        data:{},cache:false,async:false,
+        success:function(result){
+            if(result!= ""){
+                historyprice(result,skuid);
+            }
+        }
+    });
 }
-
-function submitform() {
-    document.forms[0].submit();
-}
-
 
 function historyprice(id,skuid) {
     var surl = $('#searchInput').val();

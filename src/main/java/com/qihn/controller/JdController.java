@@ -2,12 +2,15 @@ package com.qihn.controller;
 
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.qihn.pojo.Goods;
 import com.qihn.pojo.User;
 import com.qihn.service.UserService;
 import com.qihn.utils.*;
+import com.taobao.api.response.TbkScMaterialOptionalResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.HttpClient;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,26 +34,48 @@ public class JdController {
     private static Log log = LogFactory.getLog(JdController.class);
 
     public static void main(String args[]){
-        new JdController().jdlist("女装",null);
+        new JdController().jdlist("格力空调",null);
 
 
     }
 
-    public void jdlist(String q,String rank){
-        Map remap =new HashMap();
-
-        String url = "http://japi.jingtuitui.com/api/get_goods_list";
-        //appid=你的appid&appkey=你的appkey&page=1&num=30&type=10&rank=sift
-        //rank self : 京东自营 wtype : 京东配送产品；
-        String data = "appid=1805022340533108&appkey=4da21768b0d248aee58e3173af15e411&page=1&num=50&rank="+rank+"&so="+q;
-        String str =  HttpUtil.sendPost(url,data);
-        //log.error("jttlist: "+str);
-        remap = JSONUtils.fromJson(str,Map.class);
-        if(remap!=null && remap.get("return").equals("0")){
-            remap.put("result",remap.get("result"));
+    @RequestMapping(value = "/jds", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView searchtb(@ModelAttribute("goods") Goods goods, HttpServletRequest request) throws Exception{
+        ModelAndView mv = new ModelAndView();
+        if(goods==null || Utils.isNullorEmpty(goods.getName())){
+            goods = new Goods();
+            goods.setName("女装");
         }
-        log.info(remap.get("result"));
+        boolean isjdzy = Utils.isNotNullOrEmpty(goods.getRecpoint()) && goods.getRecpoint().equals("1");
+        List list = null;
+        if(isjdzy){
+            list = this.jdlist(goods.getName(),"self");
+        }else {
+            list = this.jdlist(goods.getName(),null);
+        }
+        mv.addObject("list", list);
+        mv.setViewName("web/webjd");
+        return mv;
+    }
 
+    public List jdlist(String q,String rank){
+        try {
+            Map remap =new HashMap();
+            String url = "http://japi.jingtuitui.com/api/get_goods_list";
+            //appid=你的appid&appkey=你的appkey&page=1&num=30&type=10&rank=sift
+            //rank self : 京东自营 wtype : 京东配送产品；
+            String data = "appid=1805022340533108&appkey=4da21768b0d248aee58e3173af15e411&page=1&num=50&rank="+rank+"&so="+q;
+            String str =  HttpUtil.sendPost(url,data);
+            log.error("jttlist: "+str);
+            JSONObject obj = new JSONObject(str) ;
+            JSONArray ja = obj.getJSONObject("result").getJSONArray("data");
+            List list = ja.toList();
+            log.error(list);
+            return list;
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
