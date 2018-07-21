@@ -21,7 +21,7 @@
 <body>
 
 
-<form action="/" method="get">
+<form id="form_id" action="/" method="get">
 <div class="nav white">
     <div class="logo"><a href="/"><img src="../images/tomcat.png" /></a></div>
     <div class="logoBig">
@@ -29,8 +29,9 @@
     </div>
     <div class="search-bar pr">
         <div class="search1">
-            <input id="searchInput" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
-            <input id="ai-topsearch" class="submit am-btn"  value="搜索"  type="button" onclick="$('#curPage').val(1);submitform();">
+            <input id="searchInput" style="width: 60%;" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
+            <input id="ai-topsearch2" class="submit am-btn" style="background-color: yellowgreen;width: 20%;"  value="搜淘宝"  type="button" onclick="$('#curPage').val(1);searchtb();">
+            <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 20%;" value="搜京东"  type="button" onclick="$('#curPage').val(1);submitform();">
         </div>
         <div style="line-height: 30px;margin-bottom: 10px;font-size: 15px;background: #e6e6e6; ">&nbsp;
             <a href="#" onclick="$('#searchInput').val('空调');document.forms[0].submit();">空调</a>&nbsp;&nbsp;
@@ -55,6 +56,9 @@
                                 <a <c:if test="${goods.orderby eq 'price'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('price');document.forms[0].submit();">价格</a>
                                 <a <c:if test="${goods.orderby eq 'upindex'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('upindex');document.forms[0].submit();"><span >特别</span></a>
                                 <input id="orderby_id" type="hidden" name="orderby" value="${goods.orderby}">
+                                <input id="recpoint_id" type="hidden" name="recpoint" value="${goods.recpoint}">
+                                <a href="#" onclick="searchtb();">瞧瞧淘宝</a>
+
                             </p>
                         </div>
                     </ul>
@@ -122,6 +126,13 @@
 </form>
 </body>
 <script type="text/javascript">
+    function searchtb() {
+        $('#form_id').attr('action','/tbs');
+        $('#orderby_id').val('');
+        $('#recpoint_id').val('');
+        document.forms[0].submit();
+    }
+
 function gotoPage(pageNum){
     if(isNaN(pageNum)){alert('请输入数字！');document.getElementById('txtPageNum').focus();return false;}
     if( pageNum < 1 || pageNum > ${pageInfo.pageCount} ){document.getElementById('txtPageNum').value=${pageInfo.pageCount};pageNum=${pageInfo.pageCount}; }

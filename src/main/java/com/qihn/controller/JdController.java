@@ -30,6 +30,29 @@ import java.util.Map;
 public class JdController {
     private static Log log = LogFactory.getLog(JdController.class);
 
+    public static void main(String args[]){
+        new JdController().jdlist("女装",null);
+
+
+    }
+
+    public void jdlist(String q,String rank){
+        Map remap =new HashMap();
+
+        String url = "http://japi.jingtuitui.com/api/get_goods_list";
+        //appid=你的appid&appkey=你的appkey&page=1&num=30&type=10&rank=sift
+        //rank self : 京东自营 wtype : 京东配送产品；
+        String data = "appid=1805022340533108&appkey=4da21768b0d248aee58e3173af15e411&page=1&num=50&rank="+rank+"&so="+q;
+        String str =  HttpUtil.sendPost(url,data);
+        //log.error("jttlist: "+str);
+        remap = JSONUtils.fromJson(str,Map.class);
+        if(remap!=null && remap.get("return").equals("0")){
+            remap.put("result",remap.get("result"));
+        }
+        log.info(remap.get("result"));
+
+    }
+
 
     @RequestMapping(path = "/hp",method = RequestMethod.GET)
     @ResponseBody
@@ -74,12 +97,6 @@ public class JdController {
         return null;
     }
 
-    public static void main(String args[]){
-        String url = "http://tool.manmanbuy.com/history.aspx?DA=1&action=gethistory&url=https%253A%2F%2Fdetail.tmall.com%2Fitem.htm%253Fid%253D543567737596&bjid=&spbh=&cxid=&zkid=&w=951&token=7xzecc440d7de36a9881be33f1281a06a8a1h9crzx13";
-        String str =  HttpClientUtils.getDataFromUri(url,null);
-        System.out.println(str);
 
-
-    }
 
 }
