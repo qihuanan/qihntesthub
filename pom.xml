@@ -325,8 +325,16 @@
       <version>${jackson.version}</version>
     </dependency>
     <!-- JSON END -->
-
-
+    <dependency>
+      <groupId>com.taobao.sdk</groupId>
+      <artifactId>taobaosdk</artifactId>
+      <version>2018</version>
+      <scope>system</scope>
+        <!--
+      <systemPath>${project.basedir}/lib/taobaosdk-2018.jar</systemPath>
+      -->
+        <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/taobaosdk-2018.jar</systemPath>
+    </dependency>
 
   </dependencies>
   <build>

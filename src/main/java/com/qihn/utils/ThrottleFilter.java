@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.qihn.controller.GoodsController;
+import com.qihn.controller.TaobaoController;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
@@ -132,6 +133,11 @@ public class ThrottleFilter implements Filter {
             }
             //log.info("Throttle Filter clean up job is done");
         }
+    }
+
+    @Scheduled(fixedRate = 1000*60*60*2) //1000*60*60*2  2小时更新一次
+    public void refreshTBtoken() {
+        TaobaoController.refreshTBtokenAndset();
     }
 
     /**
