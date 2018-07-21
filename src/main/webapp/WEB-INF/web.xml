@@ -119,7 +119,7 @@
     <location>/error.html</location>
   </error-page>
 
-
+<!--
   <error-page>
     <error-code>500</error-code>
     <location>/error.html</location>
@@ -128,9 +128,10 @@
     <error-code>503</error-code>
     <location>/error.html</location>
   </error-page>
+  -->
 
   <welcome-file-list>
-    <welcome-file>goods/web</welcome-file>
+    <welcome-file>/</welcome-file>
   </welcome-file-list>
 
 </web-app>

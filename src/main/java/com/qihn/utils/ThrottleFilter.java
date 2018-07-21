@@ -137,7 +137,7 @@ public class ThrottleFilter implements Filter {
 
     @Scheduled(fixedRate = 1000*60*60*2) //1000*60*60*2  2小时更新一次
     public void refreshTBtoken() {
-        TaobaoController.refreshTBtokenAndset();
+        //TaobaoController.refreshTBtokenAndset();
     }
 
     /**

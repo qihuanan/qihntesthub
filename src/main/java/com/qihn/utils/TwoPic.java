@@ -1,6 +1,6 @@
 package com.qihn.utils;
 
-//½«Á½¸öÍ¼Æ¬ºÏ³ÉÒ»¸ö
+//å°†ä¸¤ä¸ªå›¾ç‰‡åˆæˆä¸€ä¸ª
 import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,7 +12,7 @@ import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGEncodeParam;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
-/** ******Í¼Æ¬Ë®Ó¡Ğ§¹û*********** */
+/** ******å›¾ç‰‡æ°´å°æ•ˆæœ*********** */
 public class TwoPic {
 	public void createOneByTwo() {
 		BufferedImage bi1 = null;
@@ -25,7 +25,7 @@ public class TwoPic {
 		}
 		Graphics g = bi1.getGraphics();
 		g.drawImage(bi2, 0, 0,240,240, null);
-		FileOutputStream out = null; // Êä³öµ½ÎÄ¼şÁ÷
+		FileOutputStream out = null; // è¾“å‡ºåˆ°æ–‡ä»¶æµ
 		try {
 			out = new FileOutputStream("d:\\out.png");
 			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
@@ -37,15 +37,15 @@ public class TwoPic {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// p1±³¾°Í¼£¬p2Ó¡ÕÂ£¬pÎªÊä³öÍ¼¡£p2ÒªÊÇgif»òpngµÈÖ§³ÖÍ¸Ã÷Í¼ÏóµÄ¡£
-		// x,y ÎªÔÚ±³¾°Í¼·ÅÖÃÓ¡ÕÂµÄ×ø±ê£¨ ×óÉÏ½Ç¿ªÊ¼Ëã£©¡£
-		// ÔÚJava2DÖĞÉèÖÃ»­Í¼µÄÍ¸Ã÷¶È£º
-		float alpha = 0.5f; // Í¸Ã÷¶È
+		// p1èƒŒæ™¯å›¾ï¼Œp2å°ç« ï¼Œpä¸ºè¾“å‡ºå›¾ã€‚p2è¦æ˜¯gifæˆ–pngç­‰æ”¯æŒé€æ˜å›¾è±¡çš„ã€‚
+		// x,y ä¸ºåœ¨èƒŒæ™¯å›¾æ”¾ç½®å°ç« çš„åæ ‡ï¼ˆ å·¦ä¸Šè§’å¼€å§‹ç®—ï¼‰ã€‚
+		// åœ¨Java2Dä¸­è®¾ç½®ç”»å›¾çš„é€æ˜åº¦ï¼š
+		float alpha = 0.5f; // é€æ˜åº¦
 		Graphics2D g2d = bi2.createGraphics();
-		// ÉèÖÃÍ¸Ã÷
-		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha)); // ¿ªÊ¼
-		// g2d.drawImage(); // »­Í¼
-		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER)); // ½áÊø
+		// è®¾ç½®é€æ˜
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha)); // å¼€å§‹
+		// g2d.drawImage(); // ç”»å›¾
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER)); // ç»“æŸ
 	}
 
 	/**

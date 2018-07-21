@@ -1,5 +1,6 @@
 package com.qihn.controller;
 
+import com.qihn.pojo.Goods;
 import com.qihn.utils.JSONUtils;
 import com.qihn.utils.Utils;
 import com.taobao.api.DefaultTaobaoClient;
@@ -10,7 +11,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,20 +36,77 @@ public class TaobaoController {
    static long adzone_id = 1652820187l;
 
     public static void main(String[] args) {
-
-
-        //new TaobaoController().daogouS();
         try {//
-            //access_token: 62006000ZZ9c2291be9f3f4342fbff666f9fb5bed26d3d0361069958
-            //refresh_token: 6200a009ZZf90ac5fc605c9a06cd3f836b42a2d0a5fe509361069958
-
-            new TaobaoController().superS("手机");
-
+            new TaobaoController().superS("手机",null,false);
             //new TaobaoController().coupon();
         }catch (Exception e){
             e.printStackTrace();
         }
     }
+
+    @RequestMapping(value = "/tbs", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView searchtb(@ModelAttribute("goods") Goods goods, HttpServletRequest request) throws Exception{
+
+        ModelAndView mv = new ModelAndView();
+        if(goods==null || Utils.isNullorEmpty(goods.getName())){
+            goods = new Goods();
+            goods.setName("女装");
+        }
+        boolean istmall = Utils.isNotNullOrEmpty(goods.getRecpoint()) && goods.getRecpoint().equals("1");
+        TbkScMaterialOptionalResponse rsp = this.superS(goods.getName(),goods.getOrderby(),istmall);
+        if(rsp!=null && rsp.getResultList()!=null && rsp.getResultList().size()>0){
+            mv.addObject("list", rsp.getResultList());
+            //log.info("list: "+JSONUtils.toJSON(rsp.getResultList()));
+        }else{
+            mv.addObject("list", rsp.getResultList());
+            //log.info("list: "+ rsp.getBody());
+        }
+        mv.setViewName("web/webtb");
+        return mv;
+    }
+
+    //排序_des（降序），排序_asc（升序），销量（total_sales），淘客佣金比率（tk_rate），
+    // 累计推广量（tk_total_sales），总支出佣金（tk_total_commi），价格（price）
+    public TbkScMaterialOptionalResponse superS(String q,String orderby,boolean tmall){
+        try {
+            TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+            TbkScMaterialOptionalRequest req = new TbkScMaterialOptionalRequest();
+            //req.setStartDsr(10L);
+            req.setPageSize(50L);
+            //req.setPageNo(1L);
+            req.setPlatform(2L);
+            //req.setEndTkRate(1234L);
+            //req.setStartTkRate(1234L);
+            //req.setEndPrice(10L);
+            //req.setStartPrice(10L);
+            //req.setIsOverseas(false);
+            req.setIsTmall(tmall);
+            req.setSort(orderby);
+            //req.setItemloc("杭州");
+            //req.setCat("16,18");
+            req.setQ(q);
+            req.setAdzoneId(adzone_id);
+            req.setSiteId(site_id);
+            //req.setHasCoupon(false);
+            //req.setIp("13.2.33.4");
+            //req.setIncludeRfdRate(true);
+            //req.setIncludeGoodRate(true);
+            //req.setIncludePayRate30(true);
+            //req.setNeedPrepay(true);
+            req.setNeedFreeShipment(true);
+            //req.setNpxLevel(2L);
+            TbkScMaterialOptionalResponse rsp = client.execute(req, sessionKey);
+            //System.out.println(rsp.getBody());
+            //System.out.println(JSONUtils.toJSON(rsp.getResultList()) );
+            return  rsp;
+        }catch (Exception e){
+
+        }
+
+        return null;
+    }
+
+
 
     public static void refreshTBtokenAndset(){
         try {//
@@ -79,8 +142,6 @@ public class TaobaoController {
     public void coupon()throws Exception{
         TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
         TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
-
-
         req.setAdzoneId(adzone_id);
         req.setPlatform(2L);
         //req.setCat("16,18");
@@ -91,95 +152,10 @@ public class TaobaoController {
         System.out.println(JSONUtils.toJSON(rsp));
     }
 
-    public void itemget() throws Exception{
-        TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
-        TbkItemGetRequest req = new TbkItemGetRequest();
-        req.setFields("num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url,seller_id,volume,nick");
-        req.setQ("女装");
-        //req.setCat("16");
-
-        //req.setSort("tk_rate_des");
-        req.setIsTmall(false);
-        req.setIsOverseas(false);
-
-        TbkItemGetResponse rsp = client.execute(req);
-        System.out.println(rsp.getBody());
-    }
 
 
-    public String daogouS(){
-        TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
-        TbkDgMaterialOptionalRequest req = new TbkDgMaterialOptionalRequest();
-        /*req.setStartDsr(10L);
-        req.setPageSize(20L);
-        req.setPageNo(1L);
-        req.setPlatform(1L);
-        req.setEndTkRate(1234L);
-        req.setStartTkRate(1234L);
-        req.setEndPrice(10L);
-        req.setStartPrice(10L);
-        req.setIsOverseas(false);
-        req.setIsTmall(false);
-        req.setSort("tk_rate_des");
-        req.setItemloc("杭州");*/
-        //req.setCat("16");
-        req.setQ("裙子");
-        /*req.setHasCoupon(false);
-        req.setIp("13.2.33.4");*/
-        req.setAdzoneId(adzone_id);
-        /*req.setNeedFreeShipment(true);
-        req.setNeedPrepay(true);
-        req.setIncludePayRate30(true);
-        req.setIncludeGoodRate(true);
-        req.setIncludeRfdRate(true);
-        req.setNpxLevel(2L);*/
-        try {
-        TbkDgMaterialOptionalResponse rsp = client.execute(req);
-        System.out.println(rsp.getBody());
-        }catch (Exception e){
-
-        }
-        return null;
-    }
-
-    public String superS(String q){
-        try {
-            TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
-            TbkScMaterialOptionalRequest req = new TbkScMaterialOptionalRequest();
-            //req.setStartDsr(10L);
-            //req.setPageSize(20L);
-            //req.setPageNo(1L);
-            req.setPlatform(2L);
-            //req.setEndTkRate(1234L);
-            //req.setStartTkRate(1234L);
-            //req.setEndPrice(10L);
-            //req.setStartPrice(10L);
-            //req.setIsOverseas(false);
-            //req.setIsTmall(false);
-            req.setSort("total_sales");//排序_des（降序），排序_asc（升序），销量（total_sales），淘客佣金比率（tk_rate）， 累计推广量（tk_total_sales），总支出佣金（tk_total_commi），价格（price）
-            //req.setItemloc("杭州");
-            //req.setCat("16,18");
-            req.setQ(q);
-            req.setAdzoneId(adzone_id);
-            req.setSiteId(site_id);
-            //req.setHasCoupon(false);
-            //req.setIp("13.2.33.4");
-            //req.setIncludeRfdRate(true);
-            //req.setIncludeGoodRate(true);
-            //req.setIncludePayRate30(true);
-            //req.setNeedPrepay(true);
-            req.setNeedFreeShipment(true);
-            //req.setNpxLevel(2L);
-            TbkScMaterialOptionalResponse rsp = client.execute(req, sessionKey);
-            System.out.println(rsp.getBody());
 
 
-        }catch (Exception e){
-
-        }
-
-        return null;
-    }
 
 
 
