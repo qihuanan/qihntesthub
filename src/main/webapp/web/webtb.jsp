@@ -67,18 +67,20 @@
                     <ul id="data_goods" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
                         <c:forEach var="obj" items="${list }" >
                             <li>
-                                <div class="i-pic limit">
-                                    <a href="${obj.url}" target="_blank"><img src="${obj.pictUrl }" /></a>
+                                <div class="i-pic limit" title="${obj.reservePrice }">
+                                    <a id="aid_${obj.numIid}" href="${obj.url}" title="${obj.itemUrl}" target="_blank"><img src="${obj.pictUrl }" /></a>
                                     <a href="${obj.url}" target="_blank"><p class="title fl">${obj.title }</p></a>
-                                    <p class="price fl" style="font-weight: normal;"  >
-                                        <span style="color: black;">一口价:</span><b>¥</b><strong style="font-size:large ;text-decoration: line-through;">${obj.reservePrice }</strong>&nbsp;
-                                        <span style="color: black;">折扣价:</span><b>¥</b><strong style="font-size: x-large;">${obj.zkFinalPrice}</strong><br>
+                                    <p class="price fl" style="font-weight: normal;margin-bottom: 10px;"  >
+                                        <span style="color: black;">折扣价:</span><b>¥</b><strong style="font-size:large ;">${obj.zkFinalPrice}</strong>&nbsp;
+                                        <span style="color: black;">最低价:</span><b>¥</b>
+                                        <strong style="font-size: x-large;" id="price2_${obj.numIid}"><a href="javascript:historyprice(${obj.numIid});" style="color:yellowgreen;font-size: large">查询</a></strong>
+                                        <br>
                                         <a target="_blank" style="" href="${obj.couponShareUrl}">
                                         <span style="font-size: 16px;color: green;margin-top: 20px;" >券：${obj.couponInfo}</span>
                                         </a>
-                                    </p>
+                                    </p><br>
                                     <p class="number fl">
-                                        月销量<span>${(obj.volume+100)*1 }</span>
+                                        ${obj.shopTitle} 月销<span>${(obj.volume+100)*1 } </span>
                                     </p>
                                 </div>
                             </li>
@@ -126,22 +128,19 @@ function submitform() {
     document.forms[0].submit();
 }
 
-
-function historyprice(id,skuid) {
-    var surl = $('#searchInput').val();
+function historyprice(skuid) {
+    var surl = $('#aid_'+skuid).attr('title');
+    surl = "http:"+surl;
     $.ajax({
-        url: "/goods/hisPrice",
-        type: 'get', async:false,
+        url: "/goods/hisPrice2",
+        type: 'get', async:true,
         dataType: 'text',
         data: {
-            id:id,
             url: escape(surl),
             token:d.encrypt(surl,2,true)
-
         },
         success: function (result) {
-            $('#searchInput').val(skuid);
-            document.forms[0].submit();
+            $('#price2_'+skuid).text(result);
         }
     });
 }

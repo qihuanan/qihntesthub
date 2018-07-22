@@ -70,16 +70,16 @@
                                 <div class="i-pic limit">
                                     <a href="javascript:jtlink(${obj.skuid});" target="_blank" title="${obj.adwords}"><img src="${obj.skupicture }"  /></a>
                                     <a id="aid_${obj.skuid}" href="javascript:jtlink(${obj.skuid});" title="${obj.skulink}"><p class="title fl">${obj.name }</p></a>
-                                    <p class="price fl" style="font-weight: normal;"  >
-                                        价格:<b>¥</b><strong>${obj.pricestr }</strong>&nbsp;
-                                        最低:<strong>
-                                            ${obj.pricestr}
+                                    <p class="price fl" style="font-weight: normal;margin-bottom: 10px;"  >
+                                        价格:<strong style="font-size:large ;">${obj.pricestr }</strong>&nbsp;
+                                        最低:<strong id="price2_${obj.skuid}" style="font-size:large ;">
+                                            <a href="javascript:historyprice(${obj.skuid});" style="color:yellowgreen;font-size: large">查询</a>
                                             </strong><br>
                                         <a target="_blank" style="" href="javascript:jtlink(${obj.skuid});" title="${obj.adwords}">
                                             <span style="font-size: 14px;color: green;margin-top: 20px;" >${obj.commitinfo}</span>
                                         </a>
-                                    </p>
-                                    <p class="number fl" onclick="jtlink(${obj.skuid});">
+                                    </p><br>
+                                    <p class="number fl" style="margin-top: 20px;" onclick="jtlink(${obj.skuid});">
                                         <span>${obj.shopinfo}</span>
                                     </p>
                                 </div>
@@ -159,20 +159,19 @@ function jtlink(skuid) {
 }
 
 
-function historyprice(id,skuid) {
-    var surl = $('#searchInput').val();
+function historyprice(skuid) {
+    var surl = $('#aid_'+skuid).attr('title');
+    surl = "http:"+surl;
     $.ajax({
-        url: "/goods/hisPrice",
-        type: 'get', async:false,
+        url: "/goods/hisPrice2",
+        type: 'get', async:true,
         dataType: 'text',
         data: {
-            id:id,
             url: escape(surl),
             token:d.encrypt(surl,2,true)
         },
         success: function (result) {
-            $('#searchInput').val(skuid);
-            document.forms[0].submit();
+            $('#price2_'+skuid).text(result);
         }
     });
 }

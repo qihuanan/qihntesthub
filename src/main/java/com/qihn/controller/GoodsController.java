@@ -148,6 +148,34 @@ public class GoodsController extends BaseController {
         return mv;
     }
 
+    @RequestMapping(path = "/hisPrice2",method = RequestMethod.GET)
+    @ResponseBody
+    public Object getMMMPrice2(HttpServletRequest request, HttpServletResponse response) {
+        String uri = request.getParameter("url");
+        String token = request.getParameter("token");
+        //http://tool.manmanbuy.com/history.aspx?action=gethistory&url=http%253A%2F%2Fitem.jd.com%2F3734874.html&token=4sze53bc96e9093faf34eaed11d0bc544a7e
+        String url = "http://tool.manmanbuy.com/history.aspx?action=gethistory&url="+uri+"&token="+token;
+        String str =  HttpClientUtils.getDataFromUri(url,null);
+        //log.info("res: "+str);
+        JSONObject json = new JSONObject(str);
+        response.setHeader("Content-type", "text/html;charset=UTF-8");
+        StringBuffer sb = new StringBuffer();
+        try{
+            if(json.get("lowerPrice")!=null){
+                if(json.get("spName").toString().contains("一步赢")){
+                    log.error("获取价格失败 "+url);
+                    return "暂未收藏";
+                }
+                sb.append(json.get("lowerPrice").toString().replace("\"",""));
+            }
+
+            return sb.toString();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @RequestMapping(path = "/hisPrice",method = RequestMethod.GET)
     @ResponseBody
