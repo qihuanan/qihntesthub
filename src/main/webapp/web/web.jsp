@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta name="keywords" content="优惠查询-优惠推荐-买什么查一查">
-    <meta name="description" content="薅羊毛-BUG价-最新优惠-买前查一查">
+    <meta name="keywords" content="你瞧瞧-热销 历史价 一网搜天下 尽在猫狗会">
+    <meta name="description" content="你瞧瞧-热销 历史价 一网搜天下 尽在猫狗会">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <jsp:useBean id="time" class="java.util.Date"/>
-    <title>${huashu}-${dtitle}-<fmt:formatDate value="${time }" type="date" pattern="MM-dd HH:mm"/> </title>
+    <title>${huashu} 猫狗汇 历史价你瞧瞧 一网搜天下 尽在猫狗汇 </title>
     <link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/basic/css/demo.css" rel="stylesheet" type="text/css" />
@@ -30,8 +30,8 @@
     <div class="search-bar pr">
         <div class="search1">
             <input id="searchInput" style="width: 60%;" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
-            <input id="ai-topsearch2" class="submit am-btn" style="background-color: yellowgreen;width: 20%;"  value="搜淘宝"  type="button" onclick="$('#curPage').val(1);searchtb();">
-            <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 20%;" value="搜京东"  type="button" onclick="$('#curPage').val(1);submitform();">
+            <input id="ai-topsearch2" class="submit am-btn" style="background-color: yellowgreen;width: 20%;"  value="瞄阿猫"  type="button" onclick="$('#curPage').val(1);searchtb();">
+            <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 20%;" value="瞧啊狗"  type="button" onclick="$('#curPage').val(1);submitform();">
         </div>
         <div style="line-height: 30px;margin-bottom: 10px;font-size: 15px;background: #e6e6e6; ">&nbsp;
             <a href="#" onclick="$('#searchInput').val('空调');document.forms[0].submit();">空调</a>&nbsp;&nbsp;
@@ -77,7 +77,7 @@
                                             ${obj.pricel}
                                             </strong><br>
                                         <span style="font-size: 14px;color: green;" >${obj.recpoint} </span>
-                                    </p>
+                                    </p><br>
                                     <p class="number fl">
                                         销量<span>${obj.inOrderCount}</span>
                                     </p>

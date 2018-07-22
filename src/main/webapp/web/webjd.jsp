@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta name="keywords" content="优惠查询-优惠推荐-买什么查一查">
-    <meta name="description" content="薅羊毛-BUG价-最新优惠-买前查一查">
+    <meta name="keywords" content="你瞧瞧-热销 历史价 一网搜天下 尽在猫狗会">
+    <meta name="description" content="你瞧瞧-热销 历史价 一网搜天下 尽在猫狗会">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <jsp:useBean id="time" class="java.util.Date"/>
-    <title>${huashu} 全网搜-网购查一查，一网搜天下 </title>
+    <title>${huashu} 猫狗汇 历史价你瞧瞧 一网搜天下 尽在猫狗汇 </title>
     <link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/basic/css/demo.css" rel="stylesheet" type="text/css" />
@@ -70,14 +70,14 @@
                                 <div class="i-pic limit">
                                     <a href="javascript:jtlink(${obj.skuid});" target="_blank" title="${obj.adwords}"><img src="${obj.skupicture }"  /></a>
                                     <a id="aid_${obj.skuid}" href="javascript:jtlink(${obj.skuid});" title="${obj.skulink}"><p class="title fl">${obj.name }</p></a>
-                                    <p class="price fl" style="font-weight: normal;margin-bottom: 10px;"  >
-                                        价格:<strong style="font-size:large ;">${obj.pricestr }</strong>&nbsp;
-                                        最低:<strong id="price2_${obj.skuid}" style="font-size:large ;">
-                                            <a href="javascript:historyprice(${obj.skuid});" style="color:yellowgreen;font-size: large">查询</a>
+                                    <p class="price fl" style="font-weight: normal;margin-bottom: 10px;cursor: pointer"  >
+                                        当前价格:<strong style="font-size:large ;">${obj.pricestr }</strong>&nbsp;<br>
+                                        历史最低:<strong id="price2_${obj.skuid}" style="font-size:large ;"><b>¥</b>&nbsp;
+                                            <a href="javascript:historyprice(${obj.skuid});" style="color:yellowgreen;font-size: large;">&nbsp;&nbsp;查&nbsp;询&nbsp;&nbsp;</a>
                                             </strong><br>
-                                        <a target="_blank" style="" href="javascript:jtlink(${obj.skuid});" title="${obj.adwords}">
-                                            <span style="font-size: 14px;color: green;margin-top: 20px;" >${obj.commitinfo}</span>
-                                        </a>
+
+                                            <span style="font-size: 14px;margin-top: 20px;" >${obj.commitinfo}</span>
+
                                     </p><br>
                                     <p class="number fl" style="margin-top: 20px;" onclick="jtlink(${obj.skuid});">
                                         <span>${obj.shopinfo}</span>
