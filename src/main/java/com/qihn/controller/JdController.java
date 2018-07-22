@@ -3,6 +3,7 @@ package com.qihn.controller;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.qihn.pojo.Goods;
+import com.qihn.pojo.Jdobject;
 import com.qihn.pojo.User;
 import com.qihn.service.UserService;
 import com.qihn.utils.*;
@@ -12,6 +13,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.HttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.net.URI;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 
 @Controller
@@ -34,7 +37,41 @@ public class JdController {
     private static Log log = LogFactory.getLog(JdController.class);
 
     public static void main(String args[]){
-        new JdController().jdlist("格力空调",null);
+        //new JdController().jdlist("格力空调",null);
+        try {
+            Document doc = Jsoup.connect("https://search.jd.com/Search?keyword=空调&enc=utf-8").get();
+            String title = doc.title();
+            //log.info("title"+title);
+            Element content = doc.getElementById("J_goodsList");
+            Elements elements = content.getElementsByTag("li");
+            for (Element element : elements) {
+                String linkHref = element.attr("data-sku");
+                String linkText = element.html();
+                //log.info(linkHref+" - "+ linkText);
+                log.info(" begin ================== ");
+                Elements imgdiv = element.getElementsByClass("p-img");
+                log.info("imgdiv -> "+imgdiv.html());
+                log.info("skuid -> "+element.attr("data-sku") );
+                log.info("a title -> "+imgdiv.first().getElementsByTag("a").attr("title") );
+                log.info("a href -> "+imgdiv.first().getElementsByTag("a").attr("href") );
+                log.info("img src -> "+imgdiv.first().getElementsByTag("img").attr("source-data-lazy-img") );
+
+                log.info("price -> "+element.getElementsByClass("p-price").text() );
+
+                log.info("commit -> "+element.getElementsByClass("p-commit").text() );
+                log.info("shop -> "+element.getElementsByClass("p-shop").text() );
+                log.info("name -> "+element.getElementsByClass("p-name").text() );
+
+
+
+                log.info(" end ================== ");
+
+                break;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
 
     }
@@ -46,19 +83,75 @@ public class JdController {
             goods = new Goods();
             goods.setName("女装");
         }
-        boolean isjdzy = Utils.isNotNullOrEmpty(goods.getRecpoint()) && goods.getRecpoint().equals("1");
-        List list = null;
-        if(isjdzy){
-            list = this.jdlist(goods.getName(),"self");
-        }else {
-            list = this.jdlist(goods.getName(),null);
-        }
+        boolean isjdps = Utils.isNotNullOrEmpty(goods.getRecpoint()) && goods.getRecpoint().equals("1");
+
+        List list = sjdlist(goods.getName(),goods.getOrderby(),isjdps==true?"1":"0");
+
         mv.addObject("list", list);
         mv.setViewName("web/webjd");
         return mv;
     }
 
-    public List jdlist(String q,String rank){
+    //https://search.jd.com/Search?keyword=%E7%A9%BA%E8%B0%831%E5%8C%B9&enc=utf-8&wtype=1&psort=3
+    // wtype =1  京东配送  psort 1 价格降序 2 价格升序  3 销量降序
+    public List sjdlist(String q,String sort,String jdps){
+        try {
+            Document doc = Jsoup.connect("https://search.jd.com/Search?keyword="+q+"&enc=utf-8&stock=1&wtype="+jdps+"&psort="+sort).get();
+            String title = doc.title();
+            Element content = doc.getElementById("J_goodsList");
+            Elements elements = content.getElementsByTag("li");
+            List list = new ArrayList();
+            for (Element element : elements) {
+                try {
+                    Elements imgdiv = element.getElementsByClass("p-img");
+                    Jdobject obj = new Jdobject();
+                    obj.setSkuid(element.attr("data-sku"));
+                    obj.setCommitinfo(element.getElementsByClass("p-commit").text());
+                    obj.setShopinfo(element.getElementsByClass("p-shop").text());
+                    obj.setName(element.getElementsByClass("p-name").text());
+                    obj.setSkulink(imgdiv.first().getElementsByTag("a").attr("href"));
+                    obj.setSkupicture(imgdiv.first().getElementsByTag("img").attr("source-data-lazy-img"));
+                    if(imgdiv.first().getElementsByTag("a").hasAttr("title")){
+                        obj.setAdwords(imgdiv.first().getElementsByTag("a").attr("title"));
+                    }else{
+                        obj.setAdwords(obj.getName());
+                    }
+                    obj.setPricestr(element.getElementsByClass("p-price").text());
+                    list.add(obj);
+                }catch (Exception e){
+                    continue;
+                }
+            }
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/jtlink", method = {RequestMethod.POST, RequestMethod.GET})
+    @ResponseBody
+    public String jttlink(HttpServletRequest request){
+        try {
+            String skuid = request.getParameter("skuid");
+            String url = "http://japi.jingtuitui.com/api/get_goods_link";
+            String data = "appid=1805022340533108&appkey=4da21768b0d248aee58e3173af15e411&unionid=1000524984&positionid=&coupon_url=&gid="+skuid;
+            String str =  HttpUtil.sendPost(url,data);
+            log.error("jtt-get_goods_link: "+str);
+            Map remap2 =JSONUtils.fromJson(str,Map.class);
+            if(remap2!=null && remap2.get("return").equals("0")){
+                JSONObject obj = new JSONObject(JSONUtils.toJSON(remap2.get("result")));
+                log.info("jtt-link:"+obj.getString("link") );
+                return obj.getString("link");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List jttlist(String q,String rank){
         try {
             Map remap =new HashMap();
             String url = "http://japi.jingtuitui.com/api/get_goods_list";

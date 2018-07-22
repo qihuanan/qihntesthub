@@ -21,7 +21,7 @@
 <body>
 
 
-<form id="form_id" action="/" method="get">
+<form id="form_id" action="/jds" method="get">
 <div class="nav white">
     <div class="logo"><a href="/"><img src="../images/tomcat.png" /></a></div>
     <div class="logoBig">
@@ -50,13 +50,15 @@
                     <ul class="select" style="margin-top: 5px;border: none;box-shadow:none;">
                         <div class="sort" style="margin-top: -3px;" >
                             <p class="title font-normal">
-
+                                <!--
                                 <a <c:if test="${goods.orderby eq 'id'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('id');document.forms[0].submit();">最新</a>
                                 <a <c:if test="${goods.orderby eq 'inOrderCount'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('inOrderCount');document.forms[0].submit();">销量</a>
                                 <a <c:if test="${goods.orderby eq 'price'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('price');document.forms[0].submit();">价格</a>
                                 <a <c:if test="${goods.orderby eq 'upindex'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('upindex');document.forms[0].submit();"><span >特别</span></a>
+                                -->
                                 <input id="orderby_id" type="hidden" name="orderby" value="${goods.orderby}">
                                 <input id="recpoint_id" type="hidden" name="recpoint" value="${goods.recpoint}">
+                                <a class="div-selected" href="/" >joy推荐</a>
                                 <a href="#" onclick="searchtb();">瞧瞧淘宝</a>
 
                             </p>

@@ -9,7 +9,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <jsp:useBean id="time" class="java.util.Date"/>
-    <title>${huashu}-${dtitle}-<fmt:formatDate value="${time }" type="date" pattern="MM-dd HH:mm"/> </title>
+    <title>${huashu} 全网搜-网购查一查，一网搜天下 </title>
     <link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/basic/css/demo.css" rel="stylesheet" type="text/css" />
@@ -31,7 +31,7 @@
         <div class="search1">
             <input id="searchInput" style="width: 60%;" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
 
-            <input id="ai-topsearch" class="submit am-btn" style="background-color: yellowgreen;width: 20%;"  value="搜淘宝"  type="button" onclick="$('#curPage').val(1);submitform();">
+            <input id="ai-topsearch" class="submit am-btn" style="background-color: yellowgreen;width: 20%;font-weight: bold;"  value="搜淘宝"  type="button" onclick="$('#curPage').val(1);submitform();">
             <input id="ai-topsearch2" class="submit am-btn" style="background-color: red; width: 20%;" value="搜京东"  type="button" onclick="$('#curPage').val(1);searchjd();">
         </div>
         <div style="line-height: 30px;margin-bottom: 10px;font-size: 15px;background: #e6e6e6; ">&nbsp;
@@ -56,7 +56,7 @@
                                 <a <c:if test="${goods.orderby eq 'price_asc'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('price_asc');document.forms[0].submit();">价格</a>
                                 <a <c:if test="${goods.recpoint eq '1'}">class="div-selected"</c:if> href="#" onclick="$('#recpoint_id').val('1');document.forms[0].submit();">只看天猫</a>
                                 <a  href="#" onclick="searchjd();">瞧瞧京东</a>
-                                <a  href="#" onclick="searchjd2();">瞧瞧京东2</a>
+                                <a href="/" >joy推荐</a>
 
                                 <input id="orderby_id" type="hidden" name="orderby" value="${goods.orderby}">
                                 <input id="recpoint_id" type="hidden" name="recpoint" value="${goods.recpoint}">
@@ -113,15 +113,8 @@
 </form>
 </body>
 <script type="text/javascript">
-function searchjd() {
-    $('#form_id').attr('action','/');
-    $('#orderby_id').val('id');
-    $('#curPage').val('1');
-    $('#recpoint_id').val('');
-    document.forms[0].submit();
-}
 
-function searchjd2() {
+function searchjd() {
     $('#form_id').attr('action','/jds');
     $('#orderby_id').val('id');
     $('#curPage').val('1');
