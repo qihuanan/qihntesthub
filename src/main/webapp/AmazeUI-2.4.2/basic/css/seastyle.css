@@ -79,7 +79,7 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
 .search-content{margin:0px 5px ;}
 
 
-.limit p.title,.i-pic.check p.title{padding:0px 5px;margin:5px 0px;overflow:hidden;height:18px;line-height:18px ;}
+.limit p.title,.i-pic.check p.title{padding:0px 5px;margin:5px 0px;overflow:hidden;max-height: 54px; line-height:18px ;}
 
 
 

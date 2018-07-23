@@ -156,7 +156,7 @@ public class GoodsController extends BaseController {
         //http://tool.manmanbuy.com/history.aspx?action=gethistory&url=http%253A%2F%2Fitem.jd.com%2F3734874.html&token=4sze53bc96e9093faf34eaed11d0bc544a7e
         String url = "http://tool.manmanbuy.com/history.aspx?action=gethistory&url="+uri+"&token="+token;
         String str =  HttpClientUtils.getDataFromUri(url,null);
-        //log.info("res: "+str);
+        log.info("res: "+str);
         JSONObject json = new JSONObject(str);
         response.setHeader("Content-type", "text/html;charset=UTF-8");
         StringBuffer sb = new StringBuffer();

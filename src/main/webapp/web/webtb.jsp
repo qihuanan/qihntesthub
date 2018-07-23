@@ -73,7 +73,7 @@
                                     <a id="aid_${obj.numIid}" href="${obj.url}" title="${obj.itemUrl}" target="_blank"><img src="${obj.pictUrl }" /></a>
                                     <a href="${obj.url}" target="_blank"><p class="title fl">${obj.title }</p></a>
                                     <p class="price fl" style="font-weight: normal;margin-bottom: 10px;"  >
-                                        <span style="color: black;">当前折扣价:</span><b>¥</b><strong style="font-size:large ;">${obj.zkFinalPrice}</strong>&nbsp;<br>
+                                        <span style="color: black;">当前折扣价:</span><b>¥</b><strong style="font-size:large ;">${obj.zkFinalPrice}</strong>&nbsp;&nbsp;月销&nbsp;<span>${(obj.volume+100)*1 }<br>
                                         <span style="color: black;">历史最低价:</span><b>¥</b>
                                         <strong style="font-size: x-large;" id="price2_${obj.numIid}"><a href="javascript:historyprice(${obj.numIid});" style="color:yellowgreen;font-size: large">&nbsp;&nbsp;查&nbsp;询&nbsp;&nbsp;</a></strong>
                                         <br>
@@ -83,8 +83,8 @@
                                         </a>
                                         </c:if>
                                     </p><br>
-                                    <p class="number fl">
-                                        ${obj.shopTitle} 月销<span>${(obj.volume+100)*1 } </span>
+                                    <p class="number fl" style="height: auto;">
+                                        ${obj.shopTitle}  </span>
                                     </p>
                                 </div>
                             </li>
