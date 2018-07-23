@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta name="keywords" content="你瞧瞧-热销 历史价 一网搜天下 尽在猫狗汇">
-    <meta name="description" content="你瞧瞧-热销 历史价 一网搜天下 尽在猫狗汇">
+    <meta name="keywords" content="猫狗汇 京东淘宝天猫一网通 历史价查询 尽在猫狗汇">
+    <meta name="description" content="猫狗汇 京东淘宝天猫一网通 历史价查询 尽在猫狗汇">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <jsp:useBean id="time" class="java.util.Date"/>
-    <title>${huashu} 猫狗汇 历史价你瞧瞧 一网搜天下 尽在猫狗汇 </title>
+    <title>${huashu} 猫狗汇 京东淘宝天猫一网通 历史价查询 尽在猫狗汇 </title>
     <link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/basic/css/demo.css" rel="stylesheet" type="text/css" />
@@ -19,7 +19,9 @@
     <script type="text/javascript" src="../js/my.js"></script>
 </head>
 <body>
-
+<div class="topclass">
+    猫狗汇 京东淘宝天猫一网通 历史价查询
+</div>
 
 <form id="form_id" action="/tbs" method="get">
 <div class="nav white">
@@ -29,7 +31,7 @@
     </div>
     <div class="search-bar pr">
         <div class="search1">
-            <input id="searchInput" style="width: 60%;" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
+            <input id="searchInput"  style="width: 60%;" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
 
             <input id="ai-topsearch" class="submit am-btn" style="background-color: yellowgreen;width: 20%;font-weight: bold;"  value="搜淘宝"  type="button" onclick="$('#curPage').val(1);submitform();">
             <input id="ai-topsearch2" class="submit am-btn" style="background-color: red; width: 20%;" value="搜京东"  type="button" onclick="$('#curPage').val(1);searchjd();">
@@ -48,8 +50,8 @@
             <div class="am-u-sm-12 am-u-md-12">
                 <div class="search-content">
                     <div class="clear"></div>
-                    <ul class="select" style="margin-top: 5px;border: none;box-shadow:none;">
-                        <div class="sort" style="margin-top: -3px;" >
+                    <ul class="select" style="margin-top: 35px;border: none;box-shadow:none;">
+                        <div class="sort" style=" " >
                             <p class="title font-normal">
                                 <a <c:if test="${goods.orderby eq 'tk_rate_desc'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('tk_rate_desc');$('#recpoint_id').val('');document.forms[0].submit();">综合</a>
                                 <a <c:if test="${goods.orderby eq 'total_sales_desc'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('total_sales_desc');document.forms[0].submit();">销量</a>
@@ -117,6 +119,10 @@
 </form>
 </body>
 <script type="text/javascript">
+
+$(document).ready(function () {
+    $('#searchInput').focus();
+});
 
 function searchjd() {
     $('#form_id').attr('action','/jds');
