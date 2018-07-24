@@ -51,6 +51,13 @@ public class TaobaoController {
         if(goods==null || Utils.isNullorEmpty(goods.getName())){
             goods = new Goods();
             goods.setName("女装");
+            String huashu = (String)request.getSession().getServletContext().getAttribute("huashu");
+            if(Utils.isNullorEmpty(huashu)){
+                huashu = "女装,男装,零食,饮料";
+            }
+            String [] arr = huashu.split(",");
+            int i = (int) (Math.random() * arr.length);
+            goods.setName(arr[i]);
         }
         boolean istmall = Utils.isNotNullOrEmpty(goods.getRecpoint()) && goods.getRecpoint().equals("1");
         TbkScMaterialOptionalResponse rsp = this.superS(goods.getName(),goods.getOrderby(),istmall);

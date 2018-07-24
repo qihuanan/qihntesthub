@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta name="keywords" content="猫狗汇 京东淘宝天猫一网通 历史价查询 尽在猫狗汇">
-    <meta name="description" content="猫狗汇 京东淘宝天猫一网通 历史价查询 尽在猫狗汇">
+    <meta name="keywords" content="猫狗汇 京东淘宝天猫一网通 历史价查询 尽在猫狗汇-${huashu}">
+    <meta name="description" content="猫狗汇 京东淘宝天猫一网通 历史价查询 尽在猫狗汇-${huashu}">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <jsp:useBean id="time" class="java.util.Date"/>
-    <title>${huashu} 猫狗汇 京东淘宝天猫一网通 历史价查询 尽在猫狗汇 </title>
+    <title>猫狗汇 京东淘宝天猫一网通 历史价查询尽在猫狗汇-${huashu} </title>
     <link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/basic/css/demo.css" rel="stylesheet" type="text/css" />
@@ -19,6 +19,15 @@
     <script type="text/javascript" src="../js/my.js"></script>
 </head>
 <body>
+
+<script type="text/javascript">
+    var sogou_ad_id=974789;
+    var sogou_ad_height=300;
+    var sogou_ad_width=120;
+</script>
+<script type="text/javascript" charset="gb2312" src="http://images.sohu.com/cs/jsfile/js/f.js"></script>
+
+
 <div class="topclass">
     猫狗汇 京东淘宝天猫一网通 历史价查询
 </div>
@@ -180,6 +189,29 @@ function showmore() {
 
 </script>
 
+<script type="text/javascript">
+    var sogou_ad_id=974788;
+    var sogou_ad_height=90;
+    var sogou_ad_width=728;
+</script>
+<script type='text/javascript' src='http://images.sohu.com/cs/jsfile/js/c.js'></script>
+
+<!-- 无线 -->
+<script type="text/javascript">
+    var sogou_ad_id=974790;
+    var sogou_ad_width=20;
+    var sogou_ad_height=5;
+    var sogou_ad_float=0;
+    var sogou_ad_close=1;
+</script>
+<script type="text/javascript" src="http://infy.theta.sogoucdn.com/wap/js/wp.js"></script>
+
+
+<script type="text/javascript">
+    var sogou_ad_id=974791;
+    var sogou_ad_content_height=90;
+</script>
+<script type="text/javascript" src="http://jpg.inte.sogoucdn.com/wap/js/wp.js"></script>
 
 
 </html>
