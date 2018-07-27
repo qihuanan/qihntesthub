@@ -8,6 +8,15 @@ public class Jdobject extends Goods implements Serializable {
     private String shopinfo;
     private String adwords;
     private String pricestr;
+    private String pricemiaosha;
+
+    public String getPricemiaosha() {
+        return pricemiaosha;
+    }
+
+    public void setPricemiaosha(String pricemiaosha) {
+        this.pricemiaosha = pricemiaosha;
+    }
 
     public String getPricestr() {
         return pricestr;
@@ -40,4 +49,7 @@ public class Jdobject extends Goods implements Serializable {
     public void setAdwords(String adwords) {
         this.adwords = adwords;
     }
+
+
+
 }

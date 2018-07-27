@@ -20,12 +20,6 @@
 </head>
 <body>
 
-<script type="text/javascript">
-    var sogou_ad_id=974789;
-    var sogou_ad_height=300;
-    var sogou_ad_width=120;
-</script>
-<script type="text/javascript" charset="gb2312" src="http://images.sohu.com/cs/jsfile/js/f.js"></script>
 
 
 <div class="topclass">
@@ -70,6 +64,7 @@
                                 <a <c:if test="${goods.recpoint eq '1'}">class="div-selected"</c:if> href="#" onclick="$('#recpoint_id').val('1');document.forms[0].submit();">京东物流</a>
                                 <a href="#" onclick="searchtb();">瞧瞧淘宝</a>
                                 <a href="/" >joy推荐</a>
+                                <a href="/jdms" >尖货秒杀</a>
 
                             </p>
                         </div>
@@ -82,13 +77,14 @@
                                     <a href="javascript:jtlink(${obj.skuid});" target="_blank" title="${obj.adwords}"><img src="${obj.skupicture }"  /></a>
                                     <a id="aid_${obj.skuid}" href="javascript:jtlink(${obj.skuid});" title="${obj.skulink}"><p class="title fl">${obj.name }</p></a>
                                     <p class="price fl" style="font-weight: normal;margin-bottom: 10px;cursor: pointer"  >
-                                        当前价格:<strong style="font-size:large ;">${obj.pricestr }</strong>&nbsp;<br>
+                                        京东价:<strong style="font-size:large ;">${obj.pricestr }</strong>&nbsp;<br>
+                                        <c:if test="${!empty obj.pricemiaosha}">
+                                            秒杀价:<strong style="font-size:large ;">${obj.pricemiaosha }</strong>&nbsp;<br>
+                                        </c:if>
                                         历史最低:<strong id="price2_${obj.skuid}" style="font-size:large ;"><b>¥</b>&nbsp;
                                             <a href="javascript:historyprice(${obj.skuid});" style="color:yellowgreen;font-size: large;">&nbsp;&nbsp;查&nbsp;询&nbsp;&nbsp;</a>
                                             </strong><br>
-
                                             <span style="font-size: 14px;margin-top: 20px;" >${obj.commitinfo}</span>
-
                                     </p><br>
                                     <p class="number fl" style="margin-top: 20px;" onclick="jtlink(${obj.skuid});">
                                         <span>${obj.shopinfo}</span>
@@ -142,6 +138,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $('#searchInput').focus();
+
 });
 
 function searchtb() {
@@ -218,14 +215,36 @@ function showmore() {
 
 </script>
 
+
+
+<!-- pc -->
+<div id="pcid">
+<script type="text/javascript">
+    var sogou_ad_id=974789;
+    var sogou_ad_height=300;
+    var sogou_ad_width=120;
+</script>
+<script type="text/javascript" charset="gb2312" src="http://images.sohu.com/cs/jsfile/js/f.js"></script>
+
 <script type="text/javascript">
     var sogou_ad_id=974788;
     var sogou_ad_height=90;
     var sogou_ad_width=728;
 </script>
 <script type='text/javascript' src='http://images.sohu.com/cs/jsfile/js/c.js'></script>
+</div>
 
-<!-- 无线 -->
+<script>
+    var wid =document.body.clientWidth;
+    if(wid<800){
+        $('#starIframe_wrapper_1').html("");
+        $('#starIframe_wrapper_2').html("");
+    }
+
+</script>
+
+<!-- mob -->
+<div id="mobid">
 <script type="text/javascript">
     var sogou_ad_id=974790;
     var sogou_ad_width=20;
@@ -241,6 +260,6 @@ function showmore() {
     var sogou_ad_content_height=90;
 </script>
 <script type="text/javascript" src="http://jpg.inte.sogoucdn.com/wap/js/wp.js"></script>
-
+</div>
 
 </html>

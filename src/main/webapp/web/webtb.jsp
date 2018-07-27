@@ -68,6 +68,7 @@
                                 <a <c:if test="${goods.recpoint eq '1'}">class="div-selected"</c:if> href="#" onclick="$('#recpoint_id').val('1');document.forms[0].submit();">只看天猫</a>
                                 <a  href="#" onclick="searchjd();">瞧瞧京东</a>
                                 <a href="/" >joy推荐</a>
+                                <a href="/jdms" >尖货秒杀</a>
 
                                 <input id="orderby_id" type="hidden" name="orderby" value="${goods.orderby}">
                                 <input id="recpoint_id" type="hidden" name="recpoint" value="${goods.recpoint}">
@@ -189,29 +190,50 @@ function showmore() {
 
 </script>
 
-<script type="text/javascript">
-    var sogou_ad_id=974788;
-    var sogou_ad_height=90;
-    var sogou_ad_width=728;
+
+<!-- pc -->
+<div id="pcid">
+    <script type="text/javascript">
+        var sogou_ad_id=974789;
+        var sogou_ad_height=300;
+        var sogou_ad_width=120;
+    </script>
+    <script type="text/javascript" charset="gb2312" src="http://images.sohu.com/cs/jsfile/js/f.js"></script>
+
+    <script type="text/javascript">
+        var sogou_ad_id=974788;
+        var sogou_ad_height=90;
+        var sogou_ad_width=728;
+    </script>
+    <script type='text/javascript' src='http://images.sohu.com/cs/jsfile/js/c.js'></script>
+</div>
+
+<script>
+    var wid =document.body.clientWidth;
+    if(wid<800){
+        $('#starIframe_wrapper_1').html("");
+        $('#starIframe_wrapper_2').html("");
+    }
+
 </script>
-<script type='text/javascript' src='http://images.sohu.com/cs/jsfile/js/c.js'></script>
 
-<!-- 无线 -->
-<script type="text/javascript">
-    var sogou_ad_id=974790;
-    var sogou_ad_width=20;
-    var sogou_ad_height=5;
-    var sogou_ad_float=0;
-    var sogou_ad_close=1;
-</script>
-<script type="text/javascript" src="http://infy.theta.sogoucdn.com/wap/js/wp.js"></script>
+<!-- mob -->
+<div id="mobid">
+    <script type="text/javascript">
+        var sogou_ad_id=974790;
+        var sogou_ad_width=20;
+        var sogou_ad_height=5;
+        var sogou_ad_float=0;
+        var sogou_ad_close=1;
+    </script>
+    <script type="text/javascript" src="http://infy.theta.sogoucdn.com/wap/js/wp.js"></script>
 
 
-<script type="text/javascript">
-    var sogou_ad_id=974791;
-    var sogou_ad_content_height=90;
-</script>
-<script type="text/javascript" src="http://jpg.inte.sogoucdn.com/wap/js/wp.js"></script>
-
+    <script type="text/javascript">
+        var sogou_ad_id=974791;
+        var sogou_ad_content_height=90;
+    </script>
+    <script type="text/javascript" src="http://jpg.inte.sogoucdn.com/wap/js/wp.js"></script>
+</div>
 
 </html>

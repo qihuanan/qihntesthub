@@ -2,6 +2,11 @@ package com.qihn.controller;
 
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.qihn.pojo.Goods;
 import com.qihn.pojo.Jdobject;
 import com.qihn.pojo.User;
@@ -30,6 +35,7 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 @Controller
@@ -39,7 +45,26 @@ public class JdController {
     public static void main(String args[]){
         //new JdController().jdlist("格力空调",null);
         try {
-            Document doc = Jsoup.connect("https://search.jd.com/Search?keyword=空调&enc=utf-8").get();
+
+            /**HtmlUnit请求web页面*//*
+            WebClient wc = new WebClient();
+            wc.getOptions().setJavaScriptEnabled(true); //启用JS解释器，默认为true
+            wc.getOptions().setCssEnabled(false); //禁用css支持
+            wc.getOptions().setThrowExceptionOnScriptError(false); //js运行错误时，是否抛出异常
+            wc.getOptions().setTimeout(20000); //设置连接超时时间 ，这里是10S。如果为0，则无限期等待
+            HtmlPage page = wc.getPage("https://miaosha.jd.com/");
+            String pageXml = page.asXml(); //以xml的形式获取响应文本
+
+            *//**jsoup解析文档*//*
+            Document doc = Jsoup.parse(pageXml, "https://miaosha.jd.com/");
+
+            Element pv = doc.getElementById("super_seckill");
+            System.out.println(pv.text());
+
+            System.out.println("Thank God!");*/
+
+
+           /* Document doc = Jsoup.connect("https://search.jd.com/Search?keyword=空调&enc=utf-8").get();
             String title = doc.title();
             //log.info("title"+title);
             Element content = doc.getElementById("J_goodsList");
@@ -55,25 +80,91 @@ public class JdController {
                 log.info("a title -> "+imgdiv.first().getElementsByTag("a").attr("title") );
                 log.info("a href -> "+imgdiv.first().getElementsByTag("a").attr("href") );
                 log.info("img src -> "+imgdiv.first().getElementsByTag("img").attr("source-data-lazy-img") );
-
-                log.info("price -> "+element.getElementsByClass("p-price").text() );
-
-                log.info("commit -> "+element.getElementsByClass("p-commit").text() );
-                log.info("shop -> "+element.getElementsByClass("p-shop").text() );
-                log.info("name -> "+element.getElementsByClass("p-name").text() );
-
-
-
-                log.info(" end ================== ");
-
                 break;
-            }
+            }*/
 
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
 
+    public static CacheLoader<String, List> createJDMSCacheLoader() {
+        return new com.google.common.cache.CacheLoader<String, List>() {
+            @Override
+            public List load(String key) throws Exception {
+                log.info("加载创建key:" + key);
+                String url = "https://ai.jd.com/index_new?app=Seckill&action=pcMiaoShaAreaList&callback=&_=";
+                String data = null;
+                String jsonp =  HttpUtil.sendGet(url,data);
+                //log.error("jtt-get_goods_link: "+jsonp);
+                List list = new ArrayList();
+                if(Utils.isNotNullOrEmpty(jsonp)){
+                    int startIndex = jsonp.indexOf("(");
+                    int endIndex = jsonp.lastIndexOf(")");
+                    String str = jsonp.substring(startIndex+1, endIndex);
+                    JSONObject json = new JSONObject(str);
+                    JSONArray ja =  json.getJSONArray("miaoShaList");
+                    for(int i=0;i<ja.length();i++){
+                        Jdobject jd = new Jdobject();
+                        jd.setSkuid(ja.getJSONObject(i).getString("wareId"));
+                        jd.setName(ja.getJSONObject(i).getString("wname"));
+                        jd.setSkupicture(ja.getJSONObject(i).getString("imageurl"));
+                        jd.setPricestr(ja.getJSONObject(i).getString("jdPrice"));
+                        jd.setPricemiaosha(ja.getJSONObject(i).getString("miaoShaPrice"));
+                        jd.setSkulink("http://item.jd.com/"+ja.getJSONObject(i).getString("wareId")+".html");
+                        list.add(jd);
+                        log.info(JSONUtils.toJSON(jd));
+                    }
+                    ja = json.getJSONArray("plusGoodsList");
+                    for(int i=0;i<ja.length();i++){
+                        Jdobject jd = new Jdobject();
+                        jd.setSkuid(ja.getJSONObject(i).getString("wareId"));
+                        jd.setName(ja.getJSONObject(i).getString("wname"));
+                        jd.setSkupicture(ja.getJSONObject(i).getString("imageurl"));
+                        jd.setPricestr(ja.getJSONObject(i).getString("jdPrice"));
+                        jd.setPricemiaosha(ja.getJSONObject(i).getString("miaoShaPrice"));
+                        jd.setSkulink("http://item.jd.com/"+ja.getJSONObject(i).getString("wareId")+".html");
+                        list.add(jd);
+                        log.info(JSONUtils.toJSON(jd));
+                    }
+                }
 
+                return list;
+            }
+        };
+    }
+
+    static LoadingCache<String, List> cache = null;
+    public List getJDMScache(){
+        if(cache==null){
+            cache = CacheBuilder.newBuilder()
+                    .maximumSize(1000)
+                    .expireAfterAccess(1000*60L, TimeUnit.MILLISECONDS)
+                    .build(createJDMSCacheLoader());
+        }
+
+        try {
+            List list = (List)cache.get("jdms");
+            if(Utils.isNullorEmpty(list)){
+                cache = CacheBuilder.newBuilder()
+                        .maximumSize(1000)
+                        .expireAfterAccess(1000*60L, TimeUnit.MILLISECONDS)
+                        .build(createJDMSCacheLoader());
+            }
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();;
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/jdms", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView jdms(@ModelAttribute("goods") Goods goods, HttpServletRequest request) throws Exception {
+        ModelAndView mv = new ModelAndView();
+
+        mv.addObject("list", getJDMScache());
+        mv.setViewName("web/webjd");
+        return mv;
     }
 
     @RequestMapping(value = "/jds", method = {RequestMethod.POST, RequestMethod.GET})
