@@ -8,8 +8,9 @@
 <a <c:if test="${goods.recpoint eq 'jd'}">class="div-selected"</c:if>  href="#" onclick="$('#recpoint').val('jd'); searchjd();">瞧瞧京东</a>
 <a <c:if test="${goods.recpoint eq 'joy'}">class="div-selected"</c:if>  href="/?recpoint=joy" >joy推荐</a>
 <a <c:if test="${goods.recpoint eq 'jhms'}">class="div-selected"</c:if> href="/jdms?recpoint=jhms" >尖货秒杀</a>
-<a <c:if test="${goods.recpoint eq '0'}">class="div-selected"</c:if> href="/tbs/tqg?recpoint=0">淘抢购</a>
-<a <c:if test="${goods.recpoint eq '1'}">class="div-selected"</c:if> href="/tbs/tqg?recpoint=1">淘抢购即将开始</a>
+<a <c:if test="${goods.recpoint eq 'tqg'}">class="div-selected"</c:if> href="/tbs/tqg?recpoint=tqg">淘抢购</a>
+<a <c:if test="${goods.recpoint eq 'tqg2'}">class="div-selected"</c:if> href="/tbs/tqg?recpoint=tqg2">淘抢购即将开始</a>
+<a <c:if test="${goods.recpoint eq 'coupon'}">class="div-selected"</c:if> href="/tbs/coupon?recpoint=coupon">好券清单</a>
 
 <input id="orderby_id" type="hidden" name="orderby" value="${goods.orderby}">
 <input id="recpoint_id" type="hidden" name="recpoint" value="${goods.recpoint}">

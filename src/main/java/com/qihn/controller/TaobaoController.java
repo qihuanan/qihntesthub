@@ -56,6 +56,24 @@ public class TaobaoController {
         }
     }
 
+    @RequestMapping(value = "/tbs/coupon", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView tbcoupon(@ModelAttribute("goods") Goods goods, HttpServletRequest request) throws Exception {
+        ModelAndView mv = new ModelAndView();
+        TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+        TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
+        req.setAdzoneId(adzone_id);
+        req.setPlatform(2L);
+        //req.setCat("16,18");
+        req.setPageSize(100L);
+        req.setQ(goods.getName());
+        req.setPageNo(1L);
+        TbkDgItemCouponGetResponse rsp = client.execute(req);
+        List list = rsp.getResults();
+        mv.addObject("list", list);
+        mv.setViewName("web/webtbcoupon");
+        return mv;
+    }
+
     /**
      * 淘抢购
      * @param goods
@@ -72,7 +90,7 @@ public class TaobaoController {
         req.setFields("click_url,pic_url,reserve_price,zk_final_price,total_amount,sold_num,title,category_name,start_time,end_time");
         req.setStartTime(StringUtils.parseDateTime(Utils.getDate2(0,0,0)+" 00:00:00" ));
         req.setEndTime(StringUtils.parseDateTime(Utils.getDate2(0,0,0)+" 23:59:59" ));
-        if(Utils.isNotNullOrEmpty(goods) && goods.getRecpoint().equals("1") ){
+        if(Utils.isNotNullOrEmpty(goods) && goods.getRecpoint().equals("tqg2") ){
             req.setStartTime(StringUtils.parseDateTime(Utils.getDate2(0,0,1)+" 00:00:00" ));
             req.setEndTime(StringUtils.parseDateTime(Utils.getDate2(0,0,1)+" 23:59:59" ));
         }
