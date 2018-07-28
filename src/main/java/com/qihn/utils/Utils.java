@@ -229,6 +229,14 @@ public class Utils  {
 		return calendar.getTime();
 	}
 
+	public static String getDate5(Integer hourup) {
+		Calendar calendar = Calendar.getInstance();
+		if (Utils.isNotNullOrEmpty(hourup)) {
+			calendar.add(Calendar.HOUR_OF_DAY, hourup);
+		}
+		return longDateFormat.format(calendar.getTime());
+	}
+
 	/**
 	 * 当前日期 向前或向后指定日期。入参 0，0，0 则返回当前日期字符串 20090909000000
 	 */

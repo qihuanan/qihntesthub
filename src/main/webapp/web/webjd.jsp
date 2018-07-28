@@ -56,15 +56,7 @@
                         <div class="sort" style="margin-top: -3px;" >
                             <p class="title font-normal">
 
-                                <a <c:if test="${goods.orderby eq '0'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('0');$('#recpoint_id').val('0'); document.forms[0].submit();">推荐</a>
-                                <a <c:if test="${goods.orderby eq '3'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('3');document.forms[0].submit();">销量</a>
-                                <a <c:if test="${goods.orderby eq '2'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('2');document.forms[0].submit();">价格</a>
-                                <input id="orderby_id" type="hidden" name="orderby" value="${goods.orderby}">
-                                <input id="recpoint_id" type="hidden" name="recpoint" value="${goods.recpoint}">
-                                <a <c:if test="${goods.recpoint eq '1'}">class="div-selected"</c:if> href="#" onclick="$('#recpoint_id').val('1');document.forms[0].submit();">京东物流</a>
-                                <a href="#" onclick="searchtb();">瞧瞧淘宝</a>
-                                <a href="/" >joy推荐</a>
-                                <a href="/jdms" >尖货秒杀</a>
+                                <jsp:include page="webnav.jsp"></jsp:include>
 
                             </p>
                         </div>
@@ -169,7 +161,13 @@ function jtlink(skuid) {
     });
 
 }
-
+function searchjd() {
+    $('#form_id').attr('action','/jds');
+    $('#orderby_id').val('id');
+    $('#curPage').val('1');
+    $('#recpoint_id').val('');
+    document.forms[0].submit();
+}
 
 function historyprice(skuid) {
     var surl = $('#aid_'+skuid).attr('title');

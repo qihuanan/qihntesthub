@@ -5,6 +5,7 @@ import com.qihn.utils.JSONUtils;
 import com.qihn.utils.Utils;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
+import com.taobao.api.internal.util.StringUtils;
 import com.taobao.api.request.*;
 import com.taobao.api.response.*;
 import org.apache.commons.logging.Log;
@@ -18,7 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -37,14 +40,52 @@ public class TaobaoController {
 
     public static void main(String[] args) {
         try {//
-            new TaobaoController().superS("手机",null,false);
-            //new TaobaoController().coupon();
+            TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+            TbkJuTqgGetRequest req = new TbkJuTqgGetRequest();
+            req.setAdzoneId(adzone_id);
+            req.setFields("click_url,pic_url,reserve_price,zk_final_price,total_amount,sold_num,title,category_name,start_time,end_time");
+            req.setStartTime(StringUtils.parseDateTime(Utils.getDate2(0,0,0)+" 00:00:00" ));
+            req.setEndTime(StringUtils.parseDateTime(Utils.getDate2(0,0,0)+" 23:59:59" ));
+            log.info("start "+ Utils.getDate5(-2) + " "+ Utils.getDate5(6));
+            req.setPageNo(1L);
+            req.setPageSize(96L);
+            TbkJuTqgGetResponse rsp = client.execute(req);
+            System.out.println(rsp.getBody());
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    @RequestMapping(value = "/tbs", method = {RequestMethod.POST, RequestMethod.GET})
+    /**
+     * 淘抢购
+     * @param goods
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/tbs/tqg", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView taoqianggou(@ModelAttribute("goods") Goods goods, HttpServletRequest request) throws Exception {
+        ModelAndView mv = new ModelAndView();
+        TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+        TbkJuTqgGetRequest req = new TbkJuTqgGetRequest();
+        req.setAdzoneId(adzone_id);
+        req.setFields("click_url,pic_url,reserve_price,zk_final_price,total_amount,sold_num,title,category_name,start_time,end_time");
+        req.setStartTime(StringUtils.parseDateTime(Utils.getDate2(0,0,0)+" 00:00:00" ));
+        req.setEndTime(StringUtils.parseDateTime(Utils.getDate2(0,0,0)+" 23:59:59" ));
+        if(Utils.isNotNullOrEmpty(goods) && goods.getRecpoint().equals("1") ){
+            req.setStartTime(StringUtils.parseDateTime(Utils.getDate2(0,0,1)+" 00:00:00" ));
+            req.setEndTime(StringUtils.parseDateTime(Utils.getDate2(0,0,1)+" 23:59:59" ));
+        }
+        req.setPageNo(1L);
+        req.setPageSize(96L);
+        TbkJuTqgGetResponse rsp = client.execute(req);
+        List list = rsp.getResults();
+        mv.addObject("list", list);
+        mv.setViewName("web/webtbtqg");
+        return mv;
+    }
+
+        @RequestMapping(value = "/tbs", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView searchtb(@ModelAttribute("goods") Goods goods, HttpServletRequest request) throws Exception{
 
         ModelAndView mv = new ModelAndView();

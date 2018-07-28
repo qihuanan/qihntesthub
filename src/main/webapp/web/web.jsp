@@ -68,11 +68,7 @@
                                 <a <c:if test="${goods.orderby eq 'price'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('price');document.forms[0].submit();">价格</a>
                                 <a <c:if test="${goods.orderby eq 'upindex'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('upindex');document.forms[0].submit();"><span >特别</span></a>
                                 -->
-                                <input id="orderby_id" type="hidden" name="orderby" value="${goods.orderby}">
-                                <input id="recpoint_id" type="hidden" name="recpoint" value="${goods.recpoint}">
-                                <a class="div-selected" href="/" >joy推荐</a>
-                                <a href="#" onclick="searchtb();">瞧瞧淘宝</a>
-                                <a href="/jdms" >尖货秒杀</a>
+                                <jsp:include page="webnav.jsp"></jsp:include>
 
                             </p>
                         </div>
@@ -159,6 +155,14 @@ function gotoPage(pageNum){
     }else{
         $("#curPage").val("1");
     }
+    document.forms[0].submit();
+}
+
+function searchjd() {
+    $('#form_id').attr('action','/jds');
+    $('#orderby_id').val('id');
+    $('#curPage').val('1');
+    $('#recpoint_id').val('');
     document.forms[0].submit();
 }
 

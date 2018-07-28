@@ -71,22 +71,22 @@
                         <c:forEach var="obj" items="${list }" >
                             <li>
                                 <div class="i-pic limit" title="${obj.reservePrice }">
-                                    <a id="aid_${obj.numIid}" href="${obj.url}" title="${obj.itemUrl}" target="_blank"><img src="${obj.pictUrl }" /></a>
-                                    <a href="${obj.url}" target="_blank"><p class="title fl">${obj.title }</p></a>
+                                    <a id="aid_${obj.numIid}" href="${obj.clickUrl}" title="${obj.clickUrl}" target="_blank"><img src="${obj.picUrl }" /></a>
+                                    <a href="${obj.clickUrl}" target="_blank"><p class="title fl">${obj.title }</p></a>
                                     <p class="price fl" style="font-weight: normal;margin-bottom: 10px;"  >
-                                        <span style="color: black;">价格:</span><b>¥</b><strong style="font-size:large ;">${obj.zkFinalPrice}</strong>&nbsp;&nbsp;月销&nbsp;<span>${(obj.volume+100)*1 }<br>
+                                        <span style="color: black;">日常价:</span><b>¥</b><strong style=";color: black;"> ${obj.reservePrice}</strong>&nbsp;&nbsp;<br>
+                                        <span style="color: black;">活动价:</span><b>¥</b><strong style="font-size:large ;"> ${obj.zkFinalPrice}</strong>&nbsp;&nbsp;<br>
+                                        <span style="color: black;">活动已抢购: ${obj.soldNum } </span><br>
+                                        <span style="color: black;">活动总库存:  ${obj.totalAmount } </span><br>
+                                        <!--
                                         <span style="color: black;">最低价:</span><b>¥</b>
-                                        <strong style="font-size: x-large;" id="price2_${obj.numIid}"><a href="javascript:historyprice(${obj.numIid});" style="color:yellowgreen;font-size: large">&nbsp;&nbsp;查&nbsp;询&nbsp;&nbsp;</a></strong>
+                                            <strong style="font-size: x-large;" id="price2_${obj.numIid}"><a href="javascript:historyprice(${obj.numIid});" style="color:yellowgreen;font-size: large">&nbsp;&nbsp;查&nbsp;询&nbsp;&nbsp;</a></strong>
                                         <br>
-                                        <c:if test="${!empty obj.couponShareUrl}">
-                                        <a target="_blank" style="" href="${obj.couponShareUrl}">
-                                        <span style="font-size: 16px;color: green;margin-top: 20px;" >券：${obj.couponInfo}</span>
-                                        </a>
-                                        </c:if>
+                                        -->
+                                        <span style="color: black;">开始：${obj.startTime} <br>
+                                        <span style="color: black;">结束：${obj.endTime} <br>
                                     </p><br>
-                                    <p class="number fl" style="height: auto;">
-                                        ${obj.shopTitle}  </span>
-                                    </p>
+
                                 </div>
                             </li>
                         </c:forEach>
