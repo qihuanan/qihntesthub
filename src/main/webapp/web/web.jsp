@@ -60,18 +60,7 @@
                 <div class="search-content">
                     <div class="clear"></div>
                     <ul class="select" style="margin-top: 35px;border: none;box-shadow:none;">
-                        <div class="sort" style="margin-top: 0px;" >
-                            <p class="title font-normal">
-                                <!--
-                                <a <c:if test="${goods.orderby eq 'id'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('id');document.forms[0].submit();">最新</a>
-                                <a <c:if test="${goods.orderby eq 'inOrderCount'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('inOrderCount');document.forms[0].submit();">销量</a>
-                                <a <c:if test="${goods.orderby eq 'price'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('price');document.forms[0].submit();">价格</a>
-                                <a <c:if test="${goods.orderby eq 'upindex'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('upindex');document.forms[0].submit();"><span >特别</span></a>
-                                -->
-                                <jsp:include page="webnav.jsp"></jsp:include>
-
-                            </p>
-                        </div>
+                        <jsp:include page="webnav.jsp"></jsp:include>
                     </ul>
 
                     <ul id="data_goods" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">

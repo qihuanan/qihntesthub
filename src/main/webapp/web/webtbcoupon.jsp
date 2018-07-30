@@ -60,11 +60,7 @@
                 <div class="search-content">
                     <div class="clear"></div>
                     <ul class="select" style="margin-top: 35px;border: none;box-shadow:none;">
-                        <div class="sort" style=" " >
-                            <p class="title font-normal">
-                                <jsp:include page="webnav.jsp"></jsp:include>
-                            </p>
-                        </div>
+                        <jsp:include page="webnav.jsp"></jsp:include>
                     </ul>
 
                     <ul id="data_goods" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">

@@ -19,6 +19,12 @@
     <script type="text/javascript" src="../js/my.js"></script>
 </head>
 <body>
+<script type="text/javascript">
+    var sogou_ad_id=974789;
+    var sogou_ad_height=300;
+    var sogou_ad_width=120;
+</script>
+<script type="text/javascript" charset="gb2312" src="http://images.sohu.com/cs/jsfile/js/f.js"></script>
 
 
 
@@ -27,16 +33,17 @@
 </div>
 
 <form id="form_id" action="/jds" method="get">
-<div class="nav white">
+<div class="nav white" >
     <div class="logo"><a href="/"><img src="../images/tomcat.png" /></a></div>
     <div class="logoBig">
         <li><img src="" /></li>
     </div>
+
     <div class="search-bar pr">
         <div class="search1">
             <input id="searchInput" placeholder="输入你想要的商品试试" style="width: 60%;" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
-            <input id="ai-topsearch2" class="submit am-btn" style="background-color: yellowgreen;width: 20%;"  value="搜淘宝"  type="button" onclick="$('#curPage').val(1);searchtb();">
-            <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 20%;font-weight: bold;" value="搜京东"  type="button" onclick="$('#curPage').val(1);submitform();">
+            <input id="ai-topsearch2" class="submit am-btn" style="background-color: yellowgreen;width: 20%;"  value="瞄阿猫"  type="button" onclick="$('#curPage').val(1);searchtb();">
+            <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 20%;" value="瞧啊狗"  type="button" onclick="$('#curPage').val(1);submitform();">
         </div>
         <div style="line-height: 30px;margin-bottom: 10px;font-size: 15px;background: #e6e6e6; ">&nbsp;
             <a href="#" onclick="$('#searchInput').val('空调');document.forms[0].submit();">空调</a>&nbsp;&nbsp;
@@ -53,27 +60,35 @@
                 <div class="search-content">
                     <div class="clear"></div>
                     <ul class="select" style="margin-top: 35px;border: none;box-shadow:none;">
-                        <jsp:include page="webnav.jsp"></jsp:include>
+                        <div class="sort" style="margin-top: 0px;" >
+                            <p class="title font-normal">
+                                <!--
+                                <a <c:if test="${goods.orderby eq 'id'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('id');document.forms[0].submit();">最新</a>
+                                <a <c:if test="${goods.orderby eq 'inOrderCount'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('inOrderCount');document.forms[0].submit();">销量</a>
+                                <a <c:if test="${goods.orderby eq 'price'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('price');document.forms[0].submit();">价格</a>
+                                <a <c:if test="${goods.orderby eq 'upindex'}">class="div-selected"</c:if> href="#" onclick="$('#orderby_id').val('upindex');document.forms[0].submit();"><span >特别</span></a>
+                                -->
+                                <jsp:include page="webnav.jsp"></jsp:include>
+
+                            </p>
+                        </div>
                     </ul>
 
                     <ul id="data_goods" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
                         <c:forEach var="obj" items="${list }" >
                             <li>
                                 <div class="i-pic limit">
-                                    <a href="javascript:jtlink(${obj.skuid});" target="_blank" title="${obj.adwords}"><img src="${obj.skupicture }"  /></a>
-                                    <a id="aid_${obj.skuid}" href="javascript:jtlink(${obj.skuid});" title="${obj.skulink}"><p class="title fl">${obj.name }</p></a>
-                                    <p class="price fl" style="font-weight: normal;margin-bottom: 10px;cursor: pointer"  >
-                                        京东价:<strong style="font-size:large ;">${obj.pricestr }</strong>&nbsp;<br>
-                                        <c:if test="${!empty obj.pricemiaosha}">
-                                            秒杀价:<strong style="font-size:large ;">${obj.pricemiaosha }</strong>&nbsp;<br>
-                                        </c:if>
-                                        历史最低:<strong id="price2_${obj.skuid}" style="font-size:large ;"><b>¥</b>&nbsp;
-                                            <a href="javascript:historyprice(${obj.skuid});" style="color:yellowgreen;font-size: large;">&nbsp;&nbsp;查&nbsp;询&nbsp;&nbsp;</a>
+                                    <a href="${obj.skulink}" target="_blank"><img src="${obj.skupicture }" title="${obj.pricel}" alt="${obj.pricel}" /></a>
+                                    <a href="${obj.skulink}" ><p class="title fl">${obj.name }</p></a>
+                                    <p class="price fl" style="font-weight: normal;"  >
+                                        价格:<b>¥</b><strong>${obj.price }</strong>&nbsp;
+                                        最低:<strong>
+                                            ${obj.pricel}
                                             </strong><br>
-                                            <span style="font-size: 14px;margin-top: 20px;" >${obj.commitinfo}</span>
+                                        <span style="font-size: 14px;color: green;" >${obj.recpoint} </span>
                                     </p><br>
-                                    <p class="number fl" style="margin-top: 20px;" onclick="jtlink(${obj.skuid});">
-                                        <span>${obj.shopinfo}</span>
+                                    <p class="number fl">
+                                        销量<span>${obj.inOrderCount}</span>
                                     </p>
                                 </div>
                             </li>
@@ -124,37 +139,25 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $('#searchInput').focus();
-
 });
-
 function searchtb() {
     $('#form_id').attr('action','/tbs');
     $('#orderby_id').val('');
     $('#recpoint_id').val('');
     document.forms[0].submit();
 }
-function submitform() {
+
+function gotoPage(pageNum){
+    if(isNaN(pageNum)){alert('请输入数字！');document.getElementById('txtPageNum').focus();return false;}
+    if( pageNum < 1 || pageNum > ${pageInfo.pageCount} ){document.getElementById('txtPageNum').value=${pageInfo.pageCount};pageNum=${pageInfo.pageCount}; }
+    if($("#textPageSize").val()==$("#oldPageSize").val()){
+        $("#curPage").val(pageNum);
+    }else{
+        $("#curPage").val("1");
+    }
     document.forms[0].submit();
 }
 
-function jtlink(skuid) {
-    $.ajax({
-        url: "/jtlink?skuid="+skuid,
-        type: 'get', async:false,
-        dataType: 'text',
-        data: {
-            skuid2:skuid
-        },
-        success: function (result) {
-            if(result!=''){
-                window.location.href=result;
-            }else{
-                window.location.href=$('#aid_'+skuid).attr('title');
-            }
-        }
-    });
-
-}
 function searchjd() {
     $('#form_id').attr('action','/jds');
     $('#orderby_id').val('id');
@@ -163,19 +166,60 @@ function searchjd() {
     document.forms[0].submit();
 }
 
-function historyprice(skuid) {
-    var surl = $('#aid_'+skuid).attr('title');
-    surl = "http:"+surl;
+function submitform() {
+    var orilink = $('#searchInput').val();
+    var skuid = orilink.match(/\d+/gi);
+    if(skuid==null){
+        document.forms[0].submit();
+    }else{
+        skuid = skuid.toString().split(",")[0];
+        $.ajax({type:"get",datatype:"html",url:"/goods/skuExist.htm?skuid="+skuid,
+            data:{},cache:false,async:false,
+            success:function(result){
+                if(result!= 0){
+                    $('#searchInput').val(result);
+                    document.forms[0].submit();
+                }else{
+                    getinfo(1);
+                }
+            }
+        });
+    }
+}
+
+function getinfo(type) {
+    var orilink = $('#searchInput').val();
+    var skuid = orilink.match(/\d+/gi);
+    skuid = skuid.toString().split(",")[0];
+    goodsdetail(skuid,type);
+}
+
+function goodsdetail(skuid,type) {
+    $.ajax({type:"get",datatype:"html",url:"/goods/jttGoodDetail.htm?skuid="+skuid+"&type="+type,
+        data:{},cache:false,async:false,
+        success:function(result){
+            if(result!= ""){
+                historyprice(result,skuid);
+            }
+        }
+    });
+}
+
+function historyprice(id,skuid) {
+    var surl = $('#searchInput').val();
     $.ajax({
-        url: "/goods/hisPrice2",
-        type: 'get', async:true,
+        url: "/goods/hisPrice",
+        type: 'get', async:false,
         dataType: 'text',
         data: {
+            id:id,
             url: escape(surl),
             token:d.encrypt(surl,2,true)
+
         },
         success: function (result) {
-            $('#price2_'+skuid).text(result);
+            $('#searchInput').val(skuid);
+            document.forms[0].submit();
         }
     });
 }
@@ -208,22 +252,21 @@ function showmore() {
 </script>
 
 
-
 <!-- pc -->
 <div id="pcid">
-<script type="text/javascript">
-    var sogou_ad_id=974789;
-    var sogou_ad_height=300;
-    var sogou_ad_width=120;
-</script>
-<script type="text/javascript" charset="gb2312" src="http://images.sohu.com/cs/jsfile/js/f.js"></script>
+    <script type="text/javascript">
+        var sogou_ad_id=974789;
+        var sogou_ad_height=300;
+        var sogou_ad_width=120;
+    </script>
+    <script type="text/javascript" charset="gb2312" src="http://images.sohu.com/cs/jsfile/js/f.js"></script>
 
-<script type="text/javascript">
-    var sogou_ad_id=974788;
-    var sogou_ad_height=90;
-    var sogou_ad_width=728;
-</script>
-<script type='text/javascript' src='http://images.sohu.com/cs/jsfile/js/c.js'></script>
+    <script type="text/javascript">
+        var sogou_ad_id=974788;
+        var sogou_ad_height=90;
+        var sogou_ad_width=728;
+    </script>
+    <script type='text/javascript' src='http://images.sohu.com/cs/jsfile/js/c.js'></script>
 </div>
 
 <script>
@@ -237,21 +280,21 @@ function showmore() {
 
 <!-- mob -->
 <div id="mobid">
-<script type="text/javascript">
-    var sogou_ad_id=974790;
-    var sogou_ad_width=20;
-    var sogou_ad_height=5;
-    var sogou_ad_float=0;
-    var sogou_ad_close=1;
-</script>
-<script type="text/javascript" src="http://infy.theta.sogoucdn.com/wap/js/wp.js"></script>
+    <script type="text/javascript">
+        var sogou_ad_id=974790;
+        var sogou_ad_width=20;
+        var sogou_ad_height=5;
+        var sogou_ad_float=0;
+        var sogou_ad_close=1;
+    </script>
+    <script type="text/javascript" src="http://infy.theta.sogoucdn.com/wap/js/wp.js"></script>
 
 
-<script type="text/javascript">
-    var sogou_ad_id=974791;
-    var sogou_ad_content_height=90;
-</script>
-<script type="text/javascript" src="http://jpg.inte.sogoucdn.com/wap/js/wp.js"></script>
+    <script type="text/javascript">
+        var sogou_ad_id=974791;
+        var sogou_ad_content_height=90;
+    </script>
+    <script type="text/javascript" src="http://jpg.inte.sogoucdn.com/wap/js/wp.js"></script>
 </div>
 
 </html>

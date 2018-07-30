@@ -131,7 +131,7 @@
   -->
 
   <welcome-file-list>
-    <welcome-file>/</welcome-file>
+    <welcome-file>/tbs/coupon?recpoint=coupon</welcome-file>
   </welcome-file-list>
 
 </web-app>
