@@ -80,6 +80,15 @@ public class Goods implements Serializable {
     private String orderby = "id";
 
     private String huashu;
+    private String q;
+
+    public String getQ() {
+        return q;
+    }
+
+    public void setQ(String q) {
+        this.q = q;
+    }
 
     public String getHuashu() {
         return huashu;

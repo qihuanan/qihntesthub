@@ -10,7 +10,16 @@
 <a <c:if test="${goods.recpoint eq 'jhms'}">class="div-selected"</c:if> href="/jdms?recpoint=jhms" >尖货秒杀</a>
 <a <c:if test="${goods.recpoint eq 'tqg'}">class="div-selected"</c:if> href="/tbs/tqg?recpoint=tqg">淘抢购</a>
 <a <c:if test="${goods.recpoint eq 'tqg2'}">class="div-selected"</c:if> href="/tbs/tqg?recpoint=tqg2">淘抢购即将开始</a>
+<br>
+&nbsp;&nbsp;淘宝天猫：
 <a <c:if test="${goods.recpoint eq 'coupon'}">class="div-selected"</c:if> href="/tbs/coupon?recpoint=coupon">好券清单</a>
+<input id="squan_id" name="q" value="${goods.q}"> <a href="#" onclick="souhaoquan();" style="color: green;">搜好券</a>
 
 <input id="orderby_id" type="hidden" name="orderby" value="${goods.orderby}">
 <input id="recpoint_id" type="hidden" name="recpoint" value="${goods.recpoint}">
+<script>
+    function souhaoquan() {
+        window.location.href='/tbs/coupon?recpoint=coupon&q='+$('#squan_id').val();
+    }
+
+</script>

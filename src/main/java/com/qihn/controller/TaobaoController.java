@@ -65,7 +65,7 @@ public class TaobaoController {
         req.setPlatform(2L);
         //req.setCat("16,18");
         req.setPageSize(100L);
-        req.setQ(goods.getName());
+        req.setQ(goods.getQ());
         req.setPageNo(1L);
         TbkDgItemCouponGetResponse rsp = client.execute(req);
         List list = rsp.getResults();
@@ -202,28 +202,6 @@ public class TaobaoController {
         System.out.println(rsp.getBody());
         return rsp.getBody();
     }
-
-
-
-    public void coupon()throws Exception{
-        TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
-        TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
-        req.setAdzoneId(adzone_id);
-        req.setPlatform(2L);
-        //req.setCat("16,18");
-        req.setPageSize(1L);
-        req.setQ("女装");
-        req.setPageNo(1L);
-        TbkDgItemCouponGetResponse rsp = client.execute(req);
-        System.out.println(JSONUtils.toJSON(rsp));
-    }
-
-
-
-
-
-
-
 
 
 

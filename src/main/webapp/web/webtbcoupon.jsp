@@ -77,7 +77,7 @@
                                         活动价:</span><b>¥</b><strong style="font-size:large ;"> ${obj.zkFinalPrice}</strong>
                                     </p>
                                     <p class="title fl" style="height: 18px;color: red;">
-                                        <a href="${obj.couponClickUrl}" target="_blank" ><span style="color: red;">点击领券: </span>${obj.couponInfo }</a>
+                                        <a href="${obj.couponClickUrl}" target="_blank" ><span style="color: red;">券： ${obj.couponInfo }</span><span style="color: green;">&nbsp;点击领券</span></a>
                                     </p>
 
                                     <p class="title fl" style="height: 18px;">
