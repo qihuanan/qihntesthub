@@ -52,7 +52,7 @@ public class ThrottleFilter implements Filter {
                     + httpRequest.getServletPath() //请求的相对url
                     + "?" + httpRequest.getQueryString(); //请求参数
 
-            log.info("ip:"+ip+"filter-url: "+requestUrl);
+            //log.info("ip:"+ip+"filter-url: "+requestUrl);
             synchronized (this) {
                 Integer count = ip2countCache.get(ip);
 

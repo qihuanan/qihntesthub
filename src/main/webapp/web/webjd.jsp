@@ -20,24 +20,9 @@
 </head>
 <body>
 
-
-
-<div class="topclass">
-    猫狗汇 京东淘宝天猫一网通 历史价查询
-</div>
-
 <form id="form_id" action="/jds" method="get">
-<div class="nav white">
-    <div class="logo" style="margin-top: -3px;"><a href="/"><img src="../images/tomcat.png" /></a></div>
-    <div class="search-bar pr">
-        <div class="search1">
-            <input id="searchInput" placeholder="输入你想要的商品试试" style="width: 60%;" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
-            <input id="ai-topsearch2" class="submit am-btn" style="background-color: yellowgreen;width: 20%;"  value="搜淘宝"  type="button" onclick="$('#curPage').val(1);searchtb();">
-            <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 20%;font-weight: bold;" value="搜京东"  type="button" onclick="$('#curPage').val(1);submitform();">
-        </div>
+    <jsp:include page="webheader.jsp"></jsp:include>
 
-    </div>
-</div>
 <div class="clear"></div>
 <div class="search" >
     <div class="search-list">
@@ -201,50 +186,5 @@ function showmore() {
 </script>
 
 
-
-<!-- pc -->
-<div id="pcid">
-<script type="text/javascript">
-    var sogou_ad_id=974789;
-    var sogou_ad_height=300;
-    var sogou_ad_width=120;
-</script>
-<script type="text/javascript" charset="gb2312" src="http://images.sohu.com/cs/jsfile/js/f.js"></script>
-
-<script type="text/javascript">
-    var sogou_ad_id=974788;
-    var sogou_ad_height=90;
-    var sogou_ad_width=728;
-</script>
-<script type='text/javascript' src='http://images.sohu.com/cs/jsfile/js/c.js'></script>
-</div>
-
-<script>
-    var wid =document.body.clientWidth;
-    if(wid<800){
-        $('#starIframe_wrapper_1').html("");
-        $('#starIframe_wrapper_2').html("");
-    }
-
-</script>
-
-<!-- mob -->
-<div id="mobid">
-<script type="text/javascript">
-    var sogou_ad_id=974790;
-    var sogou_ad_width=20;
-    var sogou_ad_height=5;
-    var sogou_ad_float=0;
-    var sogou_ad_close=1;
-</script>
-<script type="text/javascript" src="http://infy.theta.sogoucdn.com/wap/js/wp.js"></script>
-
-
-<script type="text/javascript">
-    var sogou_ad_id=974791;
-    var sogou_ad_content_height=90;
-</script>
-<script type="text/javascript" src="http://jpg.inte.sogoucdn.com/wap/js/wp.js"></script>
-</div>
 
 </html>

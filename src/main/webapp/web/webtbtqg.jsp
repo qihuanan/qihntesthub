@@ -20,38 +20,10 @@
 </head>
 <body>
 
-<script type="text/javascript">
-    var sogou_ad_id=974789;
-    var sogou_ad_height=300;
-    var sogou_ad_width=120;
-</script>
-<script type="text/javascript" charset="gb2312" src="http://images.sohu.com/cs/jsfile/js/f.js"></script>
-
-
-<div class="topclass">
-    猫狗汇 京东淘宝天猫一网通 历史价查询
-</div>
 
 <form id="form_id" action="/tbs" method="get">
-<div class="nav white">
-    <div class="logo"><a href="/"><img src="../images/tomcat.png" /></a></div>
-    <div class="logoBig">
-        <li><img src="" /></li>
-    </div>
-    <div class="search-bar pr">
-        <div class="search1">
-            <input id="searchInput"  style="width: 60%;" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
+    <jsp:include page="webheader.jsp"></jsp:include>
 
-            <input id="ai-topsearch" class="submit am-btn" style="background-color: yellowgreen;width: 20%;font-weight: bold;"  value="搜淘宝"  type="button" onclick="$('#curPage').val(1);submitform();">
-            <input id="ai-topsearch2" class="submit am-btn" style="background-color: red; width: 20%;" value="搜京东"  type="button" onclick="$('#curPage').val(1);searchjd();">
-        </div>
-        <div style="line-height: 30px;margin-bottom: 10px;font-size: 15px;background: #e6e6e6; ">&nbsp;
-            <a href="#" onclick="$('#searchInput').val('抽纸');document.forms[0].submit();">抽纸</a>&nbsp;&nbsp;
-            <a href="#" onclick="$('#searchInput').val('美的空调');document.forms[0].submit();">美的空调</a>&nbsp;&nbsp;
-
-        </div>
-    </div>
-</div>
 <div class="clear"></div>
 <div class="search" >
     <div class="search-list">
@@ -59,9 +31,14 @@
             <div class="am-u-sm-12 am-u-md-12">
                 <div class="search-content">
                     <div class="clear"></div>
-                    <ul class="select" style="margin-top: 35px;border: none;box-shadow:none;">
+                    <ul class="select" style="border: none;box-shadow:none;">
                         <jsp:include page="webnav.jsp"></jsp:include>
                     </ul>
+
+                    <div style="height: 30px;margin-top: 10px;">
+                        &nbsp;&nbsp;<a <c:if test="${goods.recpoint eq 'tqg'}">class="div-selected"</c:if> href="/tbs/tqg?recpoint=tqg2">淘抢购进行中</a>
+                        &nbsp;&nbsp;<a <c:if test="${goods.recpoint eq 'tqg2'}">class="div-selected"</c:if> href="/tbs/tqg?recpoint=tqg2">淘抢购即将开始</a>
+                    </div>
 
                     <ul id="data_goods" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
                         <c:forEach var="obj" items="${list }" >
@@ -178,49 +155,5 @@ function showmore() {
 </script>
 
 
-<!-- pc -->
-<div id="pcid">
-    <script type="text/javascript">
-        var sogou_ad_id=974789;
-        var sogou_ad_height=300;
-        var sogou_ad_width=120;
-    </script>
-    <script type="text/javascript" charset="gb2312" src="http://images.sohu.com/cs/jsfile/js/f.js"></script>
-
-    <script type="text/javascript">
-        var sogou_ad_id=974788;
-        var sogou_ad_height=90;
-        var sogou_ad_width=728;
-    </script>
-    <script type='text/javascript' src='http://images.sohu.com/cs/jsfile/js/c.js'></script>
-</div>
-
-<script>
-    var wid =document.body.clientWidth;
-    if(wid<800){
-        $('#starIframe_wrapper_1').html("");
-        $('#starIframe_wrapper_2').html("");
-    }
-
-</script>
-
-<!-- mob -->
-<div id="mobid">
-    <script type="text/javascript">
-        var sogou_ad_id=974790;
-        var sogou_ad_width=20;
-        var sogou_ad_height=5;
-        var sogou_ad_float=0;
-        var sogou_ad_close=1;
-    </script>
-    <script type="text/javascript" src="http://infy.theta.sogoucdn.com/wap/js/wp.js"></script>
-
-
-    <script type="text/javascript">
-        var sogou_ad_id=974791;
-        var sogou_ad_content_height=90;
-    </script>
-    <script type="text/javascript" src="http://jpg.inte.sogoucdn.com/wap/js/wp.js"></script>
-</div>
 
 </html>

@@ -19,27 +19,10 @@
     <script type="text/javascript" src="../js/my.js"></script>
 </head>
 <body>
-<script type="text/javascript">
-    var sogou_ad_id=974789;
-    var sogou_ad_height=300;
-    var sogou_ad_width=120;
-</script>
-<script type="text/javascript" charset="gb2312" src="http://images.sohu.com/cs/jsfile/js/f.js"></script>
-
-<div class="topclass">
-    一网通
-</div>
 
 <form id="form_id" action="/jds" method="get">
-<div class="nav white" >
-    <div class="search-bar pr">
-        <div class="search1">
-            <input id="searchInput" placeholder="输入你想要的商品试试" style="width: 60%;" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
-            <input id="ai-topsearch2" class="submit am-btn" style="background-color: yellowgreen;width: 20%;"  value="搜淘宝"  type="button" onclick="$('#curPage').val(1);searchtb();">
-            <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 20%;" value="搜京东"  type="button" onclick="$('#curPage').val(1);submitform();">
-        </div>
-    </div>
-</div>
+    <jsp:include page="webheader.jsp"></jsp:include>
+
 <div class="clear"></div>
 <div class="search" >
     <div class="search-list">
@@ -47,7 +30,7 @@
             <div class="am-u-sm-12 am-u-md-12">
                 <div class="search-content">
                     <div class="clear"></div>
-                    <ul class="select" style="margin-top: 35px;border: none;box-shadow:none;">
+                    <ul class="select" style="border: none;box-shadow:none;">
                         <jsp:include page="webnav.jsp"></jsp:include>
                     </ul>
 
@@ -228,50 +211,10 @@ function showmore() {
 
 </script>
 
-
-<!-- pc -->
-<div id="pcid">
-    <script type="text/javascript">
-        var sogou_ad_id=974789;
-        var sogou_ad_height=300;
-        var sogou_ad_width=120;
-    </script>
-    <script type="text/javascript" charset="gb2312" src="http://images.sohu.com/cs/jsfile/js/f.js"></script>
-
-    <script type="text/javascript">
-        var sogou_ad_id=974788;
-        var sogou_ad_height=90;
-        var sogou_ad_width=728;
-    </script>
-    <script type='text/javascript' src='http://images.sohu.com/cs/jsfile/js/c.js'></script>
-</div>
-
-<script>
-    var wid =document.body.clientWidth;
-    if(wid<800){
-        $('#starIframe_wrapper_1').html("");
-        $('#starIframe_wrapper_2').html("");
-    }
-
+<script type="text/javascript">
+    var sogou_ad_id=978854;
+    var sogou_ad_content_height=90;
 </script>
-
-<!-- mob -->
-<div id="mobid">
-    <script type="text/javascript">
-        var sogou_ad_id=974790;
-        var sogou_ad_width=20;
-        var sogou_ad_height=5;
-        var sogou_ad_float=0;
-        var sogou_ad_close=1;
-    </script>
-    <script type="text/javascript" src="http://infy.theta.sogoucdn.com/wap/js/wp.js"></script>
-
-
-    <script type="text/javascript">
-        var sogou_ad_id=974791;
-        var sogou_ad_content_height=90;
-    </script>
-    <script type="text/javascript" src="http://jpg.inte.sogoucdn.com/wap/js/wp.js"></script>
-</div>
+<script type="text/javascript" src="http://awk.lu.sogoucdn.com/wap/js/wp.js"></script>
 
 </html>

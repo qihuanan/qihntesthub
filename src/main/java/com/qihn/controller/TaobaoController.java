@@ -64,11 +64,12 @@ public class TaobaoController {
         req.setAdzoneId(adzone_id);
         req.setPlatform(2L);
         //req.setCat("16,18");
-        req.setPageSize(100L);
+        req.setPageSize(50L);
         req.setQ(goods.getQ());
         req.setPageNo(1L);
         TbkDgItemCouponGetResponse rsp = client.execute(req);
         List list = rsp.getResults();
+        log.info("tbs coupon: "+list);
         mv.addObject("list", list);
         mv.setViewName("web/webtbcoupon");
         return mv;
