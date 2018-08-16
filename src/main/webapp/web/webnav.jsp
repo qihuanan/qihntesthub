@@ -1,15 +1,58 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<div>
-    <div>
-        <img src="../images/sheng.png" style="width: 70px;height: 70px;">
-        <a <c:if test="${goods.recpoint eq 'joy'}">class="div-selected"</c:if>  href="/?recpoint=joy" >joy推荐</a>
+<div style="text-align: center;">
+
+    <div style="display: inline;float:left;width: 25%;">
+        <a href="#" style="cursor: pointer;height: auto;background-color: white; ">
+        <img src="../images/haowutuijian.png" style="width: 70px;height: 70px;"><br>
+        推荐推荐
+        </a>
     </div>
-    <div>
-        <img src="../images/sheng.png" style="width: 70px;height: 70px;">
-        <a <c:if test="${goods.recpoint eq 'joy'}">class="div-selected"</c:if>  href="/?recpoint=joy" >joy推荐</a>
+    <div style="display: inline;float:left;width: 25%;">
+        <a href="#" style="cursor: pointer;height: auto;background-color: white; ">
+            <img src="../images/sheng.png" style="width: 70px;height: 70px;"><br>
+            推荐推荐
+        </a>
+    </div>
+    <div style="display: inline;float:left;width: 25%;">
+        <a href="#" style="cursor: pointer;height: auto;background-color: white; ">
+            <img src="../images/sheng.png" style="width: 70px;height: 70px;"><br>
+            推荐推荐
+        </a>
+    </div>
+    <div style="display: inline;float:left;width: 25%;">
+        <a href="#" style="cursor: pointer;height: auto;background-color: white; ">
+            <img src="../images/sheng.png" style="width: 70px;height: 70px;"><br>
+            推荐推荐
+        </a>
+    </div>
+    <div style="display: inline;float:left;width: 25%;">
+        <a href="#" style="cursor: pointer;height: auto;background-color: white; ">
+            <img src="../images/sheng.png" style="width: 70px;height: 70px;"><br>
+            推荐推荐
+        </a>
+    </div>
+    <div style="display: inline;float:left;width: 25%;">
+        <a href="#" style="cursor: pointer;height: auto;background-color: white; ">
+            <img src="../images/sheng.png" style="width: 70px;height: 70px;"><br>
+            推荐推荐
+        </a>
+    </div>
+    <div style="display: inline;float:left;width: 25%;">
+        <a href="#" style="cursor: pointer;height: auto;background-color: white; ">
+            <img src="../images/sheng.png" style="width: 70px;height: 70px;"><br>
+            推荐推荐
+        </a>
+    </div>
+    <div style="display: inline;float:left;width: 25%;">
+        <a href="#" style="cursor: pointer;height: auto;background-color: white; ">
+            <img src="../images/sheng.png" style="width: 70px;height: 70px;"><br>
+            推荐推荐
+        </a>
     </div>
 
+
+    <div style="clear: both;"></div>
     <a <c:if test="${goods.recpoint eq 'jhms'}">class="div-selected"</c:if> href="/jdms?recpoint=jhms" >尖货秒杀</a>
 </div>
 <div >

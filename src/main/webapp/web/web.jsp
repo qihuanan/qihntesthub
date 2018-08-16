@@ -26,29 +26,17 @@
 </script>
 <script type="text/javascript" charset="gb2312" src="http://images.sohu.com/cs/jsfile/js/f.js"></script>
 
-
-
 <div class="topclass">
-    猫狗汇 京东淘宝天猫一网通 历史价查询
+    一网通
 </div>
 
 <form id="form_id" action="/jds" method="get">
 <div class="nav white" >
-    <div class="logo"><a href="/"><img src="../images/tomcat.png" /></a></div>
-    <div class="logoBig">
-        <li><img src="" /></li>
-    </div>
-
     <div class="search-bar pr">
         <div class="search1">
             <input id="searchInput" placeholder="输入你想要的商品试试" style="width: 60%;" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
-            <input id="ai-topsearch2" class="submit am-btn" style="background-color: yellowgreen;width: 20%;"  value="瞄阿猫"  type="button" onclick="$('#curPage').val(1);searchtb();">
-            <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 20%;" value="瞧啊狗"  type="button" onclick="$('#curPage').val(1);submitform();">
-        </div>
-        <div style="line-height: 30px;margin-bottom: 10px;font-size: 15px;background: #e6e6e6; ">&nbsp;
-            <a href="#" onclick="$('#searchInput').val('空调');document.forms[0].submit();">空调</a>&nbsp;&nbsp;
-            <a href="#" onclick="$('#searchInput').val('冰箱');document.forms[0].submit();">冰箱</a>&nbsp;&nbsp;
-
+            <input id="ai-topsearch2" class="submit am-btn" style="background-color: yellowgreen;width: 20%;"  value="搜淘宝"  type="button" onclick="$('#curPage').val(1);searchtb();">
+            <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 20%;" value="搜京东"  type="button" onclick="$('#curPage').val(1);submitform();">
         </div>
     </div>
 </div>
