@@ -92,9 +92,8 @@ color: #555555;background:none;border-color:transparent;cursor: default;}
 
 
 /*浮动框*/
-.nav.white{position:fixed;top:35px;width:100%;z-index:1099; margin:0px auto;background:#fff ;}
+.nav.white{width:100%; margin:0px auto;background:#fff ;}
 .nav.white .logo{float:left;height:41px;width:70px; margin: 6px auto;}
-.logoBig{display:none;}
 .logo img{width:100%}
  
 /*搜索框*/
@@ -346,7 +345,7 @@ background-position:0 -234px;overflow: hidden;}
 }
 
 .topclass {
-	position: fixed;z-index: 1099;width: 100%;text-align: center; background: white; padding-top: 5px; height: 35px; font-size: large;vertical-align: baseline;
+	width: 100%;text-align: center; background: white; padding-top: 5px; height: 35px; font-size: large;vertical-align: baseline;
 }
 
 #searchInput{

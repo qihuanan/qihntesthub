@@ -28,21 +28,14 @@
 
 <form id="form_id" action="/jds" method="get">
 <div class="nav white">
-    <div class="logo"><a href="/"><img src="../images/tomcat.png" /></a></div>
-    <div class="logoBig">
-        <li><img src="" /></li>
-    </div>
+    <div class="logo" style="margin-top: -3px;"><a href="/"><img src="../images/tomcat.png" /></a></div>
     <div class="search-bar pr">
         <div class="search1">
             <input id="searchInput" placeholder="输入你想要的商品试试" style="width: 60%;" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
             <input id="ai-topsearch2" class="submit am-btn" style="background-color: yellowgreen;width: 20%;"  value="搜淘宝"  type="button" onclick="$('#curPage').val(1);searchtb();">
             <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 20%;font-weight: bold;" value="搜京东"  type="button" onclick="$('#curPage').val(1);submitform();">
         </div>
-        <div style="line-height: 30px;margin-bottom: 10px;font-size: 15px;background: #e6e6e6; ">&nbsp;
-            <a href="#" onclick="$('#searchInput').val('空调');document.forms[0].submit();">空调</a>&nbsp;&nbsp;
-            <a href="#" onclick="$('#searchInput').val('冰箱');document.forms[0].submit();">冰箱</a>&nbsp;&nbsp;
 
-        </div>
     </div>
 </div>
 <div class="clear"></div>
@@ -52,7 +45,7 @@
             <div class="am-u-sm-12 am-u-md-12">
                 <div class="search-content">
                     <div class="clear"></div>
-                    <ul class="select" style="margin-top: 35px;border: none;box-shadow:none;">
+                    <ul class="select" style=border: none;box-shadow:none;">
                         <jsp:include page="webnav.jsp"></jsp:include>
                     </ul>
 
