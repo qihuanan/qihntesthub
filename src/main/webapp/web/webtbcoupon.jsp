@@ -21,7 +21,23 @@
 <body>
 
 <form id="form_id" action="/tbs" method="get">
-    <jsp:include page="webheader.jsp"></jsp:include>
+
+
+    <div class="topclass">
+        <a href="/">猫狗汇 京东淘宝天猫一网通 历史价查询</a>
+    </div>
+    <div class="nav white">
+        <div class="logo" style="margin-top: -3px;"><a href="/"><img src="../images/tomcat.png" /></a></div>
+        <div class="search-bar pr">
+            <div class="search1">
+                <input id="squan_id" placeholder="输入关键字、搜索好券" style="width: 60%;" name="name" type="text" value="${goods.q}" onfocus="$(this).select();" >
+                <input id="ai-topsearch2" class="submit am-btn" style="background-color: yellowgreen;width: 40%;"  value="搜淘宝天猫好券"  type="button" onclick="$('#curPage').val(1);souhaoquan();">
+            </div>
+
+        </div>
+    </div>
+
+
 <div class="clear"></div>
 <div class="search" >
     <div class="search-list">
@@ -33,7 +49,6 @@
                         <jsp:include page="webnav.jsp"></jsp:include>
                     </ul>
 
-                    <input id="squan_id" name="q" value="${goods.q}"> <a href="#" onclick="souhaoquan();" style="color: green;">搜好券</a>
 
                     <ul id="data_goods" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
                         <c:forEach var="obj" items="${list }" >
@@ -44,8 +59,8 @@
                                     <p class="title fl" style="height: 18px;">
                                         活动价:</span><b>¥</b><strong style="font-size:large ;"> ${obj.zkFinalPrice}</strong>
                                     </p>
-                                    <p class="title fl" style="height: 18px;color: red;">
-                                        <a href="${obj.couponClickUrl}" target="_blank" ><span style="color: red;">券： ${obj.couponInfo }</span><span style="color: green;">&nbsp;点击领券</span></a>
+                                    <p class="title fl" style="color: red;font-size: 16px;text-decoration: none; padding: 5px 0px;font-weight: bold;">
+                                        <a href="${obj.couponClickUrl}" target="_blank" ><span style=""> 领券：${obj.couponInfo }</span><span style="color: green;"></span></a>
                                     </p>
 
                                     <p class="title fl" style="height: 18px;">
@@ -150,6 +165,13 @@ function showmore() {
 }
 function souhaoquan() {
     window.location.href='/tbs/coupon?recpoint=coupon&q='+$('#squan_id').val();
+}
+
+function searchtb() {
+    $('#form_id').attr('action','/tbs');
+    $('#orderby_id').val('');
+    $('#recpoint_id').val('');
+    document.forms[0].submit();
 }
 </script>
 

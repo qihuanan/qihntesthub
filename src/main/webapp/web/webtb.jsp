@@ -110,7 +110,12 @@ function searchjd() {
 function submitform() {
     document.forms[0].submit();
 }
-
+function searchtb() {
+    $('#form_id').attr('action','/tbs');
+    $('#orderby_id').val('');
+    $('#recpoint_id').val('');
+    document.forms[0].submit();
+}
 function historyprice(skuid) {
     var surl = $('#aid_'+skuid).attr('title');
     surl = "http:"+surl;

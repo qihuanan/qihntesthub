@@ -98,6 +98,13 @@ $(document).ready(function () {
     $('#searchInput').focus();
 });
 
+function searchtb() {
+    $('#form_id').attr('action','/tbs');
+    $('#orderby_id').val('');
+    $('#recpoint_id').val('');
+    document.forms[0].submit();
+}
+
 function searchjd() {
     $('#form_id').attr('action','/jds');
     $('#orderby_id').val('id');

@@ -208,7 +208,12 @@ function showmore() {
     });
 
 }
-
+function searchtb() {
+    $('#form_id').attr('action','/tbs');
+    $('#orderby_id').val('');
+    $('#recpoint_id').val('');
+    document.forms[0].submit();
+}
 </script>
 
 <script type="text/javascript">
