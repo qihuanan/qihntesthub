@@ -71,6 +71,15 @@ public class TaobaoController {
         List list = rsp.getResults();
         log.info("tbs coupon: "+list);
         mv.addObject("list", list);
+        StringBuffer sb = new StringBuffer();
+        sb.append(goods.getQ()).append("限时超值好券,大额优惠券-");
+        if(list.size()>0){
+            for(int i=0;i<3;i++){
+                TbkDgItemCouponGetResponse.TbkCoupon c = (TbkDgItemCouponGetResponse.TbkCoupon)list.get(i);
+                sb.append( c.getCouponInfo() ).append(",");
+            }
+        }
+        mv.addObject("title",sb.toString());
         mv.setViewName("web/webtbcoupon");
         return mv;
     }
