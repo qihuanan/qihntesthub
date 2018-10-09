@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta name="keywords" content="猫狗汇 京东淘宝天猫一网通 历史价查询 尽在猫狗汇-${huashu}">
-    <meta name="description" content="猫狗汇 京东淘宝天猫一网通 历史价查询 尽在猫狗汇-${huashu}">
+    <meta name="keywords" content="慧惠助手-用智慧汇集优惠,${huashu}好物好券、大额优惠券薅羊毛白菜价历史价格查询全网比价">
+    <meta name="description" content="慧惠助手-用智慧汇集优惠,${huashu}好物好券、大额优惠券薅羊毛白菜价历史价格查询全网比价">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <jsp:useBean id="time" class="java.util.Date"/>
-    <title>猫狗汇 京东淘宝天猫一网通 历史价查询尽在猫狗汇-${huashu} </title>
+    <title>慧惠助手-用智慧汇集优惠信息-好物好券渠道券自动扒、京东淘宝天猫一网通 历史价查询-${huashu} </title>
     <link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/basic/css/demo.css" rel="stylesheet" type="text/css" />

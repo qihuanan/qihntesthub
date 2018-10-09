@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <div class="topclass">
-    <a href="/">猫狗汇 京东淘宝天猫一网通 历史价查询</a>
+    <a href="/">慧惠助手-用智慧汇集优惠<br>超值好券薅羊毛白菜价历史价格查询</a>
 </div>
 <div class="nav white">
     <div class="logo" style="margin-top: -3px;"><a href="/"><img src="../images/tomcat.png" /></a></div>

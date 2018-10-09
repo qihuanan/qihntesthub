@@ -8,6 +8,7 @@ import com.taobao.api.TaobaoClient;
 import com.taobao.api.internal.util.StringUtils;
 import com.taobao.api.request.*;
 import com.taobao.api.response.*;
+import org.apache.commons.collections.ListUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONObject;
@@ -19,10 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class TaobaoController {
@@ -40,7 +40,7 @@ public class TaobaoController {
 
     public static void main(String[] args) {
         try {//
-            TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+            /*TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
             TbkJuTqgGetRequest req = new TbkJuTqgGetRequest();
             req.setAdzoneId(adzone_id);
             req.setFields("click_url,pic_url,reserve_price,zk_final_price,total_amount,sold_num,title,category_name,start_time,end_time");
@@ -50,10 +50,28 @@ public class TaobaoController {
             req.setPageNo(1L);
             req.setPageSize(96L);
             TbkJuTqgGetResponse rsp = client.execute(req);
-            System.out.println(rsp.getBody());
+            System.out.println(rsp.getBody());*/
+
+            System.out.println(getNumbers("满16元减10元"));
+
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    //截取数字
+    public static Integer getNumbers(String content) {
+        try {
+            content = content.split("减")[1];
+            Pattern pattern = Pattern.compile("\\d+");
+            Matcher matcher = pattern.matcher(content);
+            while (matcher.find()) {
+                return new Integer(matcher.group(0));
+            }
+        }catch (Exception e){
+            return 0;
+        }
+        return 0;
     }
 
     @RequestMapping(value = "/tbs/coupon", method = {RequestMethod.POST, RequestMethod.GET})
@@ -64,24 +82,65 @@ public class TaobaoController {
         req.setAdzoneId(adzone_id);
         req.setPlatform(2L);
         //req.setCat("16,18");
-        req.setPageSize(50L);
+        req.setPageSize(100L);
         req.setQ(goods.getQ());
         req.setPageNo(1L);
         TbkDgItemCouponGetResponse rsp = client.execute(req);
         List list = rsp.getResults();
-        log.info("tbs coupon: "+list);
-        mv.addObject("list", list);
+        //log.info("tbs coupon: "+list);
+
         StringBuffer sb = new StringBuffer();
-        sb.append(goods.getQ()).append("限时超值好券,大额优惠券-");
-        if(list.size()>0){
+        sb.append(goods.getQ()==null?"最新":goods.getQ()).append("内购渠道优惠券");
+        List<TbkDgItemCouponGetResponse.TbkCoupon> relist = new ArrayList<>();
+        if(list ==null){
+            list = new ArrayList();
+        }
+
+        Collections.sort(list, new SortBy());
+        relist = list;
+        if(goods.getQ()==null || goods.getQ().equals("")){
+            relist = list.subList(0,list.size()>20?20:list.size());
+            //第二页
+            req.setPageNo(2L);
+            rsp = client.execute(req);
+            list = rsp.getResults();
+            Collections.sort(list, new SortBy());
+            relist.addAll(list.subList(0,list.size()>20?20:list.size()));
+            //第三页
+            req.setPageNo(3L);
+            rsp = client.execute(req);
+            list = rsp.getResults();
+            Collections.sort(list, new SortBy());
+            relist.addAll(list.subList(0,list.size()>20?20:list.size()));
+            //第三页
+            req.setPageNo(4L);
+            rsp = client.execute(req);
+            list = rsp.getResults();
+            Collections.sort(list, new SortBy());
+            relist.addAll(list.subList(0,list.size()>20?20:list.size()));
+
+            Collections.sort(relist, new SortBy());
+        }
+
+        if(relist!=null && relist.size()>0){
             for(int i=0;i<3;i++){
-                TbkDgItemCouponGetResponse.TbkCoupon c = (TbkDgItemCouponGetResponse.TbkCoupon)list.get(i);
+                TbkDgItemCouponGetResponse.TbkCoupon c = (TbkDgItemCouponGetResponse.TbkCoupon)relist.get(i);
                 sb.append( c.getCouponInfo() ).append(",");
             }
         }
         mv.addObject("title",sb.toString());
+        mv.addObject("list", relist );
         mv.setViewName("web/webtbcoupon");
         return mv;
+    }
+
+    class SortBy implements Comparator {
+        public int compare(Object obj1, Object obj2) {
+            TbkDgItemCouponGetResponse.TbkCoupon point1 = (TbkDgItemCouponGetResponse.TbkCoupon) obj1;
+            TbkDgItemCouponGetResponse.TbkCoupon point2 = (TbkDgItemCouponGetResponse.TbkCoupon) obj2;
+            //System.out.println("aab "+getNumbers(point1.getCouponInfo())+ " aaa " +getNumbers(point2.getCouponInfo())  );
+            return getNumbers(point2.getCouponInfo()).compareTo(getNumbers(point1.getCouponInfo()));
+        }
     }
 
     /**

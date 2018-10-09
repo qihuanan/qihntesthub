@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta name="keywords" content="${title}-猫狗汇 京东淘宝天猫一网通 历史价查询 尽在猫狗汇-${huashu}">
-    <meta name="description" content="${title}-猫狗汇 京东淘宝天猫一网通 历史价查询 尽在猫狗汇-${huashu}">
+    <meta name="keywords" content="${title}-慧惠助手-用智慧汇集优惠,${huashu}好物好券、大额优惠券薅羊毛白菜价历史价格查询全网比价">
+    <meta name="description" content="${title}-慧惠助手-用智慧汇集优惠,${huashu}好物好券、大额优惠券薅羊毛白菜价历史价格查询全网比价">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <jsp:useBean id="time" class="java.util.Date"/>
-    <title>${title}-猫狗汇 京东淘宝天猫一网通 历史价查询尽在猫狗汇-${huashu} </title>
+    <title>${title}-慧惠助手-用智慧汇集优惠-${huashu}-好物好券渠道券自动扒、京东淘宝天猫一网通 历史价查询 </title>
     <link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/basic/css/demo.css" rel="stylesheet" type="text/css" />
@@ -20,17 +20,17 @@
 </head>
 <body>
 
-<form id="form_id" action="/tbs" method="get">
+<form id="form_id" action="/tbs/coupon" method="get">
 
 
     <div class="topclass">
-        <a href="/">猫狗汇 京东淘宝天猫一网通 历史价查询</a>
+        <a href="/">慧惠助手-用智慧汇集优惠<br>超值好券薅羊毛白菜价历史价格查询</a>
     </div>
     <div class="nav white">
         <div class="logo" style="margin-top: -3px;"><a href="/"><img src="../images/tomcat.png" /></a></div>
         <div class="search-bar pr">
             <div class="search1">
-                <input id="squan_id" placeholder="输入关键字、搜索好券" style="width: 60%;" name="name" type="text" value="${goods.q}" onfocus="$(this).select();" >
+                <input id="squan_id" placeholder="输入关键字、搜索好券" style="width: 60%;" name="q" type="text" value="${goods.q}" onfocus="$(this).select();" >
                 <input id="ai-topsearch2" class="submit am-btn" style="background-color: yellowgreen;width: 40%;"  value="搜淘宝天猫好券"  type="button" onclick="$('#curPage').val(1);souhaoquan();">
             </div>
 

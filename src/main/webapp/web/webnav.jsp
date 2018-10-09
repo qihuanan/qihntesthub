@@ -6,7 +6,7 @@
     <div style="display: inline;float:left;width: 25%;">
         <a href="/tbs/coupon?recpoint=coupon" <c:if test="${goods.recpoint eq 'coupon'}">class="div-selected"</c:if> style="cursor: pointer;height: auto;background-color: white; ">
             <img src="../images/icon7.png" style="width: 70px;height: 70px;"><br>
-            大额优惠券
+            超值好券
         </a>
     </div>
     <div style="display: inline;float:left;width: 25%;" >
@@ -18,7 +18,7 @@
     <div style="display: inline;float:left;width: 25%;">
         <a href="/tbs/tqg?recpoint=tqg" <c:if test="${goods.recpoint eq 'tqg'}">class="div-selected"</c:if> style="cursor: pointer;height: auto;background-color: white; ">
             <img src="../images/icon2.png" style="width: 70px;height: 70px;"><br>
-            淘抢购
+            白菜薅羊毛
         </a>
     </div>
     <div style="display: inline;float:left;width: 25%;">
