@@ -94,6 +94,25 @@
                                             </c:if>
                                             <a class="btn btn-default" onclick="getinfo(2);" href="#" >update</a>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label>price </label>
+                                            <input class="form-control" name="price" type="text" value="${goods.price}" readonly />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>name </label>
+                                            <input class="form-control" name="name" type="text" value="${goods.name}" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>skulink </label>
+                                            <input class="form-control" name="skulink" type="text" value="${goods.skulink}" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>recpoint </label>
+                                            <input class="form-control" name="recpoint" type="text" value="${goods.recpoint}" />
+                                        </div>
+
                                         <div class="form-group">
                                             <label>skuid</label>
                                             <input class="form-control" name="skuid" type="text" value="${goods.skuid}" />
@@ -116,31 +135,19 @@
                                                 <a class="btn btn-default" onclick="historyprice(${goods.id});" href="#" >hisprice</a>
                                             </c:if>
                                         </div>
-                                        <div class="form-group">
-                                            <label>price </label>
-                                            <input class="form-control" name="price" type="text" value="${goods.price}" readonly />
-                                        </div>
+
                                         <div class="form-group">
                                             <label>upindex </label>
                                             <input class="form-control" name="upindex" type="text" value="${goods.upindex}" />
                                         </div>
-                                        <div class="form-group">
-                                            <label>skulink </label>
-                                            <input class="form-control" name="skulink" type="text" value="${goods.skulink}" />
-                                        </div>
+
                                         <div class="form-group">
                                             <label>skupicture </label>
                                             <input class="form-control" name="skupicture" type="text" value="${goods.skupicture}" />
                                         </div>
 
-                                        <div class="form-group">
-                                            <label>recpoint </label>
-                                            <input class="form-control" name="recpoint" type="text" value="${goods.recpoint}" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>name </label>
-                                            <input class="form-control" name="name" type="text" value="${goods.name}" />
-                                        </div>
+
+
                                         <div class="form-group">
                                             <label>domain </label>
                                             <input class="form-control" name="domain" type="text" value="${goods.domain}" />

@@ -33,8 +33,8 @@
                             <form action="/goods/list" method="post">
                                 <div class="table-responsive" >
                                     <div class="row" style="width: 99%">
-                                        <div class="col-sm-6" style="margin-bottom: 5px;">
-                                            <a href="/goods/mergeUI">Add</a>&nbsp;&nbsp;
+                                        <div class="col-sm-6" style="margin-bottom: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a href="/goods/mergeUI">Add</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                             Search: <input type="text" name="name" value="${goods.name}" >
                                             <input type="submit" value="查询"></input>
                                         </div>
@@ -44,8 +44,8 @@
                                         <thead>
                                         <tr>
                                             <th>goods.skuid</th>
-                                            <th>goods.materialUrl</th>
                                             <th>goods.skupicture</th>
+                                            <th>goods.skulink</th>
                                             <th>goods.name</th>
                                             <th>goods.price</th>
                                             <th>goods.pricel</th>
@@ -57,11 +57,12 @@
                                         <c:forEach var="obj" items="${list }" >
                                             <tr>
                                                 <td>${obj.skuid }<br><a href="/goods/mergeUI?id=${obj.id }">编辑</a> </td>
-                                                <td><a target="_blank" href="${obj.materialUrl }">链接</a><br>
-
-                                                    <input value="${obj.materialUrl }" onfocus="$(this).select();document.execCommand('Copy');" >
-                                                </td>
                                                 <td><img src="${obj.skupicture }" width="50px" height="50px;" /> </td>
+                                                <td><a target="_blank" href="${obj.skulink }">链接</a><br>
+
+                                                    <input value="${obj.skulink }" onfocus="$(this).select();document.execCommand('Copy');" >
+                                                </td>
+
                                                 <td>${obj.name }</td>
                                                 <td>${obj.price }</td>
                                                 <td>${obj.pricel }</td>

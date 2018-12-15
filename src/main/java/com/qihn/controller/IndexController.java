@@ -30,7 +30,6 @@ public class IndexController extends BaseController {
 
     public static Map<String,Object> mmap = new HashMap<String, Object>();
 
-
     @RequestMapping(value = "/", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView web2(@ModelAttribute("goods") Goods goods,@ModelAttribute("pageInfo") PageInfo pageInfo,HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();

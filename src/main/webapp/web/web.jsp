@@ -23,69 +23,64 @@
 <form id="form_id" action="/jds" method="get">
     <jsp:include page="webheader.jsp"></jsp:include>
 
-<div class="clear"></div>
-<div class="search" >
-    <div class="search-list">
-        <div class="am-g am-g-fixed">
-            <div class="am-u-sm-12 am-u-md-12">
-                <div class="search-content">
-                    <div class="clear"></div>
-                    <ul class="select" style="border: none;box-shadow:none;">
-                        <jsp:include page="webnav.jsp"></jsp:include>
-                    </ul>
+    <div class="clear"></div>
+    <div class="search" >
+        <div class="search-list">
+            <div class="am-g am-g-fixed">
+                <div class="am-u-sm-12 am-u-md-12">
+                    <div class="search-content">
+                        <div class="clear"></div>
+                        <ul class="select" style="border: none;box-shadow:none;">
+                            <jsp:include page="webnav.jsp"></jsp:include>
+                        </ul>
 
-                    <ul id="data_goods" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
-                        <c:forEach var="obj" items="${list }" >
-                            <li>
-                                <div class="i-pic limit">
-                                    <a href="${obj.skulink}" target="_blank"><img src="${obj.skupicture }" title="${obj.pricel}" alt="${obj.pricel}" /></a>
-                                    <a href="${obj.skulink}" ><p class="title fl">${obj.name }</p></a>
-                                    <p class="price fl" style="font-weight: normal;"  >
-                                        价格:<b>¥</b><strong>${obj.price }</strong>&nbsp;
-                                        最低:<strong>
-                                            ${obj.pricel}
-                                            </strong><br>
-                                        <span style="font-size: 14px;color: green;" >${obj.recpoint} </span>
-                                    </p><br>
-                                    <p class="number fl">
-                                        销量<span>${obj.inOrderCount}</span>
-                                    </p>
+                        <ul  class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
+
+                            <div data-am-widget="list_news" class="am-list-news am-list-news-default" >
+
+                                <div class="am-list-news-bd">
+                                    <ul class="am-list" id="data_goods">
+
+                                        <c:forEach var="obj" items="${list }" >
+                                            <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left">
+                                                <div class="am-u-sm-4 am-list-thumb" style="max-height: 150px">
+                                                    <a href="${obj.skulink}" class="">
+                                                        <img width="150px" height="150px" src="${obj.skupicture }"/>
+                                                    </a>
+                                                </div>
+                                                <div class=" am-u-sm-8 am-list-main">
+                                                    <h3 class="am-list-item-hd"><a href="${obj.skulink}" class="">${obj.name }&nbsp;&nbsp;<strong style="color: #d58512">${obj.price }</strong></a></h3>
+                                                    <div class="am-list-item-text">${obj.recpoint}</div>
+                                                </div>
+                                            </li>
+
+                                        </c:forEach>
+
+                                    </ul>
                                 </div>
-                            </li>
-                        </c:forEach>
+
+                            </div>
+
+
+                        </ul>
+                    </div>
+
+                    <div class="clear"></div>
+
+
+                    <!--分页 -->
+                    <ul class="am-pagination am-pagination-right" style="text-align: center;">
+                        <div id="load_more" onclick="showmore();" style="cursor: pointer;padding-bottom: 10px;font-size: 16px;">查看更多</div>
+                        <span id="load_more_loading"></span>
+
                     </ul>
+
                 </div>
-
-                <div class="clear"></div>
-
-
-                <!--分页 -->
-                <ul class="am-pagination am-pagination-right" style="text-align: center;">
-                    <div id="load_more" onclick="showmore();" style="cursor: pointer;padding-bottom: 10px;font-size: 16px;">查看更多</div>
-                    <span id="load_more_loading"></span>
-                    <!--
-                    <li ><a href="#">${pageInfo.curPage}/${pageInfo.pageCount}</a></li>
-                    <li ><a href="javascript:gotoPage(1)">&laquo;</a></li>
-                    <li>
-                        <c:if test="${pageInfo.curPage gt 1}">
-                            <a href="javascript:gotoPage(${pageInfo.curPage - 1})">[上一页]</a>
-                        </c:if>
-                    </li>
-                    <li>
-                        <c:if test="${pageInfo.curPage lt pageInfo.pageCount}">
-                            <a href="javascript:gotoPage(${pageInfo.curPage + 1})">[下一页]</a>
-                        </c:if>
-                    </li>
-                    <li><a href="javascript:gotoPage(${pageInfo.pageCount})">&raquo;</a></li>
-                    -->
-                </ul>
-
             </div>
+
         </div>
 
     </div>
-
-</div>
     <input type="hidden" id="curPage" name="curPage" value="${pageInfo.curPage}" />
     <input type="hidden" id="txtPageNum"  />
     <input type="hidden" id="oldPageSize"
@@ -97,129 +92,124 @@
 </form>
 </body>
 <script type="text/javascript">
-$(document).ready(function () {
-    $('#searchInput').focus();
-});
-function searchtb() {
-    $('#form_id').attr('action','/tbs');
-    $('#orderby_id').val('');
-    $('#recpoint_id').val('');
-    document.forms[0].submit();
-}
-
-function gotoPage(pageNum){
-    if(isNaN(pageNum)){alert('请输入数字！');document.getElementById('txtPageNum').focus();return false;}
-    if( pageNum < 1 || pageNum > ${pageInfo.pageCount} ){document.getElementById('txtPageNum').value=${pageInfo.pageCount};pageNum=${pageInfo.pageCount}; }
-    if($("#textPageSize").val()==$("#oldPageSize").val()){
-        $("#curPage").val(pageNum);
-    }else{
-        $("#curPage").val("1");
-    }
-    document.forms[0].submit();
-}
-
-function searchjd() {
-    $('#form_id').attr('action','/jds');
-    $('#orderby_id').val('id');
-    $('#curPage').val('1');
-    $('#recpoint_id').val('');
-    document.forms[0].submit();
-}
-
-function submitform() {
-    var orilink = $('#searchInput').val();
-    var skuid = orilink.match(/\d+/gi);
-    if(skuid==null){
+    $(document).ready(function () {
+        $('#searchInput').focus();
+    });
+    function searchtb() {
+        $('#form_id').attr('action','/tbs');
+        $('#orderby_id').val('');
+        $('#recpoint_id').val('');
         document.forms[0].submit();
-    }else{
+    }
+
+    function gotoPage(pageNum){
+        if(isNaN(pageNum)){alert('请输入数字！');document.getElementById('txtPageNum').focus();return false;}
+        if( pageNum < 1 || pageNum > ${pageInfo.pageCount} ){document.getElementById('txtPageNum').value=${pageInfo.pageCount};pageNum=${pageInfo.pageCount}; }
+        if($("#textPageSize").val()==$("#oldPageSize").val()){
+            $("#curPage").val(pageNum);
+        }else{
+            $("#curPage").val("1");
+        }
+        document.forms[0].submit();
+    }
+
+    function searchjd() {
+        $('#form_id').attr('action','/jds');
+        $('#orderby_id').val('id');
+        $('#curPage').val('1');
+        $('#recpoint_id').val('');
+        document.forms[0].submit();
+    }
+
+    function submitform() {
+        var orilink = $('#searchInput').val();
+        var skuid = orilink.match(/\d+/gi);
+        if(skuid==null){
+            document.forms[0].submit();
+        }else{
+            skuid = skuid.toString().split(",")[0];
+            $.ajax({type:"get",datatype:"html",url:"/goods/skuExist.htm?skuid="+skuid,
+                data:{},cache:false,async:false,
+                success:function(result){
+                    if(result!= 0){
+                        $('#searchInput').val(result);
+                        document.forms[0].submit();
+                    }else{
+                        getinfo(1);
+                    }
+                }
+            });
+        }
+    }
+
+    function getinfo(type) {
+        var orilink = $('#searchInput').val();
+        var skuid = orilink.match(/\d+/gi);
         skuid = skuid.toString().split(",")[0];
-        $.ajax({type:"get",datatype:"html",url:"/goods/skuExist.htm?skuid="+skuid,
+        goodsdetail(skuid,type);
+    }
+
+    function goodsdetail(skuid,type) {
+        $.ajax({type:"get",datatype:"html",url:"/goods/jttGoodDetail.htm?skuid="+skuid+"&type="+type,
             data:{},cache:false,async:false,
             success:function(result){
-                if(result!= 0){
-                    $('#searchInput').val(result);
-                    document.forms[0].submit();
-                }else{
-                    getinfo(1);
+                if(result!= ""){
+                    historyprice(result,skuid);
                 }
             }
         });
     }
-}
 
-function getinfo(type) {
-    var orilink = $('#searchInput').val();
-    var skuid = orilink.match(/\d+/gi);
-    skuid = skuid.toString().split(",")[0];
-    goodsdetail(skuid,type);
-}
+    function historyprice(id,skuid) {
+        var surl = $('#searchInput').val();
+        $.ajax({
+            url: "/goods/hisPrice",
+            type: 'get', async:false,
+            dataType: 'text',
+            data: {
+                id:id,
+                url: escape(surl),
+                token:d.encrypt(surl,2,true)
 
-function goodsdetail(skuid,type) {
-    $.ajax({type:"get",datatype:"html",url:"/goods/jttGoodDetail.htm?skuid="+skuid+"&type="+type,
-        data:{},cache:false,async:false,
-        success:function(result){
-            if(result!= ""){
-                historyprice(result,skuid);
+            },
+            success: function (result) {
+                $('#searchInput').val(skuid);
+                document.forms[0].submit();
             }
-        }
-    });
-}
+        });
+    }
 
-function historyprice(id,skuid) {
-    var surl = $('#searchInput').val();
-    $.ajax({
-        url: "/goods/hisPrice",
-        type: 'get', async:false,
-        dataType: 'text',
-        data: {
-            id:id,
-            url: escape(surl),
-            token:d.encrypt(surl,2,true)
-
-        },
-        success: function (result) {
-            $('#searchInput').val(skuid);
-            document.forms[0].submit();
-        }
-    });
-}
-
-function showmore() {
-    var curPage = $('#curPage').val();
-    $('#curPage').val(parseInt(curPage)+1);
-    curPage = $('#curPage').val();
-    var formtext = $("form").serialize();
-    $.ajax({
-        url: "/more",
-        type: 'get', async:true,
-        dataType: 'text',
-        data: formtext,
-        beforeSend:function () {
-            //$("#load_more_loading").html("<div><img src='../images/loading.gif' /><div>");
-        },
-        success: function (result) {
-            //$("#load_more_loading").html("");
-            if($.trim(result) != ""){
-                $('#data_goods').append(result);
-            }else{
-                $('#load_more').text('┭┮﹏┭┮ 没有更多啦...');
+    function showmore() {
+        var curPage = $('#curPage').val();
+        $('#curPage').val(parseInt(curPage)+1);
+        curPage = $('#curPage').val();
+        var formtext = $("form").serialize();
+        $.ajax({
+            url: "/more",
+            type: 'get', async:true,
+            dataType: 'text',
+            data: formtext,
+            beforeSend:function () {
+                //$("#load_more_loading").html("<div><img src='../images/loading.gif' /><div>");
+            },
+            success: function (result) {
+                //$("#load_more_loading").html("");
+                if($.trim(result) != ""){
+                    $('#data_goods').append(result);
+                }else{
+                    $('#load_more').text('┭┮﹏┭┮ 没有更多啦...');
+                }
             }
-        }
-    });
+        });
 
-}
-function searchtb() {
-    $('#form_id').attr('action','/tbs');
-    $('#orderby_id').val('');
-    $('#recpoint_id').val('');
-    document.forms[0].submit();
-}
+    }
+    function searchtb() {
+        $('#form_id').attr('action','/tbs');
+        $('#orderby_id').val('');
+        $('#recpoint_id').val('');
+        document.forms[0].submit();
+    }
 </script>
 
-<script type="text/javascript">
-    var sogou_ad_id=978854;
-    var sogou_ad_content_height=90;
-</script>
-<script type="text/javascript" src="http://awk.lu.sogoucdn.com/wap/js/wp.js"></script>
 
 </html>
