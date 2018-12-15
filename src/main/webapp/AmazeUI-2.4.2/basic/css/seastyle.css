@@ -15,7 +15,7 @@ p {margin: 0 0 .3rem 0; font-size:14px; }
 .am-thumbnail {margin-bottom:0;}
 .am-thumbnails > li {padding: 0 0rem 0.2rem .2rem;}
 .price{color: #e4393c;font-weight: 600;}
-
+img{ width:100%;}
 .theme-popover {z-index: 1009;overflow:visible;background:#fff;}
 
 

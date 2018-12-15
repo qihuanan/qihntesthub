@@ -54,13 +54,13 @@
                         <c:forEach var="obj" items="${list }" >
                             <li>
                                 <div class="i-pic limit" >
-                                    <a id="aid_${obj.numIid}" href="${obj.itemUrl}" title="${obj.itemUrl}" target="_blank"><img src="${obj.pictUrl }" /></a>
-                                    <a href="${obj.itemUrl}" target="_blank"><p class="title fl">${obj.title }</p></a>
+                                    <a id="aid_${obj.numIid}" href="${empty obj.couponClickUrl ? obj.itemUrl : obj.couponClickUrl }" title="${obj.itemUrl}" target="_blank"><img src="${obj.pictUrl }" /></a>
+                                    <a href="${empty obj.couponClickUrl ? obj.itemUrl : obj.couponClickUrl }" target="_blank"><p class="title fl">${obj.title }</p></a>
                                     <p class="title fl" style="height: 18px;">
                                         活动价:</span><b>¥</b><strong style="font-size:large ;"> ${obj.zkFinalPrice}</strong>
                                     </p>
                                     <p class="title fl" style="color: red;font-size: 16px;text-decoration: none; padding: 5px 0px;font-weight: bold;">
-                                        <a href="${obj.couponClickUrl}" target="_blank" ><span style=""> 领券：${obj.couponInfo }</span><span style="color: green;"></span></a>
+                                        <a href="${obj.couponClickUrl}" target="_blank" ><span style="color: red;"> 领券：${obj.couponInfo }</span><span style="color: green;"></span></a>
                                     </p>
 
                                     <p class="title fl" style="height: 18px;">

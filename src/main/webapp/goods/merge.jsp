@@ -110,7 +110,7 @@
 
                                         <div class="form-group">
                                             <label>recpoint </label>
-                                            <input class="form-control" name="recpoint" type="text" value="${goods.recpoint}" />
+                                            <textarea name="recpoint" rows="4" cols="40">${goods.recpoint}</textarea>
                                         </div>
 
                                         <div class="form-group">

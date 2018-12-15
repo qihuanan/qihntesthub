@@ -14,8 +14,12 @@
                     <strong style="color: #ff6c00;">&nbsp;${obj.price }元&nbsp;</strong>
                 </a>
             </h3>
-            <div  style="color: #ff6c00;font-size: 16px;">
-                    ${obj.recpoint}
+            <div >
+                <a href="${obj.skulink}" style="font-size: 14px;">
+                    <div style="color: #ff6c00;font-size: 16px;padding-top: 10px;">
+                            ${obj.recpoint}
+                    </div>
+                </a>
             </div>
         </div>
     </li>

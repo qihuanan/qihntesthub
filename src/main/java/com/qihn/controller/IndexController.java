@@ -79,13 +79,13 @@ public class IndexController extends BaseController {
         }
 
         StringBuffer sb  = new StringBuffer();
-        for(int i=0;i<list.size();i++){
+       /* for(int i=0;i<list.size();i++){
             //sb.append(list.get(i).getCid3Name() ).append(" ");
             //sb.append(list.get(i).getName()).append(" ");
             if(i<10)
             sb.append(list.get(i).getName().substring(0,12)).append(" ");
             //log.info(list.get(i).getName().substring(0,12));
-        }
+        }*/
         mv.addObject("dtitle", sb.toString());
         mv.addObject("list", list);
         mv.addObject("pageInfo",pageInfo);
