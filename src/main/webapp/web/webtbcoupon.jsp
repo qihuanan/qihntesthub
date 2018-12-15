@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta name="keywords" content="${title}-慧惠助手-用智慧汇集优惠,${huashu}好物好券、大额优惠券薅羊毛白菜价历史价格查询全网比价">
+    <meta name="keywords" content="慧惠助手-${title}-慧惠助手-用智慧汇集优惠,${huashu}好物好券、大额优惠券薅羊毛白菜价历史价格查询全网比价">
     <meta name="description" content="${title}-慧惠助手-用智慧汇集优惠,${huashu}好物好券、大额优惠券薅羊毛白菜价历史价格查询全网比价">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
