@@ -12,7 +12,7 @@
     <div style="display: inline;float:left;width: 25%;" >
         <a href="/" style="cursor: pointer;height: auto;background-color: white; " <c:if test="${empty goods.recpoint }">class="div-selected"</c:if>  >
             <img src="../images/icon1.png" style="width: 70px;height: 70px;"><br>
-            好物推荐
+            内购优惠
         </a>
     </div>
     <div style="display: inline;float:left;width: 25%;">

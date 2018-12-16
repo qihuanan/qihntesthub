@@ -17,8 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Controller
@@ -30,6 +32,72 @@ public class GoodsController extends BaseController {
     private GoodsService goodsService;
 
     public static Map<String,Object> mmap = new HashMap<String, Object>();
+
+    public  static void main(String args[]){
+        Goods goods = new Goods();
+        goods.setRecpoint(" 宝宝最喜欢的小鞋子！多种款式选择~加绒加厚不受冻，宝防滑耐磨鞋底，妈更放心！\n" +
+                "\n" +
+                " 儿童ins超火运动鞋男童休闲棉鞋子\n" +
+                "-------------\n" +
+                "商城价：89\n" +
+                "内购价：49\n" +
+                "\n" +
+                "抢券+下单：https://u.jd.com/25Q7Zf\n" +
+                "--------------\n" +
+                "赠运费险购物无忧");
+        System.out.println("rec:"+goods.getRecpoint());
+        String url = "http://japi.jingtuitui.com/api/universal";
+        String data = "appid=1805022340533108&appkey=4da21768b0d248aee58e3173af15e411&unionid=1000524984&positionid=&coupon_url=&content="+goods.getRecpoint();
+        String str =  HttpUtil.sendPost(url,data);
+        System.out.println(str);
+        Map remap = JSONUtils.fromJson(str,Map.class);
+
+    }
+
+    public static String Html2Text(String str) {
+        if (str == null) {
+            return "";
+        }else if (str.length() == 0) {
+            return "";
+        }
+        str = str.replaceAll("\r\n", "\n");
+        return str;
+    }
+
+    @RequestMapping(value = "/mergeUIRecpoint", method = RequestMethod.POST)
+    public ModelAndView mergeUIRecpoint(@ModelAttribute("goods") Goods goods) {
+        ModelAndView mv = new ModelAndView();
+        if (Utils.isNotNullOrEmpty(goods) && Utils.isNotNullOrEmpty(goods.getRecpoint())) {
+            try {
+            //goods.setRecpoint(Html2Text(goods.getRecpoint()));
+            goods.setRecpoint(URLEncoder.encode(goods.getRecpoint(),"UTF-8"));
+            log.error("recpoint: "+goods.getRecpoint());
+            String url = "http://japi.jingtuitui.com/api/universal";
+            String data = "appid=1805022340533108&appkey=4da21768b0d248aee58e3173af15e411&unionid=1000524984&positionid=&coupon_url=&content="+goods.getRecpoint();
+            String str =  HttpUtil.sendPost(url,data);
+            log.error("str:"+str);
+
+                JSONObject json = new JSONObject(str);
+                if(json.get("return").equals("0")){
+                    goods.setSkupicture(json.getString("imgUrl"));
+                    String result = json.getString("result");
+                    Matcher matcher = Patterns.WEB_URL.matcher(result);
+                    if (matcher.find()){
+                        String skulink = matcher.group();
+                        //result = result.replace(skulink,"点击直达！");
+                        goods.setSkulink(skulink);
+                        goods.setRecpoint(result);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            mv.addObject(goods);
+            mv.setViewName("goods/merge");
+        }
+        mv.setViewName("goods/merge");
+        return mv;
+    }
 
     @RequestMapping(path = "/skuExist",method = RequestMethod.GET)
     @ResponseBody
@@ -216,10 +284,7 @@ public class GoodsController extends BaseController {
         return null;
     }
 
-    public static void main(String args[]){
-        String str = "23.9";
-        System.out.println(new Double(str).longValue());
-    }
+
 
     @RequestMapping(path = "/jttGoodDetail",method = RequestMethod.GET)
     @ResponseBody
@@ -338,6 +403,8 @@ public class GoodsController extends BaseController {
             g.setMaterialUrl(obj.getJSONObject("result").getString("materialUrl"));
             g.setInOrderCount(obj.getJSONObject("result").getInt("inOrderCount"));
 
+            g.setUpdatetime(new Date().getTime());
+            g.setRemark(new SimpleDateFormat("MM-dd HH:mm").format(new Date()));
             if(g.getId()==null){
                 this.goodsService.save(g);
                 g = goodsService.findByProperties(g);
@@ -364,6 +431,15 @@ public class GoodsController extends BaseController {
         pageInfo.setTotalCount(this.goodsService.countByProperties(goods));
         mv.addObject("list", list);
         mv.addObject("pageInfo",pageInfo);
+
+        StringBuffer sb = new StringBuffer();
+        if(list!=null){
+            for(int i=0;i<list.size();i++){
+                if(i>9) break;;
+                    sb.append(list.get(i).getRecpoint()).append(" \n\n ");
+            }
+        }
+        mv.addObject("linestr",sb.toString());
         mv.setViewName("goods/list");
         return mv;
     }
@@ -386,7 +462,8 @@ public class GoodsController extends BaseController {
         String huashu = goods.getHuashu();
         request.getSession().getServletContext().setAttribute("huashu",huashu);
         goods.setHuashu(null);
-
+        goods.setUpdatetime(new Date().getTime());
+        goods.setRemark(new SimpleDateFormat("MM-dd HH:mm").format(new Date()));
         if(goods.getId()==null){
             goodsService.save(goods);
         }else{

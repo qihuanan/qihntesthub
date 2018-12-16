@@ -79,6 +79,15 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <form id="form_id" role="form" action="${sysPath}/goods/merge" method="post" >
+                                        <div class="form-group">
+                                            <label>skulink </label>
+                                            <input class="form-control" name="skulink" type="text" value="${goods.skulink}" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>recpoint </label>
+                                            <textarea name="recpoint" rows="8" cols="35" contenteditable="true">${goods.recpoint}</textarea>
+                                            <a class="btn btn-default" onclick="getinfoConvert();" href="#" >convert</a>
+                                        </div>
 
                                         <div class="form-group">
                                             <label>orilink: ${goods.id}</label>
@@ -103,15 +112,8 @@
                                             <label>name </label>
                                             <input class="form-control" name="name" type="text" value="${goods.name}" />
                                         </div>
-                                        <div class="form-group">
-                                            <label>skulink </label>
-                                            <input class="form-control" name="skulink" type="text" value="${goods.skulink}" />
-                                        </div>
 
-                                        <div class="form-group">
-                                            <label>recpoint </label>
-                                            <textarea name="recpoint" rows="4" cols="40">${goods.recpoint}</textarea>
-                                        </div>
+
 
                                         <div class="form-group">
                                             <label>skuid</label>
@@ -247,6 +249,11 @@ $(document).ready(function () {
     $("#mmenu_goods2").addClass("active-menu");
 
 });
+
+function getinfoConvert() {
+    document.forms[0].action = "${sysPath}/goods/mergeUIRecpoint";
+    document.forms[0].submit();
+}
 
 function upfile() {
     var file = document.getElementById("file_id").files[0];

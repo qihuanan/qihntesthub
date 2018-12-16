@@ -39,7 +39,11 @@
                                             <input type="submit" value="查询"></input>
                                         </div>
                                     </div>
-
+                                    <div onclick="this.selected;">
+                                        <pre>
+                                            ${linestr}
+                                        </pre>
+                                    </div>
                                     <table class="table table-striped table-bordered table-hover" style="width: 99%">
                                         <thead>
                                         <tr>

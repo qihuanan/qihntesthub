@@ -42,26 +42,18 @@
                                     <ul class="am-list" id="data_goods">
 
                                         <c:forEach var="obj" items="${list }" >
-                                            <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left">
-                                                <div class="am-u-sm-4 am-list-thumb" style="max-height: 150px;width: 40%;">
+                                            <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-top">
+                                                <div class="am-list-thumb am-u-sm-12">
                                                     <a href="${obj.skulink}" class="">
-                                                        <img width="150px" height="150px" src="${obj.skupicture }"/>
+                                                        <img width="60%" height="60%"  src="${obj.skupicture }" />
                                                     </a>
                                                 </div>
-                                                <div class=" am-u-sm-8 am-list-main" style="width: 59%;">
-                                                    <h3 class="am-list-item-hd">
-                                                        <a href="${obj.skulink}" style="font-size: 14px;">
-                                                                ${obj.name }
-                                                            <strong style="color: #ff6c00;">&nbsp;${obj.price }元&nbsp;</strong>
-                                                        </a>
-                                                    </h3>
-                                                    <div >
-                                                        <a href="${obj.skulink}" style="font-size: 14px;">
-                                                               <div style="color: #ff6c00;font-size: 16px;padding-top: 10px;">
-                                                                       ${obj.recpoint}
-                                                               </div>
-                                                        </a>
-                                                    </div>
+                                                <div class=" am-list-main">
+                                                    <a href="${obj.skulink}" style="font-size: 14px;">
+                                                        <pre style="color: #ff6c00;font-size: 16px;padding-top: 10px;">${obj.recpoint}
+                                                        </pre>
+                                                        <br>&nbsp;&nbsp;<span style="float: right;margin-right: 20px;font-size: 14px;">${obj.remark}</span>
+                                                    </a>
                                                 </div>
                                             </li>
                                         </c:forEach>
