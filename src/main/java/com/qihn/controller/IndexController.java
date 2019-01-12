@@ -96,7 +96,7 @@ public class IndexController extends BaseController {
             list= (List<Goods>)mmap.get("list");
             pageInfo = (PageInfo) mmap.get("pageInfo");
             list = null;
-            pageInfo = null;
+            pageInfo = new PageInfo();
             if(list==null || list.isEmpty()){
                 list = goodsService.findByProperties(goods,pageInfo,0," upindex desc, id ","desc");
                 pageInfo = new PageInfo();

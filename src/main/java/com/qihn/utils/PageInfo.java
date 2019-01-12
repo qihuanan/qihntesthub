@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class PageInfo {
 	// 每页数量
-	private int pageSize = 100;
+	private int pageSize = 30;
 	// 总记录数
 	private long totalCount;
 	// 总页数

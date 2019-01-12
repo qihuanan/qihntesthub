@@ -87,7 +87,36 @@ public class GoodsController extends BaseController {
 
     }
 
+    @RequestMapping(value = "/list", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView list(@ModelAttribute("goods") Goods goods,@ModelAttribute("pageInfo") PageInfo pageInfo) {
+        ModelAndView mv = new ModelAndView();
+        if(pageInfo==null){
+            pageInfo = new PageInfo();
+        }
+        List<Goods> list = goodsService.findByProperties(goods,pageInfo,0," upindex desc, id ","desc");
+        pageInfo.setTotalCount(this.goodsService.countByProperties(goods));
+        mv.addObject("list", list);
+        mv.addObject("pageInfo",pageInfo);
 
+        StringBuffer sb = new StringBuffer();
+        if(list!=null){
+            for(int i=0;i<list.size();i++){
+                if(i>5) break;
+                String newurl = "http://in-qq.com/#"+list.get(i).getId();
+                String temp ="^^^^";
+                String result = list.get(i).getRecpoint();
+                while (geturlfirst(result)!=null){
+                   String url  = geturlfirst(result);
+                    result = result.replace(url,temp);
+                }
+                result = result.replace(temp,newurl);
+                sb.append(result).append(" \n\n ");
+            }
+        }
+        mv.addObject("linestr",sb.toString());
+        mv.setViewName("goods/list");
+        return mv;
+    }
 
     @RequestMapping(value = "/mergeUIRecpoint", method = RequestMethod.POST)
     public ModelAndView mergeUIRecpoint(@ModelAttribute("goods") Goods goods) {
@@ -487,28 +516,7 @@ public class GoodsController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/list", method = {RequestMethod.POST, RequestMethod.GET})
-    public ModelAndView list(@ModelAttribute("goods") Goods goods,@ModelAttribute("pageInfo") PageInfo pageInfo) {
-        ModelAndView mv = new ModelAndView();
-        if(pageInfo==null){
-            pageInfo = new PageInfo();
-        }
-        List<Goods> list = goodsService.findByProperties(goods,pageInfo,0," upindex desc, id ","desc");
-        pageInfo.setTotalCount(this.goodsService.countByProperties(goods));
-        mv.addObject("list", list);
-        mv.addObject("pageInfo",pageInfo);
 
-        StringBuffer sb = new StringBuffer();
-        if(list!=null){
-            for(int i=0;i<list.size();i++){
-                if(i>5) break;;
-                    sb.append(list.get(i).getRecpoint()).append(" \n\n ").append("http://in-qq.com/#"+list.get(i).getId()).append("\n\n");
-            }
-        }
-        mv.addObject("linestr",sb.toString());
-        mv.setViewName("goods/list");
-        return mv;
-    }
 
     @RequestMapping(value = "/mergeUI", method = RequestMethod.GET)
     public ModelAndView mergeUI(@ModelAttribute("goods") Goods goods) {

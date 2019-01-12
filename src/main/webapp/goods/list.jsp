@@ -46,14 +46,14 @@
                                     <table class="table table-striped table-bordered table-hover" style="width: 99%">
                                         <thead>
                                         <tr>
-                                            <th style="white-space:inherit">recpoint</th>
+                                            <th style="white-space:pre-line">recpoint</th>
                                         </tr>
                                         </thead>
                                         <tbody>
 
                                         <c:forEach var="obj" items="${list }" >
                                             <tr>
-                                                <td style="height: 100%;min-height: 50px; max-height: 2000px;line-height: 1.5;overflow: auto;">${obj.recpoint }
+                                                <td style="white-space:pre-line;height: 100%;min-height: 50px; max-height: 2000px;line-height: 1.5;overflow: auto;">${obj.recpoint }
                                                     <br><a href="/goods/mergeUI?id=${obj.id }">编辑</a>&nbsp;&nbsp;
                                                     <a href="/goods/delete?id=${obj.id }">删除</a>&nbsp;&nbsp;
                                                         ${obj.remark}

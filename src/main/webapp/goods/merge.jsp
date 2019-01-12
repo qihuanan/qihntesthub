@@ -97,8 +97,8 @@
                                         <div class="form-group">
                                             <label>recpoint </label>
                                             <textarea name="recpoint" rows="8" cols="30" contenteditable="true">${goods.recpoint}</textarea>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <a class="btn btn-default" onclick="getinfoConvert();" href="#" >convert</a>&nbsp;
-
                                                 <button type="submit" class="btn btn-default">Submit</button>
 
                                         </div>
