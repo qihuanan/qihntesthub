@@ -38,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 public class Utils  {
 	private static final DateFormat longDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private static final DateFormat longDateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	private static final DateFormat longDateFormatHH = new SimpleDateFormat("yyyy-MM-dd HH");
 	private static final DateFormat shortDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	private static final DateFormat compactDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 	private static final DateFormat compactDateFormat2 = new SimpleDateFormat("MMddHHmm");
@@ -88,6 +89,14 @@ public class Utils  {
 	 */
 	public static String formatLongDate(Date date) {
 		return longDateFormat.format(date);
+	}
+
+	/**
+	 * 返回当前日期，表现形式：yyyy-MM-dd HH
+	 * @return
+	 */
+	public static String formatLongDateHH() {
+		return longDateFormatHH.format(new Date());
 	}
 
 	/**

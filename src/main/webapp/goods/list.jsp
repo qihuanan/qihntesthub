@@ -30,6 +30,7 @@
                             Advanced Tables &nbsp;&nbsp; ${syscount}
                         </div>
                         <div class="panel-body" >
+                            <div style="position: absolute;z-index: 100;margin-right: 20px; top: 300px;float: right;left: 80%;"><a href="/goods/mergeUI">继续添加</a></div>
                             <form action="/goods/list" method="post">
                                 <div class="table-responsive" >
                                     <div class="row" style="width: 99%">
@@ -39,43 +40,24 @@
                                             <input type="submit" value="查询"></input>
                                         </div>
                                     </div>
-                                    <div onclick="this.selected;">
+                                    <div onfocus="$(this).select();document.execCommand('Copy');">
                                         <pre>${linestr}</pre>
                                     </div>
                                     <table class="table table-striped table-bordered table-hover" style="width: 99%">
                                         <thead>
                                         <tr>
-                                            <th>goods.skuid</th>
-                                            <th>goods.skupicture</th>
-                                            <th>goods.skulink</th>
-                                            <th>goods.name</th>
-                                            <th>goods.price</th>
-                                            <th>goods.pricel</th>
-                                            <th>goods.id</th>
+                                            <th style="white-space:inherit">recpoint</th>
                                         </tr>
                                         </thead>
                                         <tbody>
 
                                         <c:forEach var="obj" items="${list }" >
                                             <tr>
-                                                <td>${obj.skuid }<br><a href="/goods/mergeUI?id=${obj.id }">编辑</a> </td>
-                                                <td><img src="${obj.skupicture }" width="50px" height="50px;" /> </td>
-                                                <td><a target="_blank" href="${obj.skulink }">链接</a><br>
-
-                                                    <input value="${obj.skulink }" onfocus="$(this).select();document.execCommand('Copy');" >
+                                                <td style="height: 100%;min-height: 50px; max-height: 2000px;line-height: 1.5;overflow: auto;">${obj.recpoint }
+                                                    <br><a href="/goods/mergeUI?id=${obj.id }">编辑</a>&nbsp;&nbsp;
+                                                    <a href="/goods/delete?id=${obj.id }">删除</a>&nbsp;&nbsp;
+                                                        ${obj.remark}
                                                 </td>
-
-                                                <td>${obj.name }</td>
-                                                <td>${obj.price }</td>
-                                                <td>${obj.pricel }</td>
-
-                                                <td><a href="/goods/mergeUI?id=${obj.id }">编辑</a>
-                                                <!-- -->
-                                                <br><br><a href="/goods/delete?id=${obj.id }">删除</a>
-
-
-                                                </td>
-
                                             </tr>
                                         </c:forEach>
 

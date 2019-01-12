@@ -3,6 +3,7 @@ package com.qihn.controller;
 import com.qihn.pojo.Goods;
 import com.qihn.service.GoodsService;
 import com.qihn.service.GoodsService;
+import com.qihn.service.UserService;
 import com.qihn.utils.*;
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
@@ -31,16 +32,11 @@ public class GoodsController extends BaseController {
     @Resource(name = "goodsService")
     private GoodsService goodsService;
 
+
     public static Map<String,Object> mmap = new HashMap<String, Object>();
 
 
-    public static String geturlfirst(String str){
-        Matcher matcher = Patterns.WEB_URL.matcher(str);
-        if (matcher.find()){
-            return matcher.group();
-        }
-        return null;
-    }
+
 
     public  static void main(String args[]){
         Goods goods = new Goods();
@@ -91,33 +87,7 @@ public class GoodsController extends BaseController {
 
     }
 
-    public static String Html2Text(String str) {
-        if (str == null) {
-            return "";
-        }else if (str.length() == 0) {
-            return "";
-        }
-        str = str.replaceAll("\r\n", "\n");
-        return str;
-    }
 
-    public static String yinhao(String str){
-        if(str==null) return null;
-        if (str.indexOf("'") >= 0)
-            str = str.replaceAll("'", "~~~");
-        if (str.indexOf("\"") >= 0)
-            str = str.replaceAll("\"", "^^^");
-        return str;
-    }
-
-    public static String yinhaoback(String str){
-        if(str==null) return null;
-        if (str.indexOf("~~~") >= 0)
-            str = str.replaceAll("~~~", "'");
-        if (str.indexOf("^^^") >= 0)
-            str = str.replaceAll("^^^", "\"");
-        return str;
-    }
 
     @RequestMapping(value = "/mergeUIRecpoint", method = RequestMethod.POST)
     public ModelAndView mergeUIRecpoint(@ModelAttribute("goods") Goods goods) {
@@ -158,6 +128,10 @@ public class GoodsController extends BaseController {
                         for (Map.Entry<String, String> entry : tmap.entrySet()) {
                             //resultText += "<a href=\"" + matcher.group() + "\">" + matcher.group() + "</a>";
                             result = result.replace(entry.getKey(), "<a href=\"" + entry.getValue() +  "\""+ " style=\"color:#f85000;\"" + ">" + entry.getValue() + "</a>");
+                            result = result.replace("抢券","");
+                            result = result.replace("+","");
+                            result = result.replace("下单","内购");
+                            result = result.replace("抢购","内购");
                         }
                         System.out.println("自动链接后："+result);
                         // 网页显示使用的字段，自带链接的
@@ -416,7 +390,13 @@ public class GoodsController extends BaseController {
 
     }
 
-
+    public static String geturlfirst(String str){
+        Matcher matcher = Patterns.WEB_URL.matcher(str);
+        if (matcher.find()){
+            return matcher.group();
+        }
+        return null;
+    }
     /**
      * {
      * 	"return": "0",
@@ -513,7 +493,7 @@ public class GoodsController extends BaseController {
         if(pageInfo==null){
             pageInfo = new PageInfo();
         }
-        List<Goods> list = goodsService.findByProperties(goods,pageInfo,0,"id","desc");
+        List<Goods> list = goodsService.findByProperties(goods,pageInfo,0," upindex desc, id ","desc");
         pageInfo.setTotalCount(this.goodsService.countByProperties(goods));
         mv.addObject("list", list);
         mv.addObject("pageInfo",pageInfo);
@@ -521,8 +501,8 @@ public class GoodsController extends BaseController {
         StringBuffer sb = new StringBuffer();
         if(list!=null){
             for(int i=0;i<list.size();i++){
-                if(i>9) break;;
-                    sb.append(list.get(i).getRecpoint()).append(" \n\n ");
+                if(i>5) break;;
+                    sb.append(list.get(i).getRecpoint()).append(" \n\n ").append("http://in-qq.com/#"+list.get(i).getId()).append("\n\n");
             }
         }
         mv.addObject("linestr",sb.toString());
@@ -565,4 +545,21 @@ public class GoodsController extends BaseController {
         return "redirect:/goods/list";
     }
 
+    public static String yinhao(String str){
+        if(str==null) return null;
+        if (str.indexOf("'") >= 0)
+            str = str.replaceAll("'", "~~~");
+        if (str.indexOf("\"") >= 0)
+            str = str.replaceAll("\"", "^^^");
+        return str;
+    }
+
+    public static String yinhaoback(String str){
+        if(str==null) return null;
+        if (str.indexOf("~~~") >= 0)
+            str = str.replaceAll("~~~", "'");
+        if (str.indexOf("^^^") >= 0)
+            str = str.replaceAll("^^^", "\"");
+        return str;
+    }
 }

@@ -1,7 +1,9 @@
 package com.qihn.controller;
 
 import com.qihn.pojo.Goods;
+import com.qihn.pojo.User;
 import com.qihn.service.GoodsService;
+import com.qihn.service.UserService;
 import com.qihn.utils.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -27,13 +29,43 @@ public class IndexController extends BaseController {
     private static Log log = LogFactory.getLog(IndexController.class);
     @Resource(name = "goodsService")
     private GoodsService goodsService;
+    @Resource(name = "userService")
+    private UserService userService;
 
     public static Map<String,Object> mmap = new HashMap<String, Object>();
     public static double count = 0;
 
+    @RequestMapping(value = "/log", method = {RequestMethod.POST, RequestMethod.GET})
+    public void accesslog(HttpServletRequest request,@ModelAttribute("user") User user){
+        log.info("accesslog");
+        String ip = getLocalIp(request);
+        String time = Utils.formatLongDateHH();
+        user.setName(ip);
+        user.setNice_name(time);
+        user.setAge(new Double(count).intValue());
+        LogThread lt = new LogThread(userService,user);
+        lt.run();
+
+    }
+
     @RequestMapping(value = "/", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView web2(@ModelAttribute("goods") Goods goods,@ModelAttribute("pageInfo") PageInfo pageInfo,HttpServletRequest request) {
+        if(count<3){
+            User user = this.userService.findByProperties(null,null,1,"id","desc").get(0);
+            count = user.getAge();
+        }
         count++;
+
+        String ip = getLocalIp(request);
+        String time = Utils.formatLongDateHH();
+        User user = new User();
+        user.setName(ip);
+        user.setNice_name(time);
+        user.setAge(new Double(count).intValue());
+        LogThread lt = new LogThread(userService, user);
+        lt.run();
+
+
         request.getSession().getServletContext().setAttribute("syscount",count);
         ModelAndView mv = new ModelAndView();
 
@@ -58,17 +90,15 @@ public class IndexController extends BaseController {
                 return this.webSkuidSearch(pageInfo, goods, request);
             }
         }
-        String orderby = goods.getOrderby()==null?"id":goods.getOrderby();
-        String ascdesc = "desc";
-        if(orderby.equals("price")) ascdesc = "asc";
+
         List<Goods> list = null;
-        if(pageInfo.getCurPage()==1 && orderby.equals("id") && ascdesc.equals("desc") && StringUtils.isEmpty(qs) && StringUtils.isEmpty(goods.getName())){// 默认没有查询参数进来使用缓存数据
+        if(pageInfo.getCurPage()==1 && StringUtils.isEmpty(qs) && StringUtils.isEmpty(goods.getName())){// 默认没有查询参数进来使用缓存数据
             list= (List<Goods>)mmap.get("list");
             pageInfo = (PageInfo) mmap.get("pageInfo");
             list = null;
             pageInfo = null;
             if(list==null || list.isEmpty()){
-                list = goodsService.findByProperties(goods,pageInfo,0,goods.getOrderby(),ascdesc);
+                list = goodsService.findByProperties(goods,pageInfo,0," upindex desc, id ","desc");
                 pageInfo = new PageInfo();
                 pageInfo.setTotalCount(this.goodsService.countByProperties(goods));
                 if(list!=null && list.size()>0){
@@ -77,7 +107,7 @@ public class IndexController extends BaseController {
                 }
             }
         }else{
-            list = goodsService.findByProperties(goods,pageInfo,0,goods.getOrderby(),ascdesc);
+            list = goodsService.findByProperties(goods,pageInfo,0," upindex desc, id ","desc");
             pageInfo.setTotalCount(this.goodsService.countByProperties(goods));
         }
 
@@ -141,11 +171,29 @@ public class IndexController extends BaseController {
         String orderby = goods.getOrderby()==null?"id":goods.getOrderby();
         String ascdesc = "desc";
         if(orderby.equals("price")) ascdesc = "asc";
-        List<Goods> list = goodsService.findByProperties(goods,pageInfo,0,goods.getOrderby(),ascdesc);
+        List<Goods> list = goodsService.findByProperties(goods,pageInfo,0," upindex desc, id ","desc");
         mv.addObject("list", list);
         mv.setViewName("web/more");
         return mv;
     }
 
+
+    public static String getLocalIp(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For");
+        if(StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)){
+            //多次反向代理后会有多个ip值，第一个ip才是真实ip
+            int index = ip.indexOf(",");
+            if(index != -1){
+                return ip.substring(0,index);
+            }else{
+                return ip;
+            }
+        }
+        ip = request.getHeader("X-Real-IP");
+        if(StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)){
+            return ip;
+        }
+        return request.getRemoteAddr();
+    }
 
 }

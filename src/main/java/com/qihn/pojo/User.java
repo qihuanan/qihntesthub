@@ -28,6 +28,9 @@ public class User implements Serializable {
     @Column(name = "age")
     private Integer age;
 
+    @Column(name = "gid")
+    private Integer gid;
+
     @Column(name = "nice_name", length = 32)
     private String nice_name;
 
@@ -35,6 +38,14 @@ public class User implements Serializable {
     public String toString() {
         return "User [id=" + id + ", user_name=" + name + ", age=" + age
                 + ", nice_name=" + nice_name + "]";
+    }
+
+    public Integer getGid() {
+        return gid;
+    }
+
+    public void setGid(Integer gid) {
+        this.gid = gid;
     }
 
     public final Long getId() {

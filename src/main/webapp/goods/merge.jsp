@@ -84,16 +84,27 @@
                                     <form id="form_id" role="form" action="${sysPath}/goods/merge" method="post" >
                                         <div class="form-group">
                                             <label>skulink </label>
-                                            <input class="form-control" name="skulink" type="text" value="${goods.skulink}" />
+                                            <input class="form-control" name="skulink" type="text" value="${goods.skulink}" width="50px" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>upindex </label>
+                                            <input id="upindex_id" class="form-control" name="upindex" type="text" value="${goods.upindex}" width="50px" />
+                                            <a class="btn btn-default" onclick="$('#upindex_id').val(1);" href="#" >加1</a>&nbsp;
+                                            <a class="btn btn-default" onclick="$('#upindex_id').val(2);" href="#" >加2</a>&nbsp;
+                                            <a class="btn btn-default" onclick="$('#upindex_id').val(3);" href="#" >加3</a>&nbsp;
+                                            <a class="btn btn-default" onclick="$('#upindex_id').val('');" href="#" >清空</a>&nbsp;
                                         </div>
                                         <div class="form-group">
                                             <label>recpoint </label>
-                                            <textarea name="recpoint" rows="10" cols="34" contenteditable="true">${goods.recpoint}</textarea>
-                                            <a class="btn btn-default" onclick="getinfoConvert();" href="#" >convert</a>
+                                            <textarea name="recpoint" rows="8" cols="30" contenteditable="true">${goods.recpoint}</textarea>
+                                            <a class="btn btn-default" onclick="getinfoConvert();" href="#" >convert</a>&nbsp;
+
+                                                <button type="submit" class="btn btn-default">Submit</button>
+
                                         </div>
                                         <div class="form-group">
                                             <label>name </label>
-                                            <textarea name="name" rows="10" cols="34" contenteditable="true">${goods.name}</textarea>
+                                            <textarea name="name" rows="4" cols="30" contenteditable="true">${goods.name}</textarea>
                                         </div>
 
                                         <div class="form-group">
@@ -142,10 +153,7 @@
                                             </c:if>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label>upindex </label>
-                                            <input class="form-control" name="upindex" type="text" value="${goods.upindex}" />
-                                        </div>
+
 
                                         <div class="form-group">
                                             <label>skupicture </label>

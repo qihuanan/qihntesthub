@@ -22,7 +22,7 @@
 </head>
 <body>
 
-<form id="form_id" action="/jds" method="get">
+<form id="form_id" action="/" method="get">
 
     <!--
     <jsp:include page="webheader.jsp"></jsp:include>
@@ -66,8 +66,8 @@
                                                     <img src="${obj.skupicture }" style="height:auto;max-height: 400px;line-height: 100%"/>
                                                 </a>
                                             </div>
-                                            <div class="am-list-item-text" style="height: 100%;min-height:200px; max-height: 2000px;line-height: 100%;display: block;padding-left: 5px;margin-top: 0px;">
-                                                <pre style="padding:5px;font-size: 14px;height: 100%;max-height: 2000px;line-height: 2">${fn:replace(obj.name, '^^^', '\"')}
+                                            <div  id="${obj.id}" class="am-list-item-text" style="height: 100%;min-height:200px; max-height: 2000px;line-height: 100%;display: block;padding-left: 5px;margin-top: 0px;">
+                                                <pre onclick="accesslog(${obj.id});" style="padding:5px;font-size: 14px;height: 100%;max-height: 2000px;line-height: 1.5">${fn:replace(obj.name, '^^^', '\"')}
                                                 </pre>
                                                 <br>&nbsp;&nbsp;<span style="float: right;margin-right: 20px;font-size: 12px;">${obj.remark}</span>
                                             </div>
@@ -120,6 +120,13 @@
         document.forms[0].submit();
     }
 
+    function  accesslog(id) {
+        $.ajax({type:"get",datatype:"html",url:"/log",
+            data:{gid:id},cache:false,async:true,
+            success:function(result){
+            }
+        });
+    }
     function gotoPage(pageNum){
         if(isNaN(pageNum)){alert('请输入数字！');document.getElementById('txtPageNum').focus();return false;}
         if( pageNum < 1 || pageNum > ${pageInfo.pageCount} ){document.getElementById('txtPageNum').value=${pageInfo.pageCount};pageNum=${pageInfo.pageCount}; }
@@ -139,13 +146,7 @@
         document.forms[0].submit();
     }
 
-    function searchjd() {
-        $('#form_id').attr('action','/jds');
-        $('#orderby_id').val('id');
-        $('#curPage').val('1');
-        $('#recpoint_id').val('');
-        document.forms[0].submit();
-    }
+
 
     function submitform() {
         var orilink = $('#searchInput').val();
