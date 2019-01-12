@@ -1,6 +1,7 @@
 package com.qihn.controller;
 
 import com.qihn.pojo.Goods;
+import com.qihn.pojo.User;
 import com.qihn.service.GoodsService;
 import com.qihn.service.GoodsService;
 import com.qihn.service.UserService;
@@ -31,6 +32,8 @@ public class GoodsController extends BaseController {
     private static Log log = LogFactory.getLog(GoodsController.class);
     @Resource(name = "goodsService")
     private GoodsService goodsService;
+    @Resource(name = "userService")
+    private UserService userService;
 
 
     public static Map<String,Object> mmap = new HashMap<String, Object>();
@@ -85,6 +88,24 @@ public class GoodsController extends BaseController {
         System.out.println(str);
         Map remap = JSONUtils.fromJson(str,Map.class);
 
+    }
+
+    @RequestMapping(value = "/upindex", method = {RequestMethod.POST, RequestMethod.GET})
+    public String upindexbyUV(){
+        List<Object> list = this.userService.findByHQL(" SELECT DISTINCT(gid) as cgid from `user` WHERE gid is not null GROUP BY gid,nice_name ORDER BY nice_name DESC, cgid DESC;",null);
+        if(list!=null && list.size()>0){
+            Goods goods = null;
+            for(int i=0;i<list.size();i++){
+                long gid = new Long(list.get(i).toString());
+               goods = this.goodsService .findById(Goods.class,gid);
+                if(goods!=null){
+                    goods.setUpindex(2);
+                    this.goodsService.update(goods);
+                }
+            }
+        }
+
+        return "redirect:/goods/list";
     }
 
     @RequestMapping(value = "/list", method = {RequestMethod.POST, RequestMethod.GET})

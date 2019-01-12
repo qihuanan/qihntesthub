@@ -13,4 +13,6 @@ import java.util.List;
 public interface UserService extends BaseService<User> {
 
     public void testexception(List<User> list) throws  Exception;
+
+
 }

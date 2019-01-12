@@ -36,6 +36,8 @@
                                     <div class="row" style="width: 99%">
                                         <div class="col-sm-6" style="margin-bottom: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;
                                             <a href="/goods/mergeUI">Add</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a href="/goods/upindex">upindex</a>&nbsp;&nbsp;&nbsp;&nbsp;
+
                                             Search: <input type="text" name="name" value="${goods.name}" >
                                             <input type="submit" value="查询"></input>
                                         </div>

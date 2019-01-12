@@ -5,6 +5,7 @@ import com.qihn.pojo.Goods;
 import com.qihn.pojo.Goods;
 import com.qihn.utils.PageInfo;
 import com.qihn.utils.Utils;
+import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -103,7 +104,10 @@ public class GoodsDAOImpl extends BaseDaoImpl<Goods> implements GoodsDAO {
 
     public List<Object> findBySQL(String sql, Map<String, Object> params) {
         // TODO Auto-generated method stub
-        return null;
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        query.setProperties(params);
+        //log.info("sql statement operate database:"+hql);
+        return query.list();
     }
     
 }
