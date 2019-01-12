@@ -27,7 +27,7 @@
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Advanced Tables
+                            Advanced Tables &nbsp;&nbsp; ${syscount}
                         </div>
                         <div class="panel-body" >
                             <form action="/goods/list" method="post">
@@ -40,9 +40,7 @@
                                         </div>
                                     </div>
                                     <div onclick="this.selected;">
-                                        <pre>
-                                            ${linestr}
-                                        </pre>
+                                        <pre>${linestr}</pre>
                                     </div>
                                     <table class="table table-striped table-bordered table-hover" style="width: 99%">
                                         <thead>

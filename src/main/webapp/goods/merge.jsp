@@ -62,19 +62,22 @@
     <div id="page-wrapper">
         <div id="page-inner">
             <div class="row">
+                <!--
                 <div class="col-md-12">
                     <h1 class="page-header">
                         Forms Page <small>Best form elements.</small>
                     </h1>
-                </div>
+                </div>-->
             </div>
             <!-- /. ROW  -->
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
+                        <!--
                         <div class="panel-heading">
                             Basic Form Elements
                         </div>
+                        -->
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
@@ -85,8 +88,12 @@
                                         </div>
                                         <div class="form-group">
                                             <label>recpoint </label>
-                                            <textarea name="recpoint" rows="8" cols="35" contenteditable="true">${goods.recpoint}</textarea>
+                                            <textarea name="recpoint" rows="10" cols="34" contenteditable="true">${goods.recpoint}</textarea>
                                             <a class="btn btn-default" onclick="getinfoConvert();" href="#" >convert</a>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>name </label>
+                                            <textarea name="name" rows="10" cols="34" contenteditable="true">${goods.name}</textarea>
                                         </div>
 
                                         <div class="form-group">
@@ -108,10 +115,7 @@
                                             <label>price </label>
                                             <input class="form-control" name="price" type="text" value="${goods.price}" readonly />
                                         </div>
-                                        <div class="form-group">
-                                            <label>name </label>
-                                            <input class="form-control" name="name" type="text" value="${goods.name}" />
-                                        </div>
+
 
 
 

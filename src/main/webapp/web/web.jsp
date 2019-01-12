@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -21,7 +23,10 @@
 <body>
 
 <form id="form_id" action="/jds" method="get">
+
+    <!--
     <jsp:include page="webheader.jsp"></jsp:include>
+    -->
 
     <div class="clear"></div>
     <div class="search" >
@@ -33,6 +38,19 @@
                         <ul class="select" style="border: none;box-shadow:none;">
                             <jsp:include page="webnav.jsp"></jsp:include>
                         </ul>
+                        <ul class="select" style="border: none;box-shadow:none;">
+
+                            <div class="nav white">
+                                <div class="search-bar pr">
+                                    <div class="search1">
+                                        <input id="searchngid" placeholder="输入关键字查内购" style="width: 70%;" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
+                                        <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 30%;font-weight: bold;" value="搜内购"  type="button" onclick="$('#curPage').val(1);searchng();">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </ul>
 
                         <ul  class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
 
@@ -42,20 +60,18 @@
                                     <ul class="am-list" id="data_goods">
 
                                         <c:forEach var="obj" items="${list }" >
-                                            <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-top">
-                                                <div class="am-list-thumb am-u-sm-12">
-                                                    <a href="${obj.skulink}" class="">
-                                                        <img width="60%" height="60%"  src="${obj.skupicture }" />
-                                                    </a>
-                                                </div>
-                                                <div class=" am-list-main">
-                                                    <a href="${obj.skulink}" style="font-size: 14px;">
-                                                        <pre style="color: #ff6c00;font-size: 16px;padding-top: 10px;">${obj.recpoint}
-                                                        </pre>
-                                                        <br>&nbsp;&nbsp;<span style="float: right;margin-right: 20px;font-size: 14px;">${obj.remark}</span>
-                                                    </a>
-                                                </div>
-                                            </li>
+                                        <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left" style="height:auto;max-height: 2000px;" >
+                                            <div class="am-u-sm-4 am-list-thumb" style="height:auto;max-height: 400px;line-height: 100%">
+                                                <a href="${obj.skulink}" class="" style="height:auto;max-height: 400px;line-height: 100%">
+                                                    <img src="${obj.skupicture }" style="height:auto;max-height: 400px;line-height: 100%"/>
+                                                </a>
+                                            </div>
+                                            <div class="am-list-item-text" style="height: 100%;min-height:200px; max-height: 2000px;line-height: 100%;display: block;padding-left: 5px;margin-top: 0px;">
+                                                <pre style="padding:5px;font-size: 14px;height: 100%;max-height: 2000px;line-height: 2">${fn:replace(obj.name, '^^^', '\"')}
+                                                </pre>
+                                                <br>&nbsp;&nbsp;<span style="float: right;margin-right: 20px;font-size: 12px;">${obj.remark}</span>
+                                            </div>
+                                        </li>
                                         </c:forEach>
 
                                     </ul>
@@ -112,6 +128,14 @@
         }else{
             $("#curPage").val("1");
         }
+        document.forms[0].submit();
+    }
+
+    function searchng() {
+        $('#form_id').attr('action','/');
+        $('#orderby_id').val('id');
+        $('#curPage').val('1');
+        $('#recpoint_id').val('');
         document.forms[0].submit();
     }
 

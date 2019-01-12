@@ -33,6 +33,15 @@ public class GoodsController extends BaseController {
 
     public static Map<String,Object> mmap = new HashMap<String, Object>();
 
+
+    public static String geturlfirst(String str){
+        Matcher matcher = Patterns.WEB_URL.matcher(str);
+        if (matcher.find()){
+            return matcher.group();
+        }
+        return null;
+    }
+
     public  static void main(String args[]){
         Goods goods = new Goods();
         goods.setRecpoint(" 宝宝最喜欢的小鞋子！多种款式选择~加绒加厚不受冻，宝防滑耐磨鞋底，妈更放心！\n" +
@@ -43,9 +52,37 @@ public class GoodsController extends BaseController {
                 "内购价：49\n" +
                 "\n" +
                 "抢券+下单：https://u.jd.com/25Q7Zf\n" +
+                "抢券+下单2：https://u.jd.com/KhvxjC \n" +
                 "--------------\n" +
                 "赠运费险购物无忧");
-        System.out.println("rec:"+goods.getRecpoint());
+
+        Matcher matcher = Patterns.WEB_URL.matcher(goods.getRecpoint());
+        Map<String,String> tmap = new HashMap<>();
+        if (matcher.find()){
+            String url = matcher.group();
+            String result = goods.getRecpoint();
+            System.out.println(url);
+            String uuid = UUID.randomUUID().toString();
+            result = result.replace(url,uuid);
+            tmap.put(uuid,url);
+            while (geturlfirst(result)!=null){
+                 url  = geturlfirst(result);
+                System.out.println(url);
+                uuid = UUID.randomUUID().toString();
+                result = result.replace(url,uuid);
+                tmap.put(uuid,url);
+            }
+            System.out.println(result);
+            for (Map.Entry<String, String> entry : tmap.entrySet()) {
+                //resultText += "<a href=\"" + matcher.group() + "\">" + matcher.group() + "</a>";
+               result = result.replace(entry.getKey(), "<a href=\"" + entry.getValue() + "\">" + entry.getValue() + "</a>");
+            }
+            System.out.println(result);
+        }
+
+
+
+        //System.out.println("rec:"+goods.getRecpoint());
         String url = "http://japi.jingtuitui.com/api/universal";
         String data = "appid=1805022340533108&appkey=4da21768b0d248aee58e3173af15e411&unionid=1000524984&positionid=&coupon_url=&content="+goods.getRecpoint();
         String str =  HttpUtil.sendPost(url,data);
@@ -64,6 +101,24 @@ public class GoodsController extends BaseController {
         return str;
     }
 
+    public static String yinhao(String str){
+        if(str==null) return null;
+        if (str.indexOf("'") >= 0)
+            str = str.replaceAll("'", "~~~");
+        if (str.indexOf("\"") >= 0)
+            str = str.replaceAll("\"", "^^^");
+        return str;
+    }
+
+    public static String yinhaoback(String str){
+        if(str==null) return null;
+        if (str.indexOf("~~~") >= 0)
+            str = str.replaceAll("~~~", "'");
+        if (str.indexOf("^^^") >= 0)
+            str = str.replaceAll("^^^", "\"");
+        return str;
+    }
+
     @RequestMapping(value = "/mergeUIRecpoint", method = RequestMethod.POST)
     public ModelAndView mergeUIRecpoint(@ModelAttribute("goods") Goods goods) {
         ModelAndView mv = new ModelAndView();
@@ -75,26 +130,55 @@ public class GoodsController extends BaseController {
             String url = "http://japi.jingtuitui.com/api/universal";
             String data = "appid=1805022340533108&appkey=4da21768b0d248aee58e3173af15e411&unionid=1000524984&positionid=&coupon_url=&content="+goods.getRecpoint();
             String str =  HttpUtil.sendPost(url,data);
-            log.error("str:"+str);
+            log.error("转链后str:"+str);
 
                 JSONObject json = new JSONObject(str);
                 if(json.get("return").equals("0")){
                     goods.setSkupicture(json.getString("imgUrl"));
                     String result = json.getString("result");
+                    goods.setRecpoint(result);//转链接后的原始内容
                     Matcher matcher = Patterns.WEB_URL.matcher(result);
+
+                    Map<String,String> tmap = new HashMap<>();
                     if (matcher.find()){
+                         url = matcher.group();
+                        goods.setSkulink(url);// 单个商品的链接 设置链接，如果是线报，不设置此链接
+                        String uuid = UUID.randomUUID().toString();
+                        result = result.replace(url,uuid);
+                        tmap.put(uuid,url);
+                        while (geturlfirst(result)!=null){
+                            goods.setSkulink(null);// 线报多个url的时候清空单个sku的链接
+                            url  = geturlfirst(result);
+                            //System.out.println(url);
+                            uuid = UUID.randomUUID().toString();
+                            result = result.replace(url,uuid);
+                            tmap.put(uuid,url);
+                        }
+                        System.out.println("uuid替换后："+result);
+                        for (Map.Entry<String, String> entry : tmap.entrySet()) {
+                            //resultText += "<a href=\"" + matcher.group() + "\">" + matcher.group() + "</a>";
+                            result = result.replace(entry.getKey(), "<a href=\"" + entry.getValue() +  "\""+ " style=\"color:#f85000;\"" + ">" + entry.getValue() + "</a>");
+                        }
+                        System.out.println("自动链接后："+result);
+                        // 网页显示使用的字段，自带链接的
+                        goods.setName(result);
+                    }
+                    /*if (matcher.find()){
                         String skulink = matcher.group();
                         //result = result.replace(skulink,"点击直达！");
                         goods.setSkulink(skulink);
                         goods.setRecpoint(result);
-                    }
+                    }*/
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            //goods.setName(yinhao(goods.getName()));
+            //goods.setRecpoint(yinhao(goods.getRecpoint()));
             mv.addObject(goods);
             mv.setViewName("goods/merge");
         }
+
         mv.setViewName("goods/merge");
         return mv;
     }
@@ -405,6 +489,8 @@ public class GoodsController extends BaseController {
 
             g.setUpdatetime(new Date().getTime());
             g.setRemark(new SimpleDateFormat("MM-dd HH:mm").format(new Date()));
+
+
             if(g.getId()==null){
                 this.goodsService.save(g);
                 g = goodsService.findByProperties(g);

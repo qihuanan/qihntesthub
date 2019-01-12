@@ -1,5 +1,7 @@
 package com.qihn.pojo;
 
+import com.qihn.controller.GoodsController;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -252,11 +254,14 @@ public class Goods implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return GoodsController.yinhaoback(name);
+        //return name;
     }
 
     public void setName(String name) {
         this.name = name;
+        this.name = GoodsController.yinhao(name);
+
     }
 
     public String getSkupicture() {
@@ -300,11 +305,13 @@ public class Goods implements Serializable {
     }
 
     public String getRecpoint() {
-        return recpoint;
+        return GoodsController.yinhaoback(recpoint);
+        //return recpoint;
     }
 
     public void setRecpoint(String recpoint) {
         this.recpoint = recpoint;
+        this.recpoint = GoodsController.yinhao(recpoint);
     }
 
     public Integer getDomain() {

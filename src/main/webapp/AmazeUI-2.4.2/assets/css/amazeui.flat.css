@@ -11910,7 +11910,6 @@ tbody.am-collapse.am-in {
   line-height: 1.3em;
   -webkit-line-clamp: 2;
   /* number of lines to show */
-  max-height: 2.6em;
 }
 .am-list-news-default .am-list .am-list-item-thumb-top .am-list-thumb {
   padding: 0;
@@ -11949,14 +11948,13 @@ tbody.am-collapse.am-in {
 @media only screen and (max-width: 640px) {
   .am-list-news-default .am-list-item-thumb-left .am-list-thumb,
   .am-list-news-default .am-list-item-thumb-right .am-list-thumb {
-    max-height: 80px;
-    overflow: hidden;
+    /*max-height: 80px;
+    overflow: hidden;*/
   }
   .am-list-news-default .am-list-item-thumb-bottom-left .am-list-item-text,
   .am-list-news-default .am-list-item-thumb-bottom-right .am-list-item-text {
     -webkit-line-clamp: 3;
     /* number of lines to show */
-    max-height: 3.9em;
   }
   .am-list-news-default .am-list-item-thumb-bottom-left .am-list-thumb,
   .am-list-news-default .am-list-item-thumb-bottom-right .am-list-thumb {

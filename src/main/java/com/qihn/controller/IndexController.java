@@ -29,9 +29,12 @@ public class IndexController extends BaseController {
     private GoodsService goodsService;
 
     public static Map<String,Object> mmap = new HashMap<String, Object>();
+    public static double count = 0;
 
     @RequestMapping(value = "/", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView web2(@ModelAttribute("goods") Goods goods,@ModelAttribute("pageInfo") PageInfo pageInfo,HttpServletRequest request) {
+        count++;
+        request.getSession().getServletContext().setAttribute("syscount",count);
         ModelAndView mv = new ModelAndView();
 
         String huashu = (String)request.getSession().getServletContext().getAttribute("huashu");
