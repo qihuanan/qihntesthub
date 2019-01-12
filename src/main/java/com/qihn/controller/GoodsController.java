@@ -92,7 +92,7 @@ public class GoodsController extends BaseController {
 
     @RequestMapping(value = "/upindex", method = {RequestMethod.POST, RequestMethod.GET})
     public String upindexbyUV(){
-        List<Object> list = this.userService.findByHQL(" SELECT DISTINCT(gid) as cgid from `user` WHERE gid is not null GROUP BY gid,nice_name ORDER BY nice_name DESC, cgid DESC;",null);
+        List<Object> list = this.userService.findByHQL(" SELECT DISTINCT(gid) as cgid from `user` WHERE gid is not null GROUP BY gid,nice_name ORDER BY nice_name DESC, cgid DESC LIMIT 5;",null);
         if(list!=null && list.size()>0){
             Goods goods = null;
             for(int i=0;i<list.size();i++){
