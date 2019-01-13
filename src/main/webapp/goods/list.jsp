@@ -41,8 +41,8 @@
                                 <div class="table-responsive" >
                                     <div class="row" style="width: 99%">
                                         <div class="col-sm-6" style="margin-bottom: 5px;">&nbsp;&nbsp;
-                                            Search: <input type="text" name="name" value="${goods.name}" >
-                                            <input type="submit" value="查询"></input>
+                                            S: <input type="text" name="name" value="${goods.name}" >
+                                            <input type="submit" value="查询"></input>${syscount}
                                         </div>
                                     </div>
                                     <div>
