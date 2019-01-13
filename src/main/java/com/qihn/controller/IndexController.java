@@ -37,6 +37,11 @@ public class IndexController extends BaseController {
 
     @RequestMapping(value = "/log", method = {RequestMethod.POST, RequestMethod.GET})
     public void accesslog(HttpServletRequest request,@ModelAttribute("user") User user){
+        if(count<1){
+            User user2 = this.userService.findByProperties(null,null,1,"id","desc").get(0);
+            count = user2.getAge();
+        }
+        count++;
         log.info("accesslog");
         String ip = getLocalIp(request);
         String time = Utils.formatLongDateHH();
@@ -50,20 +55,6 @@ public class IndexController extends BaseController {
 
     @RequestMapping(value = "/", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView web2(@ModelAttribute("goods") Goods goods,@ModelAttribute("pageInfo") PageInfo pageInfo,HttpServletRequest request) {
-        if(count<3){
-            User user = this.userService.findByProperties(null,null,1,"id","desc").get(0);
-            count = user.getAge();
-        }
-        count++;
-
-        String ip = getLocalIp(request);
-        String time = Utils.formatLongDateHH();
-        User user = new User();
-        user.setName(ip);
-        user.setNice_name(time);
-        user.setAge(new Double(count).intValue());
-        LogThread lt = new LogThread(userService, user);
-        lt.run();
 
 
         request.getSession().getServletContext().setAttribute("syscount",count);

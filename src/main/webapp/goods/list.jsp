@@ -26,39 +26,52 @@
                 <div class="col-md-12">
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
+                        <!--
                         <div class="panel-heading">
-                            Advanced Tables &nbsp;&nbsp; ${syscount}
+                            Advanced Tables &nbsp;&nbsp;
                         </div>
+                        -->
                         <div class="panel-body" >
-                            <div style="position: absolute;z-index: 100;margin-right: 20px; top: 300px;float: right;left: 80%;"><a href="/goods/mergeUI">继续添加</a></div>
+                            <div style="position: absolute;z-index: 100;margin-right: 40px; top: 300px;float: right;left: 70%;">
+                                <a href="/goods/mergeUI">添加添加</a><br><br>
+                                <a href="/goods/upindex">upindex</a><br><br>
+                                <a href="/goods/resetindex">resetindex</a><br><br>
+                            </div>
                             <form action="/goods/list" method="post">
                                 <div class="table-responsive" >
                                     <div class="row" style="width: 99%">
-                                        <div class="col-sm-6" style="margin-bottom: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a href="/goods/mergeUI">Add</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a href="/goods/upindex">upindex</a>&nbsp;&nbsp;&nbsp;&nbsp;
-
+                                        <div class="col-sm-6" style="margin-bottom: 5px;">&nbsp;&nbsp;
                                             Search: <input type="text" name="name" value="${goods.name}" >
                                             <input type="submit" value="查询"></input>
                                         </div>
                                     </div>
-                                    <div onfocus="$(this).select();document.execCommand('Copy');">
+                                    <div>
                                         <pre>${linestr}</pre>
                                     </div>
                                     <table class="table table-striped table-bordered table-hover" style="width: 99%">
                                         <thead>
                                         <tr>
                                             <th style="white-space:pre-line">recpoint</th>
+                                            <th style="white-space:pre-line">操作</th>
+
                                         </tr>
                                         </thead>
                                         <tbody>
 
                                         <c:forEach var="obj" items="${list }" >
                                             <tr>
-                                                <td style="white-space:pre-line;height: 100%;min-height: 50px; max-height: 2000px;line-height: 1.5;overflow: auto;">${obj.recpoint }
-                                                    <br><a href="/goods/mergeUI?id=${obj.id }">编辑</a>&nbsp;&nbsp;
-                                                    <a href="/goods/delete?id=${obj.id }">删除</a>&nbsp;&nbsp;
-                                                        ${obj.remark}
+
+                                                <td style="white-space:pre-line;height: 100%;min-height: 50px; max-height: 2000px;line-height: 1.5;overflow: auto;">
+                                                        ${obj.recpoint }
+                                                </td>
+                                                <td>
+                                                    <br><br>
+                                                    <a href="/goods/mergeUI?id=${obj.id }">编辑</a>
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                    <a href="/goods/delete?id=${obj.id }">删除</a><br>
+                                                        ${obj.id }
                                                 </td>
                                             </tr>
                                         </c:forEach>

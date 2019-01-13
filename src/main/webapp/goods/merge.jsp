@@ -92,7 +92,7 @@
                                             <a class="btn btn-default" onclick="$('#upindex_id').val(1);" href="#" >加1</a>&nbsp;
                                             <a class="btn btn-default" onclick="$('#upindex_id').val(2);" href="#" >加2</a>&nbsp;
                                             <a class="btn btn-default" onclick="$('#upindex_id').val(3);" href="#" >加3</a>&nbsp;
-                                            <a class="btn btn-default" onclick="$('#upindex_id').val('');" href="#" >清空</a>&nbsp;
+                                            <a class="btn btn-default" onclick="$('#upindex_id').val('0');" href="#" >清空</a>&nbsp;
                                         </div>
                                         <div class="form-group">
                                             <label>recpoint </label>
