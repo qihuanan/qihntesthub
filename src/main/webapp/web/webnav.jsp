@@ -5,7 +5,7 @@
     <div style="display: inline;float:left;width: 25%;" >
         <a href="/" style="cursor: pointer;height: auto;background-color: white; " <c:if test="${empty goods.recpoint }">class="div-selected"</c:if>  style="cursor: pointer;height: auto;background-color: white; ">
             <img src="../images/icon1.png" style="width: 70px;height: 70px;"><br>
-            限时内购
+            京东内购
         </a>
     </div>
     <div style="display: inline;float:left;width: 25%;">
@@ -18,7 +18,7 @@
     <div style="display: inline;float:left;width: 25%;">
         <a href="/tbs/tqg?recpoint=tqg" <c:if test="${goods.recpoint eq 'tqg'}">class="div-selected"</c:if> style="cursor: pointer;height: auto;background-color: white; ">
             <img src="../images/icon2.png" style="width: 70px;height: 70px;"><br>
-            白菜薅羊毛
+            淘宝羊毛
         </a>
     </div>
     <div style="display: inline;float:left;width: 25%;">

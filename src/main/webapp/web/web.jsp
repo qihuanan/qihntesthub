@@ -44,7 +44,7 @@
                                 <div class="search-bar pr">
                                     <div class="search1">
                                         <input id="searchngid" placeholder="输入关键字查内购" style="width: 70%;" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
-                                        <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 30%;font-weight: bold;" value="搜内购"  type="button" onclick="$('#curPage').val(1);searchng();">
+                                        <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 30%;font-weight: bold;" value="搜内购优惠"  type="button" onclick="$('#curPage').val(1);searchng();">
                                     </div>
                                 </div>
                             </div>
@@ -61,15 +61,27 @@
 
                                         <c:forEach var="obj" items="${list }" >
                                         <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left" style="height:auto;max-height: 2000px;" >
-                                            <div class="am-u-sm-4 am-list-thumb" style="height:auto;max-height: 400px;line-height: 100%">
+                                            <c:if test="${!empty obj.skulink}">
+                                            <div title="${obj.id}" class="am-u-sm-4 am-list-thumb" style="height:auto;max-height: 400px;line-height: 100%">
                                                 <a href="${obj.skulink}" class="" style="height:auto;max-height: 400px;line-height: 100%">
                                                     <img src="${obj.skupicture }" style="height:auto;max-height: 400px;line-height: 100%"/>
                                                 </a>
                                             </div>
+                                            </c:if>
                                             <div  id="${obj.id}" class="am-list-item-text" style="height: 100%;min-height:200px; max-height: 2000px;line-height: 100%;display: block;padding-left: 5px;margin-top: 0px;">
-                                                <pre onclick="accesslog(${obj.id});" style="padding:5px;font-size: 14px;height: 100%;max-height: 2000px;line-height: 1.5">${fn:replace(obj.name, '^^^', '\"')}
-                                                </pre>
-                                                <br>&nbsp;&nbsp;<span style="float: right;margin-right: 20px;font-size: 12px;">${obj.remark}</span>
+                                                <c:if test="${!empty obj.skulink}">
+                                                    <a href="${obj.skulink}">
+                                                        <pre title="${obj.id}"  style="padding:5px;font-size: 14px;height: 100%;max-height: 2000px;line-height: 2">${fn:replace(obj.name, '^^^', '\"')}
+                                                        </pre>
+                                                        <br>&nbsp;&nbsp;<span style="float: right;margin-right: 20px;font-size: 12px;">${obj.remark}</span>
+                                                    </a>
+                                                </c:if>
+                                                <c:if test="${empty obj.skulink}">
+                                                    <pre title="${obj.id}"  style="padding:5px;font-size: 14px;height: 100%;max-height: 2000px;line-height: 2">${fn:replace(obj.name, '^^^', '\"')}
+                                                    </pre>
+                                                    <br>&nbsp;&nbsp;<span style="float: right;margin-right: 20px;font-size: 12px;">${obj.remark}</span>
+                                                </c:if>
+
                                             </div>
                                         </li>
                                         </c:forEach>
@@ -112,6 +124,10 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#searchInput').focus();
+        $("a").click(function(){
+           var aid =  $(this).parent().attr('title');
+            accesslog(aid);
+        });
     });
     function searchtb() {
         $('#form_id').attr('action','/tbs');
