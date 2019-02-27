@@ -35,6 +35,11 @@ public class IndexController extends BaseController {
     public static Map<String,Object> mmap = new HashMap<String, Object>();
     public static double count = 0;
 
+    public static void main(String args[]){
+
+        System.out.println(Utils.getDate3(0,0,0).getTime());
+    }
+
     @RequestMapping(value = "/log", method = {RequestMethod.POST, RequestMethod.GET})
     public void accesslog(HttpServletRequest request,@ModelAttribute("user") User user){
         if(count<1){
@@ -71,6 +76,8 @@ public class IndexController extends BaseController {
         if(goods==null){
             goods = new Goods();
         }
+        goods.setEndtime(Utils.getDate3(0,0,0).getTime());
+
         if(StringUtils.isNotEmpty(goods.getName())){
             Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
             boolean isnum = pattern.matcher(goods.getName()==null?"":goods.getName()).matches();

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>User List</title>
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/zclip/1.1.2/jquery.zclip.min.js"></script>
+
 
     <link href="../assets/css/bootstrap.css" rel="stylesheet"/>
     <link href="../assets/css/custom-styles.css" rel="stylesheet"/>
@@ -33,6 +35,7 @@
                         -->
                         <div class="panel-body" >
                             <div style="position: absolute;z-index: 100;margin-right: 40px; top: 300px;float: right;left: 70%;">
+                                <a id='copy' href="#">复制</a><br><br>
                                 <a href="/goods/mergeUI">添加添加</a><br><br>
                                 <a href="/goods/upindex">upindex</a><br><br>
                                 <a href="/goods/resetindex">resetindex</a><br><br>
@@ -45,7 +48,7 @@
                                             <input type="submit" value="查询"></input>${syscount}
                                         </div>
                                     </div>
-                                    <div>
+                                    <div id='description' style="display: block;">
                                         <pre>${linestr}</pre>
                                     </div>
                                     <table class="table table-striped table-bordered table-hover" style="width: 99%">
@@ -116,6 +119,10 @@
     $(document).ready(function () {
         //$('#dataTables-example').dataTable();
         $("#mmenu_goods1").addClass("active-menu");
+        $('a#copy').zclip({
+            path:'http://www.steamdev.com/zclip/js/ZeroClipboard.swf',
+            copy:$('div#description').html()
+        });
 
     });
 </script>

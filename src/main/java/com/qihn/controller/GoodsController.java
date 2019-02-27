@@ -25,6 +25,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 @Controller
 @RequestMapping("/goods")
 public class GoodsController extends BaseController {
@@ -42,18 +43,9 @@ public class GoodsController extends BaseController {
 
 
     public  static void main(String args[]){
+
         Goods goods = new Goods();
-        goods.setRecpoint(" 宝宝最喜欢的小鞋子！多种款式选择~加绒加厚不受冻，宝防滑耐磨鞋底，妈更放心！\n" +
-                "\n" +
-                " 儿童ins超火运动鞋男童休闲棉鞋子\n" +
-                "-------------\n" +
-                "商城价：89\n" +
-                "内购价：49\n" +
-                "\n" +
-                "抢券+下单：https://u.jd.com/25Q7Zf\n" +
-                "抢券+下单2：https://u.jd.com/KhvxjC \n" +
-                "--------------\n" +
-                "赠运费险购物无忧");
+        goods.setRecpoint("http://item.jd.com/35205787401.html");
 
         Matcher matcher = Patterns.WEB_URL.matcher(goods.getRecpoint());
         Map<String,String> tmap = new HashMap<>();
@@ -85,7 +77,7 @@ public class GoodsController extends BaseController {
         String url = "http://japi.jingtuitui.com/api/universal";
         String data = "appid=1805022340533108&appkey=4da21768b0d248aee58e3173af15e411&unionid=1000524984&positionid=&coupon_url=&content="+goods.getRecpoint();
         String str =  HttpUtil.sendPost(url,data);
-        System.out.println(str);
+        System.out.println("test "+str);
         Map remap = JSONUtils.fromJson(str,Map.class);
 
     }
@@ -140,17 +132,19 @@ public class GoodsController extends BaseController {
         StringBuffer sb = new StringBuffer();
         if(list!=null){
             for(int i=0;i<list.size();i++){
-                if(i>5) break;
+                if(i>2) break;
                 String newurl = "http://in-qq.com/#"+list.get(i).getId();
                 String temp ="^^^^";
                 String result = list.get(i).getRecpoint();
-                while (geturlfirst(result)!=null){
+                /*while (geturlfirst(result)!=null){
                    String url  = geturlfirst(result);
                     result = result.replace(url,temp);
                 }
-                result = result.replace(temp,newurl);
-                sb.append(result).append(" \n\n ");
+                result = result.replace(temp,newurl);*/
+                sb.append(result).append("\n").append("内购详情：<a href=\"" + newurl +  "\""+
+                        " style=\"color:#f85000;\"" + ">" + newurl + "</a>").append("\n");
             }
+            sb.append("更多内购精选-》：http://in-qq.com \n\n");
         }
         mv.addObject("linestr",sb.toString());
         mv.setViewName("goods/list");
@@ -176,6 +170,18 @@ public class GoodsController extends BaseController {
                     String result = json.getString("result");
                     goods.setRecpoint(result);//转链接后的原始内容
                     Matcher matcher = Patterns.WEB_URL.matcher(result);
+                    goods.setEndtime(Utils.getDate3(0,0,5).getTime());//线报默认5天有效期
+                    // 非线报 获取实际有效期 	转链类型1:普通商品 2:线报
+                    if(json.getInt("type")==1){
+                        try {
+                            JSONObject goodsInfo = json.getJSONObject("goods_info");
+                            if(goodsInfo!=null){
+                                goods.setEndtime(goodsInfo.getLong("endDate"));
+                                log.error("推广结束日期： "+goods.getEndtime() +" " +Utils.formatLongDate(new Date(goods.getEndtime())) );
+                            }
+                        }catch (Exception e){
+                        }
+                    }
 
                     Map<String,String> tmap = new HashMap<>();
                     if (matcher.find()){
@@ -185,7 +191,7 @@ public class GoodsController extends BaseController {
                         result = result.replace(url,uuid);
                         tmap.put(uuid,url);
                         while (geturlfirst(result)!=null){
-                            goods.setSkulink(null);// 线报多个url的时候清空单个sku的链接
+                            //goods.setSkulink(null);// 线报多个url的时候清空单个sku的链接
                             url  = geturlfirst(result);
                             //System.out.println(url);
                             uuid = UUID.randomUUID().toString();
@@ -198,8 +204,8 @@ public class GoodsController extends BaseController {
                             result = result.replace(entry.getKey(), "<a href=\"" + entry.getValue() +  "\""+ " style=\"color:#f85000;\"" + ">" + entry.getValue() + "</a>");
                             result = result.replace("抢券","");
                             result = result.replace("+","");
-                            result = result.replace("下单","内购");
-                            result = result.replace("抢购","内购");
+                            result = result.replace("下单","内购:");
+                            result = result.replace("抢购","内购:");
                         }
                         System.out.println("自动链接后："+result);
                         // 网页显示使用的字段，自带链接的

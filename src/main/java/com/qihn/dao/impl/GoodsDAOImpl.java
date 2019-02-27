@@ -36,6 +36,10 @@ public class GoodsDAOImpl extends BaseDaoImpl<Goods> implements GoodsDAO {
                     hql.append(" and c.skuid =:getSkuid");
                     params.put("getSkuid", entity.getSkuid());
                 }
+                if(Utils.isNotNullOrEmpty(entity.getEndtime())) {
+                    hql.append(" and c.endtime >:getEndtime");
+                    params.put("getEndtime", entity.getEndtime());
+                }
                 if(Utils.isNotNullOrEmpty(entity.getDomain())) {
                     hql.append(" and c.domain =:getDomain");
                     params.put("getDomain", entity.getDomain());
