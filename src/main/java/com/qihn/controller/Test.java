@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
  * https://cd.jd.com/promotion/v2?callback=jQuery8145028&skuId=2880540&area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1
  *
  * "code": "19",
- * "content": "满2件，总价打8折",
+ * "content": "满2件，总价打8折",  3911883
  * "code": "15",
  * "content": "满199元减40元",
  */
@@ -33,7 +33,7 @@ public class Test {
         String priceurl = "https://p.3.cn/prices/mgets?skuids=";
         String couponurl = "https://cd.jd.com/promotion/v2?area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1&skuId=";
         StringBuffer sb = new StringBuffer();
-        for(int i=2880530;i<2880930;i++){
+        for(int i=600001;i<605001;i++){ // 3911880  2880530
             sb.append(i).append(",");
             if(i%10==0){
                 String str =  HttpClientUtils.getDataFromUri(priceurl+sb,null);
@@ -42,67 +42,120 @@ public class Test {
                 if(StringUtils.isNotBlank(str)){
                      JSONArray array = new JSONArray(str);
                      for(int j=0;j<array.length();j++){
-                         JSONObject json = array.getJSONObject(j);
-                         if(!json.getString("p").equals("-1.00")){
-                             String skuid = json.getString("id").replace("J_","");
-                             String p = json.getString("p");
-                             if(json.has("tpp")){
-                                 String tpp = json.getString("tpp");
-                                 log.info("sku-p-tpp:"+skuid+"-"+ p+"-"+ tpp);
-                             }else {
-                                 log.info("sku-p:"+skuid+"-"+ p);
-                             }
-                             str =  HttpClientUtils.getDataFromUri(couponurl+skuid,"gbk");
-                             //log.info("coupon:"+str);
-                             if(Utils.isNotNullOrEmpty(str)){
-                                 JSONObject promotion = new JSONObject(str);
-                                 if(promotion.has("skuCoupon")){
-                                     JSONArray skuCouponArray = promotion.getJSONArray("skuCoupon");
-                                     for(int k=0;k<skuCouponArray.length();k++){
-                                         JSONObject couponjson = skuCouponArray.getJSONObject(k);
-                                         if(couponjson.has("couponType")&& couponjson.getInt("couponType")==1){
-                                            log.info("coupon-discount-quota:"+couponjson.getInt("trueDiscount")+"-"+couponjson.getInt("quota") );
-                                         }
 
-                                     }
+                         try{
+                             JSONObject json = array.getJSONObject(j);
+                             if(!json.getString("p").equals("-1.00")){
+                                 String skuid = json.getString("id").replace("J_","");
+                                 String p = json.getString("p");
+                                 Double price = Double.parseDouble(p);
+                                 Double priceQuanhou = Double.parseDouble(p);//券后价
+                                 Double priceLast = priceQuanhou; //券、满减后价
+                                 if(json.has("tpp")){
+                                     String tpp = json.getString("tpp");
+                                     price = Double.parseDouble(tpp);
+                                     priceQuanhou = price;
+                                     Double plusp = (Double.parseDouble(p)-Double.parseDouble(tpp));
+                                     Double pluszhekou = (1-plusp/priceQuanhou)*100;
+                                     log.info("sku-p-tpp:"+skuid+"-价格："+ p+"-plus会员价："+ tpp+" 优惠："+ String.format("%.2f", plusp) +"元！,约"+ String.format("%.0f", pluszhekou)+"折" );
+                                 }else {
+                                     log.info("sku-p:"+skuid+"-"+ p);
                                  }
-
-                                 if(promotion.has("prom")){
-                                    JSONObject prom =  promotion.getJSONObject("prom");
-                                    if(prom!=null && prom.has("pickOneTag")){
-                                        JSONArray pickArray = prom.getJSONArray("pickOneTag");
-                                        if(pickArray.length()>0){
-                                            for(int l=0;l<pickArray.length();l++){
-                                                JSONObject pick = pickArray.getJSONObject(l);
-                                                log.info("prom-code:"+pick.getString("code")+"-"+ pick.getString("content"));
-                                                if(pick.getString("code").equals("15")){
-                                                    //log.info("prom-code:"+pick.getString("code")+"-"+ pick.getString("content"));
-                                                    String pattern = "(\\D*)(\\d+)(\\D*)(\\d+)(\\D*)";
-                                                    Pattern r = Pattern.compile(pattern);
-                                                    // 现在创建 matcher 对象
-                                                    Matcher m = r.matcher(pick.getString("content"));
-                                                    if (m.find()) {
-                                                        log.info("满减 "+m.group(2)+" "+m.group(4));
-                                                    }
-
-                                                    log.info("pattern: "+m.group()+" ");
-                                                }else if(pick.getString("code").equals("19")){
-                                                    //log.info("prom:"+pick.getString("content"));
-                                                }else {
-                                                    //log.info("prom:"+pick.getString("content"));
+                                 str =  HttpClientUtils.getDataFromUri(couponurl+skuid,"gbk");
+                                 //log.info("coupon:"+str);
+                                 if(Utils.isNotNullOrEmpty(str)){
+                                     if(!str.startsWith("{")){
+                                         log.error("999999999 "+str);
+                                     }
+                                     JSONObject promotion = new JSONObject(str);
+                                     if(promotion.has("skuCoupon")){
+                                         JSONArray skuCouponArray = promotion.getJSONArray("skuCoupon");
+                                         for(int k=0;k<skuCouponArray.length();k++){
+                                             JSONObject couponjson = skuCouponArray.getJSONObject(k);
+                                             if(couponjson.has("couponType")&& couponjson.getInt("couponType")==1){
+                                                log.info("coupon-discount-quota:"+couponjson.getInt("trueDiscount")+"-"+couponjson.getInt("quota") );
+                                                 Double quotalong = Double.parseDouble(couponjson.getInt("quota")+"");
+                                                 Double discount = Double.parseDouble(couponjson.getInt("trueDiscount")+"");
+                                                if(quotalong<price){//满减可以直接使用
+                                                    priceQuanhou = (price-discount);
+                                                    Double zhekou = (1-discount/price)*100;
+                                                    log.info("券后=================："+priceQuanhou +" 优惠："+ String.format("%.2f", discount) +"元！,约"+ String.format("%.0f", zhekou)+"折" );
+                                                }else {//价格小于直接满减的满价
+                                                    priceQuanhou = (price- price/quotalong*discount);
+                                                    Double zhekou = (1-priceQuanhou/price)*100;
+                                                    log.info("券后约(凑单或多件)："+String.format("%.2f", priceQuanhou) +" 优惠："+ String.format("%.2f", priceQuanhou) +"元！,约"+ String.format("%.0f", zhekou)+"折" );
                                                 }
 
+                                             }
+                                         }
+                                     }
 
+                                     if(promotion.has("prom")){
+                                        JSONObject prom =  promotion.getJSONObject("prom");
+                                        if(prom!=null && prom.has("pickOneTag")){
+                                            JSONArray pickArray = prom.getJSONArray("pickOneTag");
+                                            if(pickArray.length()>0){
+                                                for(int l=0;l<pickArray.length();l++){
+                                                    JSONObject pick = pickArray.getJSONObject(l);
+                                                    log.info("prom-code:"+pick.getString("code")+"-"+ pick.getString("content"));
+                                                    if(pick.getString("code").equals("15")){
+                                                        log.info("prom-code:"+pick.getString("code")+"-"+ pick.getString("content"));
+                                                        String pattern = "(\\D*)(\\d+)元(\\D*)(\\d+)元(\\D*)";
+                                                        Pattern r = Pattern.compile(pattern);
+                                                        Matcher m = r.matcher(pick.getString("content"));
+                                                        if (m.find()) {
+                                                            //log.info("满减 "+m.group(2)+" "+m.group(4));
+                                                            Double man = Double.parseDouble(m.group(2));
+                                                            Double jian = Double.parseDouble(m.group(4));
+                                                            if(price>man){
+                                                                //直接减
+                                                                 priceLast = priceQuanhou-jian;
+                                                                Double zhekou = (1-jian/price)*100;
+                                                                log.info("直接满减后=========："+String.format("%.2f", priceLast) +" 优惠："+ String.format("%.2f", jian) +"元！,约"+ String.format("%.0f", zhekou)+"折" );
+                                                            }else {
+                                                                //凑单减
+                                                                 priceLast = (priceQuanhou- price*(jian/man));
+                                                                Double zhekou = (1-price*(jian/man)/price)*100;
+                                                                log.info("凑单满减后约："+ String.format("%.2f", priceLast) +" 优惠："+ String.format("%.2f", price*(jian/man)) +"元！,约"+ String.format("%.0f", zhekou)+"折" );
+                                                            }
 
+                                                            //log.info("pattern: "+m.group()+" ");
+                                                        }
+                                                    }else if(pick.getString("code").equals("19")){
+                                                        String pattern = "(\\D*)(\\d+)件(\\D*)(\\d+)折(\\D*)(\\d+)件(\\D*)(\\d+)折(\\D*)";
+                                                        Pattern r = Pattern.compile(pattern);
+                                                        Matcher m = r.matcher(pick.getString("content"));
+                                                        if (m.find()) {
+                                                            //log.info("pattern: "+m.group()+" ");
+                                                            if(m.groupCount()>6){
+                                                                //log.info("多件多折 "+m.group(2)+" "+m.group(4) +" "+m.group(6)+" "+m.group(8));
+                                                                Double zhe = Double.parseDouble(m.group(8));
+                                                                log.info("多件折后："+ String.format("%.2f", priceQuanhou * (zhe*0.1) )  +" 优惠："+ String.format("%.2f", priceLast-priceQuanhou * (zhe*0.1) ) +"元！,约"+ String.format("%.0f", zhe)+"折"   );
+                                                            }else {
+                                                                //log.info("多件多折 "+m.group(2)+" "+m.group(4));
+                                                                Double zhe = Double.parseDouble(m.group(4));
+                                                                log.info("多件折后："+ String.format("%.2f", priceQuanhou * (zhe*0.1) )  +" 优惠："+ String.format("%.2f", priceLast-priceQuanhou * (zhe*0.1) ) +"元！,约"+ String.format("%.0f", zhe)+"折"   );
+                                                            }
+
+                                                        }
+                                                    }else {
+                                                        //log.info("prom:"+pick.getString("content"));
+                                                    }
+
+                                                }
                                             }
                                         }
-                                    }
+                                     }
+
+
                                  }
-
-
+                                 log.info("");
                              }
-                             log.info("");
+                         }catch (Exception e){
+                            e.printStackTrace();
                          }
+
+
                      }
                 }
             }
