@@ -10,6 +10,7 @@ import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,12 +36,9 @@ public class GoodsController extends BaseController {
     private GoodsService goodsService;
     @Resource(name = "userService")
     private UserService userService;
-
-
     public static Map<String,Object> mmap = new HashMap<String, Object>();
 
-
-
+    public static String runflag = "1";
 
     public  static void main(String args[]){
 
@@ -71,8 +69,6 @@ public class GoodsController extends BaseController {
             System.out.println(result);
         }
 
-
-
         //System.out.println("rec:"+goods.getRecpoint());
         String url = "http://japi.jingtuitui.com/api/universal";
         String data = "appid=1805022340533108&appkey=4da21768b0d248aee58e3173af15e411&unionid=1000524984&positionid=&coupon_url=&content="+goods.getRecpoint();
@@ -81,6 +77,239 @@ public class GoodsController extends BaseController {
         Map remap = JSONUtils.fromJson(str,Map.class);
 
     }
+
+    @RequestMapping(value = "/getprice", method = {RequestMethod.POST, RequestMethod.GET})
+    public String getprice(HttpServletRequest request){
+       String run =  request.getParameter("run");
+        if(run.equals("1")){
+            runflag = "1";
+           List<User> list = this.userService.findByProperties(new User(),null,1,"updatetime","desc");
+           if(list!=null && list.size()>0){
+               if(list.get(0).getGid()!=null && list.get(0).getGid()>100000){
+                   this.runner(list.get(0).getGid());
+               }else{
+                   this.runner(100001);
+               }
+           }else {
+               this.runner(100001);
+           }
+
+        }else{
+            runflag="0";
+        }
+
+
+        return "redirect:/goods/list";
+    }
+
+
+
+    private void runner( long gid){
+        if(gid>9999999 || gid<100001){
+            return;
+        }
+        String priceurl = "https://p.3.cn/prices/mgets?skuids=";
+        String couponurl = "https://cd.jd.com/promotion/v2?area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1&skuId=";
+        StringBuffer sb = new StringBuffer();
+        for(long i=gid;i<9999999;i++){
+            if(!runflag.equals("1")){
+                break;
+            }
+            if(i%10000==0){
+                try{
+                    Thread.sleep(5000);
+                }catch (Exception e){
+
+                }
+
+            }
+
+            sb.append(i).append(",");
+            if(i%10==0){
+                String str =  HttpClientUtils.getDataFromUri(priceurl+sb,null);
+                //log.info("url:"+sb+" "+str);
+                sb = new StringBuffer();
+                if(StringUtils.isNotBlank(str)){
+                    JSONArray array = new JSONArray(str);
+                    for(int j=0;j<array.length();j++){
+
+                        try{
+                            JSONObject json = array.getJSONObject(j);
+                            if(!json.getString("p").equals("-1.00")){
+                                String skuid = json.getString("id").replace("J_","");
+                                String p = json.getString("p");
+                                Double price = Double.parseDouble(p);
+                                Double priceQuanhou = Double.parseDouble(p);//券后价
+                                Double priceLast = priceQuanhou; //券、满减后价
+                                int singleflag = 1;// 1 单件直接  0 多件凑单满减
+                                if(json.has("tpp")){
+                                    String tpp = json.getString("tpp");
+                                    price = Double.parseDouble(tpp);
+                                    priceQuanhou = price;
+                                    priceLast = priceQuanhou;
+                                    Double plusp = (Double.parseDouble(p)-Double.parseDouble(tpp));
+                                    Double pluszhekou = (1-plusp/priceQuanhou)*100;
+                                    log.info("sku-p-tpp:"+skuid+"-价格："+ p+"-plus会员价："+ tpp+" 优惠："+ String.format("%.2f", plusp) +"元！,约"+ String.format("%.0f", pluszhekou)+"折"+" 到手价："+ tpp);
+                                }else {
+                                    log.info("sku-p:"+skuid+"-"+ p);
+                                }
+                                str =  HttpClientUtils.getDataFromUri(couponurl+skuid,"gbk");
+                                //log.info("coupon:"+str);
+                                if(Utils.isNotNullOrEmpty(str)){
+                                    if(!str.startsWith("{")){
+                                        log.error("999999999 "+str);
+                                        continue;
+                                    }
+                                    JSONObject promotion = new JSONObject(str);
+                                    if(promotion.has("skuCoupon")){
+                                        JSONArray skuCouponArray = promotion.getJSONArray("skuCoupon");
+                                        for(int k=0;k<skuCouponArray.length();k++){
+                                            JSONObject couponjson = skuCouponArray.getJSONObject(k);
+                                            if(couponjson.has("couponType")&& couponjson.getInt("couponType")==1){
+                                                log.info("coupon-discount-quota:"+couponjson.getInt("trueDiscount")+"-"+couponjson.getInt("quota") );
+                                                Double quotalong = Double.parseDouble(couponjson.getInt("quota")+"");
+                                                Double discount = Double.parseDouble(couponjson.getInt("trueDiscount")+"");
+                                                if(quotalong<price){//满减可以直接使用
+                                                    priceQuanhou = (price-discount);
+                                                    priceLast = priceQuanhou;
+                                                    Double zhekou = (1-discount/price)*100;
+                                                    log.info("券后=================："+priceQuanhou +" 优惠："+ String.format("%.2f", discount) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceQuanhou );
+                                                }else {//价格小于直接满减的满价
+                                                    if(quotalong<=price*3){
+                                                        singleflag = 0;
+                                                        priceQuanhou = (price- price/quotalong*discount);
+                                                        priceLast = priceQuanhou;
+                                                        Double zhekou = priceQuanhou/price*100;
+                                                        log.info("券后约(凑单或多件)："+String.format("%.2f", priceQuanhou) +" 优惠："+ String.format("%.2f", priceQuanhou) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceQuanhou );
+
+                                                    }
+
+                                                }
+
+                                            }
+                                        }
+                                    }
+
+                                    if(promotion.has("prom")){
+                                        JSONObject prom =  promotion.getJSONObject("prom");
+                                        if(prom!=null && prom.has("pickOneTag")){
+                                            JSONArray pickArray = prom.getJSONArray("pickOneTag");
+                                            if(pickArray.length()>0){
+                                                for(int l=0;l<pickArray.length();l++){
+                                                    JSONObject pick = pickArray.getJSONObject(l);
+                                                    log.info("prom-code:"+pick.getString("code")+"-"+ pick.getString("content"));
+                                                    if(pick.getString("code").equals("15")){
+                                                        log.info("prom-code:"+pick.getString("code")+"-"+ pick.getString("content"));
+                                                        String pattern = "(\\D*)(\\d+)元(\\D*)(\\d+)元(\\D*)";
+                                                        Pattern r = Pattern.compile(pattern);
+                                                        Matcher m = r.matcher(pick.getString("content"));
+                                                        if (m.find()) {
+                                                            //log.info("满减 "+m.group(2)+" "+m.group(4));
+                                                            Double man = Double.parseDouble(m.group(2));
+                                                            Double jian = Double.parseDouble(m.group(4));
+
+                                                            if(price>man){
+                                                                //直接减
+                                                                jian = new Double(priceLast/man).intValue()*jian; //每满-减
+                                                                priceLast = priceQuanhou-jian;
+                                                                Double zhekou = (1-jian/price)*100;
+                                                                log.info("直接满减后=========："+String.format("%.2f", priceLast) +" 优惠："+ String.format("%.2f", jian) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceLast );
+                                                            }else {
+                                                                //凑单减
+                                                                singleflag = 0;
+                                                                priceLast = (priceQuanhou- price*(jian/man));
+                                                                Double zhekou = (1-price*(jian/man)/price)*100;
+                                                                log.info("凑单满减后约："+ String.format("%.2f", priceLast) +" 优惠："+ String.format("%.2f", price*(jian/man)) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceLast );
+                                                            }
+
+                                                            //log.info("pattern: "+m.group()+" ");
+                                                        }
+                                                    }else if(pick.getString("code").equals("19")){
+                                                        String pattern = "(\\D*)(\\d+)件(\\D*)(\\d+)折(\\D*)(\\d+)件(\\D*)(\\d+)折(\\D*)";
+                                                        Pattern r = Pattern.compile(pattern);
+                                                        Matcher m = r.matcher(pick.getString("content"));
+                                                        if (m.find()) {
+                                                            //log.info("pattern: "+m.group()+" ");
+                                                            singleflag = 1;
+
+                                                            if(m.groupCount()>6){
+                                                                //log.info("多件多折 "+m.group(2)+" "+m.group(4) +" "+m.group(6)+" "+m.group(8));
+                                                                Double zhe = Double.parseDouble(m.group(8));
+                                                                priceLast = priceQuanhou * (zhe*0.1);
+                                                                log.info("多件折后："+ String.format("%.2f", priceLast )  +" 优惠："+ String.format("%.2f", price-priceQuanhou * (zhe*0.1) ) +"元！,约"+ String.format("%.0f", zhe)+"折"   );
+                                                            }else {
+                                                                if(m.group(2).equals("1")){ // 1件 x 折的情况
+                                                                    singleflag = 1;
+                                                                }
+                                                                //log.info("多件多折 "+m.group(2)+" "+m.group(4));
+                                                                Double zhe = Double.parseDouble(m.group(4));
+                                                                priceLast = priceQuanhou * (zhe*0.1);
+                                                                log.info("多件折后："+ String.format("%.2f",priceLast )  +" 优惠："+ String.format("%.2f", price-priceQuanhou * (zhe*0.1) ) +"元！,约"+ String.format("%.0f", zhe)+"折"   );
+                                                            }
+
+                                                        }
+                                                    }else {
+                                                        //log.info("prom:"+pick.getString("content"));
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+
+
+                                }
+                                log.info("sku-price-priceLast-singleflag: "+skuid+" "+price + " "+ priceLast + " "+singleflag);
+                                log.info("");
+                                log.info("");
+                                User user = new User();
+                                user.setGid(Long.parseLong(skuid));
+                                user = this.userService.findByProperties(user);
+                                if(user==null){
+                                    user = new User();
+                                    user.setGid(Long.parseLong(skuid));
+                                }
+                                user.setOneflag(singleflag);
+                                user.setPrice(price.intValue());
+
+                                user.setUpdatetime(new Date().getTime() );
+
+
+
+                                if(user.getId()==null){
+                                    user.setPrice3(priceLast.intValue());
+                                    user.setPrice2(user.getPrice3());
+                                    user.setZhekou(100 );
+                                    user.setYouhui(0);
+                                    this.userService.save(user);
+                                }else {
+                                    user.setPrice2(user.getPrice3());
+                                    user.setPrice3(priceLast.intValue());
+                                    //user.setZhekou(new Double(priceLast/price*100).intValue() );
+                                    //user.setYouhui(price.intValue()-priceLast.intValue());
+                                    user.setZhekou(new Double(user.getPrice3()/user.getPrice2()*100).intValue() );
+                                    user.setYouhui(user.getPrice2().intValue()-user.getPrice3().intValue());
+
+                                    this.userService.update(user);
+                                }
+
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }
+            }
+
+        }
+
+
+
+
+    }
+
 
     @RequestMapping(value = "/upindex", method = {RequestMethod.POST, RequestMethod.GET})
     public String upindexbyUV(){
@@ -121,6 +350,13 @@ public class GoodsController extends BaseController {
     @RequestMapping(value = "/list", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView list(@ModelAttribute("goods") Goods goods,@ModelAttribute("pageInfo") PageInfo pageInfo) {
         ModelAndView mv = new ModelAndView();
+
+        List<User> ulist =  this.userService.findByProperties(new User(),null,10,"zhekou","asc" );
+        List<User> lastupdate =  this.userService.findByProperties(new User(),null,1,"updatetime","desc" );
+        mv.addObject("ulist",ulist);
+        if(lastupdate!=null)
+        mv.addObject("lastupdate",lastupdate.get(0));
+
         if(pageInfo==null){
             pageInfo = new PageInfo();
         }

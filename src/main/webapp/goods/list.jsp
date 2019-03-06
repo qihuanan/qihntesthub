@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>User List</title>
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://cdn.bootcss.com/zclip/1.1.2/jquery.zclip.min.js"></script>
-
 
     <link href="../assets/css/bootstrap.css" rel="stylesheet"/>
     <link href="../assets/css/custom-styles.css" rel="stylesheet"/>
@@ -35,10 +34,12 @@
                         -->
                         <div class="panel-body" >
                             <div style="position: absolute;z-index: 100;margin-right: 40px; top: 300px;float: right;left: 70%;">
-                                <a id='copy' href="#">复制</a><br><br>
+
                                 <a href="/goods/mergeUI">添加添加</a><br><br>
                                 <a href="/goods/upindex">upindex</a><br><br>
                                 <a href="/goods/resetindex">resetindex</a><br><br>
+                                <a  href="#" onclick="getprice(1)">gogogo</a><br><br>
+                                <a  href="#" onclick="getprice(0)">stopstop</a><br><br>
                             </div>
                             <form action="/goods/list" method="post">
                                 <div class="table-responsive" >
@@ -49,8 +50,26 @@
                                         </div>
                                     </div>
                                     <div id='description' style="display: block;">
-                                        <pre>${linestr}</pre>
-                                    </div>
+                                        <table class="table table-striped table-bordered table-hover" style="width: 99%">
+                                            <tr>
+                                                <td >{obj.gid}</td><td> {obj.price} </td><td> {obj.price2} </td><td> {obj.price3} </td><td>
+                                                {obj.zhekou} </td><td> {obj.youhui} </td>
+                                                <td>
+                                                    <fmt:parseDate value="${obj.updatetime}" var="dated" pattern="yyyyMMddHHmm"/>
+                                                    <fmt:formatDate value="${dated}" pattern="yyyy-MM-dd HH:mm"/> </td>
+                                            </tr>
+
+                                            <c:forEach var="obj" items="${ulist }" >
+                                                <tr>
+                                                    <td >${obj.gid} </td><td> ${obj.price} </td><td> ${obj.price2} </td><td>
+                                                        ${obj.price3} </td><td> ${obj.zhekou} </td><td> ${obj.youhui} </td>
+                                                    <td> ${obj.updatetime}</td>
+                                                </tr>
+                                            </c:forEach>
+                                        </table>
+                                    <pre>${linestr}</pre>
+
+                                </div>
                                     <table class="table table-striped table-bordered table-hover" style="width: 99%">
                                         <thead>
                                         <tr>
@@ -117,14 +136,14 @@
 <script src="../assets/js/dataTables/dataTables.bootstrap.js"></script>
 <script>
     $(document).ready(function () {
-        //$('#dataTables-example').dataTable();
-        $("#mmenu_goods1").addClass("active-menu");
-        $('a#copy').zclip({
-            path:'http://www.steamdev.com/zclip/js/ZeroClipboard.swf',
-            copy:$('div#description').html()
-        });
+
 
     });
+    
+    function  getprice(flag) {
+        window.location.href="/goods/getprice?run="+flag;
+    }
+    
 </script>
 <script src="../assets/js/custom-scripts.js"></script>
 </body>

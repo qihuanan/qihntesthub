@@ -35,7 +35,10 @@ public class UserDAOImpl extends BaseDaoImpl<User> implements UserDAO {
                     hql.append(" and c.name =:name");
                     params.put("name", entity.getName());
                 }
-
+                if(Utils.isNotNullOrEmpty(entity.getGid())){
+                    hql.append(" and c.gid =:getGid");
+                    params.put("getGid", entity.getGid());
+                }
             }
         }
         Map<String, Object> returnMap = new HashMap<String, Object>();

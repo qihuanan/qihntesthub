@@ -28,8 +28,34 @@ public class User implements Serializable {
     @Column(name = "age")
     private Integer age;
 
+
+
     @Column(name = "gid")
-    private Integer gid;
+    private Long gid;
+
+    @Column(name = "price")
+    private Integer price;
+
+    @Column(name = "price2")
+    private Integer price2;//上次价格
+
+    @Column(name = "price3")
+    private Integer price3;//本次价格
+
+    @Column(name = "oneflag")
+    private Integer oneflag;
+
+    @Column(name = "zhekou")
+    private Integer zhekou;
+
+    @Column(name = "youhui")
+    private Integer youhui;
+
+    @Column(name = "updatetime")
+    private Long updatetime;
+
+
+
 
     @Column(name = "nice_name", length = 32)
     private String nice_name;
@@ -40,11 +66,43 @@ public class User implements Serializable {
                 + ", nice_name=" + nice_name + "]";
     }
 
-    public Integer getGid() {
+    public Long getGid() {
         return gid;
     }
 
-    public void setGid(Integer gid) {
+    public Integer getZhekou() {
+        return zhekou;
+    }
+
+    public Integer getPrice3() {
+        return price3;
+    }
+
+    public void setPrice3(Integer price3) {
+        this.price3 = price3;
+    }
+
+    public void setZhekou(Integer zhekou) {
+        this.zhekou = zhekou;
+    }
+
+    public Long getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(Long updatetime) {
+        this.updatetime = updatetime;
+    }
+
+    public Integer getYouhui() {
+        return youhui;
+    }
+
+    public void setYouhui(Integer youhui) {
+        this.youhui = youhui;
+    }
+
+    public void setGid(Long gid) {
         this.gid = gid;
     }
 
@@ -80,4 +138,31 @@ public class User implements Serializable {
         this.nice_name = nice_name;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public Integer getOneflag() {
+        return oneflag;
+    }
+
+    public void setOneflag(Integer oneflag) {
+        this.oneflag = oneflag;
+    }
+
+    public Integer getPrice2() {
+        return price2;
+    }
+
+    public void setPrice2(Integer price2) {
+        this.price2 = price2;
+    }
 }
