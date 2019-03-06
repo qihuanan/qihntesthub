@@ -351,7 +351,12 @@ public class GoodsController extends BaseController {
     public ModelAndView list(@ModelAttribute("goods") Goods goods,@ModelAttribute("pageInfo") PageInfo pageInfo) {
         ModelAndView mv = new ModelAndView();
 
-        List<User> ulist =  this.userService.findByProperties(new User(),null,10,"zhekou","asc" );
+        List<User> ulist =  this.userService.findByProperties(new User(),null,20,"zhekou","asc" );
+        if(ulist!=null){
+            for(int i=0;i<ulist.size();i++ ){
+                ulist.get(i).setName(Utils.formatLongDate(new Date(ulist.get(i).getUpdatetime()) ) );
+            }
+        }
         List<User> lastupdate =  this.userService.findByProperties(new User(),null,1,"updatetime","desc" );
         mv.addObject("ulist",ulist);
         if(lastupdate!=null)

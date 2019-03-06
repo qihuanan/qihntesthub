@@ -50,20 +50,24 @@
                                         </div>
                                     </div>
                                     <div id='description' style="display: block;">
+                                        <div>${lastupdate.gid} -
+
+                                        </div>
                                         <table class="table table-striped table-bordered table-hover" style="width: 99%">
                                             <tr>
                                                 <td >{obj.gid}</td><td> {obj.price} </td><td> {obj.price2} </td><td> {obj.price3} </td><td>
                                                 {obj.zhekou} </td><td> {obj.youhui} </td>
-                                                <td>
-                                                    <fmt:parseDate value="${obj.updatetime}" var="dated" pattern="yyyyMMddHHmm"/>
-                                                    <fmt:formatDate value="${dated}" pattern="yyyy-MM-dd HH:mm"/> </td>
+                                                <td>{obj.updatetime}
+                                                     </td>
                                             </tr>
 
                                             <c:forEach var="obj" items="${ulist }" >
                                                 <tr>
                                                     <td >${obj.gid} </td><td> ${obj.price} </td><td> ${obj.price2} </td><td>
                                                         ${obj.price3} </td><td> ${obj.zhekou} </td><td> ${obj.youhui} </td>
-                                                    <td> ${obj.updatetime}</td>
+                                                    <td>
+                                                        ${obj.name}
+                                                    </td>
                                                 </tr>
                                             </c:forEach>
                                         </table>
