@@ -108,16 +108,18 @@ public class GoodsController extends BaseController {
         if(gid>9999999 || gid<100001){
             return;
         }
-        String priceurl = "https://p.3.cn/prices/mgets?skuids=";
+        String priceurl = "https://pe.3.cn/prices/mgets?skuids=";
         String couponurl = "https://cd.jd.com/promotion/v2?area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1&skuId=";
         StringBuffer sb = new StringBuffer();
+        int a = 0;
         for(long i=gid;i<9999999;i++){
             if(!runflag.equals("1")){
+                log.error("runflag 不执行！");
                 break;
             }
-            if(i%10000==0){
+            if(i%1000==0){
                 try{
-                    Thread.sleep(5000);
+                    Thread.sleep(1000*10);
                 }catch (Exception e){
 
                 }
@@ -126,11 +128,30 @@ public class GoodsController extends BaseController {
 
             sb.append(i).append(",");
             if(i%10==0){
+                a++;
+                if(a%2==0){
+                    priceurl = "https://pe.3.cn/prices/mgets?source=wxsq&skuids=";
+                }else {
+                    priceurl = "https://px.3.cn/prices/mgets?source=wxsq&skuids=";
+                }
                 String str =  HttpClientUtils.getDataFromUri(priceurl+sb,null);
                 //log.info("url:"+sb+" "+str);
                 sb = new StringBuffer();
+                JSONArray array = null;
                 if(StringUtils.isNotBlank(str)){
-                    JSONArray array = new JSONArray(str);
+                    try{
+                         array = new JSONArray(str);
+                    }catch (Exception e){
+                        log.info("url:"+sb+" "+str);
+                        array = new JSONArray();
+                        try {
+                            log.info("休眠60秒");
+                            Thread.sleep(1000*60);
+                        }catch (Exception e1){
+                        }
+
+                        continue;
+                    }
                     for(int j=0;j<array.length();j++){
 
                         try{
@@ -149,9 +170,9 @@ public class GoodsController extends BaseController {
                                     priceLast = priceQuanhou;
                                     Double plusp = (Double.parseDouble(p)-Double.parseDouble(tpp));
                                     Double pluszhekou = (1-plusp/priceQuanhou)*100;
-                                    log.info("sku-p-tpp:"+skuid+"-价格："+ p+"-plus会员价："+ tpp+" 优惠："+ String.format("%.2f", plusp) +"元！,约"+ String.format("%.0f", pluszhekou)+"折"+" 到手价："+ tpp);
+                                    //log.info("sku-p-tpp:"+skuid+"-价格："+ p+"-plus会员价："+ tpp+" 优惠："+ String.format("%.2f", plusp) +"元！,约"+ String.format("%.0f", pluszhekou)+"折"+" 到手价："+ tpp);
                                 }else {
-                                    log.info("sku-p:"+skuid+"-"+ p);
+                                    //log.info("sku-p:"+skuid+"-"+ p);
                                 }
                                 str =  HttpClientUtils.getDataFromUri(couponurl+skuid,"gbk");
                                 //log.info("coupon:"+str);
@@ -173,14 +194,14 @@ public class GoodsController extends BaseController {
                                                     priceQuanhou = (price-discount);
                                                     priceLast = priceQuanhou;
                                                     Double zhekou = (1-discount/price)*100;
-                                                    log.info("券后=================："+priceQuanhou +" 优惠："+ String.format("%.2f", discount) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceQuanhou );
+                                                    //log.info("券后=================："+priceQuanhou +" 优惠："+ String.format("%.2f", discount) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceQuanhou );
                                                 }else {//价格小于直接满减的满价
                                                     if(quotalong<=price*3){
                                                         singleflag = 0;
                                                         priceQuanhou = (price- price/quotalong*discount);
                                                         priceLast = priceQuanhou;
                                                         Double zhekou = priceQuanhou/price*100;
-                                                        log.info("券后约(凑单或多件)："+String.format("%.2f", priceQuanhou) +" 优惠："+ String.format("%.2f", priceQuanhou) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceQuanhou );
+                                                        //log.info("券后约(凑单或多件)："+String.format("%.2f", priceQuanhou) +" 优惠："+ String.format("%.2f", priceQuanhou) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceQuanhou );
 
                                                     }
 
@@ -199,7 +220,7 @@ public class GoodsController extends BaseController {
                                                     JSONObject pick = pickArray.getJSONObject(l);
                                                     log.info("prom-code:"+pick.getString("code")+"-"+ pick.getString("content"));
                                                     if(pick.getString("code").equals("15")){
-                                                        log.info("prom-code:"+pick.getString("code")+"-"+ pick.getString("content"));
+                                                        //log.info("prom-code:"+pick.getString("code")+"-"+ pick.getString("content"));
                                                         String pattern = "(\\D*)(\\d+)元(\\D*)(\\d+)元(\\D*)";
                                                         Pattern r = Pattern.compile(pattern);
                                                         Matcher m = r.matcher(pick.getString("content"));
@@ -213,13 +234,13 @@ public class GoodsController extends BaseController {
                                                                 jian = new Double(priceLast/man).intValue()*jian; //每满-减
                                                                 priceLast = priceQuanhou-jian;
                                                                 Double zhekou = (1-jian/price)*100;
-                                                                log.info("直接满减后=========："+String.format("%.2f", priceLast) +" 优惠："+ String.format("%.2f", jian) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceLast );
+                                                                //log.info("直接满减后=========："+String.format("%.2f", priceLast) +" 优惠："+ String.format("%.2f", jian) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceLast );
                                                             }else {
                                                                 //凑单减
                                                                 singleflag = 0;
                                                                 priceLast = (priceQuanhou- price*(jian/man));
                                                                 Double zhekou = (1-price*(jian/man)/price)*100;
-                                                                log.info("凑单满减后约："+ String.format("%.2f", priceLast) +" 优惠："+ String.format("%.2f", price*(jian/man)) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceLast );
+                                                               // log.info("凑单满减后约："+ String.format("%.2f", priceLast) +" 优惠："+ String.format("%.2f", price*(jian/man)) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceLast );
                                                             }
 
                                                             //log.info("pattern: "+m.group()+" ");
@@ -236,7 +257,7 @@ public class GoodsController extends BaseController {
                                                                 //log.info("多件多折 "+m.group(2)+" "+m.group(4) +" "+m.group(6)+" "+m.group(8));
                                                                 Double zhe = Double.parseDouble(m.group(8));
                                                                 priceLast = priceQuanhou * (zhe*0.1);
-                                                                log.info("多件折后："+ String.format("%.2f", priceLast )  +" 优惠："+ String.format("%.2f", price-priceQuanhou * (zhe*0.1) ) +"元！,约"+ String.format("%.0f", zhe)+"折"   );
+                                                                //log.info("多件折后："+ String.format("%.2f", priceLast )  +" 优惠："+ String.format("%.2f", price-priceQuanhou * (zhe*0.1) ) +"元！,约"+ String.format("%.0f", zhe)+"折"   );
                                                             }else {
                                                                 if(m.group(2).equals("1")){ // 1件 x 折的情况
                                                                     singleflag = 1;
@@ -244,7 +265,7 @@ public class GoodsController extends BaseController {
                                                                 //log.info("多件多折 "+m.group(2)+" "+m.group(4));
                                                                 Double zhe = Double.parseDouble(m.group(4));
                                                                 priceLast = priceQuanhou * (zhe*0.1);
-                                                                log.info("多件折后："+ String.format("%.2f",priceLast )  +" 优惠："+ String.format("%.2f", price-priceQuanhou * (zhe*0.1) ) +"元！,约"+ String.format("%.0f", zhe)+"折"   );
+                                                                //log.info("多件折后："+ String.format("%.2f",priceLast )  +" 优惠："+ String.format("%.2f", price-priceQuanhou * (zhe*0.1) ) +"元！,约"+ String.format("%.0f", zhe)+"折"   );
                                                             }
 
                                                         }
