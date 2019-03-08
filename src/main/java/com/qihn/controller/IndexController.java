@@ -42,7 +42,10 @@ public class IndexController extends BaseController {
 
     @RequestMapping(value = "/log", method = {RequestMethod.POST, RequestMethod.GET})
     public void accesslog(HttpServletRequest request,@ModelAttribute("user") User user){
-        if(count<1){
+        if(1==1){
+            return;
+        }
+       /* if(count<1){
             User user2 = this.userService.findByProperties(null,null,1,"id","desc").get(0);
             count = user2.getAge();
         }
@@ -54,7 +57,7 @@ public class IndexController extends BaseController {
         user.setNice_name(time);
         user.setAge(new Double(count).intValue());
         LogThread lt = new LogThread(userService,user);
-        lt.run();
+        lt.run();*/
 
     }
 

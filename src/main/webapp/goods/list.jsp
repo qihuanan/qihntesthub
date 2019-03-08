@@ -36,10 +36,16 @@
                             <div style="position: absolute;z-index: 100;margin-right: 40px; top: 300px;float: right;left: 70%;">
 
                                 <a href="/goods/mergeUI">添加添加</a><br><br>
+
+                                <!--
                                 <a href="/goods/upindex">upindex</a><br><br>
                                 <a href="/goods/resetindex">resetindex</a><br><br>
-                                <a  href="#" onclick="getprice(1)">gogogo</a><br><br>
-                                <a  href="#" onclick="getprice(0)">stopstop</a><br><br>
+                                -->
+                                <a  href="#" onclick="getprice(1)">getgid</a><br><br>
+                                <a  href="#" onclick="getprice(0)">stopgid</a><br><br>
+                                <a  href="#" onclick="getprice2(1)">updateprice</a><br><br>
+                                <a  href="#" onclick="getprice2(0)">stopprice</a><br><br>
+
                             </div>
                             <form action="/goods/list" method="post">
                                 <div class="table-responsive" >
@@ -50,7 +56,7 @@
                                         </div>
                                     </div>
                                     <div id='description' style="display: block;">
-                                        <div>${lastupdate.gid} -
+                                        <div>update: ${lastupdate.gid} -- last: ${lastid.gid} -- runflag: ${runflag} -- updateflag: ${updateflag}
 
                                         </div>
                                         <table class="table table-striped table-bordered table-hover" style="width: 99%">
@@ -146,6 +152,10 @@
     
     function  getprice(flag) {
         window.location.href="/goods/getprice?run="+flag;
+    }
+
+    function  getprice2(flag) {
+        window.location.href="/goods/updateprice?updateflag="+flag;
     }
     
 </script>
