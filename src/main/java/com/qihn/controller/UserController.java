@@ -10,8 +10,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.qihn.pojo.Goods;
 import com.qihn.pojo.User;
 import com.qihn.service.UserService;
+import com.qihn.utils.PageInfo;
 import com.qihn.utils.Utils;
 import org.apache.commons.collections.bag.SynchronizedSortedBag;
 import org.apache.commons.logging.Log;
@@ -35,16 +37,18 @@ public class UserController {
 
     /**
      * master
-     * @param model
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ModelAndView getUserlist(Model model) {
+    public ModelAndView getUserlist(@ModelAttribute("goods") User user, @ModelAttribute("pageInfo") PageInfo pageInfo) {
         ModelAndView mv = new ModelAndView();
-        List<User> userList = userService.findAll(User.class, null, null);
-        userService.countByProperties(null);
-        System.out.println("log======table 'user' all records:" + userList.size());
+        if(pageInfo==null){
+            pageInfo = new PageInfo();
+        }
+        List<User> userList = userService.findByProperties(user,pageInfo,0,"id ","desc");
+        userService.countByProperties(user);
         mv.addObject("userList", userList);
+        mv.addObject("pageInfo",pageInfo);
         mv.setViewName("user/userList");
         return mv;
     }

@@ -1,135 +1,154 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>User List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>user List</title>
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <SCRIPT type="application/javascript" src="../js/my.js"></SCRIPT>
+
+    <link href="../assets/css/bootstrap.css" rel="stylesheet"/>
+    <link href="../assets/css/custom-styles.css" rel="stylesheet"/>
+    <link href="../assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
+
 </head>
 <body>
-<a href="edit">Add</a>
-<table>
-    <tr>
-        <td>ID</td>
-        <td>Name</td>
-        <td>NiceName</td>
-        <td>Age</td>
-    </tr>
-    <c:forEach var="user" items="${userList }" >
-        <tr>
-            <td>${user.id }</td>
-            <td>${user.name }</td>
-            <td>${user.nice_name }</td>
-            <td>${user.age }</td>
-            <td><a href="show/${user.id }">详细</a></td>
-            <td><a href="edit?id=${user.id }">编辑</a></td>
-            <td><a href="del/${user.id }">删除</a></td>
-        </tr>
-    </c:forEach>
-</table>
-<div style="padding: 20px;">url:<input type="text" id="urlid" value="https://item.jd.com/3734874.html" /><button onclick="historyouhui();">查询</button>  </div>
+
+<div id="wrapper">
+    <%@ include file="/include/header.jsp" %>
+    <!--/. NAV TOP  -->
+    <%@ include file="/include/left.jsp" %>
+    <!-- /. NAV SIDE  -->
+    <div id="page-wrapper">
+        <div id="page-inner">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Advanced Tables -->
+                    <div class="panel panel-default">
+                        <!--
+                        <div class="panel-heading">
+                            Advanced Tables &nbsp;&nbsp;
+                        </div>
+                        -->
+                        <div class="panel-body" >
+                            <div style="position: absolute;z-index: 100;margin-right: 40px; top: 300px;float: right;left: 70%;">
+
+                                <a href="/goods/mergeUI">添加添加</a><br><br>
+
+                                <a  href="#" onclick="getprice(1)">getgid</a><br><br>
+                                <a  href="#" onclick="getprice(0)">stopgid</a><br><br>
+                                <a  href="#" onclick="getprice2(1)">updateprice</a><br><br>
+                                <a  href="#" onclick="getprice2(0)">stopprice</a><br><br>
+
+                            </div>
+                            <form action="/goods/list" method="post">
+                                <div class="table-responsive" >
+                                    <div class="row" style="width: 99%">
+                                        <div class="col-sm-6" style="margin-bottom: 5px;">&nbsp;&nbsp;
+                                            S: <input type="text" name="name" value="${goods.name}" >
+                                            <input type="submit" value="查询"></input>${syscount}
+                                        </div>
+                                    </div>
+                                    <div id='description' style="display: block;">
+                                        <div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <table class="table table-striped table-bordered table-hover" style="width: 99%">
+                                    <thead>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>gid</td>
+                                        <td>price</td>
+                                        <td>price2</td>
+                                        <td>price3</td>
+                                        <td>oneflag</td>
+                                        <td>zhekou</td>
+                                        <td>youhui</td>
+                                        <td>updatetime</td>
+                                        <td>couponprom</td>
+                                        <td>onsale</td>
+                                        <td>操作</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <c:forEach var="user" items="${userList }" >
+                                        <tr>
+                                            <td>${user.id }</td>
+                                            <td>${user.gid }</td>
+                                            <td>${user.price }</td>
+                                            <td>${user.price2 }</td>
+                                            <td>${user.price3 }</td>
+                                            <td>${user.oneflag }</td>
+                                            <td>${user.zhekou }</td>
+                                            <td>${user.youhui }</td>
+                                            <td>${user.updatetime }</td>
+                                            <td>${user.couponprom }</td>
+                                            <td>${user.onsale }</td>
+
+                                            <td><a href="show/${user.id }">详细</a><br>
+                                                <a href="edit?id=${user.id }">编辑</a><br>
+                                                <a href="del/${user.id }">删除</a></td>
+                                        </tr>
+                                    </c:forEach>
 
 
-<div id="div1" style="margin: 30px;color: green;font-size: 16px;">5555555555</div>
+                                    </tbody>
+                                </table>
 
-<div id="div2" style="margin: 30px;color: green;font-size: 14px;">666666666666666666</div>
+                                <div class="row" style="width: 99%">
+                                    <div class="col-sm-6"></div>
+                                    <div class="col-sm-6">
+                                        <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                                            <%@include file="/include/page.jsp"%>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        </form>
 
-</body>
+                    </div>
+                </div>
+                <!--End Advanced Tables -->
+            </div>
+        </div>
+        <!-- /. ROW  -->
 
-<script type="text/javascript">
+    </div>
+    <footer><p>Copyright &copy; 2018.Company name All rights reserved.</p></footer>
+</div>
+<!-- /. PAGE INNER  -->
+</div>
+<!-- JS Scripts-->
+
+<!-- Bootstrap Js -->
+<script src="../assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script src="../assets/js/jquery.metisMenu.js"></script>
+<!-- DATA TABLE SCRIPTS -->
+<script src="../assets/js/dataTables/jquery.dataTables.js"></script>
+<script src="../assets/js/dataTables/dataTables.bootstrap.js"></script>
+<script>
     $(document).ready(function () {
-        //historyouhui('http://item.jd.com/3133859.html',6);
+
+
     });
 
-    function historyprice(surl) {
-        $.ajax({
-            url: "/hp",
-            type: 'get',
-            dataType: 'text',
-            data: {
-                url: escape(surl),
-                token:d.encrypt(surl,2,true)
-            },
-            success: function (json) {
-                $("#div1").html(json);
-            }
-        });
+    function  getprice(flag) {
+        window.location.href="/goods/getprice?run="+flag;
     }
 
-    function historyouhui() {
-        var surl = $('#urlid').val();
-
-        historyprice(surl);
-
-        itop = 6;
-        $.ajax({
-            url: "https://bijiatool-v2.manmanbuy.com/ChromeWidgetServices/WidgetServices.ashx?jsoncallback=",
-            type: 'get',
-            dataType: 'jsonp',
-            data: {
-                methodName: 'getZhekou',
-                p_url: escape(surl),
-                ipagesize: itop,
-                ipage: 1
-            },
-
-            success: function (json) {
-
-                if (json.ok == 1 && json.icount > 0) {
-
-                    var htmlli = "";
-                    for (var j = 0; j < json.zklist.length; j++) {
-                        if (json.zklist[j].infoid == 60198) {
-                            htmlli += "<li><a href=\"javascript:;\" onclick='nodetail();' class=\"go\"></a>";
-                        }
-                        else {
-                            var detailUrl = "javascript:;";
-                            switch (json.zklist[j].infotype) {
-                                case "1": detailUrl = "//cu.manmanbuy.com/discuxiao_" + json.zklist[j].infoid + ".aspx"; break; //省钱控
-                                case "2": detailUrl = "//zhekou.manmanbuy.com/Sharedetailed_" + json.zklist[j].infoid + ".aspx"; break; //国内折扣
-                                case "3": detailUrl = "//cu.manmanbuy.com/discuxiao_" + json.zklist[j].infoid + ".aspx"; break; //海淘
-                                case "4": detailUrl = "//baicai.manmanbuy.com/dis.aspx?id=" + json.zklist[j].infoid; break; //白菜价
-                            }
-                            htmlli += "<li><a href=\"" + detailUrl + "\" class=\"go\" target=\"_blank\" ></a>";
-                        }
-                        htmlli += " <i></i>";
-                        htmlli += "<div class=\"t\">" + json.zklist[j].spname + "</div>";
-                        htmlli += " <div class=\"s\">" + json.zklist[j].spprice + "</div>";
-                        htmlli += "<div class=\"d\">" + json.zklist[j].dt.replace("/Date(", "").replace("-0000)/", "") + "</div>";
-                        htmlli += " </li>";
-                    }
-
-                    if ($(".trend_page").html() != "") {
-                        $("#div2").html(htmlli);
-                    }else {
-                        var html = " <div class=\"culist\">";
-                        html += "<div class=\"hd\">该商品的历史优惠活动</div>";
-                        html += " <div class=\"bd\">";
-                        html += "  <ul>";
-                        html += htmlli;
-                        html += "</ul>";
-                        if (json.icount > itop) {
-                            html += "<p class='more'><a style='font-size: 16px; padding-left: 40px;color: #ff6700; ' href='javascript:void(0)' onclick=\"historyouhui('" + surl + "'," + itop + ")\">更多优惠</a></p>"
-                        }
-                        html += "</div></div>";
-                        $("#div2").html(html);
-                    }
-
-                }
-
-
-
-
-
-            }
-        });
-
+    function  getprice2(flag) {
+        window.location.href="/goods/updateprice?updateflag="+flag;
     }
-
 
 </script>
+<script src="../assets/js/custom-scripts.js"></script>
+</body>
+
 
 </html>

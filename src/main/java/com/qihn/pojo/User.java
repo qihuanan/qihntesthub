@@ -22,7 +22,7 @@ public class User implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", length = 32)
+    @Column(name = "name", length = 500)
     private String name;
 
     @Column(name = "age")
@@ -54,16 +54,27 @@ public class User implements Serializable {
     @Column(name = "updatetime")
     private Long updatetime;
 
+    @Column(name = "couponprom")
+    private String couponprom;
 
+    @Column(name = "onsale")
+    private String onsale = "1";
 
-
-    @Column(name = "nice_name", length = 32)
+    @Column(name = "nice_name", length = 500)
     private String nice_name;
 
     @Override
     public String toString() {
         return "User [id=" + id + ", user_name=" + name + ", age=" + age
                 + ", nice_name=" + nice_name + "]";
+    }
+
+    public String getOnsale() {
+        return onsale;
+    }
+
+    public void setOnsale(String onsale) {
+        this.onsale = onsale;
     }
 
     public Long getGid() {
@@ -80,6 +91,14 @@ public class User implements Serializable {
 
     public void setPrice3(Integer price3) {
         this.price3 = price3;
+    }
+
+    public String getCouponprom() {
+        return couponprom;
+    }
+
+    public void setCouponprom(String couponprom) {
+        this.couponprom = couponprom;
     }
 
     public void setZhekou(Integer zhekou) {

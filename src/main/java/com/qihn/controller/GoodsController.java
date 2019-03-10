@@ -89,11 +89,12 @@ public class GoodsController extends BaseController {
             updateflag = "1";
             while (true && updateflag.equals("1")){
                 if(!updateflag.equals("1")) break;
-                List<User> list = this.userService.findByProperties(new User(),null,1000,"updatetime","asc");
+                List<User> list = this.userService.findByProperties(new User(),null,600,"updatetime","asc");
                 if(list!=null && list.size()>0){
                     StringBuffer sb = new StringBuffer();
                     int b = 0;
                     for(int i=0;i<list.size();i++){
+                        if(!updateflag.equals("1")) break;
                         if(i%200==0){
                             try {
                                 Thread.sleep(3000);
@@ -133,7 +134,7 @@ public class GoodsController extends BaseController {
                                     continue;
                                 }
                                 sb = new StringBuffer();
-                                pricereset(array,str);
+                                pricereset(array);
                             }
 
                         }
@@ -158,10 +159,10 @@ public class GoodsController extends BaseController {
             runflag = "1";
            List<User> list = this.userService.findByProperties(new User(),null,1,"id","desc");
            if(list!=null && list.size()>0){
-               if(list.get(0).getGid()!=null && list.get(0).getGid()>100000){
+               if(list.get(0).getGid()!=null && list.get(0).getGid()>100000000001l){
                    this.runner(list.get(0).getGid());
                }else{
-                   this.runner(100001);
+                   this.runner(100000000001l);// 100000000001   100001
                }
            }else {
                this.runner(100001);
@@ -177,32 +178,43 @@ public class GoodsController extends BaseController {
     }
 
 
-
+    /**
+     * 100007654321l
+     * 100000000001l
+     * @param gid
+     */
     private void runner( long gid){
-        if(gid>9999999 || gid<100001){
+        /*if(gid>9999999 || gid<100001){
+            return;
+        }*/
+        if(gid>100009654321l || gid<100000000001l){
+            log.info("达到最大值不执行... "+100009654321l);
             return;
         }
+
         String priceurl = "https://pe.3.cn/prices/mgets?skuids=";
         //String couponurl = "https://cd.jd.com/promotion/v2?area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1&skuId=";
         StringBuffer sb = new StringBuffer();
-        int a = 0;
-        for(long i=gid;i<9999999;i++){
+        long a = 0;
+        for(long i=gid;i<109999999999l;i++){
             if(!runflag.equals("1")){
                 log.error("runflag 不执行！");
                 break;
             }
-            if(i%1000==0){log.info("get running .... ");
+
+            //log.info("get running .... ");
+
+            if(i%1000==0){
                 try{
                     Thread.sleep(1000*3);
                 }catch (Exception e){
-
+                    e.printStackTrace();
                 }
 
             }
-
             sb.append(i).append(",");
             if(i%10==0){
-
+                //log.info("iiii: "+i);
                 a++;
                 if(a%2==0){
                     priceurl = "https://pe.3.cn/prices/mgets?source=wxsq&skuids=";
@@ -210,7 +222,7 @@ public class GoodsController extends BaseController {
                     priceurl = "https://px.3.cn/prices/mgets?source=wxsq&skuids=";
                 }
                 String str =  HttpClientUtils.getDataFromUri(priceurl+sb,null);
-                //log.info("url:"+sb+" "+str);
+                log.info("url:"+sb+" "+str);
 
                 JSONArray array = null;
                 if(StringUtils.isNotBlank(str)){
@@ -223,11 +235,12 @@ public class GoodsController extends BaseController {
                             log.info("休眠60秒");
                             Thread.sleep(1000*10);
                         }catch (Exception e1){
+                            e.printStackTrace();
                         }
 
                         continue;
                     }
-                    pricereset(array,str);
+                    pricereset(array);
                 }
                 sb = new StringBuffer();
             }
@@ -237,10 +250,11 @@ public class GoodsController extends BaseController {
     }
 
 
-    private void pricereset(JSONArray array,String str){
+    private void pricereset(JSONArray array){
         for(int j=0;j<array.length();j++){
             try{
                 JSONObject json = array.getJSONObject(j);
+
                 if(!json.getString("p").equals("-1.00")){
                     String skuid = json.getString("id").replace("J_","");
                     String p = json.getString("p");
@@ -259,8 +273,9 @@ public class GoodsController extends BaseController {
                     }else {
                         //log.info("sku-p:"+skuid+"-"+ p);
                     }
-                    str =  HttpClientUtils.getDataFromUri(couponurl+skuid,"gbk");
+                    String str =  HttpClientUtils.getDataFromUri(couponurl+skuid,"gbk");
                     //log.info("coupon:"+str);
+                    StringBuffer couponsb = new StringBuffer();
                     if(Utils.isNotNullOrEmpty(str)){
                         if(!str.startsWith("{")){
                             log.error("999999999 "+str);
@@ -272,9 +287,10 @@ public class GoodsController extends BaseController {
                             for(int k=0;k<skuCouponArray.length();k++){
                                 JSONObject couponjson = skuCouponArray.getJSONObject(k);
                                 if(couponjson.has("couponType")&& couponjson.getInt("couponType")==1){
-                                    log.info("coupon-discount-quota:"+couponjson.getInt("trueDiscount")+"-"+couponjson.getInt("quota") );
+                                    //log.info("coupon-discount-quota:"+couponjson.getInt("trueDiscount")+"-"+couponjson.getInt("quota") );
                                     Double quotalong = Double.parseDouble(couponjson.getInt("quota")+"");
                                     Double discount = Double.parseDouble(couponjson.getInt("trueDiscount")+"");
+                                    couponsb.append("券："+quotalong+ "-"+discount).append(" ");
                                     if(quotalong<price){//满减可以直接使用
                                         priceQuanhou = (price-discount);
                                         priceLast = priceQuanhou;
@@ -303,7 +319,8 @@ public class GoodsController extends BaseController {
                                 if(pickArray.length()>0){
                                     for(int l=0;l<pickArray.length();l++){
                                         JSONObject pick = pickArray.getJSONObject(l);
-                                        log.info("prom-code:"+pick.getString("code")+"-"+ pick.getString("content"));
+                                        //log.info("prom-code:"+pick.getString("code")+"-"+ pick.getString("content"));
+                                        couponsb.append(pick.getString("content")).append("; ");
                                         if(pick.getString("code").equals("15")){
                                             //log.info("prom-code:"+pick.getString("code")+"-"+ pick.getString("content"));
                                             String pattern = "(\\D*)(\\d+)元(\\D*)(\\d+)元(\\D*)";
@@ -379,8 +396,8 @@ public class GoodsController extends BaseController {
                     user.setPrice(price.intValue());
 
                     user.setUpdatetime(new Date().getTime() );
-
-
+                    user.setCouponprom(couponsb.toString());
+                    user.setOnsale("1");
 
                     if(user.getId()==null){
                         user.setPrice3(priceLast.intValue());
@@ -393,10 +410,28 @@ public class GoodsController extends BaseController {
                         user.setPrice3(priceLast.intValue());
                         //user.setZhekou(new Double(priceLast/price*100).intValue() );
                         //user.setYouhui(price.intValue()-priceLast.intValue());
-                        user.setZhekou(new Double(user.getPrice3()/user.getPrice2()*100).intValue() );
+                        user.setZhekou(new Double(new Double(user.getPrice3())/new Double(user.getPrice2())*100).intValue() );
                         user.setYouhui(user.getPrice2().intValue()-user.getPrice3().intValue());
 
                         this.userService.update(user);
+                    }
+
+                }else {
+                    log.info("价格-1 "+ json.toString());
+                    String skuid = json.getString("id").replace("J_","");
+                    User user = new User();
+                    user.setGid(Long.parseLong(skuid));
+                    user = this.userService.findByProperties(user);
+                    if(user!=null){
+                        user.setPrice2(1);
+                        user.setPrice3(1);
+                        user.setZhekou(100 );
+                        user.setYouhui(0);
+                        user.setUpdatetime(new Date().getTime() );
+                        user.setOnsale("0");
+                        this.userService.update(user);
+                    }else {
+                        log.info(" error。。。skuid "+skuid);
                     }
 
                 }

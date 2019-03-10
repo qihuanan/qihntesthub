@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>goods List</title>
+    <title>user List</title>
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
     <link href="../assets/css/bootstrap.css" rel="stylesheet"/>
@@ -37,10 +37,6 @@
 
                                 <a href="/goods/mergeUI">添加添加</a><br><br>
 
-                                <!--
-                                <a href="/goods/upindex">upindex</a><br><br>
-                                <a href="/goods/resetindex">resetindex</a><br><br>
-                                -->
                                 <a  href="#" onclick="getprice(1)">getgid</a><br><br>
                                 <a  href="#" onclick="getprice(0)">stopgid</a><br><br>
                                 <a  href="#" onclick="getprice2(1)">updateprice</a><br><br>
@@ -56,55 +52,47 @@
                                         </div>
                                     </div>
                                     <div id='description' style="display: block;">
-                                        <div>update: ${lastupdate.gid} -- last: ${lastid.gid} -- runflag: ${runflag} -- updateflag: ${updateflag}
-
+                                        <div>
                                         </div>
-                                        <table class="table table-striped table-bordered table-hover" style="width: 99%">
-                                            <tr>
-                                                <td >{obj.gid}</td><td> {obj.price} </td><td> {obj.price2} </td><td> {obj.price3} </td><td>
-                                                {obj.zhekou} </td><td> {obj.youhui} </td>
-                                                <td>{obj.updatetime}
-                                                     </td>
-                                            </tr>
-
-                                            <c:forEach var="obj" items="${ulist }" >
-                                                <tr>
-                                                    <td >${obj.gid} </td><td> ${obj.price} </td><td> ${obj.price2} </td><td>
-                                                        ${obj.price3} </td><td> ${obj.zhekou} </td><td> ${obj.youhui} </td>
-                                                    <td>
-                                                        ${obj.name}
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                        </table>
-                                    <pre>${linestr}</pre>
+                                    </div>
 
                                 </div>
                                     <table class="table table-striped table-bordered table-hover" style="width: 99%">
                                         <thead>
                                         <tr>
-                                            <th style="white-space:pre-line">recpoint</th>
-                                            <th style="white-space:pre-line">操作</th>
-
+                                            <td>ID</td>
+                                            <td>gid</td>
+                                            <td>price</td>
+                                            <td>price2</td>
+                                            <td>price3</td>
+                                            <td>oneflag</td>
+                                            <td>zhekou</td>
+                                            <td>youhui</td>
+                                            <td>updatetime</td>
+                                            <td>couponprom</td>
+                                            <td>onsale</td>
+                                            <td>操作</td>
                                         </tr>
                                         </thead>
                                         <tbody>
 
-                                        <c:forEach var="obj" items="${list }" >
+                                        <c:forEach var="user" items="${userList }" >
                                             <tr>
+                                                <td>${user.id }</td>
+                                                <td>${user.gid }</td>
+                                                <td>${user.price }</td>
+                                                <td>${user.price2 }</td>
+                                                <td>${user.price3 }</td>
+                                                <td>${user.oneflag }</td>
+                                                <td>${user.zhekou }</td>
+                                                <td>${user.youhui }</td>
+                                                <td>${user.updatetime }</td>
+                                                <td>${user.couponprom }</td>
+                                                <td>${user.onsale }</td>
 
-                                                <td style="white-space:pre-line;height: 100%;min-height: 50px; max-height: 2000px;line-height: 1.5;overflow: auto;">
-                                                        ${obj.recpoint }
-                                                </td>
-                                                <td>
-                                                    <br><br>
-                                                    <a href="/goods/mergeUI?id=${obj.id }">编辑</a>
-                                                    <br>
-                                                    <br>
-                                                    <br>
-                                                    <a href="/goods/delete?id=${obj.id }">删除</a><br>
-                                                        ${obj.id }
-                                                </td>
+                                                <td><a href="show/${user.id }">详细</a><br>
+                                                    <a href="edit?id=${user.id }">编辑</a><br>
+                                                    <a href="del/${user.id }">删除</a></td>
                                             </tr>
                                         </c:forEach>
 

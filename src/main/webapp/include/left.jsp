@@ -5,10 +5,14 @@
     <div class="sidebar-collapse">
         <ul class="nav" id="main-menu">
             <li>
-                <a id="mmenu_goods1" href="/goods/list"><i class="fa fa-dashboard"></i> 列表</a>
+                <a id="mmenu_goods1" href="/goods/list"><i class="fa fa-dashboard"></i> goods列表</a>
             </li>
             <li>
-                <a id="mmenu_goods2" href="/goods/mergeUI"><i class="fa fa-desktop"></i> 添加</a>
+                <a id="mmenu_goods2" href="/goods/mergeUI"><i class="fa fa-desktop"></i> goods添加</a>
+            </li>
+
+            <li>
+                <a id="mmenu_goods3" href="/user/list"><i class="fa fa-desktop"></i> user列表</a>
             </li>
 
 
