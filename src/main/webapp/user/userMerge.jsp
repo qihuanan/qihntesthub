@@ -57,7 +57,7 @@
                                         price2:<input name="price2" type="text" value="${user.price2}" /><br>
                                         price3:<input name="price3" type="text" value="${user.price3}" /><br>
                                         oneflag:<input name="oneflag" type="text" value="${user.oneflag}" /><br>
-                                        oneflag:<input name="zhekou" type="text" value="${user.zhekou}" /><br>
+                                        zhekou:<input name="zhekou" type="text" value="${user.zhekou}" /><br>
                                         youhui:<input name="youhui" type="text" value="${user.youhui}" /><br>
                                         updatetime:<input name="updatetime" type="text" value="${user.updatetime}" /><br>
                                         couponprom:<input name="couponprom" type="text" value="${user.couponprom}" /><br>

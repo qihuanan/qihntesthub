@@ -41,7 +41,8 @@ public class GoodsController extends BaseController {
     public static String runflag = "0";
     public static String updateflag = "0";
 
-    public static String couponurl = "https://cd.jd.com/promotion/v2?area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1&skuId=";
+    public static String couponurl = "https://cd.jd.com/promotion/v2?area=1_1_1_0&shopId=1&cat=1%2C3%2C1&skuId=";
+    public static String stockurl = "https://c0.3.cn/stock?cat=1,1,1&venderId=107615&area=1_1_1_1&buyNum=1&skuId=";
 
     public  static void main(String args[]){
 
@@ -168,6 +169,8 @@ public class GoodsController extends BaseController {
                this.runner(100001);
            }
 
+            //this.runner(600001);
+
         }else{
             runflag="0";
             log.info("get stop .... ");
@@ -187,10 +190,10 @@ public class GoodsController extends BaseController {
         /*if(gid>9999999 || gid<100001){
             return;
         }*/
-        if(gid>100009654321l || gid<100000000001l){
+       /* if(gid>100009654321l || gid<100000000001l){
             log.info("达到最大值不执行... "+100009654321l);
             return;
-        }
+        }*/
 
         String priceurl = "https://pe.3.cn/prices/mgets?skuids=";
         //String couponurl = "https://cd.jd.com/promotion/v2?area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1&skuId=";
@@ -206,7 +209,7 @@ public class GoodsController extends BaseController {
 
             if(i%1000==0){
                 try{
-                    Thread.sleep(1000*3);
+                    Thread.sleep(1000*2);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -233,7 +236,7 @@ public class GoodsController extends BaseController {
                         array = new JSONArray();
                         try {
                             log.info("休眠60秒");
-                            Thread.sleep(1000*10);
+                            Thread.sleep(1000*3);
                         }catch (Exception e1){
                             e.printStackTrace();
                         }
@@ -273,8 +276,22 @@ public class GoodsController extends BaseController {
                     }else {
                         //log.info("sku-p:"+skuid+"-"+ p);
                     }
-                    String str =  HttpClientUtils.getDataFromUri(couponurl+skuid,"gbk");
-                    //log.info("coupon:"+str);
+
+                    int venderid = 0;
+                    String stock = HttpClientUtils.getDataFromUri(stockurl+skuid,"gbk");
+                    if(stock!=null){
+                        JSONObject outstockjson = new JSONObject(stock);
+                        if(outstockjson.has("stock")){
+                            JSONObject stockjson = outstockjson.getJSONObject("stock");
+                            if(stockjson.has("D")){
+                                JSONObject vjson = stockjson.getJSONObject("D");
+                                venderid = vjson.getInt("vid");
+                            }
+                        }
+                    }
+
+                    String str =  HttpClientUtils.getDataFromUri(couponurl+skuid+"&venderId="+venderid,"gbk");
+                    log.info("coupon:"+str);
                     StringBuffer couponsb = new StringBuffer();
                     if(Utils.isNotNullOrEmpty(str)){
                         if(!str.startsWith("{")){
@@ -290,6 +307,9 @@ public class GoodsController extends BaseController {
                                     //log.info("coupon-discount-quota:"+couponjson.getInt("trueDiscount")+"-"+couponjson.getInt("quota") );
                                     Double quotalong = Double.parseDouble(couponjson.getInt("quota")+"");
                                     Double discount = Double.parseDouble(couponjson.getInt("trueDiscount")+"");
+                                    String beginTime = couponjson.getString("beginTime");
+                                    String nowtime = Utils.getDate2(0,0,0);
+
                                     couponsb.append("券："+quotalong+ "-"+discount).append(" ");
                                     if(quotalong<price){//满减可以直接使用
                                         priceQuanhou = (price-discount);
@@ -297,7 +317,7 @@ public class GoodsController extends BaseController {
                                         Double zhekou = (1-discount/price)*100;
                                         //log.info("券后=================："+priceQuanhou +" 优惠："+ String.format("%.2f", discount) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceQuanhou );
                                     }else {//价格小于直接满减的满价
-                                        if(quotalong<=price*3){
+                                        if(quotalong<=price*2){
                                             singleflag = 0;
                                             priceQuanhou = (price- price/quotalong*discount);
                                             priceLast = priceQuanhou;

@@ -61,19 +61,15 @@
                                         </div>
                                         <table class="table table-striped table-bordered table-hover" style="width: 99%">
                                             <tr>
-                                                <td >{obj.gid}</td><td> {obj.price} </td><td> {obj.price2} </td><td> {obj.price3} </td><td>
-                                                {obj.zhekou} </td><td> {obj.youhui} </td>
-                                                <td>{obj.updatetime}
-                                                     </td>
+                                                <td width="70%">gid updatetime couponprom </td>
+                                                <td width="30%"> price price2 price3 </td>
                                             </tr>
 
                                             <c:forEach var="obj" items="${ulist }" >
                                                 <tr>
-                                                    <td >${obj.gid} </td><td> ${obj.price} </td><td> ${obj.price2} </td><td>
-                                                        ${obj.price3} </td><td> ${obj.zhekou} </td><td> ${obj.youhui} </td>
-                                                    <td>
-                                                        ${obj.name}
-                                                    </td>
+                                                    <td >${obj.gid}<br>${obj.couponprom }<br>${obj.name} <br> <a href="/user/edit?id=${obj.id }">编辑</a> </td>
+                                                    <td> 当前：${obj.price} <br> 上/本次：${obj.price2} / ${obj.price3}<br> 折/优惠：${obj.zhekou} / ${obj.youhui}
+                                                        </td>
                                                 </tr>
                                             </c:forEach>
                                         </table>
