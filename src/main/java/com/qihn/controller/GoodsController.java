@@ -512,7 +512,7 @@ public class GoodsController extends BaseController {
         StringBuffer sb = new StringBuffer();
         if(list!=null){
             for(int i=0;i<list.size();i++){
-                if(i>2) break;
+                if(i>9) break;
                 String newurl = "http://in-qq.com/#"+list.get(i).getId();
                 String temp ="^^^^";
                 String result = list.get(i).getRecpoint();
@@ -521,10 +521,10 @@ public class GoodsController extends BaseController {
                     result = result.replace(url,temp);
                 }
                 result = result.replace(temp,newurl);*/
-                sb.append(result).append("\n").append("内购详情：<a href=\"" + newurl +  "\""+
+                sb.append(result).append("\n").append("详情：<a href=\"" + newurl +  "\""+
                         " style=\"color:#f85000;\"" + ">" + newurl + "</a>").append("\n");
             }
-            sb.append("更多内购精选-》：http://in-qq.com \n\n");
+            sb.append("更多精选：http://in-qq.com \n");
         }
         mv.addObject("linestr",sb.toString());
         mv.setViewName("goods/list");
@@ -581,11 +581,15 @@ public class GoodsController extends BaseController {
                         System.out.println("uuid替换后："+result);
                         for (Map.Entry<String, String> entry : tmap.entrySet()) {
                             //resultText += "<a href=\"" + matcher.group() + "\">" + matcher.group() + "</a>";
+                            //result = result.replace(entry.getKey(), "<a href=\"" + entry.getValue() +  "\""+ " style=\"color:#f85000;\"" + ">" + entry.getValue() + "</a>");
                             result = result.replace(entry.getKey(), "<a href=\"" + entry.getValue() +  "\""+ " style=\"color:#f85000;\"" + ">" + entry.getValue() + "</a>");
+
                             result = result.replace("抢券","");
                             result = result.replace("+","");
-                            result = result.replace("下单","内购:");
-                            result = result.replace("抢购","内购:");
+                            result = result.replace("下单"," ");
+                            result = result.replace("抢购"," ");
+                            //result = result.replace("内购","");
+                            result = result.replace("链接","");
                         }
                         System.out.println("自动链接后："+result);
                         // 网页显示使用的字段，自带链接的
@@ -964,6 +968,7 @@ public class GoodsController extends BaseController {
         goods.setUpdatetime(new Date().getTime());
         goods.setRemark(new SimpleDateFormat("MM-dd HH:mm").format(new Date()));
         if(goods.getId()==null){
+            goods.setName(goods.getName().substring(4));
             goodsService.save(goods);
         }else{
             goodsService.update(goods);
