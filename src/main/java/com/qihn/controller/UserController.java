@@ -39,7 +39,7 @@ public class UserController {
      * master
      * @return
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = {RequestMethod.GET,RequestMethod.POST})
     public ModelAndView getUserlist(@ModelAttribute("goods") User user, @ModelAttribute("pageInfo") PageInfo pageInfo) {
         ModelAndView mv = new ModelAndView();
         if(pageInfo==null){

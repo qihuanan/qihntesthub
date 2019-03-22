@@ -56,19 +56,22 @@
                                         </div>
                                     </div>
                                     <div id='description' style="display: block;">
-                                        <div>update: ${lastupdate.gid} -- last: ${lastid.gid} -- runflag: ${runflag} -- updateflag: ${updateflag}
+                                        <div>update: ${lastupdate.gid} -- last: ${lastid.gid} -- runflag: ${runflag} -- updateflag: ${updateflag} -- ${forestupdate}
 
                                         </div>
                                         <table class="table table-striped table-bordered table-hover" style="width: 99%">
                                             <tr>
                                                 <td width="70%">gid updatetime couponprom </td>
-                                                <td width="30%"> price price2 price3 </td>
+                                                <td width="30%"> price price2 price3 pricelowest</td>
                                             </tr>
 
                                             <c:forEach var="obj" items="${ulist }" >
                                                 <tr>
-                                                    <td >${obj.gid}<br>${obj.couponprom }<br>${obj.name} <br> <a href="/user/edit?id=${obj.id }">编辑</a> </td>
-                                                    <td> 当前：${obj.price} <br> 上/本次：${obj.price2} / ${obj.price3}<br> 折/优惠：${obj.zhekou} / ${obj.youhui}
+                                                    <td >${obj.gid}<br>${obj.couponprom }<br>${obj.name} <br>
+                                                        <a href="/user/edit?id=${obj.id }">编辑</a> &nbsp;<a href="/goods/updatepriceSingle?gid=${obj.gid }">更新</a>
+                                                        &nbsp; <a href="/goods/autotuiguangbyskuid?skuid=${obj.gid }">生成</a>
+                                                    </td>
+                                                    <td> 当前/底：${obj.price}/ ${obj.pricelowest} <br> 上/本次：${obj.price2} / ${obj.price3}<br> 折/优惠：${obj.zhekou} / ${obj.youhui}
                                                         </td>
                                                 </tr>
                                             </c:forEach>

@@ -42,6 +42,9 @@ public class User implements Serializable {
     @Column(name = "price3")
     private Integer price3;//本次价格
 
+    @Column(name = "pricelowest")
+    private Integer pricelowest;//最低价格
+
     @Column(name = "oneflag")
     private Integer oneflag;
 
@@ -183,5 +186,13 @@ public class User implements Serializable {
 
     public void setPrice2(Integer price2) {
         this.price2 = price2;
+    }
+
+    public Integer getPricelowest() {
+        return pricelowest;
+    }
+
+    public void setPricelowest(Integer pricelowest) {
+        this.pricelowest = pricelowest;
     }
 }

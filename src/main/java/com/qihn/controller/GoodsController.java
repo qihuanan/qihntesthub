@@ -82,29 +82,54 @@ public class GoodsController extends BaseController {
 
     }
 
+
+    @RequestMapping(value = "/updatepriceSingle", method = {RequestMethod.POST, RequestMethod.GET})
+    public String updatepriceSingle(HttpServletRequest request) {
+        long gid = new Long(request.getParameter("gid")) ;
+        String priceurl = "https://px.3.cn/prices/mgets?source=wxsq&skuids=";
+        String str =  HttpClientUtils.getDataFromUri(priceurl+gid,null);
+
+        JSONArray array = null;
+        if(StringUtils.isNotBlank(str)){
+            try{
+                array = new JSONArray(str);
+            }catch (Exception e){
+                log.info("url:"+priceurl+gid+" res:"+str);
+                array = new JSONArray();
+            }
+            pricereset(array);
+        }
+        return "redirect:/goods/list";
+    }
+
     @RequestMapping(value = "/updateprice", method = {RequestMethod.POST, RequestMethod.GET})
     public String updateprice(HttpServletRequest request){
         String priceurl = "https://pe.3.cn/prices/mgets?skuids=";
         updateflag =  request.getParameter("updateflag");
+        String no =  request.getParameter("no");
+        if(StringUtils.isEmpty(no)){
+            no = "1";
+        }
         if(updateflag.equals("1")){
             updateflag = "1";
             while (true && updateflag.equals("1")){
                 if(!updateflag.equals("1")) break;
-                List<User> list = this.userService.findByProperties(new User(),null,600,"updatetime","asc");
+                List<User> list = this.userService.findByProperties(new User(),null,100,"updatetime","asc");
                 if(list!=null && list.size()>0){
                     StringBuffer sb = new StringBuffer();
                     int b = 0;
+                    if(no.equals("1")){
+
+                    }
                     for(int i=0;i<list.size();i++){
                         if(!updateflag.equals("1")) break;
-                        if(i%200==0){
+                       /* if(i%200==0){
                             try {
                                 Thread.sleep(3000);
                             }catch (Exception e){
-
                             }
-
                             log.info("update running .... ");
-                        }
+                        }*/
                         sb.append(list.get(i).getGid()).append(",");
                         if(i%10==0){
                             b++;
@@ -129,7 +154,7 @@ public class GoodsController extends BaseController {
                                     array = new JSONArray();
                                     try {
                                         log.info("休眠10秒");
-                                        Thread.sleep(1000*10);
+                                        Thread.sleep(1000*1);
                                     }catch (Exception e1){
                                     }
                                     continue;
@@ -236,7 +261,7 @@ public class GoodsController extends BaseController {
                         array = new JSONArray();
                         try {
                             log.info("休眠60秒");
-                            Thread.sleep(1000*3);
+                            Thread.sleep(1000*1);
                         }catch (Exception e1){
                             e.printStackTrace();
                         }
@@ -291,7 +316,7 @@ public class GoodsController extends BaseController {
                     }
 
                     String str =  HttpClientUtils.getDataFromUri(couponurl+skuid+"&venderId="+venderid,"gbk");
-                    log.info("coupon:"+str);
+                    //log.info("coupon:"+str);
                     StringBuffer couponsb = new StringBuffer();
                     if(Utils.isNotNullOrEmpty(str)){
                         if(!str.startsWith("{")){
@@ -299,38 +324,6 @@ public class GoodsController extends BaseController {
                             continue;
                         }
                         JSONObject promotion = new JSONObject(str);
-                        if(promotion.has("skuCoupon")){
-                            JSONArray skuCouponArray = promotion.getJSONArray("skuCoupon");
-                            for(int k=0;k<skuCouponArray.length();k++){
-                                JSONObject couponjson = skuCouponArray.getJSONObject(k);
-                                if(couponjson.has("couponType")&& couponjson.getInt("couponType")==1){
-                                    //log.info("coupon-discount-quota:"+couponjson.getInt("trueDiscount")+"-"+couponjson.getInt("quota") );
-                                    Double quotalong = Double.parseDouble(couponjson.getInt("quota")+"");
-                                    Double discount = Double.parseDouble(couponjson.getInt("trueDiscount")+"");
-                                    String beginTime = couponjson.getString("beginTime");
-                                    String nowtime = Utils.getDate2(0,0,0);
-
-                                    couponsb.append("券："+quotalong+ "-"+discount).append(" ");
-                                    if(quotalong<price){//满减可以直接使用
-                                        priceQuanhou = (price-discount);
-                                        priceLast = priceQuanhou;
-                                        Double zhekou = (1-discount/price)*100;
-                                        //log.info("券后=================："+priceQuanhou +" 优惠："+ String.format("%.2f", discount) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceQuanhou );
-                                    }else {//价格小于直接满减的满价
-                                        if(quotalong<=price*2){
-                                            singleflag = 0;
-                                            priceQuanhou = (price- price/quotalong*discount);
-                                            priceLast = priceQuanhou;
-                                            Double zhekou = priceQuanhou/price*100;
-                                            //log.info("券后约(凑单或多件)："+String.format("%.2f", priceQuanhou) +" 优惠："+ String.format("%.2f", priceQuanhou) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceQuanhou );
-
-                                        }
-
-                                    }
-
-                                }
-                            }
-                        }
 
                         if(promotion.has("prom")){
                             JSONObject prom =  promotion.getJSONObject("prom");
@@ -360,9 +353,11 @@ public class GoodsController extends BaseController {
                                                 }else {
                                                     //凑单减
                                                     singleflag = 0;
+                                                    log.info("priceQuanhou-price-jian-man:"+ priceQuanhou+" "+price+" "+jian+" "+man );
                                                     priceLast = (priceQuanhou- price*(jian/man));
                                                     Double zhekou = (1-price*(jian/man)/price)*100;
                                                     // log.info("凑单满减后约："+ String.format("%.2f", priceLast) +" 优惠："+ String.format("%.2f", price*(jian/man)) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceLast );
+                                                    log.info("凑单满减： "+priceLast + " "+ zhekou);
                                                 }
 
                                                 //log.info("pattern: "+m.group()+" ");
@@ -380,6 +375,7 @@ public class GoodsController extends BaseController {
                                                     Double zhe = Double.parseDouble(m.group(8));
                                                     priceLast = priceQuanhou * (zhe*0.1);
                                                     //log.info("多件折后："+ String.format("%.2f", priceLast )  +" 优惠："+ String.format("%.2f", price-priceQuanhou * (zhe*0.1) ) +"元！,约"+ String.format("%.0f", zhe)+"折"   );
+                                                    log.info("多件折后： "+priceLast + " "+ zhe);
                                                 }else {
                                                     if(m.group(2).equals("1")){ // 1件 x 折的情况
                                                         singleflag = 1;
@@ -387,6 +383,7 @@ public class GoodsController extends BaseController {
                                                     //log.info("多件多折 "+m.group(2)+" "+m.group(4));
                                                     Double zhe = Double.parseDouble(m.group(4));
                                                     priceLast = priceQuanhou * (zhe*0.1);
+                                                    log.info("多件折后： "+priceLast + " "+ zhe);
                                                     //log.info("多件折后："+ String.format("%.2f",priceLast )  +" 优惠："+ String.format("%.2f", price-priceQuanhou * (zhe*0.1) ) +"元！,约"+ String.format("%.0f", zhe)+"折"   );
                                                 }
 
@@ -401,10 +398,47 @@ public class GoodsController extends BaseController {
                         }
 
 
+                        if(promotion.has("skuCoupon")){
+                            JSONArray skuCouponArray = promotion.getJSONArray("skuCoupon");
+                            for(int k=0;k<skuCouponArray.length();k++){
+                                JSONObject couponjson = skuCouponArray.getJSONObject(k);
+                                if(couponjson.has("couponType")&& couponjson.getInt("couponType")==1){
+                                    //log.info("coupon-discount-quota:"+couponjson.getInt("trueDiscount")+"-"+couponjson.getInt("quota") );
+                                    Double quotalong = Double.parseDouble(couponjson.getInt("quota")+"");
+                                    Double discount = Double.parseDouble(couponjson.getInt("trueDiscount")+"");
+                                    String beginTime = couponjson.getString("beginTime");
+                                    String nowtime = Utils.getDate2(0,0,0);
+
+                                    couponsb.append("券："+quotalong+ "-"+discount).append(" ");
+                                    if(quotalong<price){//满减可以直接使用
+                                        priceQuanhou = (price-discount);
+                                        priceLast = priceQuanhou;
+                                        Double zhekou = (1-discount/price)*100;
+                                        //log.info("券后=================："+priceQuanhou +" 优惠："+ String.format("%.2f", discount) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceQuanhou );
+                                    }else {//优惠券 价格小于直接满减的满价
+                                        if(quotalong<=price*2){
+                                            singleflag = 0;
+                                            //priceQuanhou = (price- price/quotalong*discount);
+                                            //priceLast = priceQuanhou;
+                                            priceLast = priceLast - priceLast*(discount/quotalong);
+                                            Double zhekou = priceLast/price*100;
+                                            log.info("价格小于直接满减的满价 "+ priceQuanhou + " "+ priceLast + " "+zhekou );
+                                            //log.info("券后约(凑单或多件)："+String.format("%.2f", priceQuanhou) +" 优惠："+ String.format("%.2f", priceQuanhou) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceQuanhou );
+
+                                        }
+
+                                    }
+
+                                }
+                            }
+                        }
+
+
+
                     }
                     log.info("sku-price-priceLast-singleflag: "+skuid+" "+price + " "+ priceLast + " "+singleflag);
-                    log.info("");
-                    log.info("");
+                    //log.info("");
+                    //log.info("");
                     User user = new User();
                     user.setGid(Long.parseLong(skuid));
                     user = this.userService.findByProperties(user);
@@ -424,6 +458,7 @@ public class GoodsController extends BaseController {
                         user.setPrice2(user.getPrice3());
                         user.setZhekou(100 );
                         user.setYouhui(0);
+                        user.setPricelowest(priceLast.intValue());
                         this.userService.save(user);
                     }else {
                         user.setPrice2(user.getPrice3());
@@ -432,6 +467,11 @@ public class GoodsController extends BaseController {
                         //user.setYouhui(price.intValue()-priceLast.intValue());
                         user.setZhekou(new Double(new Double(user.getPrice3())/new Double(user.getPrice2())*100).intValue() );
                         user.setYouhui(user.getPrice2().intValue()-user.getPrice3().intValue());
+                        if(user.getPricelowest()!=null){
+                            if(user.getPrice3()<user.getPricelowest()){
+                                user.setPricelowest(user.getPrice3());
+                            }
+                        }
 
                         this.userService.update(user);
                     }
@@ -512,12 +552,15 @@ public class GoodsController extends BaseController {
             }
         }
         List<User> lastupdate =  this.userService.findByProperties(new User(),null,1,"updatetime","desc" );
+        List<User> forestupdate =  this.userService.findByProperties(new User(),null,1,"updatetime","asc" );
         List<User> lastid =  this.userService.findByProperties(new User(),null,1,"id","desc" );
         mv.addObject("ulist",ulist);
         if(lastupdate!=null && lastupdate.size()>0)
         mv.addObject("lastupdate",lastupdate.get(0));
         if(lastid!=null && lastid.size()>0)
             mv.addObject("lastid",lastid.get(0));
+        if(forestupdate!=null && forestupdate.size()>0)
+            mv.addObject("forestupdate",Utils.formatLongDate(new Date(forestupdate.get(0).getUpdatetime())) );
 
         if(pageInfo==null){
             pageInfo = new PageInfo();
@@ -551,18 +594,16 @@ public class GoodsController extends BaseController {
         return mv;
     }
 
-    @RequestMapping(value = "/mergeUIRecpoint", method = RequestMethod.POST)
-    public ModelAndView mergeUIRecpoint(@ModelAttribute("goods") Goods goods) {
-        ModelAndView mv = new ModelAndView();
+    private void mergeUIRecpointlogic(Goods goods){
         if (Utils.isNotNullOrEmpty(goods) && Utils.isNotNullOrEmpty(goods.getRecpoint())) {
             try {
-            //goods.setRecpoint(Html2Text(goods.getRecpoint()));
-            goods.setRecpoint(URLEncoder.encode(goods.getRecpoint(),"UTF-8"));
-            log.error("recpoint: "+goods.getRecpoint());
-            String url = "http://japi.jingtuitui.com/api/universal";
-            String data = "appid=1805022340533108&appkey=4da21768b0d248aee58e3173af15e411&unionid=1000524984&positionid=&coupon_url=&content="+goods.getRecpoint();
-            String str =  HttpUtil.sendPost(url,data);
-            log.error("转链后str:"+str);
+                //goods.setRecpoint(Html2Text(goods.getRecpoint()));
+                goods.setRecpoint(URLEncoder.encode(goods.getRecpoint(),"UTF-8"));
+                log.error("recpoint: "+goods.getRecpoint());
+                String url = "http://japi.jingtuitui.com/api/universal";
+                String data = "appid=1805022340533108&appkey=4da21768b0d248aee58e3173af15e411&unionid=1000524984&positionid=&coupon_url=&content="+goods.getRecpoint();
+                String str =  HttpUtil.sendPost(url,data);
+                log.error("转链后str:"+str);
 
                 JSONObject json = new JSONObject(str);
                 if(json.get("return").equals("0")){
@@ -585,7 +626,7 @@ public class GoodsController extends BaseController {
 
                     Map<String,String> tmap = new HashMap<>();
                     if (matcher.find()){
-                         url = matcher.group();
+                        url = matcher.group();
                         goods.setSkulink(url);// 单个商品的链接 设置链接，如果是线报，不设置此链接
                         String uuid = UUID.randomUUID().toString();
                         result = result.replace(url,uuid);
@@ -627,12 +668,56 @@ public class GoodsController extends BaseController {
             }
             //goods.setName(yinhao(goods.getName()));
             //goods.setRecpoint(yinhao(goods.getRecpoint()));
-            mv.addObject(goods);
-            mv.setViewName("goods/merge");
         }
+    }
 
+    @RequestMapping(value = "/mergeUIRecpoint", method = RequestMethod.POST)
+    public ModelAndView mergeUIRecpoint(@ModelAttribute("goods") Goods goods) {
+        ModelAndView mv = new ModelAndView();
+        this.mergeUIRecpointlogic(goods);
+        mv.addObject(goods);
         mv.setViewName("goods/merge");
         return mv;
+    }
+
+    @RequestMapping(path = "/autotuiguangbyskuid",method = RequestMethod.GET)
+    public String  autotuiguangbyskuid(HttpServletRequest request){
+        String skuid = request.getParameter("skuid");
+        Map remap =new HashMap();
+        String url = "http://japi.jingtuitui.com/api/get_goods_info";
+        String data = "appid=1805022340533108&appkey=4da21768b0d248aee58e3173af15e411&gid="+skuid;
+        String str =  HttpUtil.sendPost(url,data);
+        log.error("jtt2 "+str);
+        remap = JSONUtils.fromJson(str,Map.class);
+
+        url = "http://japi.jingtuitui.com/api/get_goods_link";
+        data = "appid=1805022340533108&appkey=4da21768b0d248aee58e3173af15e411&unionid=1000524984&positionid=&coupon_url=&gid="+skuid;
+        str =  HttpUtil.sendPost(url,data);
+        log.error("jtt3 "+str);
+
+        Map remap2 =JSONUtils.fromJson(str,Map.class);
+        if(remap2!=null && remap2.get("return").equals("0")){
+            remap.put("result2",remap2.get("result"));
+            try {
+                log.error("reobj: "+JSONUtils.toJSON(remap));
+                User user = new User();
+                user.setGid(new Long(skuid));
+                user = userService.findByProperties(user);
+                if(user!=null){
+                    StringBuffer sb = new StringBuffer();
+                    sb.append("京东价："+user.getPrice()).append(" ");
+                    sb.append("促销活动实付款:"+user.getPrice3());
+                    saveGoods(remap,skuid,user.getCouponprom()+" \n "+ sb );
+                }
+                //return JSONUtils.toJSON(remap);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else {
+            log.error("jtt 获取失败skuid.."+skuid);
+        }
+
+        return "redirect:/goods/list";
     }
 
     @RequestMapping(path = "/skuExist",method = RequestMethod.GET)
@@ -859,7 +944,7 @@ public class GoodsController extends BaseController {
 
         try {
             log.error("reobj: "+JSONUtils.toJSON(remap));
-            return saveGoods(remap,skuid);
+            return saveGoods(remap,skuid,"");
             //return JSONUtils.toJSON(remap);
         }catch (Exception e){
             e.printStackTrace();
@@ -909,7 +994,7 @@ public class GoodsController extends BaseController {
      * }
      * @param remap2
      */
-    private String saveGoods( Map remap2,String skuid){
+    private String saveGoods( Map remap2,String skuid,String recpoint){
         try {
             JSONObject obj = new JSONObject(JSONUtils.toJSON(remap2)) ;
             Goods g = new Goods();
@@ -930,7 +1015,7 @@ public class GoodsController extends BaseController {
             g.setPrice(Float.parseFloat(obj.getJSONObject("result").get("wlUnitPrice").toString()));
             g.setPricel(Float.parseFloat(obj.getJSONObject("result").get("wlUnitPrice").toString()));
             g.setRatio(obj.getJSONObject("result").getInt("commisionRatioWl"));
-            g.setRecpoint(new SimpleDateFormat("MM-dd HH:mm").format(new Date()));
+
             g.setSkuid(skuid);
             g.setSkulink(obj.getJSONObject("result2").getString("link"));
             g.setSkupicture(obj.getJSONObject("result").getString("imgUrl"));
@@ -945,9 +1030,11 @@ public class GoodsController extends BaseController {
             g.setMaterialUrl(obj.getJSONObject("result").getString("materialUrl"));
             g.setInOrderCount(obj.getJSONObject("result").getInt("inOrderCount"));
 
+            g.setRecpoint(g.getName()+" \n "+recpoint+" \n "+g.getSkulink());
             g.setUpdatetime(new Date().getTime());
             g.setRemark(new SimpleDateFormat("MM-dd HH:mm").format(new Date()));
 
+            mergeUIRecpointlogic(g);
 
             if(g.getId()==null){
                 this.goodsService.save(g);

@@ -43,11 +43,12 @@
                                 <a  href="#" onclick="getprice2(0)">stopprice</a><br><br>
 
                             </div>
-                            <form action="/goods/list" method="post">
+                            <form action="/user/list" method="post">
                                 <div class="table-responsive" >
                                     <div class="row" style="width: 99%">
                                         <div class="col-sm-6" style="margin-bottom: 5px;">&nbsp;&nbsp;
-                                            S: <input type="text" name="name" value="${goods.name}" >
+                                            S: <input type="text" name="name" value="${user.name}" >
+                                            gid: <input type="text" name="gid" value="${user.gid}" >
                                             <input type="submit" value="查询"></input>${syscount}
                                         </div>
                                     </div>
@@ -62,38 +63,26 @@
                                     <tr>
                                         <td>ID</td>
                                         <td>gid</td>
-                                        <td>price</td>
-                                        <td>price2</td>
-                                        <td>price3</td>
-                                        <td>oneflag</td>
-                                        <td>zhekou</td>
-                                        <td>youhui</td>
-                                        <td>updatetime</td>
-                                        <td>couponprom</td>
-                                        <td>onsale</td>
-                                        <td>操作</td>
+
                                     </tr>
                                     </thead>
                                     <tbody>
 
-                                    <c:forEach var="user" items="${userList }" >
+                                    <c:forEach var="obj" items="${userList }" >
                                         <tr>
-                                            <td>${user.id }</td>
-                                            <td>${user.gid }</td>
-                                            <td>${user.price }</td>
-                                            <td>${user.price2 }</td>
-                                            <td>${user.price3 }</td>
-                                            <td>${user.oneflag }</td>
-                                            <td>${user.zhekou }</td>
-                                            <td>${user.youhui }</td>
-                                            <td>${user.updatetime }</td>
-                                            <td>${user.couponprom }</td>
-                                            <td>${user.onsale }</td>
-
-                                            <td><a href="show/${user.id }">详细</a><br>
-                                                <a href="edit?id=${user.id }">编辑</a><br>
-                                                <a href="del/${user.id }">删除</a></td>
+                                            <td >${obj.gid}<br>${obj.couponprom }<br>${obj.name} <br>
+                                                <a href="/user/edit?id=${obj.id }">编辑</a> &nbsp;<a href="/goods/updatepriceSingle?gid=${obj.gid }">更新</a>
+                                                &nbsp; <a href="/goods/autotuiguangbyskuid?skuid=${obj.gid }">生成</a>
+                                                <a href="show/${obj.id }">详细</a><br>
+                                                <a href="edit?id=${obj.id }">编辑</a><br>
+                                                <a href="del/${obj.id }">删除</a>
+                                            </td>
+                                            <td> 当前/底：${obj.price} / ${obj.pricelowest} <br> 上/本次：${obj.price2} / ${obj.price3}<br> 折/优惠：${obj.zhekou} / ${obj.youhui}
+                                                <br> onsale/oneflag：${obj.onsale} ${obj.oneflag}
+                                            </td>
                                         </tr>
+
+
                                     </c:forEach>
 
 
