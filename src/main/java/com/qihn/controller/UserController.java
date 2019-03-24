@@ -40,15 +40,42 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/list", method = {RequestMethod.GET,RequestMethod.POST})
-    public ModelAndView getUserlist(@ModelAttribute("goods") User user, @ModelAttribute("pageInfo") PageInfo pageInfo) {
+    public ModelAndView getUserlist(@ModelAttribute("user") User user, @ModelAttribute("pageInfo") PageInfo pageInfo) {
         ModelAndView mv = new ModelAndView();
         if(pageInfo==null){
             pageInfo = new PageInfo();
         }
-        List<User> userList = userService.findByProperties(user,pageInfo,0,"id ","desc");
         userService.countByProperties(user);
-        mv.addObject("userList", userList);
+
+        List<User> ulist =  this.userService.findByProperties(user,pageInfo,null,"zhekou","asc" );
+        if(ulist!=null){
+            for(int i=0;i<ulist.size();i++ ){
+                ulist.get(i).setName(Utils.formatLongDate(new Date(ulist.get(i).getUpdatetime()) ) );
+            }
+        }
+        List<User> lastupdate =  this.userService.findByProperties(new User(),null,1,"updatetime","desc" );
+        List<User> forestupdate =  this.userService.findByProperties(new User(),null,1,"updatetime","asc" );
+        List<User> lastid =  this.userService.findByProperties(new User(),null,1,"id","desc" );
+        mv.addObject("ulist",ulist);
+        if(lastupdate!=null && lastupdate.size()>0)
+            mv.addObject("lastupdate",lastupdate.get(0));
+        if(lastid!=null && lastid.size()>0)
+            mv.addObject("lastid",lastid.get(0));
+        if(forestupdate!=null && forestupdate.size()>0)
+            mv.addObject("forestupdate",Utils.formatLongDate(new Date(forestupdate.get(0).getUpdatetime())) );
+        mv.addObject("forest",forestupdate.get(0) );
+
+        mv.addObject("userList", ulist);
+        mv.addObject("userList", ulist);
         mv.addObject("pageInfo",pageInfo);
+
+        mv.addObject("get1w",GoodsController.get1w);
+        mv.addObject("cc",GoodsController.cc);
+
+
+        mv.addObject("updateflag",GoodsController.updateflag);
+        mv.addObject("runflag",GoodsController.runflag);
+        mv.addObject("user",user);
         mv.setViewName("user/userList");
         return mv;
     }

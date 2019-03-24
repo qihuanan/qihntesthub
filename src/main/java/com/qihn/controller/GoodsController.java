@@ -99,7 +99,7 @@ public class GoodsController extends BaseController {
             }
             pricereset(array);
         }
-        return "redirect:/goods/list";
+        return "redirect:/user/list";
     }
 
     @RequestMapping(value = "/updateprice", method = {RequestMethod.POST, RequestMethod.GET})
@@ -175,7 +175,7 @@ public class GoodsController extends BaseController {
         }
 
 
-        return "redirect:/goods/list";
+        return "redirect:/user/list";
     }
 
     @RequestMapping(value = "/getprice", method = {RequestMethod.POST, RequestMethod.GET})
@@ -202,7 +202,7 @@ public class GoodsController extends BaseController {
         }
 
 
-        return "redirect:/goods/list";
+        return "redirect:/user/list";
     }
 
 
@@ -277,8 +277,11 @@ public class GoodsController extends BaseController {
 
     }
 
-
+    public static long cc = 0l;
+    public static long get1w = 0l;
+    static  long now = new Date().getTime();
     private void pricereset(JSONArray array){
+
         for(int j=0;j<array.length();j++){
             try{
                 JSONObject json = array.getJSONObject(j);
@@ -305,7 +308,18 @@ public class GoodsController extends BaseController {
                     int venderid = 0;
                     String stock = HttpClientUtils.getDataFromUri(stockurl+skuid,"gbk");
                     if(stock!=null){
-                        JSONObject outstockjson = new JSONObject(stock);
+                        JSONObject outstockjson =null;
+                        try{
+                             outstockjson = new JSONObject(stock);
+                        }catch (Exception e){
+                            User user = new User();
+                            user.setGid(Long.parseLong(skuid));
+                            user = this.userService.findByProperties(user);
+                            user.setUpdatetime(new Date().getTime());
+                            this.userService.update(user);
+                            continue;
+                        }
+
                         if(outstockjson.has("stock")){
                             JSONObject stockjson = outstockjson.getJSONObject("stock");
                             if(stockjson.has("D")){
@@ -357,7 +371,7 @@ public class GoodsController extends BaseController {
                                                     priceLast = (priceQuanhou- price*(jian/man));
                                                     Double zhekou = (1-price*(jian/man)/price)*100;
                                                     // log.info("凑单满减后约："+ String.format("%.2f", priceLast) +" 优惠："+ String.format("%.2f", price*(jian/man)) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceLast );
-                                                    log.info("凑单满减： "+priceLast + " "+ zhekou);
+                                                    //log.info("凑单满减： "+priceLast + " "+ zhekou);
                                                 }
 
                                                 //log.info("pattern: "+m.group()+" ");
@@ -375,7 +389,7 @@ public class GoodsController extends BaseController {
                                                     Double zhe = Double.parseDouble(m.group(8));
                                                     priceLast = priceQuanhou * (zhe*0.1);
                                                     //log.info("多件折后："+ String.format("%.2f", priceLast )  +" 优惠："+ String.format("%.2f", price-priceQuanhou * (zhe*0.1) ) +"元！,约"+ String.format("%.0f", zhe)+"折"   );
-                                                    log.info("多件折后： "+priceLast + " "+ zhe);
+                                                    //log.info("多件折后： "+priceLast + " "+ zhe);
                                                 }else {
                                                     if(m.group(2).equals("1")){ // 1件 x 折的情况
                                                         singleflag = 1;
@@ -383,7 +397,7 @@ public class GoodsController extends BaseController {
                                                     //log.info("多件多折 "+m.group(2)+" "+m.group(4));
                                                     Double zhe = Double.parseDouble(m.group(4));
                                                     priceLast = priceQuanhou * (zhe*0.1);
-                                                    log.info("多件折后： "+priceLast + " "+ zhe);
+                                                    //log.info("多件折后： "+priceLast + " "+ zhe);
                                                     //log.info("多件折后："+ String.format("%.2f",priceLast )  +" 优惠："+ String.format("%.2f", price-priceQuanhou * (zhe*0.1) ) +"元！,约"+ String.format("%.0f", zhe)+"折"   );
                                                 }
 
@@ -408,6 +422,11 @@ public class GoodsController extends BaseController {
                                     Double discount = Double.parseDouble(couponjson.getInt("trueDiscount")+"");
                                     String beginTime = couponjson.getString("beginTime");
                                     String nowtime = Utils.getDate2(0,0,0);
+                                    //优惠券不到使用时间的逻辑，这里如果是大额优惠券，后续可以提醒...
+                                    if(beginTime.compareTo(nowtime)>0){
+                                        //log.info("优惠券不到使用日期，"+beginTime);
+                                        continue;
+                                    }
 
                                     couponsb.append("券："+quotalong+ "-"+discount).append(" ");
                                     if(quotalong<price){//满减可以直接使用
@@ -422,7 +441,7 @@ public class GoodsController extends BaseController {
                                             //priceLast = priceQuanhou;
                                             priceLast = priceLast - priceLast*(discount/quotalong);
                                             Double zhekou = priceLast/price*100;
-                                            log.info("价格小于直接满减的满价 "+ priceQuanhou + " "+ priceLast + " "+zhekou );
+                                            //log.info("价格小于直接满减的满价 "+ priceQuanhou + " "+ priceLast + " "+zhekou );
                                             //log.info("券后约(凑单或多件)："+String.format("%.2f", priceQuanhou) +" 优惠："+ String.format("%.2f", priceQuanhou) +"元！,约"+ String.format("%.0f", zhekou)+"折"+" 到手价："+ priceQuanhou );
 
                                         }
@@ -474,6 +493,16 @@ public class GoodsController extends BaseController {
                         }
 
                         this.userService.update(user);
+
+                        cc++;
+                        if(cc%100==0){
+                            long now2 = new Date().getTime();
+                            get1w = now2-now;
+                            get1w = get1w/1000;
+                            now = new Date().getTime();
+                            log.info("qihdebug-100个");
+                        }
+
                     }
 
                 }else {
@@ -561,6 +590,7 @@ public class GoodsController extends BaseController {
             mv.addObject("lastid",lastid.get(0));
         if(forestupdate!=null && forestupdate.size()>0)
             mv.addObject("forestupdate",Utils.formatLongDate(new Date(forestupdate.get(0).getUpdatetime())) );
+        mv.addObject("forest",forestupdate.get(0) );
 
         if(pageInfo==null){
             pageInfo = new PageInfo();
