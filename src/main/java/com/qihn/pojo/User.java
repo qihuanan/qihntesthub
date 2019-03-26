@@ -65,6 +65,16 @@ public class User implements Serializable {
 
     @Column(name = "nice_name", length = 500)
     private String nice_name;
+    //vo
+    private String updatetime2;
+
+    public String getUpdatetime2() {
+        return updatetime2;
+    }
+
+    public void setUpdatetime2(String updatetime2) {
+        this.updatetime2 = updatetime2;
+    }
 
     @Override
     public String toString() {

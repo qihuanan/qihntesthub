@@ -533,43 +533,6 @@ public class GoodsController extends BaseController {
 
     }
 
-
-    @RequestMapping(value = "/upindex", method = {RequestMethod.POST, RequestMethod.GET})
-    public String upindexbyUV(){
-        List<Object> list = this.userService.findByHQL(" SELECT DISTINCT(gid) as cgid from `user` WHERE nice_name > '"+Utils.getDate2(0,0,-1)+"' and gid is not null GROUP BY gid,nice_name ORDER BY nice_name DESC, cgid DESC LIMIT 3;",null);
-        if(list!=null && list.size()>0){
-            Goods goods = null;
-            for(int i=0;i<list.size();i++){
-                long gid = new Long(list.get(i).toString());
-               goods = this.goodsService .findById(Goods.class,gid);
-                if(goods!=null){
-                    goods.setUpindex(2);
-                    this.goodsService.update(goods);
-                }
-            }
-        }
-
-        return "redirect:/goods/list";
-    }
-
-    @RequestMapping(value = "/resetindex", method = {RequestMethod.POST, RequestMethod.GET})
-    public String resetindex(){
-        List<Object> list = this.userService.findByHQL(" SELECT DISTINCT(gid) as cgid from `user` WHERE gid is not null GROUP BY gid,nice_name ORDER BY nice_name DESC, cgid DESC LIMIT 3;",null);
-        if(list!=null && list.size()>0){
-            Goods goods = null;
-            for(int i=0;i<list.size();i++){
-                long gid = new Long(list.get(i).toString());
-                goods = this.goodsService .findById(Goods.class,gid);
-                if(goods!=null){
-                    goods.setUpindex(0);
-                    this.goodsService.update(goods);
-                }
-            }
-        }
-
-        return "redirect:/goods/list";
-    }
-
     @RequestMapping(value = "/list", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView list(@ModelAttribute("goods") Goods goods,@ModelAttribute("pageInfo") PageInfo pageInfo) {
         ModelAndView mv = new ModelAndView();
@@ -747,7 +710,7 @@ public class GoodsController extends BaseController {
             log.error("jtt 获取失败skuid.."+skuid);
         }
 
-        return "redirect:/goods/list";
+        return "redirect:/user/list";
     }
 
     @RequestMapping(path = "/skuExist",method = RequestMethod.GET)

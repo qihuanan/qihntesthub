@@ -47,6 +47,10 @@ public class UserDAOImpl extends BaseDaoImpl<User> implements UserDAO {
                     hql.append(" and c.oneflag =:getOneflag");
                     params.put("getOneflag", entity.getOneflag());
                 }
+                if(Utils.isNotNullOrEmpty(entity.getUpdatetime())){
+                    hql.append(" and c.updatetime >=:getUpdatetime");
+                    params.put("getUpdatetime", entity.getUpdatetime());
+                }
 
             }
         }

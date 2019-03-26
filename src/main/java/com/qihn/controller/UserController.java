@@ -35,6 +35,21 @@ public class UserController {
     @Resource(name = "userService")
     private UserService userService;
 
+
+    @RequestMapping(value = "/edityh", method = {RequestMethod.GET,RequestMethod.POST})
+    public String edityh(@ModelAttribute("user") User user) {
+       user = this.userService.findById(User.class,user.getId());
+       user.setZhekou(100);
+       this.userService.update(user);
+        return "redirect:/user/list";
+    }
+
+    @RequestMapping(value = "/del", method = {RequestMethod.GET,RequestMethod.POST})
+    public String del(@ModelAttribute("user") User user, @ModelAttribute("pageInfo") PageInfo pageInfo) {
+        this.userService.delete(User.class,user.getId());
+        return "redirect:/user/list";
+    }
+
     /**
      * master
      * @return
@@ -45,6 +60,10 @@ public class UserController {
         if(pageInfo==null){
             pageInfo = new PageInfo();
         }
+        if(user.getUpdatetime()!=null){
+            user.setUpdatetime(Utils.getDate6(-12).getTime());
+        }
+
         userService.countByProperties(user);
 
         List<User> ulist =  this.userService.findByProperties(user,pageInfo,null,"zhekou","asc" );

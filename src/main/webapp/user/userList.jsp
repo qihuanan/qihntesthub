@@ -47,10 +47,11 @@
                                 <div class="table-responsive" >
                                     <div class="row" style="width: 99%">
                                         <div class="col-sm-6" style="margin-bottom: 5px;">&nbsp;&nbsp;
-                                            S: <input type="text" name="name" value="${user.name}" >
-                                            gid: <input type="text" name="gid" value="${user.gid}" >
-                                            oneflag: <input type="text" name="oneflag" value="${user.oneflag}" >
-                                            <input type="submit" value="查询"></input>${syscount}
+                                            S: <input type="text" name="name" value="${user.name}" width="80px"><br>
+                                            gid: <input type="text" name="gid" value="${user.gid}" width="80px"><br>
+                                            oneflag: <input type="text" name="oneflag" value="${user.oneflag}"width="80px" ><br>
+                                            time: <input type="text" name="updatetime" value="${user.updatetime}" width="80px">
+                                            <input type="submit" value="查询"></input>
                                         </div>
                                     </div>
                                     <div id='description' style="display: block;">
@@ -73,13 +74,13 @@
 
                                     <c:forEach var="obj" items="${userList }" >
                                         <tr>
-                                            <td >${obj.gid}<br>${obj.couponprom }<br>${obj.name} <br>
-                                                <a href="/user/edit?id=${obj.id }">编辑</a> <br>
+                                            <td ><a href="https://item.m.jd.com/product/${obj.gid}.html">${obj.gid}</a> <br>${obj.couponprom }<br>${obj.name} <br>
+                                                <a href="/user/edityh?id=${obj.id }">编辑优惠100</a> <br>
                                                 <a href="/goods/updatepriceSingle?gid=${obj.gid }">更新</a><br>
                                                 <a href="/goods/autotuiguangbyskuid?skuid=${obj.gid }">生成</a><br>
-                                                <a href="show/${obj.id }">详细</a><br>
-                                                <a href="edit?id=${obj.id }">编辑</a><br>
-                                                <a href="del/${obj.id }">删除</a>
+                                                <a href="/user/show/${obj.id }">详细</a><br>
+                                                <a href="/user/edit?id=${obj.id }">编辑</a><br>
+                                                <a href="/user/del/${obj.id }">删除</a>
                                             </td>
                                             <td> 当前/底：${obj.price} / ${obj.pricelowest} <br> 上/本次：${obj.price2} / ${obj.price3}<br> 折/优惠：${obj.zhekou} / ${obj.youhui}
                                                 <br> onsale/oneflag：${obj.onsale} ${obj.oneflag}
