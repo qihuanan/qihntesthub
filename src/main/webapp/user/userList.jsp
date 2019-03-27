@@ -55,9 +55,10 @@
                                         </div>
                                     </div>
                                     <div id='description' style="display: block;">
+                                        <div id="showdiv">11;</div>
                                         <div>update: ${lastupdate.gid} -- last: ${lastid.gid} -- runflag: ${runflag} -- updateflag: ${updateflag} --
                                             <br> ${forestupdate} - ${forest.gid}  - ${get1w} -更新 ${cc}
-                                            <div id="showdiv"></div>
+
                                         </div>
                                     </div>
 
@@ -76,9 +77,9 @@
                                         <tr>
                                             <td ><a href="https://item.m.jd.com/product/${obj.gid}.html">${obj.gid}</a> <br>${obj.couponprom }<br>${obj.name} <br>
 
-                                                <a href="#" onclick="shengchengguiguang(${obj.gid },${obj.id})">生成</a>&nbsp;&nbsp;
-                                                <a href="#" onclick="resetzhekou(${obj.id })">折100</a>&nbsp;&nbsp;
-                                                <a href="#" onclick="pdatepriceSingle(${obj.id})">更新</a>&nbsp;&nbsp;
+                                                <span style="cursor: hand;" onclick="shengchengguiguang(${obj.gid },${obj.id})">生成</span>&nbsp;&nbsp;
+                                                <span style="cursor: hand;" onclick="resetzhekou(${obj.id })">折100</span>&nbsp;&nbsp;
+                                                <span style="cursor: hand;" onclick="updateone(${obj.gid})">更新</span>&nbsp;&nbsp;
                                                 <a href="/user/edit?id=${obj.id }">编辑</a>&nbsp;&nbsp;
                                                 <a href="/user/del?id=${obj.id }">删除</a>&nbsp;&nbsp;
                                                 <!--
@@ -165,15 +166,15 @@
     }
 
     function resetzhekou(id) {
-        $.ajax({type:"get",datatype:"html",url:"/user/edityh?id=?id="+id,
+        $.ajax({type:"get",datatype:"html",url:"/user/edityh?id="+id,
             data:{'ids':1},cache:false,
             success:function(result){
             }
         });
     }
     
-    function pdatepriceSingle(id) {
-        $.ajax({type:"get",datatype:"html",url:"/goods/updatepriceSingle?id="+id,
+    function updateone(gid) {
+        $.ajax({type:"get",datatype:"html",url:"/goods/updatepriceSingle?gid="+gid,
             data:{'ids':1},cache:false,
             success:function(result){
             }

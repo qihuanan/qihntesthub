@@ -37,11 +37,11 @@ public class UserController {
 
 
     @RequestMapping(value = "/edityh", method = {RequestMethod.GET,RequestMethod.POST})
-    public String edityh(@ModelAttribute("user") User user) {
+    public void edityh(@ModelAttribute("user") User user) {
        user = this.userService.findById(User.class,user.getId());
        user.setZhekou(100);
        this.userService.update(user);
-        return "redirect:/user/list";
+
     }
 
     @RequestMapping(value = "/del", method = {RequestMethod.GET,RequestMethod.POST})

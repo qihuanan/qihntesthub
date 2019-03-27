@@ -84,7 +84,7 @@ public class GoodsController extends BaseController {
 
 
     @RequestMapping(value = "/updatepriceSingle", method = {RequestMethod.POST, RequestMethod.GET})
-    public String updatepriceSingle(HttpServletRequest request) {
+    public void updatepriceSingle(HttpServletRequest request) {
         long gid = new Long(request.getParameter("gid")) ;
         String priceurl = "https://px.3.cn/prices/mgets?source=wxsq&skuids=";
         String str =  HttpClientUtils.getDataFromUri(priceurl+gid,null);
@@ -99,7 +99,7 @@ public class GoodsController extends BaseController {
             }
             pricereset(array,true);
         }
-        return "redirect:/user/list";
+
     }
 
     @RequestMapping(value = "/updateprice", method = {RequestMethod.POST, RequestMethod.GET})
