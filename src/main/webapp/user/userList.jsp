@@ -57,7 +57,7 @@
                                     <div id='description' style="display: block;">
                                         <div>update: ${lastupdate.gid} -- last: ${lastid.gid} -- runflag: ${runflag} -- updateflag: ${updateflag} --
                                             <br> ${forestupdate} - ${forest.gid}  - ${get1w} -更新 ${cc}
-
+                                            <div id="showdiv"></div>
                                         </div>
                                     </div>
 
@@ -75,12 +75,15 @@
                                     <c:forEach var="obj" items="${userList }" >
                                         <tr>
                                             <td ><a href="https://item.m.jd.com/product/${obj.gid}.html">${obj.gid}</a> <br>${obj.couponprom }<br>${obj.name} <br>
-                                                <a href="/user/edityh?id=${obj.id }">编辑优惠100</a> <br>
-                                                <a href="/goods/updatepriceSingle?gid=${obj.gid }">更新</a><br>
-                                                <a href="/goods/autotuiguangbyskuid?skuid=${obj.gid }">生成</a><br>
-                                                <a href="/user/show/${obj.id }">详细</a><br>
-                                                <a href="/user/edit?id=${obj.id }">编辑</a><br>
-                                                <a href="/user/del?id=${obj.id }">删除</a>
+
+                                                <a href="#" onclick="shengchengguiguang(${obj.gid },${obj.id})">生成</a>&nbsp;&nbsp;
+                                                <a href="#" onclick="resetzhekou(${obj.id })">折100</a>&nbsp;&nbsp;
+                                                <a href="#" onclick="pdatepriceSingle(${obj.id})">更新</a>&nbsp;&nbsp;
+                                                <a href="/user/edit?id=${obj.id }">编辑</a>&nbsp;&nbsp;
+                                                <a href="/user/del?id=${obj.id }">删除</a>&nbsp;&nbsp;
+                                                <!--
+                                                <a href="/user/show/${obj.id }">详细</a>&nbsp;&nbsp;
+                                                -->
                                             </td>
                                             <td> 当前/底：${obj.price} / ${obj.pricelowest} <br> 上/本次：${obj.price2} / ${obj.price3}<br> 折/优惠：${obj.zhekou} / ${obj.youhui}
                                                 <br> onsale/oneflag：${obj.onsale} ${obj.oneflag}
@@ -128,16 +131,54 @@
 <script src="../assets/js/dataTables/dataTables.bootstrap.js"></script>
 <script>
     $(document).ready(function () {
-
-
     });
 
     function  getprice(flag) {
-        window.location.href="/goods/getprice?run="+flag;
+        //window.location.href="/goods/getprice?run="+flag;
+        $.ajax({type:"get",datatype:"html",url:"/goods/getprice?run="+flag,
+            data:{'ids':1},cache:false,
+            success:function(result){
+            }
+        });
     }
 
     function  getprice2(flag) {
-        window.location.href="/goods/updateprice?updateflag="+flag;
+        //window.location.href="/goods/updateprice?updateflag="+flag;
+        $.ajax({type:"get",datatype:"html",url:"/goods/updateprice?updateflag="+flag,
+            data:{'ids':1},cache:false,
+            success:function(result){
+            }
+        });
+    }
+
+    function shengchengguiguang(gid,id) {
+        $.ajax({type:"get",datatype:"html",url:"/goods/autotuiguangbyskuid?skuid="+gid,
+            data:{'ids':1},cache:false,
+            success:function(result){
+                if(result==gid){
+                    $("#showdiv").append(gid).append(", ");
+                    resetzhekou(id)
+
+                }
+            }
+        });
+    }
+
+    function resetzhekou(id) {
+        $.ajax({type:"get",datatype:"html",url:"/user/edityh?id=?id="+id,
+            data:{'ids':1},cache:false,
+            success:function(result){
+            }
+        });
+    }
+    
+    function pdatepriceSingle(id) {
+        $.ajax({type:"get",datatype:"html",url:"/goods/updatepriceSingle?id="+id,
+            data:{'ids':1},cache:false,
+            success:function(result){
+            }
+        });
+
     }
 
 </script>

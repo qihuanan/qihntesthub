@@ -60,10 +60,10 @@ public class UserController {
         if(pageInfo==null){
             pageInfo = new PageInfo();
         }
-        if(user.getUpdatetime2()!=null && !user.getUpdatetime2().equals("")){
-            user.setUpdatetime(Utils.getDate6(- new Integer(user.getUpdatetime2())).getTime());
+        if(user.getUpdatetime2()==null || user.getUpdatetime2().equals("")){
+            user.setUpdatetime2("6");
         }
-
+        user.setUpdatetime(Utils.getDate6(- new Integer(user.getUpdatetime2())).getTime());
         pageInfo.setTotalCount(10000); //userService.countByProperties(user);
 
         List<User> ulist =  this.userService.findByProperties(user,pageInfo,null,"zhekou","asc" );

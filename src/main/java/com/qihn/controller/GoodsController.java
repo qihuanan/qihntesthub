@@ -712,7 +712,7 @@ public class GoodsController extends BaseController {
     }
 
     @RequestMapping(path = "/autotuiguangbyskuid",method = RequestMethod.GET)
-    public String  autotuiguangbyskuid(HttpServletRequest request){
+    public void  autotuiguangbyskuid(HttpServletRequest request,HttpServletResponse response) throws Exception{
         String skuid = request.getParameter("skuid");
         Map remap =new HashMap();
         String url = "http://japi.jingtuitui.com/api/get_goods_info";
@@ -743,12 +743,13 @@ public class GoodsController extends BaseController {
                 //return JSONUtils.toJSON(remap);
             }catch (Exception e){
                 e.printStackTrace();
+                response.getWriter().print(0);
             }
         }else {
             log.error("jtt 获取失败skuid.."+skuid);
         }
 
-        return "redirect:/user/list";
+        response.getWriter().print(skuid);
     }
 
     @RequestMapping(path = "/skuExist",method = RequestMethod.GET)
