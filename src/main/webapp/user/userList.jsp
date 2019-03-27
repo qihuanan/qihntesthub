@@ -75,10 +75,10 @@
 
                                     <c:forEach var="obj" items="${userList }" >
                                         <tr>
-                                            <td ><a href="https://item.m.jd.com/product/${obj.gid}.html">${obj.gid}</a><br>${obj.name} <br>${obj.couponprom } <br>
+                                            <td ><a href="https://item.m.jd.com/product/${obj.gid}.html">${obj.gid}</a> <br>${obj.name} <br>${obj.couponprom } <br>
 
                                                 <span style="cursor: hand;" onclick="shengchengguiguang(${obj.gid },${obj.id})">生成</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <span style="cursor: hand;" onclick="updateone(${obj.gid})">更新</span>&nbsp;&nbsp;<span id="uid${gid}"></span>
+                                                <span style="cursor: hand;" onclick="updateone(${obj.gid})">更新</span>&nbsp;&nbsp;<span id="uid${obj.gid}"></span>
                                                 <!--
                                                 <a href="/user/show/${obj.id }">详细</a>&nbsp;&nbsp;
                                                 -->
