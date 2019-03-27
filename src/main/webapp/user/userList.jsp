@@ -50,7 +50,7 @@
                                             S: <input type="text" name="name" value="${user.name}" width="80px"><br>
                                             gid: <input type="text" name="gid" value="${user.gid}" width="80px"><br>
                                             oneflag: <input type="text" name="oneflag" value="${user.oneflag}"width="80px" ><br>
-                                            time: <input type="text" name="updatetime" value="${user.updatetime}" width="80px">
+                                            time: <input type="text" name="updatetime2" value="${user.updatetime2}" width="80px">
                                             <input type="submit" value="查询"></input>
                                         </div>
                                     </div>
@@ -80,7 +80,7 @@
                                                 <a href="/goods/autotuiguangbyskuid?skuid=${obj.gid }">生成</a><br>
                                                 <a href="/user/show/${obj.id }">详细</a><br>
                                                 <a href="/user/edit?id=${obj.id }">编辑</a><br>
-                                                <a href="/user/del/${obj.id }">删除</a>
+                                                <a href="/user/del?id=${obj.id }">删除</a>
                                             </td>
                                             <td> 当前/底：${obj.price} / ${obj.pricelowest} <br> 上/本次：${obj.price2} / ${obj.price3}<br> 折/优惠：${obj.zhekou} / ${obj.youhui}
                                                 <br> onsale/oneflag：${obj.onsale} ${obj.oneflag}

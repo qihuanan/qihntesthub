@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/del", method = {RequestMethod.GET,RequestMethod.POST})
-    public String del(@ModelAttribute("user") User user, @ModelAttribute("pageInfo") PageInfo pageInfo) {
+    public String del(@ModelAttribute("user") User user) {
         this.userService.delete(User.class,user.getId());
         return "redirect:/user/list";
     }
@@ -60,11 +60,11 @@ public class UserController {
         if(pageInfo==null){
             pageInfo = new PageInfo();
         }
-        if(user.getUpdatetime()!=null){
-            user.setUpdatetime(Utils.getDate6(-12).getTime());
+        if(user.getUpdatetime2()!=null && !user.getUpdatetime2().equals("")){
+            user.setUpdatetime(Utils.getDate6(- new Integer(user.getUpdatetime2())).getTime());
         }
 
-        userService.countByProperties(user);
+        pageInfo.setTotalCount(10000); //userService.countByProperties(user);
 
         List<User> ulist =  this.userService.findByProperties(user,pageInfo,null,"zhekou","asc" );
         if(ulist!=null){
