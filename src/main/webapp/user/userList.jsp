@@ -75,19 +75,20 @@
 
                                     <c:forEach var="obj" items="${userList }" >
                                         <tr>
-                                            <td ><a href="https://item.m.jd.com/product/${obj.gid}.html">${obj.gid}</a> <br>${obj.couponprom }<br>${obj.name} <br>
+                                            <td ><a href="https://item.m.jd.com/product/${obj.gid}.html">${obj.gid}</a><br>${obj.name} <br>${obj.couponprom } <br>
 
-                                                <span style="cursor: hand;" onclick="shengchengguiguang(${obj.gid },${obj.id})">生成</span>&nbsp;&nbsp;
-                                                <span style="cursor: hand;" onclick="resetzhekou(${obj.id })">折100</span>&nbsp;&nbsp;
-                                                <span style="cursor: hand;" onclick="updateone(${obj.gid})">更新</span>&nbsp;&nbsp;
-                                                <a href="/user/edit?id=${obj.id }">编辑</a>&nbsp;&nbsp;
-                                                <a href="/user/del?id=${obj.id }">删除</a>&nbsp;&nbsp;
+                                                <span style="cursor: hand;" onclick="shengchengguiguang(${obj.gid },${obj.id})">生成</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <span style="cursor: hand;" onclick="updateone(${obj.gid})">更新</span>&nbsp;&nbsp;<span id="uid${gid}"></span>
                                                 <!--
                                                 <a href="/user/show/${obj.id }">详细</a>&nbsp;&nbsp;
                                                 -->
                                             </td>
                                             <td> 当前/底：${obj.price} / ${obj.pricelowest} <br> 上/本次：${obj.price2} / ${obj.price3}<br> 折/优惠：${obj.zhekou} / ${obj.youhui}
                                                 <br> onsale/oneflag：${obj.onsale} ${obj.oneflag}
+                                                <br> ${obj.nice_name}
+                                                <br><span style="cursor: hand;" onclick="resetzhekou(${obj.id })">折100</span>&nbsp;&nbsp;
+                                                <a href="/user/edit?id=${obj.id }">编辑</a>&nbsp;&nbsp;
+                                                <a href="/user/del?id=${obj.id }">删除</a>&nbsp;&nbsp;
                                             </td>
                                         </tr>
 
@@ -157,7 +158,7 @@
             data:{'ids':1},cache:false,
             success:function(result){
                 if(result==gid){
-                    $("#showdiv").append(gid).append(", ");
+                    $("#uid"+gid).append(gid).append(",");
                     resetzhekou(id)
 
                 }

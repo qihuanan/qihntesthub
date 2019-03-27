@@ -13,11 +13,14 @@ import javax.annotation.Resource;
 import com.qihn.pojo.Goods;
 import com.qihn.pojo.User;
 import com.qihn.service.UserService;
+import com.qihn.utils.HttpClientUtils;
 import com.qihn.utils.PageInfo;
 import com.qihn.utils.Utils;
 import org.apache.commons.collections.bag.SynchronizedSortedBag;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +30,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * https://wq.jd.com/webportal/cgigw/sku_real_new_price?skuIds=39409291956,33267670921&source=wxsqpage&showJson=1&action=sku_info,real_time_price,new_user_price
+ */
 
 @Controller
 @RequestMapping("/user")
@@ -35,6 +41,39 @@ public class UserController {
     @Resource(name = "userService")
     private UserService userService;
 
+    public void setgoodsname(List<User> userList){
+        try{
+            StringBuffer skuids = new StringBuffer();
+            for(int i=0;i<userList.size();i++){
+                skuids.append(userList.get(i).getGid());
+                if(i<userList.size()-1)
+                    skuids.append(",");
+            }
+            String url = "https://wq.jd.com/webportal/cgigw/sku_real_new_price?source=wxsqpage&showJson=1&action=sku_info,real_time_price,new_user_price&skuIds=";
+
+            String str =  HttpClientUtils.getDataFromUri(url+skuids,null);
+            log.info("url: "+url+skuids );
+            if(str!=null){
+                JSONObject json = new JSONObject(str);
+                if(json.getInt("errCode")==0){
+                    JSONObject skujson = json.getJSONObject("data").getJSONObject("skuInfo");
+                    for(int i=0;i<userList.size();i++){
+                        User u = userList.get(i);
+                        if(StringUtils.isEmpty(u.getName())){
+                            String name = skujson.getJSONObject(u.getGid()+"").getJSONObject("info").getString("name");
+                            u.setName(name);
+                            this.userService.update(u);
+                            userList.get(i).setName(name);
+                        }
+                    }
+
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
 
     @RequestMapping(value = "/edityh", method = {RequestMethod.GET,RequestMethod.POST})
     public void edityh(@ModelAttribute("user") User user) {
@@ -68,8 +107,9 @@ public class UserController {
 
         List<User> ulist =  this.userService.findByProperties(user,pageInfo,null,"zhekou","asc" );
         if(ulist!=null){
+            this.setgoodsname(ulist);
             for(int i=0;i<ulist.size();i++ ){
-                ulist.get(i).setName(Utils.formatLongDate(new Date(ulist.get(i).getUpdatetime()) ) );
+                ulist.get(i).setNice_name(Utils.formatLongDate(new Date(ulist.get(i).getUpdatetime()) ) );
             }
         }
         List<User> lastupdate =  this.userService.findByProperties(new User(),null,1,"updatetime","desc" );

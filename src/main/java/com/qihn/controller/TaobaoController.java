@@ -259,7 +259,7 @@ public class TaobaoController {
             log.info("更新tbkey后 "+sessionKey + refresh_token);
 
         }catch (Exception e){
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
