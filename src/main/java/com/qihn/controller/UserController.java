@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.qihn.pojo.Goods;
 import com.qihn.pojo.User;
 import com.qihn.service.UserService;
@@ -36,57 +37,25 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController{
     private static Log log = LogFactory.getLog(UserController.class);
     @Resource(name = "userService")
     private UserService userService;
 
-    public void setgoodsname(List<User> userList){
-        try{
-            StringBuffer skuids = new StringBuffer();
-            for(int i=0;i<userList.size();i++){
-                skuids.append(userList.get(i).getGid());
-                if(i<userList.size()-1)
-                    skuids.append(",");
-            }
-            String url = "https://wq.jd.com/webportal/cgigw/sku_real_new_price?source=wxsqpage&showJson=1&action=sku_info,real_time_price,new_user_price&skuIds=";
 
-            String str =  HttpClientUtils.getDataFromUri(url+skuids,null);
-            log.info("url: "+url+skuids );
-            if(str!=null){
-                JSONObject json = new JSONObject(str);
-                if(json.getInt("errCode")==0){
-                    JSONObject skujson = json.getJSONObject("data").getJSONObject("skuInfo");
-                    for(int i=0;i<userList.size();i++){
-                        User u = userList.get(i);
-                        if(StringUtils.isEmpty(u.getName())){
-                            String name = skujson.getJSONObject(u.getGid()+"").getJSONObject("info").getString("name");
-                            u.setName(name);
-                            this.userService.update(u);
-                            userList.get(i).setName(name);
-                        }
-                    }
-
-                }
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
 
     @RequestMapping(value = "/edityh", method = {RequestMethod.GET,RequestMethod.POST})
     public void edityh(@ModelAttribute("user") User user) {
        user = this.userService.findById(User.class,user.getId());
        user.setZhekou(100);
        this.userService.update(user);
-
+        this.print(user.getId());
     }
 
     @RequestMapping(value = "/del", method = {RequestMethod.GET,RequestMethod.POST})
-    public String del(@ModelAttribute("user") User user) {
+    public void del(@ModelAttribute("user") User user) {
         this.userService.delete(User.class,user.getId());
-        return "redirect:/user/list";
+        this.print(user.getId());
     }
 
     /**
@@ -104,8 +73,21 @@ public class UserController {
         }
         user.setUpdatetime(Utils.getDate6(- new Integer(user.getUpdatetime2())).getTime());
         pageInfo.setTotalCount(10000); //userService.countByProperties(user);
+        List<User> ulist =null;
+        if(StringUtils.isNotEmpty(user.getOrderby())){
+            if(user.getOrderby().equals("zhekou")){
+                ulist =  this.userService.findByProperties(user,pageInfo,null,"zhekou","asc" );
+            }else if(user.getOrderby().equals("youhui") || user.getOrderby().equals("yjyouhui")){
+                ulist =  this.userService.findByProperties(user,pageInfo,null,"youhui","desc" );
+            }else if( user.getOrderby().equals("yjyouhui")){
+                ulist =  this.userService.findByProperties(user,pageInfo,null,"yjyouhui","desc" );
+            }else {
+                ulist =  this.userService.findByProperties(user,pageInfo,null,"zhekou","asc" );
+            }
+        }else {
+            ulist =  this.userService.findByProperties(user,pageInfo,null,"zhekou","asc" );
+        }
 
-        List<User> ulist =  this.userService.findByProperties(user,pageInfo,null,"zhekou","asc" );
         if(ulist!=null){
             this.setgoodsname(ulist);
             for(int i=0;i<ulist.size();i++ ){
@@ -174,6 +156,41 @@ public class UserController {
     public String saveEdit(@ModelAttribute("userAttribute") User user, @PathVariable Long userid) {
         userService.update(user);
         return "redirect:/user/list";
+    }
+
+
+    public void setgoodsname(List<User> userList){
+        try{
+            StringBuffer skuids = new StringBuffer();
+            for(int i=0;i<userList.size();i++){
+                skuids.append(userList.get(i).getGid());
+                if(i<userList.size()-1)
+                    skuids.append(",");
+            }
+            String url = "https://wq.jd.com/webportal/cgigw/sku_real_new_price?source=wxsqpage&showJson=1&action=sku_info,real_time_price,new_user_price&skuIds=";
+
+            String str =  HttpClientUtils.getDataFromUri(url+skuids,null);
+            log.info("url: "+url+skuids );
+            if(str!=null){
+                JSONObject json = new JSONObject(str);
+                if(json.getInt("errCode")==0){
+                    JSONObject skujson = json.getJSONObject("data").getJSONObject("skuInfo");
+                    for(int i=0;i<userList.size();i++){
+                        User u = userList.get(i);
+                        if(StringUtils.isEmpty(u.getName())){
+                            String name = skujson.getJSONObject(u.getGid()+"").getJSONObject("info").getString("name");
+                            u.setName(name);
+                            this.userService.update(u);
+                            userList.get(i).setName(name);
+                        }
+                    }
+
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     public static void main(String args[]){

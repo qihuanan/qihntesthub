@@ -99,11 +99,11 @@ public class GoodsController extends BaseController {
             }
             pricereset(array,true);
         }
-
+        this.print(1);
     }
 
     @RequestMapping(value = "/updateprice", method = {RequestMethod.POST, RequestMethod.GET})
-    public String updateprice(HttpServletRequest request){
+    public void updateprice(HttpServletRequest request){
         String priceurl = "https://pe.3.cn/prices/mgets?skuids=";
         updateflag =  request.getParameter("updateflag");
         String no =  request.getParameter("no");
@@ -173,13 +173,12 @@ public class GoodsController extends BaseController {
             updateflag="0";
             log.info("update stop .... ");
         }
-
-
-        return "redirect:/user/list";
+        this.print(1);
+        //return "redirect:/user/list";
     }
 
     @RequestMapping(value = "/getprice", method = {RequestMethod.POST, RequestMethod.GET})
-    public String getprice(HttpServletRequest request){
+    public void getprice(HttpServletRequest request){
        String run =  request.getParameter("run");
         if(run.equals("1")){
             runflag = "1";
@@ -200,9 +199,8 @@ public class GoodsController extends BaseController {
             runflag="0";
             log.info("get stop .... ");
         }
-
-
-        return "redirect:/user/list";
+        //return "redirect:/user/list";
+        this.print(1);
     }
 
 
@@ -515,6 +513,7 @@ public class GoodsController extends BaseController {
                         user.setPrice2(user.getPrice3());
                         user.setZhekou(100 );
                         user.setYouhui(0);
+                        user.setYjyouhui(0);
                         user.setPricelowest(priceLast.intValue());
                         this.userService.save(user);
                     }else {
@@ -524,6 +523,7 @@ public class GoodsController extends BaseController {
                         //user.setYouhui(price.intValue()-priceLast.intValue());
                         user.setZhekou(new Double(new Double(user.getPrice3())/new Double(user.getPrice2())*100).intValue() );
                         user.setYouhui(user.getPrice2().intValue()-user.getPrice3().intValue());
+                        user.setYjyouhui(user.getPrice().intValue()-user.getPrice3());
                         if(user.getPricelowest()!=null){
                             if(user.getPrice3()<user.getPricelowest()){
                                 user.setPricelowest(user.getPrice3());
@@ -574,24 +574,6 @@ public class GoodsController extends BaseController {
     @RequestMapping(value = "/list", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView list(@ModelAttribute("goods") Goods goods,@ModelAttribute("pageInfo") PageInfo pageInfo) {
         ModelAndView mv = new ModelAndView();
-
-        List<User> ulist =  this.userService.findByProperties(new User(),null,20,"zhekou","asc" );
-        if(ulist!=null){
-            for(int i=0;i<ulist.size();i++ ){
-                ulist.get(i).setName(Utils.formatLongDate(new Date(ulist.get(i).getUpdatetime()) ) );
-            }
-        }
-        List<User> lastupdate =  this.userService.findByProperties(new User(),null,1,"updatetime","desc" );
-        List<User> forestupdate =  this.userService.findByProperties(new User(),null,1,"updatetime","asc" );
-        List<User> lastid =  this.userService.findByProperties(new User(),null,1,"id","desc" );
-        mv.addObject("ulist",ulist);
-        if(lastupdate!=null && lastupdate.size()>0)
-        mv.addObject("lastupdate",lastupdate.get(0));
-        if(lastid!=null && lastid.size()>0)
-            mv.addObject("lastid",lastid.get(0));
-        if(forestupdate!=null && forestupdate.size()>0)
-            mv.addObject("forestupdate",Utils.formatLongDate(new Date(forestupdate.get(0).getUpdatetime())) );
-        mv.addObject("forest",forestupdate.get(0) );
 
         if(pageInfo==null){
             pageInfo = new PageInfo();

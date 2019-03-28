@@ -1,5 +1,13 @@
 package com.qihn.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletWebRequest;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,6 +15,7 @@ import java.util.regex.Pattern;
  * Created by qihuanan on 2017/5/23.
  */
 public abstract class BaseController {
+
 
     protected DynamicAsyncContext asyncContext;
 
@@ -16,6 +25,32 @@ public abstract class BaseController {
 
     public void setAsyncContext(DynamicAsyncContext asyncContext) {
         this.asyncContext = asyncContext;
+    }
+
+    protected HttpServletRequest request;
+
+    protected HttpServletResponse response;
+
+    protected HttpSession session;
+
+     @ModelAttribute
+    public void setReqAndRes(HttpServletRequest request, HttpServletResponse response){
+
+         this.request = request;
+
+         this.response = response;
+
+         this.session = request.getSession();
+
+    }
+
+
+    public void print(Object s){
+        try{
+            response.getWriter().print(s);
+        }catch (Exception e){
+
+        }
     }
 
     public static void main(String args[]){

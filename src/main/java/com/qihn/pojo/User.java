@@ -52,7 +52,10 @@ public class User implements Serializable {
     private Integer zhekou;
 
     @Column(name = "youhui")
-    private Integer youhui;
+    private Integer youhui;// 和上次比的优惠额
+
+    @Column(name = "yjyouhui")
+    private Integer yjyouhui;//和当前 原价比 优惠额
 
     @Column(name = "updatetime")
     private Long updatetime;
@@ -67,6 +70,15 @@ public class User implements Serializable {
     private String nice_name;
     //vo
     private String updatetime2;
+    private String orderby;
+
+    public String getOrderby() {
+        return orderby;
+    }
+
+    public void setOrderby(String orderby) {
+        this.orderby = orderby;
+    }
 
     public String getUpdatetime2() {
         return updatetime2;
@@ -75,6 +87,7 @@ public class User implements Serializable {
     public void setUpdatetime2(String updatetime2) {
         this.updatetime2 = updatetime2;
     }
+
 
     @Override
     public String toString() {
@@ -132,6 +145,14 @@ public class User implements Serializable {
 
     public void setYouhui(Integer youhui) {
         this.youhui = youhui;
+    }
+
+    public Integer getYjyouhui() {
+        return yjyouhui;
+    }
+
+    public void setYjyouhui(Integer yjyouhui) {
+        this.yjyouhui = yjyouhui;
     }
 
     public void setGid(Long gid) {

@@ -47,15 +47,26 @@
                                 <div class="table-responsive" >
                                     <div class="row" style="width: 99%">
                                         <div class="col-sm-6" style="margin-bottom: 5px;">&nbsp;&nbsp;
-                                            S: <input type="text" name="name" value="${user.name}" width="80px"><br>
-                                            gid: <input type="text" name="gid" value="${user.gid}" width="80px"><br>
-                                            oneflag: <input type="text" name="oneflag" value="${user.oneflag}"width="80px" ><br>
-                                            time: <input type="text" name="updatetime2" value="${user.updatetime2}" width="80px">
+                                            S: <input type="text" name="name" value="${user.name}" width="60px"><br>
+                                            gid: <input type="text" name="gid" value="${user.gid}" width="60px"><br>
+                                            oneflag: <input type="text" id="onefid" name="oneflag" value="${user.oneflag}"width="60px" >
+                                            <span onclick="$('#onefid').val(1)">11</span>
+                                            <span onclick="$('#onefid').val(0)">00</span>
+                                            <br>
+                                            time: <input type="text" id="utimeid" name="updatetime2" value="${user.updatetime2}" width="60px">
+                                            <span onclick="$('#utimeid').val(1)">11</span>
+                                            <span onclick="$('#utimeid').val(3)">33</span>
+                                            <span onclick="$('#utimeid').val(6)">66</span>
+                                            <br>
+                                            orderby: <input type="text" id="orderbyid" name="orderby" value="${user.orderby}" width="60px">
+                                            <span onclick="$('#orderbyid').val('zhekou')">zhekou</span>
+                                            <span onclick="$('#orderbyid').val('youhui')">youhui</span>
+                                            <span onclick="$('#orderbyid').val('yjyouhui')">yjyouhui</span>
                                             <input type="submit" value="查询"></input>
                                         </div>
                                     </div>
                                     <div id='description' style="display: block;">
-                                        <div id="showdiv">11;</div>
+                                        <div id="showdiv">;</div>
                                         <div>update: ${lastupdate.gid} -- last: ${lastid.gid} -- runflag: ${runflag} -- updateflag: ${updateflag} --
                                             <br> ${forestupdate} - ${forest.gid}  - ${get1w} -更新 ${cc}
 
@@ -66,8 +77,8 @@
                                 <table class="table table-striped table-bordered table-hover" style="width: 99%">
                                     <thead>
                                     <tr>
-                                        <td>ID</td>
-                                        <td>gid</td>
+                                        <td width="50%">ID</td>
+                                        <td width="50%">gid</td>
 
                                     </tr>
                                     </thead>
@@ -75,20 +86,31 @@
 
                                     <c:forEach var="obj" items="${userList }" >
                                         <tr>
-                                            <td ><a href="https://item.m.jd.com/product/${obj.gid}.html">${obj.gid}</a> <br>${obj.name} <br>${obj.couponprom } <br>
+                                            <td ><a href="https://item.m.jd.com/product/${obj.gid}.html">${obj.gid}</a> <br>${obj.name} <br><br>${obj.couponprom } <br>
 
                                                 <span style="cursor: hand;" onclick="shengchengguiguang(${obj.gid },${obj.id})">生成</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <span style="cursor: hand;" onclick="updateone(${obj.gid})">更新</span>&nbsp;&nbsp;<span id="uid${obj.gid}"></span>
+                                                <span style="cursor: hand;" onclick="delobj(${obj.id},${obj.gid})">删除</span>&nbsp;&nbsp;
+
+                                                <br><span  id="uid${obj.gid}">;</span>
                                                 <!--
                                                 <a href="/user/show/${obj.id }">详细</a>&nbsp;&nbsp;
                                                 -->
                                             </td>
-                                            <td> 当前/底：${obj.price} / ${obj.pricelowest} <br> 上/本次：${obj.price2} / ${obj.price3}<br> 折/优惠：${obj.zhekou} / ${obj.youhui}
-                                                <br> onsale/oneflag：${obj.onsale} ${obj.oneflag}
-                                                <br> ${obj.nice_name}
-                                                <br><span style="cursor: hand;" onclick="resetzhekou(${obj.id })">折100</span>&nbsp;&nbsp;
+                                            <td>
+                                                当前：${obj.price} <br>
+                                                上次：${obj.price2}<br>
+                                                本次：${obj.price3}<br>
+                                                最低： ${obj.pricelowest} <br>
+                                                折扣：${obj.zhekou} 折<br>
+                                                优惠：${obj.youhui} 元（上次）<br>
+                                                优惠：${obj.yjyouhui} 元（当前）<br>
+                                                单件：${obj.oneflag}<br>
+                                                在售：${obj.onsale}<br>
+                                                 ${obj.nice_name}<br>
+                                                <span style="cursor: hand;" onclick="resetzhekou(${obj.id })">折100</span>&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <a href="/user/edit?id=${obj.id }">编辑</a>&nbsp;&nbsp;
-                                                <a href="/user/del?id=${obj.id }">删除</a>&nbsp;&nbsp;
+                                                <br>
+                                                <span style="cursor: hand;" onclick="updateone(${obj.gid})">更新</span>&nbsp;&nbsp;
                                             </td>
                                         </tr>
 
@@ -170,6 +192,7 @@
         $.ajax({type:"get",datatype:"html",url:"/user/edityh?id="+id,
             data:{'ids':1},cache:false,
             success:function(result){
+                $("#uid"+gid).append(result).append(",");
             }
         });
     }
@@ -178,9 +201,20 @@
         $.ajax({type:"get",datatype:"html",url:"/goods/updatepriceSingle?gid="+gid,
             data:{'ids':1},cache:false,
             success:function(result){
+                $("#uid"+gid).append(result).append(",");
             }
         });
 
+    }
+    
+    function delobj(id,gid) {
+
+            $.ajax({type:"get",datatype:"html",url:"/user/del?id="+id,
+                data:{'ids':1},cache:false,
+                success:function(result){
+                    $("#uid"+gid).append(result).append(",");
+                }
+            });
     }
 
 </script>
