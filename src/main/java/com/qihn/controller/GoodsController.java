@@ -279,7 +279,7 @@ public class GoodsController extends BaseController {
     public static long get1w = 0l;
     static  long now = new Date().getTime();
     private void pricereset(JSONArray array,boolean showlog){
-
+    List<User> getusernameList = new ArrayList<>();
         for(int j=0;j<array.length();j++){
             try{
                 JSONObject json = array.getJSONObject(j);
@@ -531,6 +531,7 @@ public class GoodsController extends BaseController {
                         }
 
                         this.userService.update(user);
+                        getusernameList.add(user);
 
                         cc++;
                         if(cc%100==0){
@@ -540,6 +541,8 @@ public class GoodsController extends BaseController {
                             now = new Date().getTime();
                             log.info("qihdebug-100个");
                         }
+
+
 
                     }
 
@@ -569,6 +572,7 @@ public class GoodsController extends BaseController {
 
         }
 
+        setgoodsname(getusernameList);
     }
 
     @RequestMapping(value = "/list", method = {RequestMethod.POST, RequestMethod.GET})
@@ -1065,6 +1069,40 @@ public class GoodsController extends BaseController {
         return null;
     }
 
+
+    public void setgoodsname(List<User> userList){
+        try{
+            StringBuffer skuids = new StringBuffer();
+            for(int i=0;i<userList.size();i++){
+                skuids.append(userList.get(i).getGid());
+                if(i<userList.size()-1)
+                    skuids.append(",");
+            }
+            String url = "https://wq.jd.com/webportal/cgigw/sku_real_new_price?source=wxsqpage&showJson=1&action=sku_info,real_time_price,new_user_price&skuIds=";
+
+            String str =  HttpClientUtils.getDataFromUri(url+skuids,null);
+            log.info("url: "+url+skuids );
+            if(str!=null){
+                JSONObject json = new JSONObject(str);
+                if(json.getInt("errCode")==0){
+                    JSONObject skujson = json.getJSONObject("data").getJSONObject("skuInfo");
+                    for(int i=0;i<userList.size();i++){
+                        User u = userList.get(i);
+                        if(StringUtils.isEmpty(u.getName())){
+                            String name = skujson.getJSONObject(u.getGid()+"").getJSONObject("info").getString("name");
+                            u.setName(name);
+                            this.userService.update(u);
+                            userList.get(i).setName(name);
+                        }
+                    }
+
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
 
 
 

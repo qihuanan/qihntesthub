@@ -47,18 +47,18 @@
                                 <div class="table-responsive" >
                                     <div class="row" style="width: 99%">
                                         <div class="col-sm-6" style="margin-bottom: 5px;">&nbsp;&nbsp;
-                                            S: <input type="text" name="name" value="${user.name}" width="60px"><br>
-                                            gid: <input type="text" name="gid" value="${user.gid}" width="60px"><br>
-                                            oneflag: <input type="text" id="onefid" name="oneflag" value="${user.oneflag}"width="60px" >
+                                            S: <input type="text" name="name" value="${user.name}" width="40px"><br>
+                                            gid: <input type="text" name="gid" value="${user.gid}" width="40px"><br>
+                                            oneflag: <input type="text" id="onefid" name="oneflag" value="${user.oneflag}"width="20px" >
                                             <span onclick="$('#onefid').val(1)">11</span>
                                             <span onclick="$('#onefid').val(0)">00</span>
                                             <br>
-                                            time: <input type="text" id="utimeid" name="updatetime2" value="${user.updatetime2}" width="60px">
+                                            time: <input type="text" id="utimeid" name="updatetime2" value="${user.updatetime2}" width="20px">
                                             <span onclick="$('#utimeid').val(1)">11</span>
                                             <span onclick="$('#utimeid').val(3)">33</span>
                                             <span onclick="$('#utimeid').val(6)">66</span>
                                             <br>
-                                            orderby: <input type="text" id="orderbyid" name="orderby" value="${user.orderby}" width="60px">
+                                            orderby: <input type="text" id="orderbyid" name="orderby" value="${user.orderby}" width="20px">
                                             <span onclick="$('#orderbyid').val('zhekou')">zhekou</span>
                                             <span onclick="$('#orderbyid').val('youhui')">youhui</span>
                                             <span onclick="$('#orderbyid').val('yjyouhui')">yjyouhui</span>
@@ -90,7 +90,7 @@
 
                                                 <span style="cursor: hand;" onclick="shengchengguiguang(${obj.gid },${obj.id})">生成</span>&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <span style="cursor: hand;" onclick="delobj(${obj.id},${obj.gid})">删除</span>&nbsp;&nbsp;
-
+                                                <span style="cursor: hand;" onclick="updateone(${obj.gid})">更新</span>
                                                 <br><span  id="uid${obj.gid}">;</span>
                                                 <!--
                                                 <a href="/user/show/${obj.id }">详细</a>&nbsp;&nbsp;
@@ -102,15 +102,15 @@
                                                 本次：${obj.price3}<br>
                                                 最低： ${obj.pricelowest} <br>
                                                 折扣：${obj.zhekou} 折<br>
-                                                优惠：${obj.youhui} 元（上次）<br>
-                                                优惠：${obj.yjyouhui} 元（当前）<br>
+                                                优惠：${obj.youhui}（上次）<br>
+                                                优惠：${obj.yjyouhui}（当前）<br>
                                                 单件：${obj.oneflag}<br>
                                                 在售：${obj.onsale}<br>
                                                  ${obj.nice_name}<br>
                                                 <span style="cursor: hand;" onclick="resetzhekou(${obj.id })">折100</span>&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <a href="/user/edit?id=${obj.id }">编辑</a>&nbsp;&nbsp;
                                                 <br>
-                                                <span style="cursor: hand;" onclick="updateone(${obj.gid})">更新</span>&nbsp;&nbsp;
+
                                             </td>
                                         </tr>
 
