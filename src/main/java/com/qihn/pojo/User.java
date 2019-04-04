@@ -68,9 +68,30 @@ public class User implements Serializable {
 
     @Column(name = "nice_name", length = 500)
     private String nice_name;
+
+
+    @Column(name = "brandId")
+    private String brandId;
+    @Column(name = "shopId")
+    private String shopId;
+    @Column(name = "cat1")
+    private String cat1;
+    @Column(name = "cat2")
+    private String cat2;
+    @Column(name = "cat3")
+    private String cat3;
+    @Column(name = "venderId")
+    private String venderId;
+
     //vo
     private String updatetime2;
     private String orderby;
+
+    public static void main(String args[]){
+        String abc = "111;222;";
+        System.out.println(abc.substring(0,abc.length()-1));
+
+    }
 
     public String getOrderby() {
         return orderby;
@@ -88,6 +109,53 @@ public class User implements Serializable {
         this.updatetime2 = updatetime2;
     }
 
+    public String getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(String brandId) {
+        this.brandId = brandId;
+    }
+
+    public String getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
+    }
+
+    public String getCat1() {
+        return cat1;
+    }
+
+    public void setCat1(String cat1) {
+        this.cat1 = cat1;
+    }
+
+    public String getCat2() {
+        return cat2;
+    }
+
+    public void setCat2(String cat2) {
+        this.cat2 = cat2;
+    }
+
+    public String getCat3() {
+        return cat3;
+    }
+
+    public void setCat3(String cat3) {
+        this.cat3 = cat3;
+    }
+
+    public String getVenderId() {
+        return venderId;
+    }
+
+    public void setVenderId(String venderId) {
+        this.venderId = venderId;
+    }
 
     @Override
     public String toString() {

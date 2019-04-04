@@ -278,7 +278,9 @@ public class GoodsController extends BaseController {
     public static long cc = 0l;
     public static long get1w = 0l;
     static  long now = new Date().getTime();
+
     private void pricereset(JSONArray array,boolean showlog){
+
     List<User> getusernameList = new ArrayList<>();
         for(int j=0;j<array.length();j++){
             try{
@@ -573,6 +575,7 @@ public class GoodsController extends BaseController {
         }
 
         setgoodsname(getusernameList);
+        setcategory(getusernameList);
     }
 
     @RequestMapping(value = "/list", method = {RequestMethod.POST, RequestMethod.GET})
@@ -1070,14 +1073,68 @@ public class GoodsController extends BaseController {
     }
 
 
+    public void setcategory(List<User> userList){
+        try{
+            StringBuffer skuids = new StringBuffer();
+            for(int i=0;i<userList.size();i++){
+                if(StringUtils.isEmpty(userList.get(i).getCat1())){
+                    skuids.append(userList.get(i).getGid()).append(",");
+                }
+            }
+            if(skuids.length()<1){
+                return;
+            }
+            skuids = new StringBuffer( skuids.toString().substring(0,skuids.length()-1) );
+
+            String url = "https://pjapi.jd.com/goods/baseInfo?baseField=category,shopId,brandId,venderId&skuList=";
+
+            String str =  HttpClientUtils.getDataFromUri(url+skuids,null);
+            log.info("set-category-url: "+url+skuids );
+            log.info("set-category-url res : "+str);
+            if(str!=null){
+                JSONObject json = new JSONObject(str);
+                if(json.getInt("code")==0){
+                    JSONObject skujson = json.getJSONObject("data");
+                    for(int i=0;i<userList.size();i++){
+                        User u = userList.get(i);
+                        if(StringUtils.isEmpty(u.getCat1())){
+                            String brandId = skujson.getJSONObject(u.getGid()+"").getString("brandId");
+                            String shopId = skujson.getJSONObject(u.getGid()+"").getString("shopId");
+                            String category = skujson.getJSONObject(u.getGid()+"").getString("category");
+                            String venderId = skujson.getJSONObject(u.getGid()+"").getString("venderId");
+                            u.setBrandId(brandId);
+                            u.setShopId(shopId);
+                            u.setVenderId(venderId);
+                            String [] cat = category.split(";");
+                            u.setCat1(cat[0]);
+                            u.setCat1(cat[1]);
+                            u.setCat1(cat[2]);
+                            this.userService.update(u);
+                        }
+                    }
+
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+
     public void setgoodsname(List<User> userList){
         try{
             StringBuffer skuids = new StringBuffer();
             for(int i=0;i<userList.size();i++){
-                skuids.append(userList.get(i).getGid());
-                if(i<userList.size()-1)
-                    skuids.append(",");
+                if(StringUtils.isEmpty(userList.get(i).getName())){
+                    skuids.append(userList.get(i).getGid()).append(",");
+                }
             }
+            if(skuids.length()<1){
+                return;
+            }
+            skuids = new StringBuffer( skuids.toString().substring(0,skuids.length()-1));
+
             String url = "https://wq.jd.com/webportal/cgigw/sku_real_new_price?source=wxsqpage&showJson=1&action=sku_info,real_time_price,new_user_price&skuIds=";
 
             String str =  HttpClientUtils.getDataFromUri(url+skuids,null);

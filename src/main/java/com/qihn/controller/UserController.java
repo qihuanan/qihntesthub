@@ -2,10 +2,13 @@ package com.qihn.controller;
 
 
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -33,6 +36,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * https://wq.jd.com/webportal/cgigw/sku_real_new_price?skuIds=39409291956,33267670921&source=wxsqpage&showJson=1&action=sku_info,real_time_price,new_user_price
+ *
+ * http://pjapi-test.jd.com/goods/baseInfo?skuList=761680,100012,313382&baseField=name,category,skuId,shopId,imagePath,brandId
+
+ http://yx.3.cn/service/info.action?id=1823500
+
+ http://d.3.cn/basic/761680?type=scp&source=wxsq
+
  */
 
 @Controller
@@ -43,6 +53,32 @@ public class UserController extends BaseController{
     private UserService userService;
 
 
+
+    public static void readFile02() throws IOException {
+        FileInputStream fis=new FileInputStream("D:\\201904\\me3.csv");
+        InputStreamReader isr=new InputStreamReader(fis, "GBK");
+        BufferedReader br = new BufferedReader(isr);
+        //简写如下
+        //BufferedReader br = new BufferedReader(new InputStreamReader(
+        //        new FileInputStream("E:/phsftp/evdokey/evdokey_201103221556.txt"), "UTF-8"));
+        String line="";
+        String[] arrs=null;
+        Map<String,String> camap1 = new HashMap<>();
+        Map<String,String> camap2 = new HashMap<>();
+        Map<String,String> camap3 = new HashMap<>();
+        while ((line=br.readLine())!=null) {
+            arrs=line.split(",");
+            System.out.println(arrs[0] + " : " + arrs[1] + " : " + arrs[2]+ " : " + arrs[3]+ " : " + arrs[4]+ " : " + arrs[5]);
+            camap1.put(arrs[1],arrs[0]);
+            camap2.put(arrs[3],arrs[2]);
+            camap3.put(arrs[5],arrs[4]);
+
+        }
+        System.out.println(" "+camap1.size()+" "+ camap2.size()+" "+camap3.size());
+        br.close();
+        isr.close();
+        fis.close();
+    }
 
     @RequestMapping(value = "/edityh", method = {RequestMethod.GET,RequestMethod.POST})
     public void edityh(@ModelAttribute("user") User user) {
@@ -159,14 +195,16 @@ public class UserController extends BaseController{
     }
 
 
+
     public void setgoodsname(List<User> userList){
         try{
             StringBuffer skuids = new StringBuffer();
             for(int i=0;i<userList.size();i++){
-                skuids.append(userList.get(i).getGid());
-                if(i<userList.size()-1)
-                    skuids.append(",");
+                if(StringUtils.isEmpty(userList.get(i).getName())){
+                    skuids.append(userList.get(i).getGid()).append(",");
+                }
             }
+            skuids = new StringBuffer( skuids.toString().substring(0,skuids.length()-1));
             String url = "https://wq.jd.com/webportal/cgigw/sku_real_new_price?source=wxsqpage&showJson=1&action=sku_info,real_time_price,new_user_price&skuIds=";
 
             String str =  HttpClientUtils.getDataFromUri(url+skuids,null);
