@@ -43,49 +43,8 @@ public class JdController {
     private static Log log = LogFactory.getLog(JdController.class);
 
     public static void main(String args[]){
-        //new JdController().jdlist("格力空调",null);
-        try {
-
-            /**HtmlUnit请求web页面*//*
-            WebClient wc = new WebClient();
-            wc.getOptions().setJavaScriptEnabled(true); //启用JS解释器，默认为true
-            wc.getOptions().setCssEnabled(false); //禁用css支持
-            wc.getOptions().setThrowExceptionOnScriptError(false); //js运行错误时，是否抛出异常
-            wc.getOptions().setTimeout(20000); //设置连接超时时间 ，这里是10S。如果为0，则无限期等待
-            HtmlPage page = wc.getPage("https://miaosha.qihn.com/");
-            String pageXml = page.asXml(); //以xml的形式获取响应文本
-
-            *//**jsoup解析文档*//*
-            Document doc = Jsoup.parse(pageXml, "https://miaosha.qihn.com/");
-
-            Element pv = doc.getElementById("super_seckill");
-            System.out.println(pv.text());
-
-            System.out.println("Thank God!");*/
 
 
-           /* Document doc = Jsoup.connect("https://search.qihn.com/Search?keyword=空调&enc=utf-8").get();
-            String title = doc.title();
-            //log.info("title"+title);
-            Element content = doc.getElementById("J_goodsList");
-            Elements elements = content.getElementsByTag("li");
-            for (Element element : elements) {
-                String linkHref = element.attr("data-sku");
-                String linkText = element.html();
-                //log.info(linkHref+" - "+ linkText);
-                log.info(" begin ================== ");
-                Elements imgdiv = element.getElementsByClass("p-img");
-                log.info("imgdiv -> "+imgdiv.html());
-                log.info("skuid -> "+element.attr("data-sku") );
-                log.info("a title -> "+imgdiv.first().getElementsByTag("a").attr("title") );
-                log.info("a href -> "+imgdiv.first().getElementsByTag("a").attr("href") );
-                log.info("img src -> "+imgdiv.first().getElementsByTag("img").attr("source-data-lazy-img") );
-                break;
-            }*/
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
     public static CacheLoader<String, List> createJDMSCacheLoader() {
