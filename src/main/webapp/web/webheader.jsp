@@ -9,7 +9,7 @@
         <div class="search1">
             <input id="searchInput" placeholder="输入你想要的商品试试" style="width: 60%;" name="name" type="text" value="${goods.name}" onfocus="$(this).select();" >
             <input id="ai-topsearch2" class="submit am-btn" style="background-color: yellowgreen;width: 20%;"  value="搜淘宝"  type="button" onclick="$('#curPage').val(1);searchtb();">
-            <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 20%;font-weight: bold;" value="搜京东"  type="button" onclick="$('#curPage').val(1);searchjd();">
+            <input id="ai-topsearch" class="submit am-btn" style="background-color: red; width: 20%;font-weight: bold;" value="搜xx"  type="button" onclick="$('#curPage').val(1);searchdj();">
         </div>
     </div>
 </div>

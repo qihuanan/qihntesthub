@@ -8,7 +8,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.qihn.pojo.Goods;
-import com.qihn.pojo.Jdobject;
+import com.qihn.pojo.djobject;
 import com.qihn.pojo.User;
 import com.qihn.service.UserService;
 import com.qihn.utils.*;
@@ -39,8 +39,8 @@ import java.util.concurrent.TimeUnit;
 
 
 @Controller
-public class JdController {
-    private static Log log = LogFactory.getLog(JdController.class);
+public class djController {
+    private static Log log = LogFactory.getLog(djController.class);
 
 
 }

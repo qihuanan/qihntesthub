@@ -16,7 +16,7 @@
     <commons-compress.version>1.8.1</commons-compress.version>
     <httpclient4.version>4.5.2</httpclient4.version>
     <httpasyncclient4.version>4.1</httpasyncclient4.version>
-    <jdk.version>1.8</jdk.version>
+    <djk.version>1.8</djk.version>
     <plugin.maven-clean-plugin.version>2.2</plugin.maven-clean-plugin.version>
     <plugin.maven-resources-plugin.version>2.4</plugin.maven-resources-plugin.version>
     <plugin.maven-compiler-plugin.version>3.0</plugin.maven-compiler-plugin.version>
@@ -98,7 +98,7 @@
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-jdbc</artifactId>
+      <artifactId>spring-djbc</artifactId>
       <version>${spring.version}</version>
     </dependency>
     <dependency>
@@ -385,8 +385,8 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>${plugin.maven-compiler-plugin.version}</version>
           <configuration>
-            <source>${jdk.version}</source>
-            <target>${jdk.version}</target>
+            <source>${djk.version}</source>
+            <target>${djk.version}</target>
             <encoding>UTF-8</encoding>
               <compilerArguments>
                   <verbose />

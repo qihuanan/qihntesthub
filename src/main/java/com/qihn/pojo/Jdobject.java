@@ -2,7 +2,7 @@ package com.qihn.pojo;
 
 import java.io.Serializable;
 
-public class Jdobject extends Goods implements Serializable {
+public class djobject extends Goods implements Serializable {
 
     private String commitinfo;
     private String shopinfo;

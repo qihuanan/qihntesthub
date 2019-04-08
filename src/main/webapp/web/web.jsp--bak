@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<form id="form_id" action="/jds" method="get">
+<form id="form_id" action="/djs" method="get">
     <jsp:include page="webheader.jsp"></jsp:include>
 
     <div class="clear"></div>
@@ -116,8 +116,8 @@
         document.forms[0].submit();
     }
 
-    function searchjd() {
-        $('#form_id').attr('action','/jds');
+    function searchdj() {
+        $('#form_id').attr('action','/djs');
         $('#orderby_id').val('id');
         $('#curPage').val('1');
         $('#recpoint_id').val('');

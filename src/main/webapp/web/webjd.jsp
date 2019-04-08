@@ -9,7 +9,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <jsp:useBean id="time" class="java.util.Date"/>
-    <title>慧惠助手-用智慧汇集优惠信息-好物好券渠道券自动扒、京东淘宝天猫一网通 历史价查询-${huashu} </title>
+    <title>慧惠助手-用智慧汇集优惠信息-好物好券渠道券自动扒、xx淘宝天猫一网通 历史价查询-${huashu} </title>
     <link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/basic/css/demo.css" rel="stylesheet" type="text/css" />
@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<form id="form_id" action="/jds" method="get">
+<form id="form_id" action="/djs" method="get">
     <jsp:include page="webheader.jsp"></jsp:include>
 
 <div class="clear"></div>
@@ -41,7 +41,7 @@
                                     <a href="javascript:jtlink(${obj.skuid});" target="_blank" title="${obj.adwords}"><img src="${obj.skupicture }"  /></a>
                                     <a id="aid_${obj.skuid}" href="javascript:jtlink(${obj.skuid});" title="${obj.skulink}"><p class="title fl">${obj.name }</p></a>
                                     <p class="price fl" style="font-weight: normal;margin-bottom: 10px;cursor: pointer"  >
-                                        京东价:<strong style="font-size:large ;">${obj.pricestr }</strong>&nbsp;<br>
+                                        xx价:<strong style="font-size:large ;">${obj.pricestr }</strong>&nbsp;<br>
                                         <c:if test="${!empty obj.pricemiaosha}">
                                             秒杀价:<strong style="font-size:large ;">${obj.pricemiaosha }</strong>&nbsp;<br>
                                         </c:if>
@@ -133,8 +133,8 @@ function jtlink(skuid) {
     });
 
 }
-function searchjd() {
-    $('#form_id').attr('action','/jds');
+function searchdj() {
+    $('#form_id').attr('action','/djs');
     $('#orderby_id').val('id');
     $('#curPage').val('1');
     $('#recpoint_id').val('');
