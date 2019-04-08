@@ -96,7 +96,7 @@ public class JdController {
                 String url = "https://ai.qihn.com/index_new?app=Seckill&action=pcMiaoShaAreaList&callback=&_=";
                 String data = null;
                 String jsonp =  HttpUtil.sendGet(url,data);
-                //log.error("jtt-get_goods_link: "+jsonp);
+                //log.error("jtt-get_goods_link: "+jsonp);//esss
                 List list = new ArrayList();
                 if(Utils.isNotNullOrEmpty(jsonp)){
                     int startIndex = jsonp.indexOf("(");
