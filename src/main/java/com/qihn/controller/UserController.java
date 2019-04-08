@@ -39,9 +39,9 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * http://pjapi-test.qihn.com/goods/baseInfo?skuList=761680,100012,313382&baseField=name,category,skuId,shopId,imagePath,brandId
 
- http://yx.3.cn/service/info.action?id=1823500
+ http://yx.8.cn/service/info.action?id=1823500
 
- http://d.3.cn/basic/761680?type=scp&source=wxsq
+ http://d.8.cn/basic/761680?type=scp&source=wxsq
 
  */
 

@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  * Created by qihuanan on 2019/2/27 10:23
  * 100001-9999999 或 100000000001-109999999999	自营商品
  * 1000000001-1999999999 或 10000000001-99999999999	POP
- * https://p.3.cn/prices/mgets?skuids=2880540,100001
+ * https://p.8.cn/prices/mgets?skuids=2880540,100001
  * https://cd.qihn.com/promotion/v2?callback=jQuery8145028&skuId=2880540&area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1
  *
  * "code": "19",
@@ -32,7 +32,7 @@ public class Test {
     public static void main(String args[]){
 
 
-        String priceurl = "https://p.3.cn/prices/mgets?skuids=";
+        String priceurl = "https://p.8.cn/prices/mgets?skuids=";
         String couponurl = "https://cd.qihn.com/promotion/v2?area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1&skuId=";
         StringBuffer sb = new StringBuffer();
         for(int i=154057;i<154159;i++){ // 3911880  2880530

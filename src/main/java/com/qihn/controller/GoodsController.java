@@ -42,7 +42,7 @@ public class GoodsController extends BaseController {
     public static String updateflag = "0";
 
     public static String couponurl = "https://cd.qihn.com/promotion/v2?area=1_1_1_0&shopId=1&cat=1%2C3%2C1&skuId=";
-    public static String stockurl = "https://c.3.cn/stock?cat=1,1,1&venderId=0&area=1_1_1_1&buyNum=1&skuId=";
+    public static String stockurl = "https://c.8.cn/stock?cat=1,1,1&venderId=0&area=1_1_1_1&buyNum=1&skuId=";
 
     public  static void main(String args[]){
 
@@ -86,7 +86,7 @@ public class GoodsController extends BaseController {
     @RequestMapping(value = "/updatepriceSingle", method = {RequestMethod.POST, RequestMethod.GET})
     public void updatepriceSingle(HttpServletRequest request) {
         long gid = new Long(request.getParameter("gid")) ;
-        String priceurl = "https://px.3.cn/prices/mgets?source=wxsq&skuids=";
+        String priceurl = "https://px.8.cn/prices/mgets?source=wxsq&skuids=";
         String str =  HttpClientUtils.getDataFromUri(priceurl+gid,null);
 
         JSONArray array = null;
@@ -104,7 +104,7 @@ public class GoodsController extends BaseController {
 
     @RequestMapping(value = "/updateprice", method = {RequestMethod.POST, RequestMethod.GET})
     public void updateprice(HttpServletRequest request){
-        String priceurl = "https://pe.3.cn/prices/mgets?skuids=";
+        String priceurl = "https://pe.8.cn/prices/mgets?skuids=";
         updateflag =  request.getParameter("updateflag");
         String no =  request.getParameter("no");
         if(StringUtils.isEmpty(no)){
@@ -134,13 +134,13 @@ public class GoodsController extends BaseController {
                         if(i%10==0){
                             b++;
                             if(b%4==0){
-                                priceurl = "https://pe.3.cn/prices/mgets?source=wxsq&skuids=";
+                                priceurl = "https://pe.8.cn/prices/mgets?source=wxsq&skuids=";
                             }else if(b%4==1) {
-                                priceurl = "https://pm.3.cn/prices/mgets?source=wxsq&skuids=";
+                                priceurl = "https://pm.8.cn/prices/mgets?source=wxsq&skuids=";
                             }else if(b%4==2) {
-                                priceurl = "https://px.3.cn/prices/mgets?source=wxsq&skuids=";
+                                priceurl = "https://px.8.cn/prices/mgets?source=wxsq&skuids=";
                             }else{
-                                priceurl = "https://p.3.cn/prices/mgets?source=wxsq&skuids=";
+                                priceurl = "https://p.8.cn/prices/mgets?source=wxsq&skuids=";
                             }
                             String str =  HttpClientUtils.getDataFromUri(priceurl+sb,null);
                             //log.info("url:"+sb+" "+str);
@@ -218,7 +218,7 @@ public class GoodsController extends BaseController {
             return;
         }*/
 
-        String priceurl = "https://pe.3.cn/prices/mgets?skuids=";
+        String priceurl = "https://pe.8.cn/prices/mgets?skuids=";
         //String couponurl = "https://cd.qihn.com/promotion/v2?area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1&skuId=";
         StringBuffer sb = new StringBuffer();
         long a = 0;
@@ -243,9 +243,9 @@ public class GoodsController extends BaseController {
                 //log.info("iiii: "+i);
                 a++;
                 if(a%2==0){
-                    priceurl = "https://pe.3.cn/prices/mgets?source=wxsq&skuids=";
+                    priceurl = "https://pe.8.cn/prices/mgets?source=wxsq&skuids=";
                 }else {
-                    priceurl = "https://px.3.cn/prices/mgets?source=wxsq&skuids=";
+                    priceurl = "https://px.8.cn/prices/mgets?source=wxsq&skuids=";
                 }
                 String str =  HttpClientUtils.getDataFromUri(priceurl+sb,null);
                 log.info("url:"+sb+" "+str);
