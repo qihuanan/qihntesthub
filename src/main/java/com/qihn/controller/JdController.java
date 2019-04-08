@@ -52,11 +52,11 @@ public class JdController {
             wc.getOptions().setCssEnabled(false); //禁用css支持
             wc.getOptions().setThrowExceptionOnScriptError(false); //js运行错误时，是否抛出异常
             wc.getOptions().setTimeout(20000); //设置连接超时时间 ，这里是10S。如果为0，则无限期等待
-            HtmlPage page = wc.getPage("https://miaosha.jd.com/");
+            HtmlPage page = wc.getPage("https://miaosha.qihn.com/");
             String pageXml = page.asXml(); //以xml的形式获取响应文本
 
             *//**jsoup解析文档*//*
-            Document doc = Jsoup.parse(pageXml, "https://miaosha.jd.com/");
+            Document doc = Jsoup.parse(pageXml, "https://miaosha.qihn.com/");
 
             Element pv = doc.getElementById("super_seckill");
             System.out.println(pv.text());
@@ -64,7 +64,7 @@ public class JdController {
             System.out.println("Thank God!");*/
 
 
-           /* Document doc = Jsoup.connect("https://search.jd.com/Search?keyword=空调&enc=utf-8").get();
+           /* Document doc = Jsoup.connect("https://search.qihn.com/Search?keyword=空调&enc=utf-8").get();
             String title = doc.title();
             //log.info("title"+title);
             Element content = doc.getElementById("J_goodsList");
@@ -93,7 +93,7 @@ public class JdController {
             @Override
             public List load(String key) throws Exception {
                 log.info("加载创建key:" + key);
-                String url = "https://ai.jd.com/index_new?app=Seckill&action=pcMiaoShaAreaList&callback=&_=";
+                String url = "https://ai.qihn.com/index_new?app=Seckill&action=pcMiaoShaAreaList&callback=&_=";
                 String data = null;
                 String jsonp =  HttpUtil.sendGet(url,data);
                 //log.error("jtt-get_goods_link: "+jsonp);
@@ -111,7 +111,7 @@ public class JdController {
                         jd.setSkupicture(ja.getJSONObject(i).getString("imageurl"));
                         jd.setPricestr(ja.getJSONObject(i).getString("jdPrice"));
                         jd.setPricemiaosha(ja.getJSONObject(i).getString("miaoShaPrice"));
-                        jd.setSkulink("http://item.jd.com/"+ja.getJSONObject(i).getString("wareId")+".html");
+                        jd.setSkulink("http://item.qihn.com/"+ja.getJSONObject(i).getString("wareId")+".html");
                         list.add(jd);
                         log.info(JSONUtils.toJSON(jd));
                     }
@@ -123,7 +123,7 @@ public class JdController {
                         jd.setSkupicture(ja.getJSONObject(i).getString("imageurl"));
                         jd.setPricestr(ja.getJSONObject(i).getString("jdPrice"));
                         jd.setPricemiaosha(ja.getJSONObject(i).getString("miaoShaPrice"));
-                        jd.setSkulink("http://item.jd.com/"+ja.getJSONObject(i).getString("wareId")+".html");
+                        jd.setSkulink("http://item.qihn.com/"+ja.getJSONObject(i).getString("wareId")+".html");
                         list.add(jd);
                         log.info(JSONUtils.toJSON(jd));
                     }
@@ -191,11 +191,11 @@ public class JdController {
         return mv;
     }
 
-    //https://search.jd.com/Search?keyword=%E7%A9%BA%E8%B0%831%E5%8C%B9&enc=utf-8&wtype=1&psort=3
+    //https://search.qihn.com/Search?keyword=%E7%A9%BA%E8%B0%831%E5%8C%B9&enc=utf-8&wtype=1&psort=3
     // wtype =1  京东配送  psort 1 价格降序 2 价格升序  3 销量降序
     public List sjdlist(String q,String sort,String jdps){
         try {
-            Document doc = Jsoup.connect("https://search.jd.com/Search?keyword="+q+"&enc=utf-8&stock=1&wtype="+jdps+"&psort="+sort).get();
+            Document doc = Jsoup.connect("https://search.qihn.com/Search?keyword="+q+"&enc=utf-8&stock=1&wtype="+jdps+"&psort="+sort).get();
             String title = doc.title();
             Element content = doc.getElementById("J_goodsList");
             Elements elements = content.getElementsByTag("li");
@@ -278,7 +278,7 @@ public class JdController {
         String uri = request.getParameter("url");
         String token = request.getParameter("token");
 
-        //http://tool.manmanbuy.com/history.aspx?action=gethistory&url=http%253A%2F%2Fitem.jd.com%2F3734874.html&token=4sze53bc96e9093faf34eaed11d0bc544a7e
+        //http://tool.manmanbuy.com/history.aspx?action=gethistory&url=http%253A%2F%2Fitem.qihn.com%2F3734874.html&token=4sze53bc96e9093faf34eaed11d0bc544a7e
         String url = "http://tool.manmanbuy.com/history.aspx?action=gethistory&url="+uri+"&token="+token;
         log.info("url:"+url);
         String str =  HttpClientUtils.getDataFromUri(url,null);

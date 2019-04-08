@@ -35,9 +35,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * https://wq.jd.com/webportal/cgigw/sku_real_new_price?skuIds=39409291956,33267670921&source=wxsqpage&showJson=1&action=sku_info,real_time_price,new_user_price
+ * https://wq.qihn.com/webportal/cgigw/sku_real_new_price?skuIds=39409291956,33267670921&source=wxsqpage&showJson=1&action=sku_info,real_time_price,new_user_price
  *
- * http://pjapi-test.jd.com/goods/baseInfo?skuList=761680,100012,313382&baseField=name,category,skuId,shopId,imagePath,brandId
+ * http://pjapi-test.qihn.com/goods/baseInfo?skuList=761680,100012,313382&baseField=name,category,skuId,shopId,imagePath,brandId
 
  http://yx.3.cn/service/info.action?id=1823500
 
@@ -205,7 +205,7 @@ public class UserController extends BaseController{
                 }
             }
             skuids = new StringBuffer( skuids.toString().substring(0,skuids.length()-1));
-            String url = "https://wq.jd.com/webportal/cgigw/sku_real_new_price?source=wxsqpage&showJson=1&action=sku_info,real_time_price,new_user_price&skuIds=";
+            String url = "https://wq.qihn.com/webportal/cgigw/sku_real_new_price?source=wxsqpage&showJson=1&action=sku_info,real_time_price,new_user_price&skuIds=";
 
             String str =  HttpClientUtils.getDataFromUri(url+skuids,null);
             log.info("url: "+url+skuids );
@@ -260,17 +260,17 @@ public class UserController extends BaseController{
             System.out.println("hit: "+t +" "+" t1:"+t1+" t2:"+t2 );
             URI uri =null;
 
-            String quan_15_618_300 = "https://coupon.jd.com/ilink/couponSendFront/send_index.action?key=5295463f6ce84ae8afce9624093e2fab&roleId=6932641&to=sale.jd.com/act/bgx0ywve5awmvnxp.html&";
+            String quan_15_618_300 = "https://coupon.qihn.com/ilink/couponSendFront/send_index.action?key=5295463f6ce84ae8afce9624093e2fab&roleId=6932641&to=sale.qihn.com/act/bgx0ywve5awmvnxp.html&";
             uri = new URI(quan_15_618_300);
             Desktop.getDesktop().browse(uri);
 
 
 
-           /* String ziyingfushi10142022 = "https://coupon.jd.com/ilink/couponSendFront/send_index.action?key=cd5b21c57ccd4cb0b19a2b0c3402943f&roleId=7021161&to=sale.jd.com/act/a3x6w2dhqio.html&";
+           /* String ziyingfushi10142022 = "https://coupon.qihn.com/ilink/couponSendFront/send_index.action?key=cd5b21c57ccd4cb0b19a2b0c3402943f&roleId=7021161&to=sale.qihn.com/act/a3x6w2dhqio.html&";
             uri = new URI(ziyingfushi10142022);
             Desktop.getDesktop().browse(uri);
 
-            ziyingfushi10142022 = "https://coupon.jd.com/ilink/couponSendFront/send_index.action?key=1f58f6b900ac4b21a3bd8ff4bba0dce1&roleId=6917644&to=sale.jd.com/act/yirzxqbsruwv6.html&";
+            ziyingfushi10142022 = "https://coupon.qihn.com/ilink/couponSendFront/send_index.action?key=1f58f6b900ac4b21a3bd8ff4bba0dce1&roleId=6917644&to=sale.qihn.com/act/yirzxqbsruwv6.html&";
             uri = new URI(ziyingfushi10142022);
             Desktop.getDesktop().browse(uri);*/
 

@@ -41,13 +41,13 @@ public class GoodsController extends BaseController {
     public static String runflag = "0";
     public static String updateflag = "0";
 
-    public static String couponurl = "https://cd.jd.com/promotion/v2?area=1_1_1_0&shopId=1&cat=1%2C3%2C1&skuId=";
+    public static String couponurl = "https://cd.qihn.com/promotion/v2?area=1_1_1_0&shopId=1&cat=1%2C3%2C1&skuId=";
     public static String stockurl = "https://c.3.cn/stock?cat=1,1,1&venderId=0&area=1_1_1_1&buyNum=1&skuId=";
 
     public  static void main(String args[]){
 
         Goods goods = new Goods();
-        goods.setRecpoint("http://item.jd.com/35205787401.html");
+        goods.setRecpoint("http://item.qihn.com/35205787401.html");
 
         Matcher matcher = Patterns.WEB_URL.matcher(goods.getRecpoint());
         Map<String,String> tmap = new HashMap<>();
@@ -219,7 +219,7 @@ public class GoodsController extends BaseController {
         }*/
 
         String priceurl = "https://pe.3.cn/prices/mgets?skuids=";
-        //String couponurl = "https://cd.jd.com/promotion/v2?area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1&skuId=";
+        //String couponurl = "https://cd.qihn.com/promotion/v2?area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1&skuId=";
         StringBuffer sb = new StringBuffer();
         long a = 0;
         for(long i=gid;i<109999999999l;i++){
@@ -863,7 +863,7 @@ public class GoodsController extends BaseController {
     public Object getMMMPrice2(HttpServletRequest request, HttpServletResponse response) {
         String uri = request.getParameter("url");
         String token = request.getParameter("token");
-        //http://tool.manmanbuy.com/history.aspx?action=gethistory&url=http%253A%2F%2Fitem.jd.com%2F3734874.html&token=4sze53bc96e9093faf34eaed11d0bc544a7e
+        //http://tool.manmanbuy.com/history.aspx?action=gethistory&url=http%253A%2F%2Fitem.qihn.com%2F3734874.html&token=4sze53bc96e9093faf34eaed11d0bc544a7e
         String url = "http://tool.manmanbuy.com/history.aspx?action=gethistory&url="+uri+"&token="+token;
         String str =  HttpClientUtils.getDataFromUri(url,null);
         log.info("res: "+str);
@@ -893,7 +893,7 @@ public class GoodsController extends BaseController {
         String uri = request.getParameter("url");
         String token = request.getParameter("token");
         String gid = request.getParameter("id");
-        //http://tool.manmanbuy.com/history.aspx?action=gethistory&url=http%253A%2F%2Fitem.jd.com%2F3734874.html&token=4sze53bc96e9093faf34eaed11d0bc544a7e
+        //http://tool.manmanbuy.com/history.aspx?action=gethistory&url=http%253A%2F%2Fitem.qihn.com%2F3734874.html&token=4sze53bc96e9093faf34eaed11d0bc544a7e
         String url = "http://tool.manmanbuy.com/history.aspx?action=gethistory&url="+uri+"&token="+token;
         String str =  HttpClientUtils.getDataFromUri(url,null);
         log.info("res: "+str);
@@ -1001,7 +1001,7 @@ public class GoodsController extends BaseController {
      * 		"isFreeShipping": 2,
      * 		"isJdSale": 1,
      * 		"isSeckill": 0,
-     * 		"materialUrl": "http://item.jd.com/874171.html",
+     * 		"materialUrl": "http://item.qihn.com/874171.html",
      * 		"shopId": 1000013642,
      * 		"skuId": 874171,
      * 		"startDate": 1528473600000,
@@ -1010,7 +1010,7 @@ public class GoodsController extends BaseController {
      * 		"wlUnitPrice": 24.8
      *        },
      * 	"result2": {
-     * 		"link": "https://union-click.jd.com/jdc?d=3GvDtm"
+     * 		"link": "https://union-click.qihn.com/jdc?d=3GvDtm"
      *    }
      * }
      * @param remap2
@@ -1086,7 +1086,7 @@ public class GoodsController extends BaseController {
             }
             skuids = new StringBuffer( skuids.toString().substring(0,skuids.length()-1) );
 
-            String url = "https://pjapi.jd.com/goods/baseInfo?baseField=category,shopId,brandId,venderId&skuList=";
+            String url = "https://pjapi.qihn.com/goods/baseInfo?baseField=category,shopId,brandId,venderId&skuList=";
 
             String str =  HttpClientUtils.getDataFromUri(url+skuids,null);
             log.info("set-category-url: "+url+skuids );
@@ -1135,7 +1135,7 @@ public class GoodsController extends BaseController {
             }
             skuids = new StringBuffer( skuids.toString().substring(0,skuids.length()-1));
 
-            String url = "https://wq.jd.com/webportal/cgigw/sku_real_new_price?source=wxsqpage&showJson=1&action=sku_info,real_time_price,new_user_price&skuIds=";
+            String url = "https://wq.qihn.com/webportal/cgigw/sku_real_new_price?source=wxsqpage&showJson=1&action=sku_info,real_time_price,new_user_price&skuIds=";
 
             String str =  HttpClientUtils.getDataFromUri(url+skuids,null);
             log.info("url: "+url+skuids );

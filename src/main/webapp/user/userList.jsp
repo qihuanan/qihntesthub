@@ -86,7 +86,7 @@
 
                                     <c:forEach var="obj" items="${userList }" >
                                         <tr>
-                                            <td ><a href="https://item.m.jd.com/product/${obj.gid}.html">${obj.gid}</a> <br>${obj.name} <br><br>${obj.couponprom } <br>
+                                            <td ><a href="https://item.m.qihn.com/product/${obj.gid}.html">${obj.gid}</a> <br>${obj.name} <br><br>${obj.couponprom } <br>
 
                                                 <span style="cursor: hand;" onclick="shengchengguiguang(${obj.gid },${obj.id})">生成</span>&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <span style="cursor: hand;" onclick="delobj(${obj.id},${obj.gid})">删除</span>&nbsp;&nbsp;

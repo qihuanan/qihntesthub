@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  * 100001-9999999 或 100000000001-109999999999	自营商品
  * 1000000001-1999999999 或 10000000001-99999999999	POP
  * https://p.3.cn/prices/mgets?skuids=2880540,100001
- * https://cd.jd.com/promotion/v2?callback=jQuery8145028&skuId=2880540&area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1
+ * https://cd.qihn.com/promotion/v2?callback=jQuery8145028&skuId=2880540&area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1
  *
  * "code": "19",
  * "content": "满2件，总价打8折",  3911883
@@ -33,7 +33,7 @@ public class Test {
 
 
         String priceurl = "https://p.3.cn/prices/mgets?skuids=";
-        String couponurl = "https://cd.jd.com/promotion/v2?area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1&skuId=";
+        String couponurl = "https://cd.qihn.com/promotion/v2?area=1_1_1_0&shopId=4&venderId=1&cat=1%2C3%2C1&skuId=";
         StringBuffer sb = new StringBuffer();
         for(int i=154057;i<154159;i++){ // 3911880  2880530
             sb.append(i).append(",");
