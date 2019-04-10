@@ -2,7 +2,6 @@ package com.qihn.utils;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.qihn.controller.GoodsController;
-import com.qihn.controller.TaobaoController;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
@@ -114,9 +112,6 @@ public class ThrottleFilter implements Filter {
     }
 
     @Scheduled(fixedRate = 1000*60*60*2) //1000*60*60*2  2小时更新一次
-    public void refreshTBtoken() {
-        TaobaoController.refreshTBtokenAndset();
-    }
 
     /**
      * Any cleanup for the filter.
