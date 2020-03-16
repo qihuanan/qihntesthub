@@ -17,11 +17,11 @@
     <httpclient4.version>4.5.2</httpclient4.version>
     <httpasyncclient4.version>4.1</httpasyncclient4.version>
     <djk.version>1.8</djk.version>
-    <plugin.maven-clean-plugin.version>2.2</plugin.maven-clean-plugin.version>
-    <plugin.maven-resources-plugin.version>2.4</plugin.maven-resources-plugin.version>
-    <plugin.maven-compiler-plugin.version>3.0</plugin.maven-compiler-plugin.version>
-    <plugin.maven-install-plugin.version>2.4</plugin.maven-install-plugin.version>
-    <plugin.maven-surefire-plugin.version>2.4.3</plugin.maven-surefire-plugin.version>
+    <plugin.maven-clean-plugin.version>3.1.0</plugin.maven-clean-plugin.version>
+    <plugin.maven-resources-plugin.version>3.1.0</plugin.maven-resources-plugin.version>
+    <plugin.maven-compiler-plugin.version>3.1</plugin.maven-compiler-plugin.version>
+    <plugin.maven-install-plugin.version>3.1.0</plugin.maven-install-plugin.version>
+    <plugin.maven-surefire-plugin.version>3.1</plugin.maven-surefire-plugin.version>
     <jackson.version>2.9.0</jackson.version>
   </properties>
 
@@ -98,7 +98,7 @@
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-djbc</artifactId>
+      <artifactId>spring-jdbc</artifactId>
       <version>${spring.version}</version>
     </dependency>
     <dependency>
@@ -329,13 +329,7 @@
       <version>${jackson.version}</version>
     </dependency>
     <!-- JSON END -->
-    <dependency>
-      <groupId>com.taobao.sdk</groupId>
-      <artifactId>taobaosdk</artifactId>
-      <version>2018</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/taobaosdk-2018.jar</systemPath>
-    </dependency>
+
 
     <dependency>
       <groupId>javax.mail</groupId>
@@ -397,16 +391,7 @@
               </compilerArguments>
           </configuration>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${plugin.maven-surefire-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>${plugin.maven-clean-plugin.version}</version>
-        </plugin>
+
       </plugins>
 
   </build>
