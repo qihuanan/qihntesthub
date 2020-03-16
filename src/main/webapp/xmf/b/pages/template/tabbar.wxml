@@ -1,52 +1,50 @@
 <template name="tabbar"> 
 <view class="weui-tabbar">
   <view class="weui-tabbar__item {{cur == 1 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/detail/detail" open-type="reLaunch">
+    <navigator url="/pages/detail/detail?lineid={{lineid}}" open-type="reLaunch">
       <image src="../images/home.svg" alt class="weui-tabbar__icon weui-tabbar-img"></image>
-      <view class="weui-tabbar__label">首页</view>
-    </navigator>
-  </view>
-  <!--
-  <view class="weui-tabbar__item {{cur == 2 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/message/message" >
-      <image src="../images/icon-mes@2x.png" alt class="weui-tabbar__icon weui-tabbar-img"></image>
-      <view class="weui-tabbar__label">留言</view>
-    </navigator>
-  </view>
-  -->
-<view class="weui-tabbar__item {{cur == 2 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/detailon/detail"  open-type="reLaunch">
-      <image src="../images/icon-his.svg" alt class="weui-tabbar__icon weui-tabbar-img"></image>
-      <view class="weui-tabbar__label">任务</view>
+      <view class="weui-tabbar__label">线路首页</view>
     </navigator>
   </view>
 
-  <view wx:if="{{showqiandao == 1 }}"   class="weui-tabbar__item {{cur == 3 ? 'weui-bar__item_on' : ''}}">
+  <!--
+  <view class="weui-tabbar__item {{cur == 4 ? 'weui-bar__item_on' : ''}}">
+    <navigator url="/pages/detailmap/detail"  open-type="reLaunch">
+      <image src="../images/map.svg" alt class="weui-tabbar__icon weui-tabbar-img"></image>
+      <view class="weui-tabbar__label">任务地图</view>
+    </navigator>
+  </view>
+
+  <view wx:if="{{showqiandao == 1 && chaoshi != '超时啦！'}}"  class="weui-tabbar__item {{cur == 3 ? 'weui-bar__item_on' : ''}}">
     <view bindtap="verifylocaiton" >
       <image src="../images/mark.svg" alt class="weui-tabbar__icon weui-tabbar-img"></image>
       <view class="weui-tabbar__label">签到</view>
     </view>
   </view>
 
-  <view class="weui-tabbar__item {{cur == 4 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/detailmap/detail"  open-type="reLaunch">
-      <image src="../images/map.svg" alt class="weui-tabbar__icon weui-tabbar-img"></image>
-      <view class="weui-tabbar__label">地图</view>
+-->
+  <view wx:if="{{chaoshi == '超时啦！'}}"  class="weui-tabbar__item {{cur == 3 ? 'weui-bar__item_on' : ''}}">
+    <view bindtap="dakachaoshi" >
+      <image src="../images/mark2.svg" alt class="weui-tabbar__icon weui-tabbar-img"></image>
+      <view class="weui-tabbar__label">去签到</view>
+    </view>
+  </view>
+  <view wx:elif="{{showqiandao == 1}}"  class="weui-tabbar__item {{cur == 3 ? 'weui-bar__item_on' : ''}}">
+    <view bindtap="verifylocaiton" >
+      <image src="../images/mark.svg" alt class="weui-tabbar__icon weui-tabbar-img"></image>
+      <view class="weui-tabbar__label">去签到</view>
+    </view>
+  </view>
+  <view wx:else class="weui-tabbar__item {{cur == 2 ? 'weui-bar__item_on' : ''}}">
+    <navigator url="/pages/detailon/detail" >
+      <image src="../images/icon-his.svg" alt class="weui-tabbar__icon weui-tabbar-img"></image>
+      <view class="weui-tabbar__label">任务地图</view>
     </navigator>
   </view>
-<!-- 
-  <view class="weui-tabbar__item {{cur == 4 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/detailmap/detail" >
-      <image src="../images/icon-map@2x.png" alt class="weui-tabbar__icon weui-tabbar-img"></image>
-      <view class="weui-tabbar__label">地图</view>
-    </navigator>
-  </view>
-  -->
-
   <view class="weui-tabbar__item {{cur == 5 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/home/home"  open-type="reLaunch">
+    <navigator url="/pages/home/home">
       <image src="../images/my.svg" alt class="weui-tabbar__icon weui-tabbar-img"></image>
-      <view class="weui-tabbar__label">我</view>
+      <view class="weui-tabbar__label">我的</view>
     </navigator>
   </view>
 

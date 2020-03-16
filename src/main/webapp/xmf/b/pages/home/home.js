@@ -39,6 +39,11 @@ Page({
       })
     }
   },
+  gopay: function(e){
+    util.navigateTo({
+      url: '/pages/wxpay/wxpay'
+    })
+  },
   showmyactive: function (e){
     console.log(e.currentTarget.dataset.panel)
     this.setData({ 

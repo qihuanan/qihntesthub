@@ -8,7 +8,7 @@
       <text class="userinfo-nickname2">我参与了绿色家园建设每日打卡行动</text>
       <text class="userinfo-nickname2">邀请你一起来!</text>
      
-      <image  class="userinfo-avatar2" src="/pages/images/xmfma.png" mode="cover"></image>
+      <image  class="userinfo-avatar2" src="/pages/images/xmfma.jpg" mode="cover"></image>
 
       <text class="userinfo-nickname">长按识别小程序码</text>
     </view>
@@ -16,19 +16,13 @@
   </view>
   <view class='placeholder-view2'></view>
    <view class="weui-flex" style="text-align:center;">
-      <view  class="weui-flex__item " bindtap="createshareimg" data-lineid="{{line.id}}"> 
-        <image mode="aspectFit" src="/pages/images/share_xiazai.png" class="liuyanbandaka"></image>  
-      </view>
-      <view  class="weui-flex__item " > 
-        <button class='share-btn2' open-type="share">
-          <image mode="aspectFit" src="/pages/images/share_share.png" class="liuyanbandaka"></image>
-        </button>         
-      </view>
-    </view>
+      <button style="width:40vw" class="btn1" bindtap="createshareimg" data-lineid="{{line.id}}"> 
+        保存图片  
+      </button>
+       <button  style="width:40vw"  class='btn1' open-type="share">
+        发给朋友
+       </button>         
+     </view>
 
 </view>
 
-<view class='placeholder-view'></view>
-<view class="pretabbar"></view>
-<import src ="/pages/template/tabbar.wxml"/>
-<template is="tabbar"/>

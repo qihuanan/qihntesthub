@@ -25,7 +25,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "小蜜蜂探索",
+    "navigationBarTitleText": "小蜜探，发现身边世界的精彩！",
     "navigationBarTextStyle": "black"
   },
   "style": "v2",
@@ -34,6 +34,6 @@
       "desc": "你的位置信息将用于签到位置验证!"
     }
   },
-  
+
   "sitemapLocation": "sitemap.json"
 }

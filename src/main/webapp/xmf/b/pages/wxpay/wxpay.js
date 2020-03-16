@@ -98,13 +98,13 @@ Page({
 
               }
               wx.showToast({
-                title: '下单支付ok',
+                title: '支付成功',
                 icon: 'none'
               })
             },
             "fail":function(res){
               wx.showToast({
-                title: '下单支付失败',
+                title: '支付失败',
                 icon: 'none'
               })
             },

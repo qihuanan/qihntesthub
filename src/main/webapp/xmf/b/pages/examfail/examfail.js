@@ -10,16 +10,21 @@ Page({
   //事件处理函数
 
   gonext: function (e) {
-    util.navigateTo({
+    wx.reLaunch({
       url: "/pages/detailon/detail",
-      //url: "/pages/detailqiandao2/detail?fujiati=1" // 沟通确认： 失败页面的再试一次 跳转到答题页面
+      //lichunbo，失败重试跳转到提示页，重置页面深度
     });
   },
-
+  gonext4: function (e) {
+    wx.reLaunch({
+      url: "/pages/detailon/detail",
+      //lichunbo，对应再试一次，跳转提示页面
+    });
+  },
   gonext3: function (e) {
     util.navigateTo({
-      //url: "/pages/detailon/detail",
-      url: "/pages/detailqiandao2/detail?fujiati=1" // 沟通确认： 失败页面的再试一次 跳转到答题页面
+       url: "/pages/detailqiandao2/detail?fujiati=1" 
+       // 沟通确认： 失败页面的再试一次 跳转到答题页面
     });
   },
 
@@ -35,8 +40,9 @@ Page({
       }, success(res2) {
         console.log("jiafenrenwufinish res  " + JSON.stringify(res2.data.data))
         if (res2.data.data == 'ok') {
-          util.navigateTo({ 
-            url: "/pages/detailon/detail",
+          wx.reLaunch({
+           url: "/pages/detailon/detail",
+           //lichunbo,跳过加分任务，重置页面深度，跳转到地图页
           });
         }
       }

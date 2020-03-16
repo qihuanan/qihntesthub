@@ -3,7 +3,11 @@ package com.qihn.controller.wxpay;
 import com.google.gson.JsonObject;
 import com.qihn.controller.BaseController;
 import com.qihn.controller.WxPayController;
+import com.qihn.pojo.User;
+import com.qihn.pojo.UserPay;
 import com.qihn.service.LineService;
+import com.qihn.service.UserPayService;
+import com.qihn.service.UserService;
 import com.qihn.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -30,7 +34,10 @@ public class WxpayController  extends BaseController {
     public static final String TOKEN = "qihn";
     @Resource(name = "lineService")
     private LineService lineService;
-
+    @Resource(name = "userService")
+    private UserService userService;
+    @Resource(name="userPayService")
+    private UserPayService userPayService;
 
 
     @RequestMapping(value = "/wx/wxPay")
@@ -156,12 +163,37 @@ public class WxpayController  extends BaseController {
         //sb为微信返回的xml
         String notityXml = sb.toString();
         String resXml = "";
-        System.out.println("接收到的报文：" + notityXml);
+        /**
+         * <xml><appid><![CDATA[wxb396476de17508d4]]></appid><bank_type><![CDATA[CMB_CREDIT]]></bank_type><cash_fee><![CDATA[1990]]></cash_fee><fee_type><![CDATA[CNY]]></fee_type><is_subscribe><![CDATA[N]]></is_subscribe><mch_id><![CDATA[1605166258]]></mch_id><nonce_str><![CDATA[4tkkj7d7qd81q6eia77tgxzj8b8eega4]]></nonce_str><openid><![CDATA[oHq_k5BsHf9vNCCz2HdCAW1b9CeI]]></openid><out_trade_no><![CDATA[20210312220542916403]]></out_trade_no><result_code><![CDATA[SUCCESS]]></result_code><return_code><![CDATA[SUCCESS]]></return_code><sign><![CDATA[9605012DFA392CBEF62786EC66164261]]></sign><time_end><![CDATA[20210312220547]]></time_end><total_fee>1990</total_fee><trade_type><![CDATA[JSAPI]]></trade_type><transaction_id><![CDATA[4200000877202103123136912604]]></transaction_id></xml>
+         */
+        System.out.println("zhifutongzhi 接收到的报文：" + notityXml);
 
         Map map = PayUtil.xmlStrToMap(notityXml);
 
         String returnCode = (String) map.get("return_code");
         if("SUCCESS".equals(returnCode)){
+            String openid = (String) map.get("openid");
+            User user = new User();
+            user.setOpenid(openid);
+            user = this.userService.findByProperties(user);
+            String total_fee = (String) map.get("total_fee");
+
+            UserPay userPay = new UserPay();
+
+            userPay.setEndtime(Utils.getDate2(0,0,7));
+
+            userPay.setUser(user);
+            userPay.setUserid(user.getId());
+            userPay.setUsername(user.getName());
+            userPay.setDay(7);
+            userPay.setOrderno((String) map.get("out_trade_no"));
+            userPay.setPaytime(Utils.getDate2(0,0,0));
+            userPay.setMoney(total_fee);
+            userPay.setName("支付信息对账");
+
+
+            temp(userService,userPayService,userPay,user);
+
             //验证签名是否正确
             if(true){
                 /**此处添加自己的业务逻辑代码start**/
@@ -185,6 +217,35 @@ public class WxpayController  extends BaseController {
         out.write(resXml.getBytes());
         out.flush();
         out.close();
+    }
+
+    private void temp(UserService userService, UserPayService userPayService,UserPay userPay,User user){
+        Thread t = new Thread(new Runnable(){
+            public void run(){
+                // run方法具体重写
+                try{
+                    Thread.sleep(1000*30);
+                }catch (Exception exception){
+
+                }
+
+                log.info("60秒后入库.. ");
+                UserPay temp = new UserPay();
+                temp.setOrderno(userPay.getOrderno());
+                temp = userPayService.findByProperties(temp);
+                if(Utils.isNullorEmpty(temp)){
+                    log.info("没有上报，对账入库 "+userPay.getOrderno());
+                    userPayService.save(userPay);
+                    user.setEndtime(userPay.getEndtime());
+                    userService.update(user);
+                }else {
+                    log.info("有上报，对账bu入库 "+userPay.getOrderno());
+                }
+
+
+
+            }});
+        t.start();
     }
 
 }

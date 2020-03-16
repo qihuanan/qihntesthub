@@ -11,7 +11,7 @@
 }
 .active-title {
   vertical-align: middle;
-  font-size: 50rpx;
+  font-size: 40rpx;
   font-weight: 500;
   }
 
@@ -20,11 +20,11 @@
   margin-right: 60rpx;
 }
 .active-title-top{
-  height: 100rpx;
+  height: 95rpx;
   border-radius: 10rpx;
   margin-top: 1rpx;
   justify-content:center;
-  padding-top: 20rpx;
+  padding-top: 30rpx;
   padding-left: 35rpx;
   color: white;
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDczIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDEwNzMgMTgwIj48ZGVmcz48c3R5bGU+LmNscy0ye2ZpbGw6IzBjMDUwOTtmaWxsLXJ1bGU6ZXZlbm9kZDtvcGFjaXR5Oi4xfTwvc3R5bGU+PC9kZWZzPjxyZWN0IGlkPSLlnIbop5Lnn6nlvaJfMl/mi7fotJ1fMiIgZGF0YS1uYW1lPSLlnIbop5Lnn6nlvaIgMiDmi7fotJ0gMiIgd2lkdGg9IjEwNzMiIGhlaWdodD0iMTgwIiByeD0iMTUiIHJ5PSIxNSIgZmlsbD0iI2ZhYmYxMyIvPjxwYXRoIGlkPSLnn6nlvaJfNV/mi7fotJ1fMTEiIGRhdGEtbmFtZT0i55+p5b2iIDUg5ou36LSdIDExIiBjbGFzcz0iY2xzLTIiIGQ9Ik0tMjEuNTM4LTEyOC4wMjRMNzI3Ljg3NSAyMDYuNWwtMjcuMjk0IDYwLjUzNUwtNDguODMyLTY3LjQ5eiIvPjxwYXRoIGlkPSLnn6nlvaJfNV/mi7fotJ1fMTIiIGRhdGEtbmFtZT0i55+p5b2iIDUg5ou36LSdIDEyIiBjbGFzcz0iY2xzLTIiIGQ9Ik0zMDUuNDYyLTEyOC4wMjRMMTA1NC44NyAyMDYuNWwtMjcuMjkgNjAuNTM1TDI3OC4xNjgtNjcuNDl6Ii8+PHBhdGggaWQ9IuefqeW9ol81X+aLt+i0nV8xMyIgZGF0YS1uYW1lPSLnn6nlvaIgNSDmi7fotJ0gMTMiIGNsYXNzPSJjbHMtMiIgZD0iTTUzMC40NjItMTczLjAyNEwxMjc5Ljg3IDE2MS41bC0yNy4yOSA2MC41MzVMNTAzLjE2OC0xMTIuNDl6Ii8+PHBhdGggaWQ9IuefqeW9ol81X+aLt+i0nV8xNCIgZGF0YS1uYW1lPSLnn6nlvaIgNSDmi7fotJ0gMTQiIGNsYXNzPSJjbHMtMiIgZD0iTS0xOTcuNTM4LTU4LjAyNEw1NTEuODc1IDI3Ni41bC0yNy4yOTQgNjAuNTM1TC0yMjQuODMyIDIuNTF6Ii8+PC9zdmc+");
@@ -124,4 +124,17 @@ display: flex;  flex-direction: column;
    .liuyanbandaka{
     height: 62px;
     width: 153px;
+  }
+  .btn1{
+    width: 40rpx;
+    height: 35rpx;
+    margin-top: 50rpx;
+    background-color:#fabf13;
+    color: white;
+    border-radius: 18rpx; 
+    height: 100rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
   }

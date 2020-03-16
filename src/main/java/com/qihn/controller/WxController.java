@@ -571,7 +571,7 @@ public class WxController extends BaseController {
                             old.setFinish("0");
                             old.setAddScore(0);
                             map.put("data", "err");
-                            if(old.getChance()<=1){
+                            if(old.getChance()<=0){
                                 old.setFinish("1");
                                 map.put("data", "errnochance");
                             }
@@ -814,7 +814,7 @@ public class WxController extends BaseController {
         PointUserinfo pu = new PointUserinfo();
         pu.setLineid(line.getId());
         pu.setUserid(user.getId());
-        List<PointUserinfo> pulist = pointUserinfoService.findByProperties(pu,null,100,"id","desc");
+        List<PointUserinfo> pulist = pointUserinfoService.findByProperties(pu,null,200,"id","desc");
         if(Utils.isNotNullOrEmpty(pulist)){
             line.setYidaka(pulist.size()+"");
         }else {
@@ -837,7 +837,7 @@ public class WxController extends BaseController {
                 }
                 // 超过99.50.59 就显示这个 超过100小时的
                 if(t> 1000*60 * 60 *100){
-                    line.setYiyongshi("99:59:59");
+                    //line.setYiyongshi("99:59:59");
                 }
                 // 如果 一个任务点也没有打卡，并且超过1小时 重新开始打卡时间
                 if(Utils.isNullorEmpty(pulist)){
@@ -972,9 +972,20 @@ public class WxController extends BaseController {
 
             }
         }
-        // 当前签到点旗帜颜色变为 黄色
+
+        // 当前和点是否已完成
+        boolean curpointfinish = false;
+        for(int j=0;j<pulist.size();j++){
+            if(point.getId().longValue() == pulist.get(j).getPointid().longValue()){
+                if(pulist.get(j).getFinish().equals("1")){
+                    curpointfinish = true;
+                }
+                break;
+            }
+        }
+        // 当前签到点旗帜颜色变为 黄色  并且当前点是未完成时候 标记为当前的颜色，已完成就已完成的颜色。
         for(int i = 0;i<marklist.size();i++){
-            if(marklist.get(i).getId() == point.getId()){
+            if(marklist.get(i).getId().longValue() == point.getId().longValue() &&  !curpointfinish){
                 marklist.get(i).setIconPath("/pages/images/icon-flg-ylw@2x.png");
                 marklist.get(i).setIconPath("/pages/images/svg/point-select"+Utils.formatString0(pointlist.get(i).getShunxu())+".png");
                 marklist.get(i).setWidth("30");
@@ -1149,7 +1160,7 @@ public class WxController extends BaseController {
         PointUserinfo pu = new PointUserinfo();
         pu.setLineid(line.getId());
         pu.setUserid(user.getId());
-        List<PointUserinfo> pulist = pointUserinfoService.findByProperties(pu,null,50,null,null);
+        List<PointUserinfo> pulist = pointUserinfoService.findByProperties(pu,null,200,null,null);
         if(Utils.isNotNullOrEmpty(pulist)){
             line.setYidaka(pulist.size()+"");
         }else {

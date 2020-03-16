@@ -54,19 +54,16 @@
 .logoimg{
   width: 200px;
   height: 200px;
-  
-}
+  }
 .item-top-logon {
   align-items: center;
-  
-}
+  }
 .weui-flex__item2{
   flex: 2;
 }
 .mobile{
   font-size: 25rpx;
-  color: #aaa;
-  padding-right: 50rpx;
+  color: #666666;
 }
 .mobile2{
   text-decoration: underline;
@@ -94,9 +91,8 @@
 .xiangche-img-2{
   margin: 10rpx;
   width: 100%;
-  height: 400rpx;
+  height: 300rpx;
   border-radius: 10rpx;
-
 }
 .daohang{
   margin: 10rpx;
@@ -114,18 +110,18 @@
  align-items: center;
  flex-grow: 1;
  padding: 10rpx;
- height: 400rpx;
+ height: 300rpx;
 }
 .xiangche-img-active{
   width: 100%;
-  height: 400rpx;
+  height: 300rpx;
   border-radius: 10rpx;
 }
 
 
 .item-text {
   text-align: center;
-  margin-top: -250rpx;
+  margin-top: -200rpx;
   
 }
 .active-title {
@@ -158,7 +154,6 @@
   margin-top: 0px;
   margin-right: 10px;
   font-size: 12px；
-  
 }
 .mobile3{
   width: 60px;
@@ -166,4 +161,9 @@
 .placeholder-view {
   width: 100%;
   height: 150rpx;
+}
+.kefu-btn {
+  margin-top: -20rpx;
+  margin-left: 210rpx;
+  width: 50%;
 }

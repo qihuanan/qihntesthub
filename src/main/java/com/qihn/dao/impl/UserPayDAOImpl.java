@@ -36,6 +36,10 @@ public class UserPayDAOImpl extends BaseDaoImpl<UserPay> implements UserPayDAO {
                     hql.append(" and c.userid =:getUserid");
                     params.put("getUserid", entity.getUserid());
                 }
+                if(Utils.isNotNullOrEmpty(entity.getOrderno())){
+                    hql.append(" and c.orderno =:Orderno");
+                    params.put("Orderno", entity.getOrderno());
+                }
 
 
             }

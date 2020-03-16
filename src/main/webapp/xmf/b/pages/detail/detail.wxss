@@ -7,8 +7,7 @@
 }
 .active-title {
   vertical-align: center;
-  
-  font-size: 50rpx;
+   font-size: 40rpx;
   font-weight: 500;
   
 }
@@ -18,11 +17,11 @@
   margin-right: 60rpx;
 }
 .active-title-top{
-  height: 100rpx;
+  height: 90rpx;
   border-radius: 10rpx;
   margin-top: 1rpx;
   justify-content:center;
-  padding-top: 20rpx;
+  padding-top: 35rpx;
   padding-left: 35rpx;
   color: white;
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDczIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDEwNzMgMTgwIj48ZGVmcz48c3R5bGU+LmNscy0ye2ZpbGw6IzBjMDUwOTtmaWxsLXJ1bGU6ZXZlbm9kZDtvcGFjaXR5Oi4xfTwvc3R5bGU+PC9kZWZzPjxyZWN0IGlkPSLlnIbop5Lnn6nlvaJfMl/mi7fotJ1fMiIgZGF0YS1uYW1lPSLlnIbop5Lnn6nlvaIgMiDmi7fotJ0gMiIgd2lkdGg9IjEwNzMiIGhlaWdodD0iMTgwIiByeD0iMTUiIHJ5PSIxNSIgZmlsbD0iI2ZhYmYxMyIvPjxwYXRoIGlkPSLnn6nlvaJfNV/mi7fotJ1fMTEiIGRhdGEtbmFtZT0i55+p5b2iIDUg5ou36LSdIDExIiBjbGFzcz0iY2xzLTIiIGQ9Ik0tMjEuNTM4LTEyOC4wMjRMNzI3Ljg3NSAyMDYuNWwtMjcuMjk0IDYwLjUzNUwtNDguODMyLTY3LjQ5eiIvPjxwYXRoIGlkPSLnn6nlvaJfNV/mi7fotJ1fMTIiIGRhdGEtbmFtZT0i55+p5b2iIDUg5ou36LSdIDEyIiBjbGFzcz0iY2xzLTIiIGQ9Ik0zMDUuNDYyLTEyOC4wMjRMMTA1NC44NyAyMDYuNWwtMjcuMjkgNjAuNTM1TDI3OC4xNjgtNjcuNDl6Ii8+PHBhdGggaWQ9IuefqeW9ol81X+aLt+i0nV8xMyIgZGF0YS1uYW1lPSLnn6nlvaIgNSDmi7fotJ0gMTMiIGNsYXNzPSJjbHMtMiIgZD0iTTUzMC40NjItMTczLjAyNEwxMjc5Ljg3IDE2MS41bC0yNy4yOSA2MC41MzVMNTAzLjE2OC0xMTIuNDl6Ii8+PHBhdGggaWQ9IuefqeW9ol81X+aLt+i0nV8xNCIgZGF0YS1uYW1lPSLnn6nlvaIgNSDmi7fotJ0gMTQiIGNsYXNzPSJjbHMtMiIgZD0iTS0xOTcuNTM4LTU4LjAyNEw1NTEuODc1IDI3Ni41bC0yNy4yOTQgNjAuNTM1TC0yMjQuODMyIDIuNTF6Ii8+PC9zdmc+");
@@ -63,9 +62,12 @@
   background-color: white;
   padding: 20rpx;
 }
-.body-item-tips-name{
-  color: #9DCC6B;
-  font-size: 30rpx;
+.body-linedes{
+  margin-left: 30rpx;
+  margin-right: 30rpx;
+  margin-top: -65rpx;
+  background-color: white;
+  padding: 10rpx;
 }
 .body-item-tips-desc{
   font-size: 30rpx;
@@ -105,6 +107,36 @@
 .liuyanbandaka3{
   height: 186px;
   width: 459px;
+}
+.btn1{
+  margin-top: 50rpx;
+  background-color:#fabf13;
+  color: white;
+  border-radius: 18rpx; 
+  height: 100rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 35rpx;
+}
+
+.kefu-btn {
+  margin-top: -167rpx;
+  margin-left: 50rpx;
+  width: 50%;
+}
+.kefu-btn2 {
+  
+  width: 100rpx;
+  height: 100rpx;
+  align-content: center;
+  vertical-align: middle;
+}
+.btntxt{
+  font-size: 25rpx;
+  color: #666666;
+  margin-top: 20rpx;
 }
 .placeholder-view {
   width: 100%;

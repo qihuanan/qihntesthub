@@ -23,7 +23,7 @@
   font-weight: bold;
 }
 .item-huode{
-  font-size: 18px;
+  font-size: 30rpx;
   color: #fabf13;
   font-weight: bold;
   padding-left: 50rpx;

@@ -62,6 +62,19 @@
   color: black;
   font-weight: bold;
 }
+.btn1{
+  width: 40rpx;
+  height: 35rpx;
+  margin-top: 10rpx;
+  background-color:#ffd;
+  color: black;
+  border-radius: 18rpx; 
+  height: 100rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
 .userinfo-avatar2 {
   width: 228rpx;
   height: 228rpx;

@@ -39,13 +39,14 @@ App({
     userInfo: null,
     baseurl:'https://tycaching.cn/xmf/',
     //baseurl:'https://jd.yousheng.tech/qihntest/',  
-    //baseurl:'https://tycaching.cn/qihntest/',  
+    //baseurl:'https://tycaching.cn/qihntest/', 
     score:0,
     curlineid:0,
     curpointid: 0,
     curpointid2: 0,
     curpointid3: 0,
     curupimgsrc:'',
+    curlinename:'',
     goto:''
   }
 })

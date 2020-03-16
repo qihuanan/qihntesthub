@@ -25,7 +25,7 @@ Page({
   },
   onShow: function (options){
     wx.setNavigationBarTitle({
-      title: '小蜜蜂探索'
+      title: '小蜜探'
     })
     var that = this
     wx.request({

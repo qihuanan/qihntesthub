@@ -1,3 +1,4 @@
+<wxs src="../../utils/filter.wxs" module="util"></wxs>
 <view>
 <image  wx:if="{{line.picture2}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{line.picture2}}" class="detailimg" src="{{baseurl}}download?filename={{line.picture2}}"></image>
 </view>
@@ -13,15 +14,15 @@
         
         <view class="active-title-bottom weui-flex">
           <view class="weui-flex__item">
-              <view class="" >总长</view>
-              <view class="active-title-bottom-item">约{{line.changdu}}km</view>
+              <view class="" bindtap="gopay" >需要行走</view>
+              <view class="active-title-bottom-item">约{{line.changdu}}公里</view>
           </view>
           <view class="weui-flex__item">
-              <view class="" bindtap="wxpay" data-paytype="2">打卡点</view>
+              <view class="" >签到点数</view>
               <view class="active-title-bottom-item">{{line.dianshu}}</view>
           </view>
           <view class="weui-flex__item">
-              <view class="" bindtap="gopay" data-paytype="1">线路积分</view>
+              <view class="">已获/总积分</view>
               <view class="active-title-bottom-item">{{line.yijifen }}/{{line.jifen}}</view>
           </view>
         </view>
@@ -31,7 +32,7 @@
               <navigator url="/pages/message/message" class="item-liuyanban">留言板</navigator>
           </view>
           <view  class="weui-flex__item " bindtap="dakaflagtap"> 
-              <navigator url="/pages/detailon/detail?lineid=1" class="item-liuyanban">开始打卡</navigator>
+              <navigator url="/pages/detailon/detail?lineid=1" class="item-liuyanban">开始签到</navigator>
           </view>
         </view>
         -->
@@ -45,36 +46,25 @@
               </navigator>
           </view>
           -->
+          <view wx:if="{{line.id != 10}}"  class="weui-flex__item " open-type="share"> 
+            <button  style="width:43vw" class="btn1" open-type="share">
+            约朋友一起玩
+            </button>
 
-          <view  class="weui-flex__item " bindtap="dakaflagtap" data-lineid="{{line.id}}"> 
-              <view >
-                <image mode="aspectFit" src="/pages/images/start.svg" class="liuyanbandaka"></image>
-              </view>
           </view>
+          
           <view wx:if="{{line.id == 10}}"  class="weui-flex__item " bindtap="mrdatap" data-lineid="{{line.id}}"> 
-              <view >
-                <image mode="aspectFit" src="/pages/images/mrdk.svg" class="liuyanbandaka"></image>
-              </view>
+            <button style="width:43vw" class="btn1">
+            每日打卡
+            </button>  
+          </view> 
+          <view  class="weui-flex__item " bindtap="dakaflagtap" data-lineid="{{line.id}}"> 
+            <button style="width:43vw" class="btn1">
+            开始探索
+            </button>  
           </view>
-        </view>
 
-        <!-- 
-        <view class="active-title-bottom weui-flex">
-          <view class="weui-flex__item " bindtap="wxpay" data-paytype="1">
-              <view  class="item-liuyanban">支付1周</view>
-          </view>
         </view>
-        <view class="active-title-bottom weui-flex">
-          <view class="weui-flex__item " bindtap="wxpay" data-paytype="2">
-              <view  class="item-liuyanban">支付1月</view>
-          </view>
-        </view>
-        <view class="active-title-bottom weui-flex">
-          <view class="weui-flex__item " bindtap="wxpay" data-paytype="3">
-              <view  class="item-liuyanban">支付1年</view>
-          </view>
-        </view>
-        -->
 
       </view>
 
@@ -93,7 +83,19 @@
 <view class='list'>
     <view class='li' wx:for='{{list}}' wx:key=''>{{item}}</view>
 </view>
+<view class="body-linedes" wx:if="{{line.description != ''}}">
+  <text>
+      {{util.format(line.description)}}
+   </text>
+ </view>
 <view class='placeholder-view'></view>
-<view class="pretabbar"></view>
-<import src ="/pages/template/tabbar.wxml"/>
-<template is="tabbar"/>
+<view >
+ <image mode="widthFix" class='placeholder-view' src="/pages/images/slogan.svg"></image>
+</view>
+<view class="kefu-btn">
+<button bindtap="gopay" class="kefu-btn2" style="width:40vw">
+<view class="btntxt">加入活动</view></button>
+</view>
+<view class="pretabbar">　　　</view>
+<import src ="/pages/template/tabbarout.wxml"/>
+<template is="tabbarout" data="{{cur:1}}" />

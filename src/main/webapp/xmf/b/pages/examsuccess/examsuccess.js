@@ -32,7 +32,8 @@ Page({
             url: '/pages/wxpay/wxpay?lineid=' + app.globalData.curlineid
           })
         }else{
-          util.navigateTo({
+          //lichunbo，改用relaunch，每次成功签到后重置页面深度；
+          wx.reLaunch({
             url: "/pages/detailon/detail",
           });
         }

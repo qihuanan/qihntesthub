@@ -4,7 +4,7 @@
     <view class="item-text">
       <view class="active-title">
         <view class="active-title-top">
-          {{line.name}}-{{curbaoxiang.name}}
+          {{curbaoxiang.name}}
         </view>
         
         <view class="active-title-bottom weui-flex">
@@ -47,22 +47,19 @@
 
         <view class="active-title-bottom weui-flex">
           <view class="weui-flex__item">
-              <view class="">已解锁</view>
+              <view class="">已收集</view>
               <view class="active-title-bottom-item">{{yijiesuo }}</view>
           </view>
           <view class="weui-flex__item">
-              <view class="">总片数</view>
+              <view class="">总数</view>
               <view class="active-title-bottom-item">{{zongpianshu }}</view>
           </view>
         </view>
 
         <view class="active-title-bottom weui-flex">
-          <view  class="weui-flex__item " bindtap="openIOS1" > 
-            <view >
-              <image mode="aspectFit" src="/pages/images/dhxz.svg" class="liuyanbandaka">
-              兑换勋章</image>
-            </view>
-          </view>
+          <button style="width:40vw" class="btn1" bindtap="openIOS1" >       
+        兑换奖励
+          </button>
         </view>
 
       </view>
@@ -75,7 +72,7 @@
 <view class="fadeIn" wx:if="{{iosDialog1}}">
     <view class="weui-mask"></view>
     <view class="weui-dialog">
-        <view class="weui-dialog__hd"><strong class="weui-dialog__title">兑换勋章说明</strong></view>
+        <view class="weui-dialog__hd"><strong class="weui-dialog__title">兑换奖励说明</strong></view>
         <view class="weui-dialog__bd"><text>{{curbaoxiang.remark}} </text></view>
         <view class="weui-dialog__ft"> 
             <a class="weui-dialog__btn weui-dialog__btn_primary" bindtap="close">确定</a>
@@ -85,4 +82,4 @@
 
 <view class="pretabbar"></view>
 <import src ="/pages/template/tabbar.wxml"/>
-<template is="tabbar"/>
+<template is="tabbar" data="{{cur:3, showqiandao:0,chaoshi:line.yiyongshi, lineid:line.id}}" />

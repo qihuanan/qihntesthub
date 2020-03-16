@@ -1,4 +1,21 @@
-<block wx:for="{{actvielist }}" wx:for-index="index" wx:for-item="item" wx:key="t1">    
+<!--
+<view class="active" class="weui-flex">
+<view  class="weui-flex__item view-item">
+        <image class="active-image" src="{{baseurl}}wx/showimg?filename=fmt/xmfhy.jpg" data-lineid="2" bindtap="mrdatap" class="active-image" >
+        </image>
+        <view class="item-text"   data-lineid="2">
+         <view class="active-title"  data-lineid="2" bindtap="mrdatap">
+          绿色家园，每日打卡行动！                 
+          </view>
+            <view class="active-titlesub">
+            <text class="active-titlesub-text">与自然和谐共生</text>
+          </view>
+        </view>
+    </view>
+  </view>
+  -->
+<block wx:for="{{actvielist }}" wx:for-index="index" wx:for-item="item" wx:key="t1"> 
+   
 <view class="active" class="weui-flex">
   
     <view  class="weui-flex__item view-item">
@@ -9,12 +26,15 @@
         </image>
         
         <view class="item-text"  data-verify="{{item.mima}}" data-lineid="{{item.id}}">
-          <view class="active-title">
-            {{item.name}}
-            <mp-icon bindtap="taplike" data-lineid="{{item.id}}" data-index="{{index}}" class="active-title-like" icon="like" type="{{item.like == '1' ? 'field' : 'outline' }}" color="#FFBB4C" size="{{40}}"></mp-icon>
-            
+          
+          
+          <view class="active-title" wx:if="{{item.mima == '' || item.mima == null}}"  data-verify="{{item.mima}}" data-lineid="{{item.id}}" bindtap="todetail">
+            {{item.name}}                   
           </view>
-          <view class="active-titlesub">
+          <view class="active-title"  wx:if="{{item.mima != '' && item.mima != null}}"  data-verify="{{item.mima}}" data-lineid="{{item.id}}" bindtap="openIOS1">
+            {{item.name}}                   
+          </view>
+            <view class="active-titlesub">
             <text class="active-titlesub-text">{{item.changdu}}km</text>
             <text class="active-titlesub-text">{{item.dianshu}}点</text>
             <text class="active-titlesub-text">{{item.jifen}}积分</text>
@@ -24,11 +44,17 @@
 
 </view>  
 </block>
-
+<view  class="weui-flex__item view-item " >
+ <image mode="width-fix" class="gengduo-image" src="/pages/images/sloganbg.svg" ></image>
+ <view class="slogan-text">
+ <view class="slogan-title">发现</view>
+ <view class="slogan-title">身边世界的精彩！</view>
+</view>
+</view>
 <view class="fadeIn" wx:if="{{iosDialog1}}">
     <view class="weui-mask"></view>
     <view class="weui-dialog">
-        <view class="weui-dialog__hd"><strong class="weui-dialog__title">请输入线路验证码</strong></view>
+        <view class="weui-dialog__hd"><strong class="weui-dialog__title">请输入验证码</strong></view>
         <view class="weui-dialog__bd">
         <input class="inputclass" bindinput="bindKeyInput"  placeholder="请输入" ></input>
         </view>
@@ -40,7 +66,8 @@
 <view class='list'>
     <view class='li' wx:for='{{list}}' wx:key=''>{{item}}</view>
 </view>
-<view class='placeholder-view'></view>
+<official-account></official-account>
+
 <view class="pretabbar">　　　</view>
 <import src ="/pages/template/tabbarout.wxml"/>
 <template is="tabbarout" data="{{cur:1}}" />

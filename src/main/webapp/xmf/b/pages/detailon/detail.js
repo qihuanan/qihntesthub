@@ -34,10 +34,10 @@ Page({
     polyline: [],
     controls: [{
       id: 1, iconPath: '/pages/images/icon_my_location.png', clickable: true,
-      position: {left: 10, top: 410 - 50,width: 30, height: 30}
+      position: {left: 10, top:  10,width: 30, height: 30}
     },{
         id: 2, iconPath: '/pages/images/icon_zoom_out.png', clickable: true,
-        position: { left: 45, top: 410 - 50, width: 30, height: 30 }
+        position: { left: 10, top: 50, width: 30, height: 30 }
       }],
     
     
@@ -67,7 +67,7 @@ Page({
       if(app.globalData.curpointid != e.markerId){
         e.markerId = app.globalData.curpointid
         wx.showToast({
-          title: '顺序限制！请先完成当前签到点！',
+          title: '本线路需按顺序签到，请先完成当前签到点！',
           icon: 'none',
           duration: 4000
         })
@@ -145,7 +145,7 @@ Page({
         },
         fail(res) {
           wx.showToast({
-            title: '获取定位失败，请前往设置打开定位权限',
+            title: '位置信息获取失败，请前往设置开启位置服务！',
             icon: 'none',
             duration: 1000
           })
@@ -160,7 +160,13 @@ Page({
     }
     
   },
-  
+  dakachaoshi: function(){
+    wx.showToast({
+      title: '超时啦，不能继续签到！',
+      icon: 'none',
+      duration: 5000,
+    })
+  },
   close: function () {
     this.setData({
       iosDialog1: false,
@@ -194,9 +200,9 @@ Page({
     console.log("detailon openIOS1 " + JSON.stringify(e))
     var canunlock = e.currentTarget.dataset.canunlock
     if (canunlock != '1'){
-      console.log("detailon openIOS1 解锁顺序限制，不可解锁！")
+      console.log("detailon openIOS1  请按顺序先解锁上面的提示！")
       wx.showToast({
-        title: '解锁限制，请您按照顺序解锁！',
+        title: ' 请按顺序先解锁上面的提示！',
         icon: 'none',
         duration: 3000
       })
@@ -215,6 +221,14 @@ Page({
       dakaflag: true
     })
   },
+  onShareAppMessage: function () {
+    return {
+      title: '我在“'+ this.data.line.name +'”，来跟我一起，发现身边世界的精彩吧!',
+      //lichunbo,增加分享标题
+      url: '/pages/login/login?goto=detail&lineid=' + app.globalData.curlineid
+     }
+  },
+
   taplike: function (e) {
     console.log('taplike ' + JSON.stringify(e))
     console.log('curlineid ' + app.globalData.curlineid)
@@ -242,16 +256,25 @@ Page({
     })
   },
   verifylocaiton: function () {
+     wx.showToast({
+            title: '签到位置校验中...',
+            icon: 'loading',
+            duration: 8000
+          })
+     //上面为lichunbo添加，获取高精度位置信息，需5秒以上时间，提示用户等待
     var that = this
     var jingdu = this.data.point.jingdu
     var weidu = this.data.point.weidu
     var juli = this.data.juli
+
     wx.getLocation({
       type: 'gcj02',
+
       success(res) {
         console.log('verifylocaiton ' + JSON.stringify(res))
         var distance = that.distance(res.latitude, res.longitude, weidu, jingdu);
-        console.log("verifylocaiton当前位置距离北京故宫：", distance, "米")
+        var accuracy = res.accuracy;
+        console.log("verifylocaiton当前位置距离北京故宫：", distance, "米","定位精度：",accuracy)
         if (parseInt(juli) > parseInt(distance)) {//|| res1 == 1
           console.log("verifylocaiton签到距离内：" + app.globalData.curupimgsrc)
           util.navigateTo({ // reLaunch redirectTo
@@ -265,29 +288,51 @@ Page({
       },
       fail: () => {
         //不允许打开定位
-        wx.showToast({
-          title: '获取定位失败，请前往设置打开定位权限',
-          icon: 'none',
-          duration: 3000
-        })
-
         wx.getSetting({
-          success: (res) => {
-            if (!res.authSetting['scope.userLocation']) {
-              //打开提示框，提示前往设置页面
-              wx.showToast({
-                title: '获取定位失败，请前往设置打开定位权限',
-                icon: 'none',
-                duration: 1000
+          success: function (res) {
+            console.log('getSetting...', res)
+            if (res.authSetting["scope.userLocation"] == true) {
+              console.log("用户已开启定位授权");
+            } else {
+              wx.showModal({
+                title: '开启位置服务',
+                content: '位置信息未开启，无法完成签到!',
+                confirmText: '开启',
+                confirmColor: '#fabf13',
+                cancelText: '拒绝',
+                cancelColor: '#999999',
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.openSetting({
+                      fail: function () {
+                        console.log('openSetting.failed')
+                      }
+                    })
+                  }
+                  if (res.cancel) {
+                    wx.showModal({
+                      title: '签到失败',
+                      content: '无法使用位置信息，签到失败！',
+                      confirmText: '太遗憾了',
+                      confirmColor: '#345391',
+                      showCancel: false
+                    })
+                  }
+                }
               })
             }
           }
         })
-      }
+        //上面为lichunbo添加，在用户未开启定位时，再次弹窗提示开启
 
+      }
     })
   },
-
+  gomap: function(e){
+    util.navigateTo({
+      url: '/pages/detailmap/detail'
+    })
+  },
   islogin: function () {
     var userid = wx.getStorageSync("userid")
     if (userid == null || userid == '') {
@@ -331,7 +376,7 @@ Page({
           return;
         }
         wx.setNavigationBarTitle({
-          title: '探索任务'
+          title: '线索提示'
         })
         
         //this.getLineList(that)
@@ -341,16 +386,18 @@ Page({
           data: {
             code: 1,
             lineid: app.globalData.curlineid,
-            // 上个版本没有传递此参数，
+            // 上个版本没有传递此参数，注意
             pointid: app.globalData.curpointid2,
             userid: wx.getStorageSync("userid")
           }, success(res2) {
             console.log("detailon linedetailon  " + JSON.stringify(res2.data))
             //that.actvielist = res2.data.data
+            console.log("测试  " + res2.data.line.yidaka +"abc" + res2.data.line.dianshu)
             if(res2.data.point.id){
-              app.globalData.curpointid = res2.data.point.id 
+              app.globalData.curpointid = res2.data.point.id
+              app.globalData.curlinename = res2.data.line.name 
             }
-            // 扫码用过后清空
+            //扫码用过后清空
             app.globalData.curpointid2 = 0
             that.setData({
               line: res2.data.line, //parseFloat
@@ -366,6 +413,15 @@ Page({
               juli: res2.data.line.qiandaojuli,
               hasUserInfo: true
             })
+            if(res2.data.line.yidaka*2 == res2.data.line.dianshu || (res2.data.line.yidaka*2-1)==res2.data.line.dianshu){
+              wx.showModal({
+                title: '探索小能手！',
+                content: '你的签到任务已经完成一半啦！',
+                confirmText: '继续探索',
+                confirmColor: '#fabf13',
+                showCancel:false,
+              })
+            }
           }
         })
 
@@ -395,10 +451,9 @@ Page({
       app.globalData.curpointid2 = options.pointid
       console.log("detailon onLoad-curpointid2 " + options.pointid)
     }
-    
-    
-    
-  },
+
+
+   },
 
   distance: function (la1, lo1, la2, lo2) { //返回距离(单位千米或公里) 
     var La1 = la1 * Math.PI / 180.0;

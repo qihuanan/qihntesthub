@@ -1,4 +1,4 @@
-const util = require('../../utils/util.js') // 线路详情页面，首页列表进去后的页面
+const util = require('../../utils/util.js') //概况页面，首页列表进去后的页面
 const app = getApp()
 
 Page({
@@ -12,8 +12,6 @@ Page({
     files: [],
     src: '',
     line:'',
-    
-    
   },
   //事件处理函数
   islogin: function () {
@@ -25,9 +23,17 @@ Page({
     }
   },
   gopay: function(e){
-    util.navigateTo({
+    var userid = wx.getStorageSync("userid")
+    if (userid == null || userid == '') {
+      util.navigateTo({
+        url: '/pages/login/login?goto=detail&lineid=' + app.globalData.curlineid
+      })
+    }
+    else{
+      util.navigateTo({
       url: '/pages/wxpay/wxpay'
-    })
+      })
+     }
   },
   wxpay: function(e){
     var paytype = e.currentTarget.dataset.paytype
@@ -109,13 +115,13 @@ Page({
 
                   }
                   wx.showToast({
-                    title: '下单支付ok',
+                    title: '支付成功',
                     icon: 'none'
                   })
                 },
                 "fail":function(res){
                   wx.showToast({
-                    title: '下单支付失败',
+                    title: '支付失败',
                     icon: 'none'
                   })
                 },
@@ -178,6 +184,18 @@ Page({
     })
   },
   onShareAppMessage: function () {
+    return {
+      title: '我在“'+ app.globalData.curlinename+ '”，来跟我一起，发现身边世界的精彩吧!',
+      //lichunbo,增加分享标题
+      url: '/pages/login/login?goto=detail&lineid=' + app.globalData.curlineid
+     }
+  },
+  onShareTimeline: function () {
+    return {
+      title: '我在“'+ app.globalData.curlinename+ '”，来跟我一起，发现身边世界的精彩吧!',
+      //lichunbo,增加分享标题
+      query:'lineid=' + app.globalData.curlineid
+     }
   },
   showimgTap:function(e){
     console.log('showimgTap ' + JSON.stringify(e))
@@ -210,7 +228,7 @@ Page({
   },
   onShow: function (options){
     wx.setNavigationBarTitle({
-      title: '线路详情'
+      title: '叫上朋友一起探索吧-->'
     })
     var that = this
     wx.request({
@@ -224,10 +242,12 @@ Page({
         console.log("detail onShow2 " + app.globalData.curlineid)
         console.log("detail onShow  " + JSON.stringify(res2.data.data))
         //that.actvielist = res2.data.data
+        app.globalData.curlinename = res2.data.data.name
         that.setData({
           //line: JSON.stringify(res2.data.data),
           line: res2.data.data,
           hasUserInfo: true
+          
         })
       }
     })
@@ -258,10 +278,5 @@ Page({
         })
       }
     })
-    
-  },
-
-  
-  
-  
+  }, 
 })

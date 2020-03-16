@@ -21,6 +21,16 @@ Page({
     })
   },
   onShareAppMessage: function () {
+    return {
+      title: '跟我一起去探索身边的精彩吧!',
+      //lichunbo,增加分享标题
+     }
+  },
+  onShareTimeline: function () {
+    return {
+      title: '跟我一起去探索身边的精彩吧!',
+      //lichunbo,增加分享到朋友圈
+     }
   },
   openIOS1: function (e) {
     console.log("detailon openIOS1 " + JSON.stringify(e))
@@ -111,6 +121,17 @@ Page({
         })
       }
     })
+  },
+  mrdatap: function(e){
+    this.islogin()
+    var userid = wx.getStorageSync("userid")
+    if (userid == null || userid == '') { return; }
+    var that  = this
+    var lineid = e.currentTarget.dataset.lineid
+    util.navigateTo({
+      url: '/pages/meiridaka/meiridaka?'
+    })
+
   },
   onLoad: function () {
     //this.islogin()

@@ -5,8 +5,8 @@
   <view class="userinfo">
   
     <view class="item-title">
-      <image wx:if="{{prizeimg == 'ok' }}"  class="logoimg1" src="/pages/images/mrdkok.png" mode="aspectFit"></image>
-      <image wx:if="{{prizeimg == 'err' }}"  class="logoimg1" src="/pages/images/mrdkerr.png" mode="aspectFit"></image>
+      <image wx:if="{{prizeimg == 'ok' }}"  class="logoimg1" src="/pages/images/mrdkok.jpg" mode="aspectFit"></image>
+      <image wx:if="{{prizeimg == 'err' }}"  class="logoimg1" src="/pages/images/mrdkerr.jpg" mode="aspectFit"></image>
       <image class="tipsimg" src="/pages/images/tips.png" mode="aspectFit"></image>
     </view>
 
@@ -15,7 +15,7 @@
     <!-- 
     <button  class="userinfobtn" bindtap="gonext"> 邀请大家一起来打卡吧 </button>
     -->
-    <image bindtap="goshare" class="yqdk" src="/pages/images/yqdk.svg" mode="aspectFit"></image>
+    <button style="width:60vw" class="btn1" bindtap="goshare" >邀请朋友一起打卡吧！</button>
   </view>
   
 </view>
