@@ -1,5 +1,7 @@
 package com.qihn.controller;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -8,6 +10,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Enumeration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,7 +18,7 @@ import java.util.regex.Pattern;
  * Created by qihuanan on 2017/5/23.
  */
 public abstract class BaseController {
-
+    private static Log log = LogFactory.getLog(BaseController.class);
 
     protected DynamicAsyncContext asyncContext;
 
@@ -33,6 +36,19 @@ public abstract class BaseController {
 
     protected HttpSession session;
 
+    public String getParam(String p){
+        return  request.getParameter(p);
+    }
+
+    public void showparam(){
+        Enumeration enu=request.getParameterNames();
+        while(enu.hasMoreElements()){
+            String paraName=(String)enu.nextElement();
+            //System.out.println(paraName+": "+request.getParameter(paraName));
+            log.info("qihntest:paraName : "+ request.getParameter(paraName));
+        }
+    }
+
      @ModelAttribute
     public void setReqAndRes(HttpServletRequest request, HttpServletResponse response){
 
@@ -47,7 +63,10 @@ public abstract class BaseController {
 
     public void print(Object s){
         try{
+            response.setCharacterEncoding("UTF-8");
             response.getWriter().print(s);
+            log.info("res : "+ s);
+            response.getWriter().flush();
         }catch (Exception e){
 
         }
