@@ -31,8 +31,8 @@ public class User implements Serializable {
     @Column(name = "avatarUrl")
     private String avatarUrl;
 
-    @Column
-    private Integer score;
+    @Column()
+    private Integer score=0;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

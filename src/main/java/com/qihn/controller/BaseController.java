@@ -60,7 +60,17 @@ public abstract class BaseController {
 
     }
 
+    public void printjson(Object s){
+        try{
+            response.setContentType("application/json; charset=utf-8");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().print(s);
+            log.info("res : "+ s);
+            response.getWriter().flush();
+        }catch (Exception e){
 
+        }
+    }
     public void print(Object s){
         try{
             response.setCharacterEncoding("UTF-8");

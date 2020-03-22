@@ -3,6 +3,7 @@ package com.qihn.controller;
 import com.qihn.pojo.*;
 import com.qihn.service.*;
 import com.qihn.utils.HttpUtil;
+import com.qihn.utils.JSONUtils;
 import com.qihn.utils.PageInfo;
 import com.qihn.utils.Utils;
 import org.apache.commons.logging.Log;
@@ -17,16 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -43,6 +42,65 @@ public class WxController extends BaseController {
     private PointUserinfoService pointUserinfoService;
     @Resource(name = "userService")
     private UserService userService;
+
+    //==================================================
+    @RequestMapping(value = "/wx/getLineList", method = RequestMethod.GET)
+    //@ResponseBody
+    public void getLineList(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        List<Line> lineList = this.lineService.findByProperties(new Line(),null,100,"id","desc");
+        Map map = new HashMap();
+        map.put("data", JSONUtils.listToJson(lineList));
+        map.put("data", lineList);
+        this.printjson(JSONUtils.toJSON(map));
+       // return JSONUtils.toJSON(map);
+
+    }
+
+    @RequestMapping(value = "/wx/login", method = RequestMethod.GET)
+    @ResponseBody
+    public void login(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        StringBuffer sb = new StringBuffer("https://api.weixin.qq.com/sns/jscode2session?appid=");
+        sb.append(Utils.getProperty("appid"));
+        sb.append("&secret=").append(Utils.getProperty("secret"));
+        sb.append("&js_code=").append(getParam("code"));
+        sb.append("&grant_type=authorization_code");
+        log.info("url: "+sb.toString());
+        String res = HttpUtil.sendGet(sb.toString());
+        log.info("http-wxlogin-res: "+res);
+
+        JSONObject json = new JSONObject(res);
+       User user = updateUserinfo(json.getString("openid"),getParam("avatarUrl"),getParam("nickName"));
+        JSONObject resjson = new JSONObject();
+        resjson.put("openid",json.getString("openid"));
+        resjson.put("score",user.getScore());
+        this.print(resjson);
+    }
+
+    private User updateUserinfo(String openid,String avatarUrl,String name){
+
+        User user = new User();
+        user.setOpenid(openid);
+        user = userService.findByProperties(user);
+        if(Utils.isNotNullOrEmpty(user) && Utils.isNotNullOrEmpty(user.getId())){
+            user.setAvatarUrl(avatarUrl);
+            user.setName(name);
+            user.setScore(user.getScore()+10);
+            userService.update(user);
+        }else{
+            user = new User();
+            user.setOpenid(openid);
+            user.setAvatarUrl(avatarUrl);
+            user.setScore(100);
+            user.setName(name);
+            userService.save(user);
+        }
+        return  user;
+    }
+    //=======================================前段end=============================
 
     //======================pointUserinfo====================================
     @RequestMapping(value = "/pointUserinfo/list", method = {RequestMethod.GET,RequestMethod.POST})
@@ -232,26 +290,6 @@ public class WxController extends BaseController {
         return "redirect:/user/list";
     }
 
-    //==================================================
-    @RequestMapping(value = "/wx/login", method = RequestMethod.GET)
-    @ResponseBody
-    public void login(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        this.setReqAndRes(request,response);
-        showparam();
-        StringBuffer sb = new StringBuffer("https://api.weixin.qq.com/sns/jscode2session?appid=");
-        sb.append(Utils.getProperty("appid"));
-        sb.append("&secret=").append(Utils.getProperty("secret"));
-        sb.append("&js_code=").append(getParam("code"));
-        sb.append("&grant_type=authorization_code");
-        log.info("url: "+sb.toString());
-        String res = HttpUtil.sendGet(sb.toString());
-        log.info("http-wxlogin-res: "+res);
-        JSONObject json = new JSONObject(res);
-       this.print(json.getString("openid"));
-    }
-
-
-
     @RequestMapping(value = "/wx/test", method = RequestMethod.GET)
     @ResponseBody
     public void get(HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -366,4 +404,41 @@ public class WxController extends BaseController {
         return s;
     }
 
+    // response.setHeader("Content-type", "image/jpeg");
+    @RequestMapping(value = "/wx/showimg", method = RequestMethod.GET)
+    public void showimg(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //得到要下载的文件名
+        String fileName = request.getParameter("filename");  //23239283-92489-阿凡达.avi
+        fileName = new String(fileName.getBytes("iso8859-1"),"UTF-8");
+        //得到要下载的文件
+        String fullpath = Utils.getProperty("basefilepath")+"/"+fileName;
+        File file = new File(fullpath);
+        //如果文件不存在
+        if(!file.exists()){
+            log.error("您要下载的资源不存在"+fileName);
+            return;
+        }
+        //处理文件名
+        String realname = fileName.substring(fileName.indexOf("_")+1);
+        //设置响应头，控制浏览器下载该文件
+        response.setContentType("image/jpeg");
+        response.setHeader("Content-type", "image/jpeg");
+        //读取要下载的文件，保存到文件输入流
+        FileInputStream in = new FileInputStream(fullpath);
+        //in = new FileInputStream("C:\\upfile\\2018-07-13\\4f1010cc-314d-418d-bf9f-53f0a9ed57c7_tomcat.png");
+        //创建输出流
+        OutputStream out = response.getOutputStream();
+        //创建缓冲区
+        byte buffer[] = new byte[1024];
+        int len = 0;
+        //循环将输入流中的内容读取到缓冲区当中
+        while((len=in.read(buffer))>0){
+            //输出缓冲区的内容到浏览器，实现文件下载
+            out.write(buffer, 0, len);
+        }
+        //关闭文件输入流
+        in.close();
+        //关闭输出流
+        out.close();
+    }
 }
