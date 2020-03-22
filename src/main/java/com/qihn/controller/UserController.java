@@ -34,12 +34,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
-
- */
 
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseController{
+    private static Log log = LogFactory.getLog(UserController.class);
+    @Resource(name = "userService")
+    private UserService userService;
+
 
 }

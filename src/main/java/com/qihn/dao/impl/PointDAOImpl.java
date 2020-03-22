@@ -1,8 +1,7 @@
 package com.qihn.dao.impl;
 
-import com.qihn.dao.BaseDao;
-import com.qihn.dao.UserDAO;
-import com.qihn.pojo.User;
+import com.qihn.dao.PointDAO;
+import com.qihn.pojo.Point;
 import com.qihn.utils.PageInfo;
 import com.qihn.utils.Utils;
 import org.springframework.stereotype.Repository;
@@ -15,14 +14,14 @@ import java.util.Map;
  * Created by qihuanan on 2017/5/19.
  */
 
-@Repository("userDAO")
-public class UserDAOImpl extends BaseDaoImpl<User> implements UserDAO {
+@Repository("pointDAO")
+public class PointDAOImpl extends BaseDaoImpl<Point> implements PointDAO {
 
     /**
      * 构建用户查询条件信息。
      */
     @Override
-    public Map<String, Object> buildHQL(User entity) {
+    public Map<String, Object> buildHQL(Point entity) {
         // TODO Auto-generated method stub
         Map<String, Object> params = new HashMap<String, Object>();
         StringBuffer hql = new StringBuffer();
@@ -31,7 +30,10 @@ public class UserDAOImpl extends BaseDaoImpl<User> implements UserDAO {
                 hql.append(" and c.id =:id");
                 params.put("id", entity.getId());
             }else{
-
+                if(Utils.isNotNullOrEmpty(entity.getLineid())){
+                    hql.append(" and c.lineid =:getLineid");
+                    params.put("getLineid", entity.getLineid());
+                }
                 if(Utils.isNotNullOrEmpty(entity.getName())){
                     hql.append(" and c.name like :name");
                     params.put("name", "%"+entity.getName()+"%");
@@ -48,12 +50,12 @@ public class UserDAOImpl extends BaseDaoImpl<User> implements UserDAO {
      * 统计符合条件的用户数，复用构造的用户查询条件信息，为分页查询做数据支持
      */
     @Override
-    public Long countByProperties(User entity) {
+    public Long countByProperties(Point entity) {
         // TODO Auto-generated method stub
         Map<String, Object> returnMap = this.buildHQL(entity);
         StringBuffer hql = (StringBuffer) returnMap.get("hql");
         Map<String, Object> params = (Map<String, Object>) returnMap.get("params");
-        String hqlStr = "select count(*) from User c where 1=1 " + hql.toString();
+        String hqlStr = "select count(*) from Point c where 1=1 " + hql.toString();
         return this.count(hqlStr, params);
     }
 
@@ -61,13 +63,13 @@ public class UserDAOImpl extends BaseDaoImpl<User> implements UserDAO {
      * 执行分页查询，复用构建的用户查询条件。
      */
     @Override
-    public List<User> findByProperties(User entity, PageInfo pageInfo, Integer number, String orderby, String upDown) {
+    public List<Point> findByProperties(Point entity, PageInfo pageInfo, Integer number, String orderby, String upDown) {
         // TODO Auto-generated method stub
         Map<String, Object> returnMap = this.buildHQL(entity);
         StringBuffer hql = (StringBuffer) returnMap.get("hql");
         Map<String, Object> params = (Map<String, Object>) returnMap.get("params");
         hql = this.buildOrderByAscOrDesc(hql, orderby, upDown);
-        String hqlStr = " from User c where 1=1 " + hql.toString();
+        String hqlStr = " from Point c where 1=1 " + hql.toString();
         return this.find(hqlStr, params, pageInfo, number);
     }
 
@@ -75,13 +77,13 @@ public class UserDAOImpl extends BaseDaoImpl<User> implements UserDAO {
      * 根据用户条件，查找唯一的用户信息
      */
     @Override
-    public User findByProperties(User entity) {
+    public Point findByProperties(Point entity) {
         // TODO Auto-generated method stub
         Map<String, Object> returnMap = this.buildHQL(entity);
         StringBuffer hql = (StringBuffer) returnMap.get("hql");
         Map<String, Object> params = (Map<String, Object>) returnMap.get("params");
-        String hqlStr = " from User c where 1=1 " + hql.toString();
-        List<User> tempResult = this.find(hqlStr, params, null, null);
+        String hqlStr = " from Point c where 1=1 " + hql.toString();
+        List<Point> tempResult = this.find(hqlStr, params, null, null);
         if (Utils.isNotNullOrEmpty(tempResult)) {
             return tempResult.get(0);
         }

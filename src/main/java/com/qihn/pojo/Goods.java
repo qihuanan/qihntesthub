@@ -294,6 +294,21 @@ public class Goods implements Serializable {
         this.upindex = upindex;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRecpoint() {
+        return recpoint;
+    }
+
+    public void setRecpoint(String recpoint) {
+        this.recpoint = recpoint;
+    }
 
     public Integer getDomain() {
         return domain;
