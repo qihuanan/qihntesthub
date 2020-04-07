@@ -37,6 +37,28 @@ public class Point implements Serializable {
     @Column
     private String weidu;
 
+    @Column
+    private String jifen;
+
+    @Column
+    private Integer shunxu;
+
+    public String getJifen() {
+        return jifen;
+    }
+
+    public Integer getShunxu() {
+        return shunxu;
+    }
+
+    public void setShunxu(Integer shunxu) {
+        this.shunxu = shunxu;
+    }
+
+    public void setJifen(String jifen) {
+        this.jifen = jifen;
+    }
+
     public Long getId() {
         return id;
     }

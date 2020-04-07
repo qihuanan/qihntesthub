@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>point List</title>
+    <title>tip List</title>
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
     <link href="../assets/css/bootstrap.css" rel="stylesheet"/>
@@ -34,15 +34,15 @@
                         -->
                         <div class="panel-body">
 
-                            <form action="${sysPath}/point/list" method="post">
+                            <form action="${sysPath}/tip/list" method="post">
                                 <div class="table-responsive">
                                     <div class="row" style="width: 99%">
                                         <div class="col-sm-6" style="margin-bottom: 5px;">&nbsp;&nbsp;
-                                            <input type="hidden" name="lineid" value="${point.lineid}" />
-                                            <input type="hidden" name="linename" value="${point.linename}" />
-                                            S: <input type="text" name="name" value="${point.name}">
+                                            <input type="hidden" name="pointid" value="${tip.pointid}" />
+                                            <input type="hidden" name="pointname" value="${tip.pointname}" />
+                                            S: <input type="text" name="name" value="${tip.name}">
                                             <input type="submit" value="查询"></input>&nbsp;
-                                            <a href="${sysPath}/point/mergeUI?lineid=${point.lineid}&linename=${point.linename}"><input type="button" value="添加"></input></a>
+                                            <a href="${sysPath}/tip/mergeUI?pointid=${tip.pointid}&pointname=${tip.pointname}"><input type="button" value="添加"></input></a>
                                         </div>
                                     </div>
                                     <div id='description' style="display: block;">
@@ -54,14 +54,12 @@
                                     <table class="table table-striped table-bordered table-hover" style="width: 99%">
                                         <thead>
                                         <tr>
-                                            <th >所属线路</th>
-                                            <th >签到点名称</th>
+                                            <th >所属签到点</th>
+                                            <th >提示点名称</th>
                                             <th >文字介绍</th>
-                                            <th >图片</th>
-                                            <th >经度</th>
-                                            <th >维度</th>
-                                            <th >积分</th>
                                             <th >顺序</th>
+                                            <th >是否需要解锁</th>
+                                            <th >解锁扣除积分</th>
                                             <th >操作</th>
 
                                         </tr>
@@ -70,24 +68,17 @@
 
                                         <c:forEach var="obj" items="${list }">
                                             <tr>
-                                                <td> ${obj.linename } </td>
+                                                <td> ${obj.pointname } </td>
                                                 <td> ${obj.name } </td>
                                                 <td style="max-width: 200px;"> ${obj.description } </td>
-                                                <td>
-                                                    <c:if test="${!empty obj.picture1 }">
-                                                        <img src="${sysPath}/download?filename=${obj.picture1}" width="100px" height="100px">
-                                                    </c:if>
-                                                </td>
-                                                <td> ${obj.jingdu } </td>
-                                                <td> ${obj.weidu } </td>
-                                                <td> ${obj.jifen } </td>
                                                 <td> ${obj.shunxu } </td>
+                                                <td> ${obj.lockflag } </td>
+                                                <td> ${obj.jifen } </td>
+
                                                 <td>
-                                                    <a href="${sysPath}//point/mergeUI?id=${obj.id }">编辑</a>
-                                                    <br>
-                                                    <a href="${sysPath}//tip/list?pointid=${obj.id }&pointname=${obj.name}">签到点提示</a>
+                                                    <a href="${sysPath}//tip/mergeUI?id=${obj.id }">编辑</a>
                                                     <br><br>
-                                                    <a href="${sysPath}//point/delete?id=${obj.id }">删除</a>
+                                                    <a href="${sysPath}//tip/delete?id=${obj.id }">删除</a>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -131,7 +122,7 @@
 <script src="../assets/js/dataTables/dataTables.bootstrap.js"></script>
 <script>
     $(document).ready(function () {
-        $("#mmenu_point").addClass("active-menu");
+        $("#mmenu_tip").addClass("active-menu");
 
     });
 

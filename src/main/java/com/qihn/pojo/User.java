@@ -33,6 +33,36 @@ public class User implements Serializable {
 
     @Column()
     private Integer score=0;
+    @Column()
+    private String mobile;
+    @Column()
+    private String linkopenid;
+    @Column()
+    private String linkmobile;
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getLinkopenid() {
+        return linkopenid;
+    }
+
+    public void setLinkopenid(String linkopenid) {
+        this.linkopenid = linkopenid;
+    }
+
+    public String getLinkmobile() {
+        return linkmobile;
+    }
+
+    public void setLinkmobile(String linkmobile) {
+        this.linkmobile = linkmobile;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

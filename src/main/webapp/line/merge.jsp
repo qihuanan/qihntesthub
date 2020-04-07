@@ -64,8 +64,22 @@
                                             <label>维度 </label>
                                             <textarea class="form-control" name="weidu">${line.weidu}</textarea>
                                         </div>
+
                                         <div class="form-group">
-                                            <label>上传图片 </label>
+                                            <label>长度（千米） </label>
+                                            <textarea class="form-control" name="changdu">${line.changdu}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>签到点个数 </label>
+                                            <textarea class="form-control" name="dianshu">${line.dianshu}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>积分 </label>
+                                            <textarea class="form-control" name="jifen">${line.jifen}</textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>上传封面图片 </label>
                                             <input id="objpicture" name="picture1" type="hidden" value="${line.picture1}"/>
                                             <input class="form-control" id="file_id" name="filepath" type="file" accept="image/*"/>
                                             <a class="btn btn-default" onclick="upfile();" href="javascript:void(0);">upfile</a>
@@ -74,6 +88,18 @@
                                             </div>
                                             <c:if test="${!empty line.picture1 }">
                                                 <img src="${sysPath}/download?filename=${line.picture1}" width="100px" height="100px">
+                                            </c:if>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>上传详情图片 </label>
+                                            <input id="objpicture2" name="picture2" type="hidden" value="${line.picture2}"/>
+                                            <input class="form-control" id="file_id2" name="filepath" type="file" accept="image/*"/>
+                                            <a class="btn btn-default" onclick="upfile2();" href="javascript:void(0);">upfile2</a>
+                                            <div id="upfileimgdiv_id2" style="display: none;">
+                                                <img id="upfileimg_id2" src="" width="50px" height="50px">
+                                            </div>
+                                            <c:if test="${!empty line.picture2 }">
+                                                <img src="${sysPath}/download?filename=${line.picture2}" width="100px" height="100px">
                                             </c:if>
                                         </div>
                                         <button type="submit" class="btn btn-default">提交</button>
@@ -112,6 +138,7 @@
     });
 
     function upfile() {
+        $('#file_id2').css("disabled","disabled");
         var file = document.getElementById("file_id").files[0];
         var form = new FormData(document.getElementById("form_id"));
         $.ajax({
@@ -127,6 +154,8 @@
                 $('#upfileimg_id').attr("src", "${sysPath}/download?filename=" + obj.filepath);
                 $('#upfileimgdiv_id').show();
                 $('#objpicture').val(obj.filepath);
+                $('#file_id').css("disabled","");
+                $('#file_id2').css("disabled","");
             },
             error: function (err) {
                 alert(err);
@@ -134,6 +163,31 @@
         });
     }
 
+    function upfile2() {
+        $('#file_id').css("disabled","disabled");
+        var file = document.getElementById("file_id2").files[0];
+        var form = new FormData(document.getElementById("form_id"));
+        $.ajax({
+            url: '${sysPath}/upload',
+            type: "POST",
+            async: false,
+            cache: false,
+            processData: false,// 告诉jQuery不要去处理发送的数据
+            contentType: false,// 告诉jQuery不要去设置Content-Type请求头
+            data: form,
+            success: function (data) {
+                var obj = eval('(' + data + ')');
+                $('#upfileimg_id2').attr("src", "${sysPath}/download?filename=" + obj.filepath);
+                $('#upfileimgdiv_id2').show();
+                $('#objpicture2').val(obj.filepath);
+                $('#file_id').css("disabled","");
+                $('#file_id2').css("disabled","");
+            },
+            error: function (err) {
+                alert(err);
+            }
+        });
+    }
 </script>
 <script src="../assets/js/custom-scripts.js"></script>
 </body>

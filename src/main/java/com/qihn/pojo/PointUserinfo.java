@@ -11,6 +11,9 @@ public class PointUserinfo implements Serializable {
     private Long id;
 
     @Column()
+    private Long lineid;
+
+    @Column()
     private Long pointid;
     @Column()
     private String pointname;
@@ -41,9 +44,26 @@ public class PointUserinfo implements Serializable {
     private String finish;
     @Column
     private Integer addScore;
+    private Long time;
 
     public String getPointname() {
         return pointname;
+    }
+
+    public Long getTime() {
+        return time;
+    }
+
+    public Long getLineid() {
+        return lineid;
+    }
+
+    public void setLineid(Long lineid) {
+        this.lineid = lineid;
+    }
+
+    public void setTime(Long time) {
+        this.time = time;
     }
 
     public void setPointname(String pointname) {

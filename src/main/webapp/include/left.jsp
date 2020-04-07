@@ -13,6 +13,12 @@
             <li>
                 <a id="mmenu_pointUserinfo" href="${sysPath}/pointUserinfo/list"><i class="fa fa-desktop"></i> 签到列表</a>
             </li>
+            <li>
+                <a id="mmenu_message" href="${sysPath}/message/list"><i class="fa fa-desktop"></i> 留言列表</a>
+            </li>
+            <li>
+                <a id="mmenu_lineUser" href="${sysPath}/lineUser/list"><i class="fa fa-desktop"></i> 用户活动</a>
+            </li>
 
             <!--
             <li>

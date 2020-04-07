@@ -42,20 +42,240 @@ public class WxController extends BaseController {
     private PointUserinfoService pointUserinfoService;
     @Resource(name = "userService")
     private UserService userService;
+    @Resource(name="tipService")
+    private TipService tipService;
+    @Resource(name = "messageService")
+    private MessageService messageService;
+    @Resource(name = "lineUserService")
+    private LineUserService lineUserService;
+    @Resource(name = "tipUserService")
+    private TipUserService tipUserService;
 
-    //==================================================
+    //=========================前端=========================
+
+    @RequestMapping(value = "/wx/qiandao", method = RequestMethod.GET)
+    //@ResponseBody
+    public void qiandao(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("pointUserinfo") PointUserinfo pointUserinfo) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        Point point = pointService.findById(Point.class,pointUserinfo.getPointid());
+        User user = userService.findById(User.class,pointUserinfo.getUserid());
+        long c = this.pointUserinfoService.countByProperties(pointUserinfo);
+        if(c==0){
+            pointUserinfo.setLineid(point.getLineid());
+            pointUserinfo.setPointname(point.getName());
+            pointUserinfo.setUsername(user.getName());
+
+            pointUserinfo.setTime(System.currentTimeMillis());
+            pointUserinfo.setAddScore(Integer.parseInt(point.getJifen()));
+            pointUserinfo.setFinish("1");
+            pointUserinfoService.save(pointUserinfo);
+        }
+
+        Map map = new HashMap();
+        map.put("data", pointUserinfo);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/wx/unlockTip", method = RequestMethod.GET)
+    //@ResponseBody
+    public void unlockTip(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        Tip tip = this.tipService.findById(Tip.class,Long.parseLong(getParam("tipid")));
+        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        TipUser tu = new TipUser();
+        tu.setTipid(tip.getId());
+        tu.setUserid(user.getId());
+        tu = tipUserService.findByProperties(tu);
+        if(tu==null){
+            tu = new TipUser();
+            tu.setTipid(tip.getId());
+            tu.setUserid(user.getId());
+            tu.setTipname(tip.getName());
+            tu.setUsername(user.getName());
+            tu.setTime(System.currentTimeMillis());
+            tu.setReduceScore(Integer.parseInt(tip.getJifen()));
+            this.tipUserService.save(tu);
+            user.setScore(user.getScore()-tu.getReduceScore());
+            this.userService.update(user);
+        }
+
+        Map map = new HashMap();
+        map.put("data", "ok");
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/wx/linedetailon", method = RequestMethod.GET)
+    //@ResponseBody
+    public void linedetailon(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Map map = new HashMap();
+        this.setReqAndRes(request,response);
+        showparam();
+        Line line = this.lineService.findById(Line.class,Long.parseLong(getParam("lineid")));
+        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        LineUser lu = new LineUser();
+        lu.setUserid(user.getId());
+        lu.setLineid(line.getId());
+        lu.setFlag("2");
+        long c = this.lineUserService.countByProperties(lu);
+        if(c==1){
+            line.setLike("1");
+        }
+        // 获取参与信息  已用时间
+        lu.setFlag("1");
+        lu = this.lineUserService.findByProperties(lu);
+        line.setYiyongshi(Utils.shijiancha(lu.getBegintime(),System.currentTimeMillis()));
+
+        // 获取 已打卡任务点
+        PointUserinfo pu = new PointUserinfo();
+        pu.setLineid(line.getId());
+        pu.setUserid(user.getId());
+        List<PointUserinfo> pulist = pointUserinfoService.findByProperties(pu,null,50,null,null);
+        if(Utils.isNotNullOrEmpty(pulist)){
+            line.setYidaka(pulist.size()+"");
+        }
+        //已获积分
+        int sum = pulist.stream().map(PointUserinfo::getAddScore).reduce(0,(a,b) -> a+b );
+        sum = pulist.stream().map(PointUserinfo::getAddScore).reduce(0,Integer::sum);
+        line.setYijifen(sum+"");
+        // 签到点列表
+        Point p = new Point();
+        p.setLineid(line.getId());
+        List<Point> pointlist = this.pointService.findByProperties(p,null,null,null,null);
+        map.put("pointlist",pointlist);
+
+        //客户端传来 签到点 就获取当前签到点的提示信息，否则 获取线路的第一个签到点的信息
+        Point point = pointlist.get(0);
+        String pointid = getParam("pointid");
+        if(Utils.isNotNullOrEmpty(pointid)){
+            point.setId(Long.parseLong(pointid));
+            point = this.pointService.findById(Point.class,point.getId());
+        }else {
+            point = pointlist.stream().sorted((p1,p2) -> p1.getShunxu()-p2.getShunxu() ).findFirst().get();
+        }
+        map.put("point",point);
+        // 当前point 的 tips
+        Tip tip = new Tip();
+        tip.setPointid(point.getId());
+        List<Tip> tipList = this.tipService.findByProperties(tip,null,null,null,null);
+        map.put("tipList",tipList);
+
+        map.put("line", line);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/wx/writeMessage", method = RequestMethod.GET)
+    //@ResponseBody
+    public void writeMessage(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("message") Message message) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        if(Utils.isNotNullOrEmpty(message.getDescription()))
+            messageService.save(message);
+        Map map = new HashMap();
+        map.put("data", "ok");
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/wx/messageList", method = RequestMethod.GET)
+    //@ResponseBody
+    public void messageList(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        List<Message> list = this.messageService.findByProperties(new Message(),null,20,"id","desc");
+        Map map = new HashMap();
+        //map.put("data", JSONUtils.listToJson(lineList));
+        map.put("data", list);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/wx/linedetail", method = RequestMethod.GET)
+    //@ResponseBody
+    public void linedetail(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Map map = new HashMap();
+        this.setReqAndRes(request,response);
+        showparam();
+        Line line = this.lineService.findById(Line.class,Long.parseLong(getParam("lineid")));
+        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        LineUser lu = new LineUser();
+        lu.setUserid(user.getId());
+        lu.setLineid(line.getId());
+        lu.setFlag("2");
+        long c = this.lineUserService.countByProperties(lu);
+        if(c==1){
+           line.setLike("1");
+        }
+        /*lu.setFlag("1");
+         c = this.lineUserService.countByProperties(lu);
+        if(c==1){
+            line.setCanyu("1");
+        }*/
+
+        map.put("data", line);
+
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/wx/linelike", method = RequestMethod.GET)
+    //@ResponseBody
+    public void linelike(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        Line line = this.lineService.findById(Line.class,Long.parseLong(getParam("lineid")));
+        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        LineUser lu = new LineUser();
+        lu.setUserid(user.getId());
+        lu.setLineid(line.getId());
+        lu.setFlag("2");
+        long c = this.lineUserService.countByProperties(lu);
+        if(c==0){
+            lu.setLine(line);
+            lu.setUser(user);
+            lu.setBegintime(System.currentTimeMillis());
+            lu.setFlag("2");
+            this.lineUserService.save(lu);
+        }
+
+        Map map = new HashMap();
+        map.put("data", "ok");
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/wx/linedaka", method = RequestMethod.GET)
+    //@ResponseBody
+    public void linedaka(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        Line line = this.lineService.findById(Line.class,Long.parseLong(getParam("lineid")));
+        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        LineUser lu = new LineUser();
+        lu.setUserid(user.getId());
+        lu.setLineid(line.getId());
+        lu.setFlag("1");
+        long c = this.lineUserService.countByProperties(lu);
+        if(c==0){
+            lu.setLine(line);
+            lu.setUser(user);
+            lu.setFlag("1");
+            lu.setBegintime(System.currentTimeMillis());
+            this.lineUserService.save(lu);
+        }
+
+        Map map = new HashMap();
+        map.put("data", "ok");
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
     @RequestMapping(value = "/wx/getLineList", method = RequestMethod.GET)
     //@ResponseBody
     public void getLineList(HttpServletRequest request, HttpServletResponse response) throws Exception{
         this.setReqAndRes(request,response);
         showparam();
-        List<Line> lineList = this.lineService.findByProperties(new Line(),null,100,"id","desc");
+        List<Line> lineList = this.lineService.findByProperties(new Line(),null,20,"id","desc");
         Map map = new HashMap();
-        map.put("data", JSONUtils.listToJson(lineList));
+        //map.put("data", JSONUtils.listToJson(lineList));
         map.put("data", lineList);
         this.printjson(JSONUtils.toJSON(map));
-       // return JSONUtils.toJSON(map);
-
     }
 
     @RequestMapping(value = "/wx/login", method = RequestMethod.GET)
@@ -73,7 +293,7 @@ public class WxController extends BaseController {
         log.info("http-wxlogin-res: "+res);
 
         JSONObject json = new JSONObject(res);
-       User user = updateUserinfo(json.getString("openid"),getParam("avatarUrl"),getParam("nickName"));
+        User user = updateUserinfo(json.getString("openid"),getParam("avatarUrl"),getParam("nickName"));
         JSONObject resjson = new JSONObject();
         resjson.put("openid",json.getString("openid"));
         resjson.put("score",user.getScore());
@@ -88,7 +308,7 @@ public class WxController extends BaseController {
         if(Utils.isNotNullOrEmpty(user) && Utils.isNotNullOrEmpty(user.getId())){
             user.setAvatarUrl(avatarUrl);
             user.setName(name);
-            user.setScore(user.getScore()+10);
+            user.setScore(user.getScore());
             userService.update(user);
         }else{
             user = new User();
@@ -100,7 +320,156 @@ public class WxController extends BaseController {
         }
         return  user;
     }
-    //=======================================前段end=============================
+    //=======================================前端end=============================
+
+    //======================lineUser====================================
+    @RequestMapping(value = "/lineUser/list", method = {RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView lineUserlist(@ModelAttribute("lineUser") LineUser lineUser, @ModelAttribute("pageInfo") PageInfo pageInfo) {
+        ModelAndView mv = new ModelAndView();
+        if (pageInfo == null) {
+            pageInfo = new PageInfo();
+        }
+        List<LineUser> list = this.lineUserService.findByProperties(lineUser,pageInfo,null,"id","desc");
+        pageInfo.setTotalCount(this.lineUserService.countByProperties(lineUser));
+        mv.addObject("list", list);
+        mv.addObject("pageInfo",pageInfo);
+        mv.addObject("lineUser",lineUser);
+        mv.setViewName("lineUser/list");
+        return mv;
+
+    }
+    @RequestMapping(value = "/lineUser/mergeUI", method = RequestMethod.GET)
+    public ModelAndView mergeUI(@ModelAttribute("lineUser") LineUser lineUser) {
+        ModelAndView mv = new ModelAndView();
+        if (Utils.isNotNullOrEmpty(lineUser) && Utils.isNotNullOrEmpty(lineUser.getId())) {
+            lineUser = this.lineUserService.findByProperties(lineUser);
+            mv.addObject(lineUser);
+            mv.setViewName("lineUser/merge");
+        }
+        mv.setViewName("lineUser/merge");
+        return mv;
+    }
+
+    @RequestMapping(value = "/lineUser/merge", method = RequestMethod.POST)
+    public String merge(@ModelAttribute("lineUser") LineUser lineUser,HttpServletRequest request) throws Exception{
+        if(Utils.isNotNullOrEmpty(lineUser.getLineid()) ){
+            lineUser.setLine(this.lineService.findById(Line.class,lineUser.getLineid()));
+        }else{
+            lineUser.setLine(null);
+        }
+        if(Utils.isNotNullOrEmpty(lineUser.getUserid()) ){
+            lineUser.setUser(this.userService.findById(User.class,lineUser.getUserid()));
+        }else{
+            lineUser.setUser(null);
+        }
+        if(lineUser.getId()==null){
+            lineUserService.save(lineUser);
+        }else{
+            lineUserService.update(lineUser);
+        }
+        return "redirect:/lineUser/list";
+    }
+
+    @RequestMapping(value = "/lineUser/delete", method = RequestMethod.GET)
+    public String delete(@ModelAttribute("lineUser") LineUser lineUser) throws Exception{
+        lineUser = lineUserService.findById(LineUser.class,lineUser.getId());
+        lineUserService.delete(lineUser);
+        return "redirect:/lineUser/list";
+    }
+
+    //======================message====================================
+    @RequestMapping(value = "/message/list", method = {RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView messagelist(@ModelAttribute("message") Message message, @ModelAttribute("pageInfo") PageInfo pageInfo) {
+        ModelAndView mv = new ModelAndView();
+        if (pageInfo == null) {
+            pageInfo = new PageInfo();
+        }
+        List<Message> list = this.messageService.findByProperties(message,pageInfo,null,"id","desc");
+        pageInfo.setTotalCount(this.messageService.countByProperties(message));
+        mv.addObject("list", list);
+        mv.addObject("pageInfo",pageInfo);
+        mv.addObject("message",message);
+        mv.setViewName("message/list");
+        return mv;
+
+    }
+    @RequestMapping(value = "/message/mergeUI", method = RequestMethod.GET)
+    public ModelAndView mergeUI(@ModelAttribute("message") Message message) {
+        ModelAndView mv = new ModelAndView();
+        if (Utils.isNotNullOrEmpty(message) && Utils.isNotNullOrEmpty(message.getId())) {
+            message = this.messageService.findByProperties(message);
+            mv.addObject(message);
+            mv.setViewName("message/merge");
+        }
+        mv.setViewName("message/merge");
+        return mv;
+    }
+
+    @RequestMapping(value = "/message/merge", method = RequestMethod.POST)
+    public String merge(@ModelAttribute("message") Message message,HttpServletRequest request) throws Exception{
+        if(message.getId()==null){
+            messageService.save(message);
+        }else{
+            messageService.update(message);
+        }
+        return "redirect:/message/list";
+    }
+
+    @RequestMapping(value = "/message/delete", method = RequestMethod.GET)
+    public String delete(@ModelAttribute("message") Message message) throws Exception{
+        message = messageService.findById(Message.class,message.getId());
+        messageService.delete(message);
+        return "redirect:/message/list";
+    }
+    
+    //======================tip====================================
+    @RequestMapping(value = "/tip/list", method = {RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView tiplist(@ModelAttribute("tip") Tip tip, @ModelAttribute("pageInfo") PageInfo pageInfo) {
+        ModelAndView mv = new ModelAndView();
+        if (pageInfo == null) {
+            pageInfo = new PageInfo();
+        }
+        List<Tip> list = this.tipService.findByProperties(tip,pageInfo,null,"id","desc");
+        pageInfo.setTotalCount(this.tipService.countByProperties(tip));
+        mv.addObject("list", list);
+        mv.addObject("pageInfo",pageInfo);
+        mv.addObject("tip",tip);
+        mv.setViewName("tip/list");
+        return mv;
+
+    }
+    @RequestMapping(value = "/tip/mergeUI", method = RequestMethod.GET)
+    public ModelAndView mergeUI(@ModelAttribute("tip") Tip tip) {
+        ModelAndView mv = new ModelAndView();
+        if (Utils.isNotNullOrEmpty(tip) && Utils.isNotNullOrEmpty(tip.getId())) {
+            tip = this.tipService.findByProperties(tip);
+            mv.addObject(tip);
+            mv.setViewName("tip/merge");
+        }
+        mv.setViewName("tip/merge");
+        return mv;
+    }
+
+    @RequestMapping(value = "/tip/merge", method = RequestMethod.POST)
+    public String merge(@ModelAttribute("tip") Tip tip,HttpServletRequest request) throws Exception{
+        if(tip.getId()==null){
+            tipService.save(tip);
+        }else{
+            tipService.update(tip);
+        }
+        return "redirect:/tip/list?lineid="+tip.getPointid()+"&pointname="+ URLEncoder.encode(tip.getPointname(),"UTF-8");
+    }
+
+    @RequestMapping(value = "/tip/delete", method = RequestMethod.GET)
+    public String delete(@ModelAttribute("tip") Tip tip) throws Exception{
+        tip = tipService.findById(Tip.class,tip.getId());
+        tipService.delete(tip);
+        return "redirect:/tip/list?lineid="+tip.getPointid()+"&pointname="+ URLEncoder.encode(tip.getPointname(),"UTF-8");
+    }
+
+    //==================================================================
+    
+
 
     //======================pointUserinfo====================================
     @RequestMapping(value = "/pointUserinfo/list", method = {RequestMethod.GET,RequestMethod.POST})

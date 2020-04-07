@@ -56,6 +56,7 @@
                                             <th >所属用户</th>
                                             <th >上传的图片</th>
                                             <th >完成标记</th>
+                                            <th >打卡时间</th>
                                             <th >新增积分</th>
                                             <th >操作</th>
 
@@ -73,6 +74,7 @@
                                                     </c:if>
                                                 </td>
                                                 <td> ${obj.finish } </td>
+                                                <td> ${obj.time } </td>
                                                 <td> ${obj.addScore } </td>
                                                 <td>
                                                     <a href="${sysPath}//pointUserinfo/mergeUI?id=${obj.id }">编辑</a>

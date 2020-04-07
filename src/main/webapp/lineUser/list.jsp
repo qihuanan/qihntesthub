@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>point List</title>
+    <title>lineUser List</title>
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
     <link href="../assets/css/bootstrap.css" rel="stylesheet"/>
@@ -34,15 +34,13 @@
                         -->
                         <div class="panel-body">
 
-                            <form action="${sysPath}/point/list" method="post">
+                            <form action="${sysPath}/lineUser/list" method="post">
                                 <div class="table-responsive">
                                     <div class="row" style="width: 99%">
                                         <div class="col-sm-6" style="margin-bottom: 5px;">&nbsp;&nbsp;
-                                            <input type="hidden" name="lineid" value="${point.lineid}" />
-                                            <input type="hidden" name="linename" value="${point.linename}" />
-                                            S: <input type="text" name="name" value="${point.name}">
+                                            S: <input type="text" name="username" value="${lineUser.username}">
                                             <input type="submit" value="查询"></input>&nbsp;
-                                            <a href="${sysPath}/point/mergeUI?lineid=${point.lineid}&linename=${point.linename}"><input type="button" value="添加"></input></a>
+                                            <a href="${sysPath}/lineUser/mergeUI"><input type="button" value="添加"></input></a>
                                         </div>
                                     </div>
                                     <div id='description' style="display: block;">
@@ -54,14 +52,13 @@
                                     <table class="table table-striped table-bordered table-hover" style="width: 99%">
                                         <thead>
                                         <tr>
-                                            <th >所属线路</th>
-                                            <th >签到点名称</th>
-                                            <th >文字介绍</th>
-                                            <th >图片</th>
-                                            <th >经度</th>
-                                            <th >维度</th>
-                                            <th >积分</th>
-                                            <th >顺序</th>
+                                            <th >线路名称</th>
+                                            <th >用户名称</th>
+                                            <th >类型（参与|喜欢）</th>
+                                            <th >完成标记</th>
+                                            <th >打卡时间</th>
+                                            <th >完成时间</th>
+                                            <th >新增积分</th>
                                             <th >操作</th>
 
                                         </tr>
@@ -71,23 +68,16 @@
                                         <c:forEach var="obj" items="${list }">
                                             <tr>
                                                 <td> ${obj.linename } </td>
-                                                <td> ${obj.name } </td>
-                                                <td style="max-width: 200px;"> ${obj.description } </td>
+                                                <td> ${obj.username } </td>
+                                                <td> ${obj.flag } </td>
+                                                <td> ${obj.finish } </td>
+                                                <td> ${obj.begintime } </td>
+                                                <td> ${obj.endtime } </td>
+                                                <td> ${obj.addScore } </td>
                                                 <td>
-                                                    <c:if test="${!empty obj.picture1 }">
-                                                        <img src="${sysPath}/download?filename=${obj.picture1}" width="100px" height="100px">
-                                                    </c:if>
-                                                </td>
-                                                <td> ${obj.jingdu } </td>
-                                                <td> ${obj.weidu } </td>
-                                                <td> ${obj.jifen } </td>
-                                                <td> ${obj.shunxu } </td>
-                                                <td>
-                                                    <a href="${sysPath}//point/mergeUI?id=${obj.id }">编辑</a>
-                                                    <br>
-                                                    <a href="${sysPath}//tip/list?pointid=${obj.id }&pointname=${obj.name}">签到点提示</a>
+                                                    <a href="${sysPath}//lineUser/mergeUI?id=${obj.id }">编辑</a>
                                                     <br><br>
-                                                    <a href="${sysPath}//point/delete?id=${obj.id }">删除</a>
+                                                    <a href="${sysPath}//lineUser/delete?id=${obj.id }">删除</a>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -131,7 +121,7 @@
 <script src="../assets/js/dataTables/dataTables.bootstrap.js"></script>
 <script>
     $(document).ready(function () {
-        $("#mmenu_point").addClass("active-menu");
+        $("#mmenu_lineUser").addClass("active-menu");
 
     });
 

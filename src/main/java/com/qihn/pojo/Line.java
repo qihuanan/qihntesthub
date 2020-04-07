@@ -29,6 +29,84 @@ public class Line implements Serializable {
     @Column
     private String weidu;
 
+    @Column
+    private String changdu;
+    @Column
+    private String dianshu;
+    @Column
+    private String jifen;
+
+    //vo
+    private String like;
+    private String canyu;
+    private String yiyongshi;
+    private String yidaka;
+    private String yijifen;
+
+    public String getYiyongshi() {
+        return yiyongshi;
+    }
+
+    public void setYiyongshi(String yiyongshi) {
+        this.yiyongshi = yiyongshi;
+    }
+
+    public String getYidaka() {
+        return yidaka;
+    }
+
+    public void setYidaka(String yidaka) {
+        this.yidaka = yidaka;
+    }
+
+    public String getYijifen() {
+        return yijifen;
+    }
+
+    public void setYijifen(String yijifen) {
+        this.yijifen = yijifen;
+    }
+
+    public String getLike() {
+        return like;
+    }
+
+    public void setLike(String like) {
+        this.like = like;
+    }
+
+    public String getCanyu() {
+        return canyu;
+    }
+
+    public void setCanyu(String canyu) {
+        this.canyu = canyu;
+    }
+
+    public String getChangdu() {
+        return changdu;
+    }
+
+    public void setChangdu(String changdu) {
+        this.changdu = changdu;
+    }
+
+    public String getDianshu() {
+        return dianshu;
+    }
+
+    public void setDianshu(String dianshu) {
+        this.dianshu = dianshu;
+    }
+
+    public String getJifen() {
+        return jifen;
+    }
+
+    public void setJifen(String jifen) {
+        this.jifen = jifen;
+    }
+
     public Long getId() {
         return id;
     }

@@ -556,36 +556,7 @@ public class Utils  {
 	         return new String(randBuffer);
 	}
 	
-	public static void main(String[] args) {
-		/*try {
-			File f = new File("c:\\a.txt");
-			InputStream in = new FileInputStream(f);
-			byte [] buffer = new byte[1024];
-			int i=0;
-			
-			File f2 = new File("c:\\b.txt");
-			OutputStream out = new FileOutputStream(f2,true);
-			while((i = in.read(buffer))!=-1){
-				out.write(buffer, 0, i);
-				
-			}
-			out.flush();
-			in.close();
-			out.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally{
-		
-		}*/
-		
-		StringBuffer sb = new StringBuffer();
-		sb.append(new Random().nextInt(9)).append(new Random().nextInt(9)).append(new Random().nextInt(9));
-		System.out.println(sb);
-		
-		System.out.println(randomString(5));
-		
-	}
+
 
 
 	/**
@@ -623,4 +594,27 @@ public class Utils  {
 
 		return false;
 	}
+
+	public static String shijiancha(long before,long cur){
+		try {
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date now = new Date(cur);// df.parse("2019-03-26 13:31:40");//当前时间
+			Date date = new Date(before);// df.parse("2019-03-06 11:30:24");//过去
+			long l = now.getTime() - date.getTime();
+			long day = l / (24 * 60 * 60 * 1000);
+			long hour = (l / (60 * 60 * 1000) - day * 24);
+			long min = ((l / (60 * 1000)) - day * 24 * 60 - hour * 60);
+			long s = (l / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
+			//System.out.println("" + day + "天" + hour + "小时" + min + "分" + s + "秒");
+			return day*24+hour + ":"+min+":"+s+"";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static void main(String args[]){
+		shijiancha(1,1);
+	}
+
 }

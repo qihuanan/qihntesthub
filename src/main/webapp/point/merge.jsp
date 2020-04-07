@@ -70,6 +70,14 @@
                                             <textarea class="form-control" name="weidu">${point.weidu}</textarea>
                                         </div>
                                         <div class="form-group">
+                                            <label>积分 </label>
+                                            <textarea class="form-control" name="jifen">${point.jifen}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>顺序 </label>
+                                            <textarea class="form-control" name="shunxu">${point.shunxu}</textarea>
+                                        </div>
+                                        <div class="form-group">
                                             <label>上传图片 </label>
                                             <input id="objpicture" name="picture1" type="hidden" value="${point.picture1}"/>
                                             <input class="form-control" id="file_id" name="filepath" type="file" accept="image/*"/>

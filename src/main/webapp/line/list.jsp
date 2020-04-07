@@ -54,9 +54,13 @@
                                         <tr>
                                             <th >名称</th>
                                             <th >文字介绍</th>
-                                            <th >图片</th>
+                                            <th >封面图片</th>
+                                            <th >详情图片</th>
                                             <th >经度</th>
                                             <th >维度</th>
+                                            <th >长度（千米）</th>
+                                            <th >签到点个数</th>
+                                            <th >积分</th>
                                             <th >操作</th>
 
                                         </tr>
@@ -72,10 +76,19 @@
                                                         <img src="${sysPath}/download?filename=${obj.picture1}" width="100px" height="100px">
                                                     </c:if>
                                                 </td>
+                                                <td>
+                                                    <c:if test="${!empty obj.picture2 }">
+                                                        <img src="${sysPath}/download?filename=${obj.picture2}" width="100px" height="100px">
+                                                    </c:if>
+                                                </td>
                                                 <td> ${obj.jingdu } </td>
                                                 <td> ${obj.weidu } </td>
+                                                <td> ${obj.changdu } </td>
+                                                <td> ${obj.dianshu } </td>
+                                                <td> ${obj.jifen } </td>
                                                 <td>
                                                     <a href="${sysPath}//line/mergeUI?id=${obj.id }">编辑</a>
+                                                    <br>
                                                     <a href="${sysPath}//point/list?lineid=${obj.id }&linename=${obj.name}">签到点</a>
                                                     <br><br>
                                                     <a href="${sysPath}//line/delete?id=${obj.id }">删除</a>

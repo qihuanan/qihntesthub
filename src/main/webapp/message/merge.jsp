@@ -46,42 +46,23 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <form id="form_id" role="form" action="${sysPath}/pointUserinfo/merge" method="post">
-                                        <input type="hidden" name="id" value="${pointUserinfo.id}" />
-                                        <input type="hidden" name="pointid" value="${pointUserinfo.pointid}" />
-                                        <input type="hidden" name="userid" value="${pointUserinfo.userid}" />
+                                    <form id="form_id" role="form" action="${sysPath}/message/merge" method="post">
+                                        <input type="hidden" name="id" value="${message.id}" />
+                                        <input type="hidden" name="userid" value="${message.userid}" />
+                                        <input type="hidden" name="avatarUrl" value="${message.avatarUrl}" />
                                         <div class="form-group">
-                                            <label>所属签到点 </label>
-                                            <input class="form-control" name="pointname" type="text"  value="${pointUserinfo.pointname}"/>
+                                            <label>用户名 </label>
+                                            <textarea class="form-control" name="username">${message.username}</textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>所属用户 </label>
-                                            <textarea class="form-control" name="username">${pointUserinfo.username}</textarea>
+                                            <label>留言内容 </label>
+                                            <textarea class="form-control" name="description">${message.description }</textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>完成标记 </label>
-                                            <textarea class="form-control" name="finish">${pointUserinfo.finish}</textarea>
+                                            <label>时间 </label>
+                                            <input class="form-control" name="time" type="text"  value="${message.time}"/>
                                         </div>
-                                        <div class="form-group">
-                                            <label>打卡时间 </label>
-                                            <input class="form-control" name="time" type="text"  value="${pointUserinfo.time}"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>新增积分 </label>
-                                            <input class="form-control" name="addScore" type="text"  value="${pointUserinfo.addScore}"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>上传的图片 </label>
-                                            <input id="objpicture" name="picture" type="hidden" value="${pointUserinfo.picture}"/>
-                                            <input class="form-control" id="file_id" name="filepath" type="file" accept="image/*"/>
-                                            <a class="btn btn-default" onclick="upfile();" href="javascript:void(0);">upfile</a>
-                                            <div id="upfileimgdiv_id" style="display: none;">
-                                                <img id="upfileimg_id" src="" width="50px" height="50px">
-                                            </div>
-                                            <c:if test="${!empty pointUserinfo.picture }">
-                                                <img src="${sysPath}/download?filename=${pointUserinfo.picture}" width="100px" height="100px">
-                                            </c:if>
-                                        </div>
+
                                         <button type="submit" class="btn btn-default">提交</button>
                                         <button type="reset" class="btn btn-default">重置</button>
                                     </form>
@@ -113,7 +94,7 @@
 <script src="../assets/js/dataTables/dataTables.bootstrap.js"></script>
 <script>
     $(document).ready(function () {
-        $("#mmenu_pointUserinfo").addClass("active-menu");
+        $("#mmenu_message").addClass("active-menu");
 
     });
 
