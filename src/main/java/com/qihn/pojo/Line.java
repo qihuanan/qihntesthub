@@ -37,10 +37,15 @@ public class Line implements Serializable {
     private String jifen;
 
     //vo
+    @Transient
     private String like;
+    @Transient
     private String canyu;
+    @Transient
     private String yiyongshi;
+    @Transient
     private String yidaka;
+    @Transient
     private String yijifen;
 
     public String getYiyongshi() {

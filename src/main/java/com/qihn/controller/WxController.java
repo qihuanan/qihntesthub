@@ -1,5 +1,6 @@
 package com.qihn.controller;
 
+import com.google.gson.JsonObject;
 import com.qihn.pojo.*;
 import com.qihn.service.*;
 import com.qihn.utils.HttpUtil;
@@ -11,10 +12,8 @@ import org.apache.commons.logging.LogFactory;
 import org.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -52,7 +51,78 @@ public class WxController extends BaseController {
     private TipUserService tipUserService;
 
     //=========================前端=========================
+    @RequestMapping(value = "/wx/binduser", method = RequestMethod.GET)
+    public void binduser(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        User user = this.userService.findById(User.class,Long.parseLong(getParam("userid")));
+        String linkmobile = getParam("linkmobile");
+        if(Utils.isNotNullOrEmpty(linkmobile)){
+            user.setLinkmobile(linkmobile);
+        }
+        String mobile = getParam("mobile");
+        if(Utils.isNotNullOrEmpty(mobile)){
+            user.setMobile(mobile);
+        }
+        String linkopenid = getParam("linkopenid");
+        if(Utils.isNotNullOrEmpty(linkopenid)){
+            user.setLinkopenid(linkopenid);
+        }
+        this.userService.update(user);
 
+        Map map = new HashMap();
+        map.put("data", user);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/wx/wode", method = RequestMethod.GET)
+    public void wode(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        LineUser lineUser = new LineUser();
+        lineUser.setUserid(Long.parseLong(getParam("userid")));
+        List<LineUser> lulist = this.lineUserService.findByProperties(lineUser,null,null,"id","desc");
+        User user = this.userService.findById(User.class,Long.parseLong(getParam("userid")));
+        Map map = new HashMap();
+        map.put("data", lulist);
+        map.put("user", user);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/wx/upfile", method = {RequestMethod.GET,RequestMethod.POST})
+    public void doUpload(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "imagefile", required = false) MultipartFile imagefile) throws Exception {
+        try {
+            //
+            String basefilepath = Utils.getProperty("basefilepath");
+            String datepath =  Utils.formatShortDate();
+            //上传时生成的临时文件保存目录
+            String tempPath = basefilepath + "/" + datepath;
+            File tmpFile = new File(tempPath);
+            if (!tmpFile.exists()) {
+                //创建临时目录
+                tmpFile.mkdirs();
+            }
+            log.error("qihndebug - "+tempPath);
+
+            //String type = imagefile.getOriginalFilename().substring(imagefile.getOriginalFilename().lastIndexOf(".")).toLowerCase();
+            String fileName = imagefile.getOriginalFilename();
+            String logicfilepathname = datepath + "/" + fileName;
+            String fullpath = basefilepath + "/" + logicfilepathname;
+
+            File targetFile = new File(fullpath);
+            log.error("qihndebug -fullpath: "+fullpath);
+            if (!targetFile.exists()) {
+                targetFile.mkdirs();
+            }
+            imagefile.transferTo(targetFile);
+            log.error("qihndebug - upfile end ");
+            Map map = new HashMap();
+            map.put("data", logicfilepathname);
+            this.printjson(JSONUtils.toJSON(map));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @RequestMapping(value = "/wx/qiandao", method = RequestMethod.GET)
     //@ResponseBody
     public void qiandao(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("pointUserinfo") PointUserinfo pointUserinfo) throws Exception{
@@ -70,10 +140,28 @@ public class WxController extends BaseController {
             pointUserinfo.setAddScore(Integer.parseInt(point.getJifen()));
             pointUserinfo.setFinish("1");
             pointUserinfoService.save(pointUserinfo);
+        }else{
+
         }
 
         Map map = new HashMap();
         map.put("data", pointUserinfo);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/wx/tiplist", method = RequestMethod.GET)
+    public void tiplist(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        // 当前point 的 tips
+        Tip tip = new Tip();
+        tip.setPointid(Long.parseLong(getParam("pointid")));
+        Point point = this.pointService.findById(Point.class,Long.parseLong(getParam("pointid")));
+        List<Tip> tipList = this.tipService.findByProperties(tip,null,null,null,null);
+
+        Map map = new HashMap();
+        map.put("tipList", tipList);
+        map.put("point", point);
         this.printjson(JSONUtils.toJSON(map));
     }
 
@@ -134,6 +222,8 @@ public class WxController extends BaseController {
         List<PointUserinfo> pulist = pointUserinfoService.findByProperties(pu,null,50,null,null);
         if(Utils.isNotNullOrEmpty(pulist)){
             line.setYidaka(pulist.size()+"");
+        }else {
+            line.setYidaka("0");
         }
         //已获积分
         int sum = pulist.stream().map(PointUserinfo::getAddScore).reduce(0,(a,b) -> a+b );
@@ -143,7 +233,42 @@ public class WxController extends BaseController {
         Point p = new Point();
         p.setLineid(line.getId());
         List<Point> pointlist = this.pointService.findByProperties(p,null,null,null,null);
+        /*
+        {
+          id: 0,  title:'奥林匹克森林公园湿地',
+          latitude: 40.018720, longitude: 116.384537,
+          width: 40, height: 40,
+          iconPath: "/pages/images/icon-des-d@2x.png",
+          // /pages/images/icon-des-d@2x.png  红色 默认没有打卡 红色
+          // /pages/images/icon-des-und@2x.png 绿色
+        }
+         */
+        List marklist = new ArrayList();
+        if(Utils.isNotNullOrEmpty(pointlist)){
+            for(int i=0;i<pointlist.size();i++){
+                Markvo vo = new Markvo();
+                vo.setId(pointlist.get(i).getId());
+                vo.setHeight("40");
+                vo.setIconPath("/pages/images/icon-des-d@2x.png");
+                vo.setLongitude(pointlist.get(i).getJingdu());
+                vo.setLatitude(pointlist.get(i).getWeidu());
+                vo.setTitle(pointlist.get(i).getName());
+                vo.setWidth("40");
+
+                if(Utils.isNotNullOrEmpty(pulist)){// 已打卡的任务点标记不同的小旗颜色
+                    for(int j=0;j<pulist.size();j++){
+                        if(pointlist.get(i).getId().longValue()==pulist.get(j).getPointid().longValue()){
+                            // 已打卡任务点
+                            vo.setIconPath("/pages/images/icon-des-und@2x.png");
+                        }
+                    }
+                }
+                marklist.add(vo);
+            }
+        }
+
         map.put("pointlist",pointlist);
+        map.put("marklist",marklist);
 
         //客户端传来 签到点 就获取当前签到点的提示信息，否则 获取线路的第一个签到点的信息
         Point point = pointlist.get(0);
@@ -170,6 +295,9 @@ public class WxController extends BaseController {
     public void writeMessage(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("message") Message message) throws Exception{
         this.setReqAndRes(request,response);
         showparam();
+        User user = this.userService.findById(User.class,message.getUserid());
+        message.setAvatarUrl(user.getAvatarUrl());
+        message.setUsername(user.getName());
         if(Utils.isNotNullOrEmpty(message.getDescription()))
             messageService.save(message);
         Map map = new HashMap();
@@ -219,6 +347,7 @@ public class WxController extends BaseController {
     @RequestMapping(value = "/wx/linelike", method = RequestMethod.GET)
     //@ResponseBody
     public void linelike(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Map map = new HashMap();
         this.setReqAndRes(request,response);
         showparam();
         Line line = this.lineService.findById(Line.class,Long.parseLong(getParam("lineid")));
@@ -227,17 +356,25 @@ public class WxController extends BaseController {
         lu.setUserid(user.getId());
         lu.setLineid(line.getId());
         lu.setFlag("2");
-        long c = this.lineUserService.countByProperties(lu);
-        if(c==0){
+        lu = this.lineUserService.findByProperties(lu);
+        if(lu==null){
+            lu = new LineUser();
+            lu.setUserid(user.getId());
+            lu.setLineid(line.getId());
+            lu.setFlag("2");
             lu.setLine(line);
             lu.setUser(user);
             lu.setBegintime(System.currentTimeMillis());
             lu.setFlag("2");
             this.lineUserService.save(lu);
+            map.put("data", "1");
+        }else{
+            this.lineUserService.delete(lu);
+            map.put("data", "0");
         }
 
-        Map map = new HashMap();
-        map.put("data", "ok");
+
+
         this.printjson(JSONUtils.toJSON(map));
     }
 
@@ -294,10 +431,15 @@ public class WxController extends BaseController {
 
         JSONObject json = new JSONObject(res);
         User user = updateUserinfo(json.getString("openid"),getParam("avatarUrl"),getParam("nickName"));
-        JSONObject resjson = new JSONObject();
+        /*JSONObject resjson = new JSONObject();
         resjson.put("openid",json.getString("openid"));
         resjson.put("score",user.getScore());
-        this.print(resjson);
+        resjson.put("user",user);
+        this.print(resjson);*/
+        Map map = new HashMap();
+        //map.put("data", JSONUtils.listToJson(lineList));
+        map.put("data", user);
+        this.printjson(JSONUtils.toJSON(map));
     }
 
     private User updateUserinfo(String openid,String avatarUrl,String name){
@@ -457,14 +599,14 @@ public class WxController extends BaseController {
         }else{
             tipService.update(tip);
         }
-        return "redirect:/tip/list?lineid="+tip.getPointid()+"&pointname="+ URLEncoder.encode(tip.getPointname(),"UTF-8");
+        return "redirect:/tip/list?pointid="+tip.getPointid()+"&pointname="+ URLEncoder.encode(tip.getPointname(),"UTF-8");
     }
 
     @RequestMapping(value = "/tip/delete", method = RequestMethod.GET)
     public String delete(@ModelAttribute("tip") Tip tip) throws Exception{
         tip = tipService.findById(Tip.class,tip.getId());
         tipService.delete(tip);
-        return "redirect:/tip/list?lineid="+tip.getPointid()+"&pointname="+ URLEncoder.encode(tip.getPointname(),"UTF-8");
+        return "redirect:/tip/list?pointid="+tip.getPointid()+"&pointname="+ URLEncoder.encode(tip.getPointname(),"UTF-8");
     }
 
     //==================================================================

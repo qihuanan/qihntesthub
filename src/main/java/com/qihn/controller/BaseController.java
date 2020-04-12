@@ -44,8 +44,8 @@ public abstract class BaseController {
         Enumeration enu=request.getParameterNames();
         while(enu.hasMoreElements()){
             String paraName=(String)enu.nextElement();
-            //System.out.println(paraName+": "+request.getParameter(paraName));
-            log.info("qihntest:paraName : "+ request.getParameter(paraName));
+            //System.out.println(paraName ": "+paraName);
+            log.info("qihntest-para : "+paraName+": "+ request.getParameter(paraName));
         }
     }
 
