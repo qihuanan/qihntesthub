@@ -62,6 +62,18 @@
                                             <textarea class="form-control" name="description">${tip.description}</textarea>
                                         </div>
                                         <div class="form-group">
+                                            <label>上传图片 </label>
+                                            <input id="objpicture" name="img" type="hidden" value="${line.img}"/>
+                                            <input class="form-control" id="file_id" name="filepath" type="file" accept="image/*"/>
+                                            <a class="btn btn-default" onclick="upfile();" href="javascript:void(0);">upfile</a>
+                                            <div id="upfileimgdiv_id" style="display: none;">
+                                                <img id="upfileimg_id" src="" width="50px" height="50px">
+                                            </div>
+                                            <c:if test="${!empty tip.img }">
+                                                <img src="${sysPath}/download?filename=${tip.img}" width="100px" height="100px">
+                                            </c:if>
+                                        </div>
+                                        <div class="form-group">
                                             <label>顺序 </label>
                                             <textarea class="form-control" name="shunxu">${tip.shunxu}</textarea>
                                         </div>

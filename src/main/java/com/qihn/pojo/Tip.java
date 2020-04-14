@@ -32,6 +32,16 @@ public class Tip implements Serializable {
     @Column
     private String jifen;
 
+    private String img;
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     public Long getId() {
         return id;
     }

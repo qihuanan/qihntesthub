@@ -31,6 +31,10 @@ public class TipUserDAOImpl extends BaseDaoImpl<TipUser> implements TipUserDAO {
                     hql.append(" and c.tipid =:getTipid");
                     params.put("getTipid", entity.getTipid());
                 }
+                if(Utils.isNotNullOrEmpty(entity.getLineid())){
+                    hql.append(" and c.lineid =:getLineid");
+                    params.put("getLineid", entity.getLineid());
+                }
                 if(Utils.isNotNullOrEmpty(entity.getUserid())){
                     hql.append(" and c.userid =:getUserid");
                     params.put("getUserid", entity.getUserid());

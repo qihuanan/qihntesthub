@@ -57,6 +57,7 @@
                                             <th >所属签到点</th>
                                             <th >提示点名称</th>
                                             <th >文字介绍</th>
+                                            <th >图片</th>
                                             <th >顺序</th>
                                             <th >是否需要解锁</th>
                                             <th >解锁扣除积分</th>
@@ -71,6 +72,12 @@
                                                 <td> ${obj.pointname } </td>
                                                 <td> ${obj.name } </td>
                                                 <td style="max-width: 200px;"> ${obj.description } </td>
+                                                <td>
+                                                    <c:if test="${!empty obj.img }">
+                                                        <img src="${sysPath}/download?filename=${obj.img}" width="100px" height="100px">
+                                                    </c:if>
+                                                </td>
+
                                                 <td> ${obj.shunxu } </td>
                                                 <td> ${obj.lockflag } </td>
                                                 <td> ${obj.jifen } </td>

@@ -15,6 +15,8 @@ public class TipUser implements Serializable {
     @Column()
     private String tipname;
 
+    @Column()
+    private Long lineid;
 
     @Column
     private Long userid;
@@ -40,6 +42,14 @@ public class TipUser implements Serializable {
 
     public void setTipid(Long tipid) {
         this.tipid = tipid;
+    }
+
+    public Long getLineid() {
+        return lineid;
+    }
+
+    public void setLineid(Long lineid) {
+        this.lineid = lineid;
     }
 
     public String getTipname() {

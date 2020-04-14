@@ -128,6 +128,7 @@ public class WxController extends BaseController {
     public void qiandao(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("pointUserinfo") PointUserinfo pointUserinfo) throws Exception{
         this.setReqAndRes(request,response);
         showparam();
+        Map map = new HashMap();
         Point point = pointService.findById(Point.class,pointUserinfo.getPointid());
         User user = userService.findById(User.class,pointUserinfo.getUserid());
         long c = this.pointUserinfoService.countByProperties(pointUserinfo);
@@ -140,12 +141,13 @@ public class WxController extends BaseController {
             pointUserinfo.setAddScore(Integer.parseInt(point.getJifen()));
             pointUserinfo.setFinish("1");
             pointUserinfoService.save(pointUserinfo);
+            map.put("data", "ok");
         }else{
-
+            map.put("data", "has");
         }
 
-        Map map = new HashMap();
-        map.put("data", pointUserinfo);
+
+
         this.printjson(JSONUtils.toJSON(map));
     }
 
@@ -170,14 +172,19 @@ public class WxController extends BaseController {
     public void unlockTip(HttpServletRequest request, HttpServletResponse response) throws Exception{
         this.setReqAndRes(request,response);
         showparam();
+        Map map = new HashMap();
+        map.put("data", "fail");
         Tip tip = this.tipService.findById(Tip.class,Long.parseLong(getParam("tipid")));
         User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        Point point = this.pointService.findById(Point.class,tip.getPointid());
+        Line line = this.lineService.findById(Line.class,point.getLineid());
         TipUser tu = new TipUser();
         tu.setTipid(tip.getId());
         tu.setUserid(user.getId());
         tu = tipUserService.findByProperties(tu);
         if(tu==null){
             tu = new TipUser();
+            tu.setLineid(line.getId());
             tu.setTipid(tip.getId());
             tu.setUserid(user.getId());
             tu.setTipname(tip.getName());
@@ -187,10 +194,10 @@ public class WxController extends BaseController {
             this.tipUserService.save(tu);
             user.setScore(user.getScore()-tu.getReduceScore());
             this.userService.update(user);
+            map.put("data", "ok");
+        }else {
+            map.put("data", "已解锁过，不重复扣除积分");
         }
-
-        Map map = new HashMap();
-        map.put("data", "ok");
         this.printjson(JSONUtils.toJSON(map));
     }
 
@@ -228,6 +235,19 @@ public class WxController extends BaseController {
         //已获积分
         int sum = pulist.stream().map(PointUserinfo::getAddScore).reduce(0,(a,b) -> a+b );
         sum = pulist.stream().map(PointUserinfo::getAddScore).reduce(0,Integer::sum);
+        // 扣减签到点提示的积分
+        TipUser tu = new TipUser();
+        tu.setLineid(line.getId());
+        tu.setUserid(user.getId());
+        List<TipUser> tulist = this.tipUserService.findByProperties(tu,null,null,null,null);
+        if(Utils.isNotNullOrEmpty(tulist)){
+            int disscore = 0;
+            for(int i=0;i<tulist.size();i++){
+                disscore+= tulist.get(i).getReduceScore();
+            }
+            sum = sum-disscore;
+        }
+
         line.setYijifen(sum+"");
         // 签到点列表
         Point p = new Point();
@@ -409,8 +429,27 @@ public class WxController extends BaseController {
         this.setReqAndRes(request,response);
         showparam();
         List<Line> lineList = this.lineService.findByProperties(new Line(),null,20,"id","desc");
+        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        LineUser lu = new LineUser();
+        lu.setUserid(user.getId());
+        lu.setFlag("2");
+        List<LineUser> lulist = this.lineUserService.findByProperties(lu,null,null,"id","desc");
+        log.error("qihndebug-lulist : "+ lulist);
+        if(Utils.isNotNullOrEmpty(lulist)){
+            for(int i=0;i<lineList.size();i++){
+                lineList.get(i).setLike("0");
+                log.error("qihndebug-lulist : "+ i);
+                for(int j=0;j<lulist.size();j++){
+                    if(lineList.get(i).getId()==lulist.get(j).getLineid()){
+                        lineList.get(i).setLike("1");
+                        log.error("qihndebug-lulist : "+ lineList.get(i).getLike());
+                    }
+                }
+            }
+        }
+
         Map map = new HashMap();
-        //map.put("data", JSONUtils.listToJson(lineList));
+
         map.put("data", lineList);
         this.printjson(JSONUtils.toJSON(map));
     }
