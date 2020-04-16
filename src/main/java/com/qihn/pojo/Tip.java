@@ -31,8 +31,19 @@ public class Tip implements Serializable {
 
     @Column
     private String jifen;
-
+    @Column
     private String img;
+
+    @Transient
+    private String canunlock = "2";
+
+    public String getCanunlock() {
+        return canunlock;
+    }
+
+    public void setCanunlock(String canunlock) {
+        this.canunlock = canunlock;
+    }
 
     public String getImg() {
         return img;

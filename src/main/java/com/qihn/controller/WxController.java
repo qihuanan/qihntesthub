@@ -155,12 +155,34 @@ public class WxController extends BaseController {
     public void tiplist(HttpServletRequest request, HttpServletResponse response) throws Exception{
         this.setReqAndRes(request,response);
         showparam();
+
         // 当前point 的 tips
         Tip tip = new Tip();
         tip.setPointid(Long.parseLong(getParam("pointid")));
         Point point = this.pointService.findById(Point.class,Long.parseLong(getParam("pointid")));
         List<Tip> tipList = this.tipService.findByProperties(tip,null,null,null,null);
+        // 用户已解锁的提示标记
+        User user = userService.findById(User.class,Long.parseLong(getParam("userid")));
+        TipUser tu = new TipUser();
+        tu.setUserid(user.getId());
+        List<TipUser> tulist = this.tipUserService.findByProperties(tu,null,null,null,null);
+        if(Utils.isNotNullOrEmpty(tulist)){
+            for(int i=0;i<tipList.size();i++){
+                for(int j =0;j<tulist.size();j++){
+                    if(tipList.get(i).getId()== tulist.get(j).getTipid()){
+                        tipList.get(i).setLockflag("0");
+                    }
+                }
+            }
+        }
 
+        // 解锁此tip 前，判断一下这个 点的提示 在排序前的有没有还没解锁的，就是就锁需要按照顺序
+        for(int i=0;i<tipList.size();i++){
+            if(tipList.get(i).getLockflag().equals("1")){
+                tipList.get(i).setCanunlock("1");// 顺序 第一个可解锁的 1
+                break;
+            }
+        }
         Map map = new HashMap();
         map.put("tipList", tipList);
         map.put("point", point);
@@ -178,6 +200,8 @@ public class WxController extends BaseController {
         User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
         Point point = this.pointService.findById(Point.class,tip.getPointid());
         Line line = this.lineService.findById(Line.class,point.getLineid());
+
+
         TipUser tu = new TipUser();
         tu.setTipid(tip.getId());
         tu.setUserid(user.getId());
@@ -198,6 +222,36 @@ public class WxController extends BaseController {
         }else {
             map.put("data", "已解锁过，不重复扣除积分");
         }
+
+        // 当前point 的 tips
+        long pointid = tip.getPointid();
+        tip = new Tip();
+        tip.setPointid(pointid);
+        List<Tip> tipList = this.tipService.findByProperties(tip,null,null,null,null);
+
+        // 用户已解锁的提示标记
+        user = userService.findById(User.class,Long.parseLong(getParam("userid")));
+         tu = new TipUser();
+        tu.setUserid(user.getId());
+        List<TipUser> tulist = this.tipUserService.findByProperties(tu,null,null,null,null);
+        if(Utils.isNotNullOrEmpty(tulist)){
+            for(int i=0;i<tipList.size();i++){
+                for(int j =0;j<tulist.size();j++){
+                    if(tipList.get(i).getId()== tulist.get(j).getTipid()){
+                        tipList.get(i).setLockflag("0");
+                    }
+                }
+            }
+        }
+
+        // 解锁此tip 前，判断一下这个 点的提示 在排序前的有没有还没解锁的，就是就锁需要按照顺序
+        for(int i=0;i<tipList.size();i++){
+            if(tipList.get(i).getLockflag().equals("1")){
+                tipList.get(i).setCanunlock("1");// 顺序 第一个可解锁的 1
+                break;
+            }
+        }
+        map.put("tipList", tipList);
         this.printjson(JSONUtils.toJSON(map));
     }
 
@@ -304,6 +358,23 @@ public class WxController extends BaseController {
         Tip tip = new Tip();
         tip.setPointid(point.getId());
         List<Tip> tipList = this.tipService.findByProperties(tip,null,null,null,null);
+        // 标记 提示 是否解锁
+        if(Utils.isNotNullOrEmpty(tulist)){
+            for(int i=0;i<tipList.size();i++){
+                for(int j =0;j<tulist.size();j++){
+                    if(tipList.get(i).getId()== tulist.get(j).getTipid()){
+                        tipList.get(i).setLockflag("0");
+                    }
+                }
+            }
+        }
+        // 解锁此tip 前，判断一下这个 点的提示 在排序前的有没有还没解锁的，就是就锁需要按照顺序
+        for(int i=0;i<tipList.size();i++){
+            if(tipList.get(i).getLockflag().equals("1")){
+                tipList.get(i).setCanunlock("1");// 顺序 第一个可解锁的 1
+                break;
+            }
+        }
         map.put("tipList",tipList);
 
         map.put("line", line);
