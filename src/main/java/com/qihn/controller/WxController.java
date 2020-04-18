@@ -322,12 +322,12 @@ public class WxController extends BaseController {
             for(int i=0;i<pointlist.size();i++){
                 Markvo vo = new Markvo();
                 vo.setId(pointlist.get(i).getId());
-                vo.setHeight("40");
+                vo.setHeight("30");
                 vo.setIconPath("/pages/images/icon-des-d@2x.png");
                 vo.setLongitude(pointlist.get(i).getJingdu());
                 vo.setLatitude(pointlist.get(i).getWeidu());
                 vo.setTitle(pointlist.get(i).getName());
-                vo.setWidth("40");
+                vo.setWidth("30");
 
                 if(Utils.isNotNullOrEmpty(pulist)){// 已打卡的任务点标记不同的小旗颜色
                     for(int j=0;j<pulist.size();j++){
@@ -401,7 +401,9 @@ public class WxController extends BaseController {
     public void messageList(HttpServletRequest request, HttpServletResponse response) throws Exception{
         this.setReqAndRes(request,response);
         showparam();
-        List<Message> list = this.messageService.findByProperties(new Message(),null,20,"id","desc");
+        Message message = new Message();
+        message.setLineid(Long.parseLong(getParam("lineid")));
+        List<Message> list = this.messageService.findByProperties(message,null,20,"id","desc");
         Map map = new HashMap();
         //map.put("data", JSONUtils.listToJson(lineList));
         map.put("data", list);

@@ -24,7 +24,10 @@ public class MessageDAOImpl extends BaseDaoImpl<Message> implements MessageDAO {
                 hql.append(" and c.id =:id");
                 params.put("id", entity.getId());
             }else{
-
+                if(Utils.isNotNullOrEmpty(entity.getLineid())){
+                    hql.append(" and c.lineid =:getLineid");
+                    params.put("getLineid", entity.getLineid());
+                }
                 if(Utils.isNotNullOrEmpty(entity.getName())){
                     hql.append(" and c.name like :name");
                     params.put("name", "%"+entity.getName()+"%");

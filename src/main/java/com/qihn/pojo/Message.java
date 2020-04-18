@@ -11,6 +11,8 @@ public class Message implements Serializable {
     private Long id;
 
     @Column
+    private Long lineid;
+    @Column
     private Long userid;
     @Column
     private String username;
@@ -45,6 +47,14 @@ public class Message implements Serializable {
 
     public Long getUserid() {
         return userid;
+    }
+
+    public Long getLineid() {
+        return lineid;
+    }
+
+    public void setLineid(Long lineid) {
+        this.lineid = lineid;
     }
 
     public void setUserid(Long userid) {
