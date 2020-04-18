@@ -160,6 +160,7 @@ public class WxController extends BaseController {
         Tip tip = new Tip();
         tip.setPointid(Long.parseLong(getParam("pointid")));
         Point point = this.pointService.findById(Point.class,Long.parseLong(getParam("pointid")));
+        Line line = this.lineService.findById(Line.class,point.getLineid());
         List<Tip> tipList = this.tipService.findByProperties(tip,null,null,null,null);
         // 用户已解锁的提示标记
         User user = userService.findById(User.class,Long.parseLong(getParam("userid")));
@@ -186,6 +187,7 @@ public class WxController extends BaseController {
         Map map = new HashMap();
         map.put("tipList", tipList);
         map.put("point", point);
+        map.put("line",line);
         this.printjson(JSONUtils.toJSON(map));
     }
 
@@ -322,12 +324,12 @@ public class WxController extends BaseController {
             for(int i=0;i<pointlist.size();i++){
                 Markvo vo = new Markvo();
                 vo.setId(pointlist.get(i).getId());
-                vo.setHeight("30");
+                vo.setHeight("25");
                 vo.setIconPath("/pages/images/icon-des-d@2x.png");
                 vo.setLongitude(pointlist.get(i).getJingdu());
                 vo.setLatitude(pointlist.get(i).getWeidu());
                 vo.setTitle(pointlist.get(i).getName());
-                vo.setWidth("30");
+                vo.setWidth("25");
 
                 if(Utils.isNotNullOrEmpty(pulist)){// 已打卡的任务点标记不同的小旗颜色
                     for(int j=0;j<pulist.size();j++){
@@ -501,7 +503,7 @@ public class WxController extends BaseController {
     public void getLineList(HttpServletRequest request, HttpServletResponse response) throws Exception{
         this.setReqAndRes(request,response);
         showparam();
-        List<Line> lineList = this.lineService.findByProperties(new Line(),null,20,"id","desc");
+        List<Line> lineList = this.lineService.findByProperties(new Line(),null,20,"shunxu","asc");
         User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
         LineUser lu = new LineUser();
         lu.setUserid(user.getId());

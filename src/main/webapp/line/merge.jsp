@@ -61,7 +61,7 @@
                                             <textarea class="form-control" name="jingdu">${line.jingdu}</textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>维度 </label>
+                                            <label>纬度 </label>
                                             <textarea class="form-control" name="weidu">${line.weidu}</textarea>
                                         </div>
 
@@ -76,6 +76,18 @@
                                         <div class="form-group">
                                             <label>积分 </label>
                                             <textarea class="form-control" name="jifen">${line.jifen}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>验证距离（米） </label>
+                                            <textarea class="form-control" name="qiandaojuli">${line.qiandaojuli}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>地图缩放（1-30的数） </label>
+                                            <textarea class="form-control" name="ditudaxiao">${line.ditudaxiao}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>顺序 </label>
+                                            <textarea class="form-control" name="shunxu">${line.shunxu}</textarea>
                                         </div>
 
                                         <div class="form-group">

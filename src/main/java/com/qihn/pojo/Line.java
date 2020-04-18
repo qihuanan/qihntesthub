@@ -36,6 +36,23 @@ public class Line implements Serializable {
     @Column
     private String jifen;
 
+    @Column
+    private Integer qiandaojuli = 1000;
+
+    @Column
+    private Integer ditudaxiao = 14;
+
+    @Column
+    private String shunxu ;
+
+    public String getShunxu() {
+        return shunxu;
+    }
+
+    public void setShunxu(String shunxu) {
+        this.shunxu = shunxu;
+    }
+
     //vo
     @Transient
     private String like;
@@ -54,6 +71,22 @@ public class Line implements Serializable {
 
     public void setYiyongshi(String yiyongshi) {
         this.yiyongshi = yiyongshi;
+    }
+
+    public Integer getQiandaojuli() {
+        return qiandaojuli;
+    }
+
+    public void setQiandaojuli(Integer qiandaojuli) {
+        this.qiandaojuli = qiandaojuli;
+    }
+
+    public Integer getDitudaxiao() {
+        return ditudaxiao;
+    }
+
+    public void setDitudaxiao(Integer ditudaxiao) {
+        this.ditudaxiao = ditudaxiao;
     }
 
     public String getYidaka() {

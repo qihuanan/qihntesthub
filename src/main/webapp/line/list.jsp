@@ -57,10 +57,13 @@
                                             <th >封面图片</th>
                                             <th >详情图片</th>
                                             <th >经度</th>
-                                            <th >维度</th>
+                                            <th >纬度</th>
                                             <th >长度（千米）</th>
                                             <th >签到点个数</th>
                                             <th >积分</th>
+                                            <th >验证距离</th>
+                                            <th >地图缩放</th>
+                                            <th >顺序</th>
                                             <th >操作</th>
 
                                         </tr>
@@ -86,9 +89,12 @@
                                                 <td> ${obj.changdu } </td>
                                                 <td> ${obj.dianshu } </td>
                                                 <td> ${obj.jifen } </td>
-                                                <td>
+                                                <td> ${obj.qiandaojuli } </td>
+                                                <td> ${obj.ditudaxiao } </td>
+                                                <td> ${obj.shunxu } </td>
+                                                <td width="100px;">
                                                     <a href="${sysPath}//line/mergeUI?id=${obj.id }">编辑</a>
-                                                    <br>
+                                                    <br><br>
                                                     <a href="${sysPath}//point/list?lineid=${obj.id }&linename=${obj.name}">签到点</a>
                                                     <br><br>
                                                     <a href="${sysPath}//line/delete?id=${obj.id }">删除</a>

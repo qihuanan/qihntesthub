@@ -66,7 +66,7 @@
                                             <textarea class="form-control" name="jingdu">${point.jingdu}</textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>维度 </label>
+                                            <label>纬度 </label>
                                             <textarea class="form-control" name="weidu">${point.weidu}</textarea>
                                         </div>
                                         <div class="form-group">
