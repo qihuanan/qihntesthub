@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>pointUserinfo List</title>
+    <title>exam List</title>
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 
     <link href="../assets/css/bootstrap.css" rel="stylesheet"/>
@@ -34,13 +34,15 @@
                         -->
                         <div class="panel-body">
 
-                            <form action="${sysPath}/pointUserinfo/list" method="post">
+                            <form action="${sysPath}/exam/list" method="post">
                                 <div class="table-responsive">
                                     <div class="row" style="width: 99%">
                                         <div class="col-sm-6" style="margin-bottom: 5px;">&nbsp;&nbsp;
-                                            S: <input type="text" name="name" value="${pointUserinfo.name}">
+                                            <input type="hidden" name="pointid" value="${exam.pointid}" />
+                                            <input type="hidden" name="pointname" value="${exam.pointname}" />
+                                            S: <input type="text" name="name" value="${exam.name}">
                                             <input type="submit" value="查询"></input>&nbsp;
-                                            <a href="${sysPath}/pointUserinfo/mergeUI"><input type="button" value="添加"></input></a>
+                                            <a href="${sysPath}/exam/mergeUI?pointid=${exam.pointid}&pointname=${exam.pointname}"><input type="button" value="添加"></input></a>
                                         </div>
                                     </div>
                                     <div id='description' style="display: block;">
@@ -53,16 +55,18 @@
                                         <thead>
                                         <tr>
                                             <th >所属签到点</th>
-                                            <th >所属用户</th>
-                                            <th >上传的图片</th>
-                                            <th >完成标记</th>
-                                            <th >打卡时间</th>
-                                            <th >新增积分</th>
-
-                                            <th >答题任务id</th>
+                                            <th >题目名称</th>
+                                            <th >题目说明</th>
+                                            <th >题目图片</th>
                                             <th >答案</th>
-                                            <th >奖励文字</th>
-                                            <th >奖励图片</th>
+                                            <th >奖励-文字描述</th>
+                                            <th >奖励-拼图碎片</th>
+
+                                            <th >答题机会</th>
+                                            <th >答题正确提示语</th>
+                                            <th >答题错误提示语</th>
+                                            <th >是否显示答案</th>
+
                                             <th >操作</th>
 
                                         </tr>
@@ -72,26 +76,29 @@
                                         <c:forEach var="obj" items="${list }">
                                             <tr>
                                                 <td> ${obj.pointname } </td>
-                                                <td style="max-width: 200px;"> ${obj.username } </td>
+                                                <td> ${obj.name } </td>
+                                                <td style="max-width: 200px;"> ${obj.description } </td>
                                                 <td>
-                                                    <c:if test="${!empty obj.picture }">
-                                                        <img src="${sysPath}/download?filename=${obj.picture}" width="100px" height="100px">
+                                                    <c:if test="${!empty obj.picture1 }">
+                                                        <img src="${sysPath}/download?filename=${obj.picture1}" width="100px" height="100px">
                                                     </c:if>
                                                 </td>
-                                                <td> ${obj.finish } </td>
-                                                <td> ${obj.time } </td>
-                                                <td> ${obj.addScore } </td>
 
-                                                <td> ${obj.examid } </td>
                                                 <td> ${obj.answer } </td>
                                                 <td> ${obj.prize } </td>
-                                                <td> ${obj.prizeimg } </td>
+                                                <td> <c:if test="${!empty obj.prizeimg }">
+                                                    <img src="${sysPath}/download?filename=${obj.prizeimg}" width="100px" height="100px">
+                                                    </c:if>
+                                                </td>
+
+                                                <td> ${obj.chance } </td>
+                                                <td> ${obj.success } </td>
+                                                <td> ${obj.fail } </td>
+                                                <td> ${obj.showanswer } </td>
                                                 <td>
-                                                    <!--
-                                                    <a href="${sysPath}//pointUserinfo/mergeUI?id=${obj.id }">编辑</a>
+                                                    <a href="${sysPath}//exam/mergeUI?id=${obj.id }">编辑</a>
                                                     <br><br>
-                                                    <a href="${sysPath}//pointUserinfo/delete?id=${obj.id }">删除</a>
-                                                    -->
+                                                    <a href="${sysPath}//exam/delete?id=${obj.id }">删除</a>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -135,7 +142,7 @@
 <script src="../assets/js/dataTables/dataTables.bootstrap.js"></script>
 <script>
     $(document).ready(function () {
-        $("#mmenu_pointUserinfo").addClass("active-menu");
+        $("#mmenu_exam").addClass("active-menu");
 
     });
 

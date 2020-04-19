@@ -1,5 +1,6 @@
 package com.qihn.controller;
 
+import com.qihn.utils.Utils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletWebRequest;
 
+import javax.rmi.CORBA.Util;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Enumeration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,7 +40,11 @@ public abstract class BaseController {
     protected HttpSession session;
 
     public String getParam(String p){
-        return  request.getParameter(p);
+        String  res = request.getParameter(p);
+        if(p.equals("userid" ) && Utils.isNullorEmpty(res)){
+            return "1";
+        }
+        return  res;
     }
 
     public void showparam(){

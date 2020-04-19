@@ -64,6 +64,8 @@
                                             <th >验证距离</th>
                                             <th >地图缩放</th>
                                             <th >顺序</th>
+                                            <th >时间</th>
+                                            <th >显示</th>
                                             <th >操作</th>
 
                                         </tr>
@@ -92,12 +94,17 @@
                                                 <td> ${obj.qiandaojuli } </td>
                                                 <td> ${obj.ditudaxiao } </td>
                                                 <td> ${obj.shunxu } </td>
+                                                <td> ${obj.shijian } </td>
+                                                <td> ${obj.onshow } </td>
                                                 <td width="100px;">
                                                     <a href="${sysPath}//line/mergeUI?id=${obj.id }">编辑</a>
                                                     <br><br>
                                                     <a href="${sysPath}//point/list?lineid=${obj.id }&linename=${obj.name}">签到点</a>
                                                     <br><br>
+
+                                                    <!--
                                                     <a href="${sysPath}//line/delete?id=${obj.id }">删除</a>
+                                                    -->
                                                 </td>
                                             </tr>
                                         </c:forEach>

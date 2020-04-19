@@ -46,6 +46,17 @@ public class PointUserinfo implements Serializable {
     private Integer addScore;
     private Long time;
 
+    // 新增答题相关
+    @Column
+    private String examid;
+    @Column
+    private String answer;
+    @Column
+    private String prize;// 奖品文字描述
+    @Column
+    private String prizeimg;
+
+
     public String getPointname() {
         return pointname;
     }
@@ -56,6 +67,38 @@ public class PointUserinfo implements Serializable {
 
     public Long getLineid() {
         return lineid;
+    }
+
+    public String getExamid() {
+        return examid;
+    }
+
+    public void setExamid(String examid) {
+        this.examid = examid;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getPrize() {
+        return prize;
+    }
+
+    public void setPrize(String prize) {
+        this.prize = prize;
+    }
+
+    public String getPrizeimg() {
+        return prizeimg;
+    }
+
+    public void setPrizeimg(String prizeimg) {
+        this.prizeimg = prizeimg;
     }
 
     public void setLineid(Long lineid) {

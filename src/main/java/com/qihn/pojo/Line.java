@@ -44,14 +44,10 @@ public class Line implements Serializable {
 
     @Column
     private String shunxu ;
-
-    public String getShunxu() {
-        return shunxu;
-    }
-
-    public void setShunxu(String shunxu) {
-        this.shunxu = shunxu;
-    }
+    @Column
+    private Long shijian ; // 设定时间  秒
+    @Column
+    private String onshow;// 是否显示
 
     //vo
     @Transient
@@ -64,9 +60,42 @@ public class Line implements Serializable {
     private String yidaka;
     @Transient
     private String yijifen;
+    @Transient
+    private String curpoint; // 需要或正在打卡的签到点
 
     public String getYiyongshi() {
         return yiyongshi;
+    }
+    public Long getShijian() {
+        return shijian;
+    }
+
+    public String getCurpoint() {
+        return curpoint;
+    }
+
+    public void setCurpoint(String curpoint) {
+        this.curpoint = curpoint;
+    }
+
+    public void setShijian(Long shijian) {
+        this.shijian = shijian;
+    }
+
+    public String getOnshow() {
+        return onshow;
+    }
+
+    public void setOnshow(String onshow) {
+        this.onshow = onshow;
+    }
+
+    public String getShunxu() {
+        return shunxu;
+    }
+
+    public void setShunxu(String shunxu) {
+        this.shunxu = shunxu;
     }
 
     public void setYiyongshi(String yiyongshi) {

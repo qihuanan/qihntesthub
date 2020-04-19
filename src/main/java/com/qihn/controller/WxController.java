@@ -49,8 +49,29 @@ public class WxController extends BaseController {
     private LineUserService lineUserService;
     @Resource(name = "tipUserService")
     private TipUserService tipUserService;
+    @Resource(name = "examService")
+    private ExamService examService;
 
+    private void inituser(){
+
+    }
     //=========================前端=========================
+    @RequestMapping(value = "/wx/exam", method = RequestMethod.GET)
+    public void exam(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        User user = this.userService.findById(User.class,Long.parseLong(getParam("userid")));
+        Point point = pointService.findById(Point.class,Long.parseLong(getParam("pointid")));
+        Exam exam = new Exam();
+        exam.setPointid(Long.parseLong(getParam("pointid")));
+        exam = examService.findByProperties(exam);
+
+        Map map = new HashMap();
+        map.put("exam", exam);
+        map.put("point",point);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
     @RequestMapping(value = "/wx/binduser", method = RequestMethod.GET)
     public void binduser(HttpServletRequest request, HttpServletResponse response) throws Exception{
         this.setReqAndRes(request,response);
@@ -83,6 +104,24 @@ public class WxController extends BaseController {
         lineUser.setUserid(Long.parseLong(getParam("userid")));
         List<LineUser> lulist = this.lineUserService.findByProperties(lineUser,null,null,"id","desc");
         User user = this.userService.findById(User.class,Long.parseLong(getParam("userid")));
+
+        // 获取 已打卡任务点个数
+        if(Utils.isNotNullOrEmpty(lulist)){
+            for(int i=0;i<lulist.size();i++){
+                PointUserinfo pu = new PointUserinfo();
+                pu.setLineid(lulist.get(i).getLineid());
+                pu.setUserid(user.getId());
+                List<PointUserinfo> pulist = pointUserinfoService.findByProperties(pu,null,50,"id","desc");
+                if(Utils.isNotNullOrEmpty(pulist)){
+                    lulist.get(i).setUsername(pulist.size()+"");
+                }else {
+                    lulist.get(i).setUsername("0");
+                }
+            }
+
+        }
+
+
         Map map = new HashMap();
         map.put("data", lulist);
         map.put("user", user);
@@ -136,16 +175,35 @@ public class WxController extends BaseController {
             pointUserinfo.setLineid(point.getLineid());
             pointUserinfo.setPointname(point.getName());
             pointUserinfo.setUsername(user.getName());
-
             pointUserinfo.setTime(System.currentTimeMillis());
             pointUserinfo.setAddScore(Integer.parseInt(point.getJifen()));
             pointUserinfo.setFinish("1");
             pointUserinfoService.save(pointUserinfo);
+            user.setScore(user.getScore()+pointUserinfo.getAddScore());
+            this.userService.update(user);
             map.put("data", "ok");
         }else{
             map.put("data", "has");
         }
-
+        // 判断 线路是否完成
+        //Line line = this.lineService.findById(Line.class,point.getLineid());
+        Point tp = new Point();
+        tp.setLineid(point.getLineid());
+        long pointsize = this.pointService.countByProperties(tp);
+        PointUserinfo pu = new PointUserinfo();
+        pu.setUserid(user.getId());
+        pu.setLineid(point.getLineid());
+        long pusize = this.pointUserinfoService.countByProperties(pu);
+        log.info("判断 线路是否完成 "+ pointsize + " "+pusize);
+        if(pointsize == pusize){
+            LineUser lu = new LineUser();
+            lu.setUserid(user.getId());
+            lu.setLineid(point.getLineid());
+            lu = this.lineUserService.findByProperties(lu);
+            lu.setEndtime(System.currentTimeMillis());
+            lu.setFinish("1");
+            this.lineUserService.update(lu);
+        }
 
 
         this.printjson(JSONUtils.toJSON(map));
@@ -265,6 +323,7 @@ public class WxController extends BaseController {
         showparam();
         Line line = this.lineService.findById(Line.class,Long.parseLong(getParam("lineid")));
         User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        // 喜欢标记
         LineUser lu = new LineUser();
         lu.setUserid(user.getId());
         lu.setLineid(line.getId());
@@ -277,6 +336,16 @@ public class WxController extends BaseController {
         lu.setFlag("1");
         lu = this.lineUserService.findByProperties(lu);
         line.setYiyongshi(Utils.shijiancha(lu.getBegintime(),System.currentTimeMillis()));
+        //是否超时，是否完成
+        if(Utils.isNotNullOrEmpty(lu.getEndtime())){
+            line.setYiyongshi(Utils.shijiancha(lu.getBegintime(),lu.getEndtime())+" 完成！");
+        }else {
+            // 未完成 判断是否超时
+            long t = System.currentTimeMillis()+5 - lu.getBegintime();
+            if(line.getShijian()*1000 < t){
+                line.setYiyongshi("超时啦！");
+            }
+        }
 
         // 获取 已打卡任务点
         PointUserinfo pu = new PointUserinfo();
@@ -308,7 +377,7 @@ public class WxController extends BaseController {
         // 签到点列表
         Point p = new Point();
         p.setLineid(line.getId());
-        List<Point> pointlist = this.pointService.findByProperties(p,null,null,null,null);
+        List<Point> pointlist = this.pointService.findByProperties(p,null,null,"shunxu","asc");
         /*
         {
           id: 0,  title:'奥林匹克森林公园湿地',
@@ -319,7 +388,7 @@ public class WxController extends BaseController {
           // /pages/images/icon-des-und@2x.png 绿色
         }
          */
-        List marklist = new ArrayList();
+        List<Markvo> marklist = new ArrayList();
         if(Utils.isNotNullOrEmpty(pointlist)){
             for(int i=0;i<pointlist.size();i++){
                 Markvo vo = new Markvo();
@@ -354,7 +423,28 @@ public class WxController extends BaseController {
             point = this.pointService.findById(Point.class,point.getId());
         }else {
             point = pointlist.stream().sorted((p1,p2) -> p1.getShunxu()-p2.getShunxu() ).findFirst().get();
+            // 显示下一个要进行的签到点  在用户签到点没有签到的
+            for(int i=0;i<pointlist.size();i++){
+                point = pointlist.get(i);
+                boolean exist = false;
+                for(int j=0;j<pulist.size();j++){
+                    if(point.getId() == pulist.get(j).getPointid()){
+                        exist = true;
+                        break;
+                    }
+                }
+                if(!exist){
+                    break;
+                }
+            }
         }
+        // 当前签到点旗帜颜色变为 黄色
+//        for(int i = 0;i<marklist.size();i++){
+//            if(marklist.get(i).getId() == point.getId()){
+//                marklist.get(i).setIconPath("/pages/images/icon-flg-ylw@2x.png");
+//            }
+//        }
+//        map.put("marklist",marklist);
         map.put("point",point);
         // 当前point 的 tips
         Tip tip = new Tip();
@@ -391,6 +481,7 @@ public class WxController extends BaseController {
         User user = this.userService.findById(User.class,message.getUserid());
         message.setAvatarUrl(user.getAvatarUrl());
         message.setUsername(user.getName());
+        message.setTime(Utils.formatLongDate2());
         if(Utils.isNotNullOrEmpty(message.getDescription()))
             messageService.save(message);
         Map map = new HashMap();
@@ -503,7 +594,9 @@ public class WxController extends BaseController {
     public void getLineList(HttpServletRequest request, HttpServletResponse response) throws Exception{
         this.setReqAndRes(request,response);
         showparam();
-        List<Line> lineList = this.lineService.findByProperties(new Line(),null,20,"shunxu","asc");
+        Line line = new Line();
+        line.setOnshow("1");
+        List<Line> lineList = this.lineService.findByProperties(line,null,20,"shunxu","asc");
         User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
         LineUser lu = new LineUser();
         lu.setUserid(user.getId());
@@ -724,8 +817,55 @@ public class WxController extends BaseController {
     }
 
     //==================================================================
-    
 
+
+    //======================exam====================================
+    @RequestMapping(value = "/exam/list", method = {RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView examlist(@ModelAttribute("exam") Exam exam, @ModelAttribute("pageInfo") PageInfo pageInfo) {
+        ModelAndView mv = new ModelAndView();
+        if (pageInfo == null) {
+            pageInfo = new PageInfo();
+        }
+        List<Exam> list = this.examService.findByProperties(exam,pageInfo,null,"id","desc");
+        pageInfo.setTotalCount(this.examService.countByProperties(exam));
+        mv.addObject("list", list);
+        mv.addObject("pageInfo",pageInfo);
+        mv.addObject("exam",exam);
+        mv.setViewName("exam/list");
+        return mv;
+
+    }
+    @RequestMapping(value = "/exam/mergeUI", method = RequestMethod.GET)
+    public ModelAndView mergeUI(@ModelAttribute("exam") Exam exam) {
+        ModelAndView mv = new ModelAndView();
+        if (Utils.isNotNullOrEmpty(exam) && Utils.isNotNullOrEmpty(exam.getId())) {
+            exam = this.examService.findByProperties(exam);
+            mv.addObject(exam);
+            mv.setViewName("exam/merge");
+        }
+        mv.setViewName("exam/merge");
+        return mv;
+    }
+
+    @RequestMapping(value = "/exam/merge", method = RequestMethod.POST)
+    public String merge(@ModelAttribute("exam") Exam exam,HttpServletRequest request) throws Exception{
+        if(exam.getId()==null){
+            examService.save(exam);
+        }else{
+            examService.update(exam);
+        }
+        return "redirect:/exam/list?pointid="+exam.getPointid()+"&pointname="+ URLEncoder.encode(exam.getPointname(),"UTF-8");
+    }
+
+    @RequestMapping(value = "/exam/delete", method = RequestMethod.GET)
+    public String delete(@ModelAttribute("exam") Exam exam) throws Exception{
+        exam = examService.findById(Exam.class,exam.getId());
+        examService.delete(exam);
+        return "redirect:/exam/list?pointid="+exam.getPointid()+"&pointname="+ URLEncoder.encode(exam.getPointname(),"UTF-8");
+    }
+
+    //==================================================================
+    
 
     //======================pointUserinfo====================================
     @RequestMapping(value = "/pointUserinfo/list", method = {RequestMethod.GET,RequestMethod.POST})

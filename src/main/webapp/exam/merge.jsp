@@ -46,82 +46,72 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <form id="form_id" role="form" action="${sysPath}/line/merge" method="post">
-                                        <input type="hidden" name="id" value="${line.id}" />
+                                    <form id="form_id" role="form" action="${sysPath}/exam/merge" method="post">
+                                        <input type="hidden" name="id" value="${exam.id}" />
+                                        <input type="hidden" name="pointid" value="${exam.pointid}" />
                                         <div class="form-group">
-                                            <label>线路名称 </label>
-                                            <input class="form-control" name="name" type="text"  value="${line.name}"/>
+                                            <label>所属签到点名称 </label>
+                                            <input class="form-control" name="pointname" type="text"  value="${exam.pointname}" readonly />
                                         </div>
                                         <div class="form-group">
-                                            <label>线路描述 </label>
-                                            <textarea class="form-control" name="description">${line.description}</textarea>
+                                            <label>题目名称 </label>
+                                            <input class="form-control" name="name" type="text"  value="${exam.name}"/>
                                         </div>
                                         <div class="form-group">
-                                            <label>经度 </label>
-                                            <textarea class="form-control" name="jingdu">${line.jingdu}</textarea>
+                                            <label>题目描述 </label>
+                                            <textarea class="form-control" name="description">${exam.description}</textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>纬度 </label>
-                                            <textarea class="form-control" name="weidu">${line.weidu}</textarea>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>长度（千米） </label>
-                                            <textarea class="form-control" name="changdu">${line.changdu}</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>签到点个数 </label>
-                                            <textarea class="form-control" name="dianshu">${line.dianshu}</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>积分 </label>
-                                            <textarea class="form-control" name="jifen">${line.jifen}</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>验证距离（米） </label>
-                                            <textarea class="form-control" name="qiandaojuli">${line.qiandaojuli}</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>地图缩放（1-30的数） </label>
-                                            <textarea class="form-control" name="ditudaxiao">${line.ditudaxiao}</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>顺序 </label>
-                                            <textarea class="form-control" name="shunxu">${line.shunxu}</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>设定时间（秒） </label>
-                                            <textarea class="form-control" name="shijian">${line.shijian}</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>是否显示（1 显示  0 不显示） </label>
-                                            <textarea class="form-control" name="onshow">${line.onshow}</textarea>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>上传封面图片 </label>
-                                            <input id="objpicture" name="picture1" type="hidden" value="${line.picture1}"/>
+                                            <label>上传题目图片 </label>
+                                            <input id="objpicture" name="picture1" type="hidden" value="${exam.picture1}"/>
                                             <input class="form-control" id="file_id" name="filepath" type="file" accept="image/*"/>
                                             <a class="btn btn-default" onclick="upfile();" href="javascript:void(0);">upfile</a>
                                             <div id="upfileimgdiv_id" style="display: none;">
                                                 <img id="upfileimg_id" src="" width="50px" height="50px">
                                             </div>
-                                            <c:if test="${!empty line.picture1 }">
-                                                <img src="${sysPath}/download?filename=${line.picture1}" width="100px" height="100px">
+                                            <c:if test="${!empty exam.picture1 }">
+                                                <img src="${sysPath}/download?filename=${exam.picture1}" width="100px" height="100px">
                                             </c:if>
                                         </div>
                                         <div class="form-group">
-                                            <label>上传详情图片 </label>
-                                            <input id="objpicture2" name="picture2" type="hidden" value="${line.picture2}"/>
+                                            <label>答案-(多文字使用英文逗号分割,) </label>
+                                            <textarea class="form-control" name="answer">${exam.answer}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>奖励-文字描述 </label>
+                                            <textarea class="form-control" name="prize">${exam.prize}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>奖励-拼图碎片 </label>
+                                            <input id="objpicture2" name="prizeimg" type="hidden" value="${exam.prizeimg}"/>
                                             <input class="form-control" id="file_id2" name="filepath" type="file" accept="image/*"/>
                                             <a class="btn btn-default" onclick="upfile2();" href="javascript:void(0);">upfile2</a>
                                             <div id="upfileimgdiv_id2" style="display: none;">
                                                 <img id="upfileimg_id2" src="" width="50px" height="50px">
                                             </div>
-                                            <c:if test="${!empty line.picture2 }">
-                                                <img src="${sysPath}/download?filename=${line.picture2}" width="100px" height="100px">
+                                            <c:if test="${!empty exam.prizeimg }">
+                                                <img src="${sysPath}/download?filename=${exam.prizeimg}" width="100px" height="100px">
                                             </c:if>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label>答题机会次数（数字1-10，选择题选1 预留，其他10） </label>
+                                            <textarea class="form-control" name="chance">${exam.chance}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>答题正确提示语(正确，恭喜您获得以下藏宝图碎片) </label>
+                                            <textarea class="form-control" name="success">${exam.success}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>答题错误提示语(错误，很遗憾，再想想其他答案吧！)  </label>
+                                            <textarea class="form-control" name="fail">${exam.fail}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>答错时是否显示答案（1：显示 0：不显示） </label>
+                                            <textarea class="form-control" name="showanswer">${exam.showanswer}</textarea>
+                                        </div>
+
+
                                         <button type="submit" class="btn btn-default">提交</button>
                                         <button type="reset" class="btn btn-default">重置</button>
                                     </form>
@@ -153,7 +143,7 @@
 <script src="../assets/js/dataTables/dataTables.bootstrap.js"></script>
 <script>
     $(document).ready(function () {
-        $("#mmenu_line").addClass("active-menu");
+        $("#mmenu_exam").addClass("active-menu");
 
     });
 
@@ -174,8 +164,6 @@
                 $('#upfileimg_id').attr("src", "${sysPath}/download?filename=" + obj.filepath);
                 $('#upfileimgdiv_id').show();
                 $('#objpicture').val(obj.filepath);
-                $('#file_id').css("disabled","");
-                $('#file_id2').css("disabled","");
             },
             error: function (err) {
                 alert(err);
