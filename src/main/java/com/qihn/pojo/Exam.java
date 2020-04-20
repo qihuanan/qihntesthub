@@ -38,6 +38,17 @@ public class Exam implements Serializable {
     @Column
     private String showanswer = "0";// 答错是否显示 正确答案。
 
+    @Column
+    private String cate; //任务类型  1: 文字答题  2: 上传图片
+
+    public String getCate() {
+        return cate;
+    }
+
+    public void setCate(String cate) {
+        this.cate = cate;
+    }
+
     public Long getId() {
         return id;
     }
