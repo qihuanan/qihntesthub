@@ -67,12 +67,12 @@
 
                                         <c:forEach var="obj" items="${list }">
                                             <tr>
-                                                <td> ${obj.linename } </td>
-                                                <td> ${obj.username } </td>
+                                                <td> ${obj.line.name } </td>
+                                                <td> ${obj.user.name } </td>
                                                 <td> ${obj.flag } </td>
                                                 <td> ${obj.finish } </td>
-                                                <td> ${obj.begintime } </td>
-                                                <td> ${obj.endtime } </td>
+                                                <td><fmt:formatDate value="${obj.begintime}" pattern="yyyy-MM-dd HH:mm:ss"/> ${obj.begintime } </td>
+                                                <td><fmt:formatDate value="${obj.endtime}" pattern="yyyy-MM-dd HH:mm:ss"/> ${obj.endtime } </td>
                                                 <td> ${obj.addScore } </td>
                                                 <td>
                                                     <a href="${sysPath}//lineUser/mergeUI?id=${obj.id }">编辑</a>

@@ -66,7 +66,7 @@
                                             <th >答题正确提示语</th>
                                             <th >答题错误提示语</th>
                                             <th >是否显示答案</th>
-
+                                            <th >类型</th>
                                             <th >操作</th>
 
                                         </tr>
@@ -95,6 +95,7 @@
                                                 <td> ${obj.success } </td>
                                                 <td> ${obj.fail } </td>
                                                 <td> ${obj.showanswer } </td>
+                                                <td> ${obj.cate } </td>
                                                 <td>
                                                     <a href="${sysPath}//exam/mergeUI?id=${obj.id }">编辑</a>
                                                     <br><br>

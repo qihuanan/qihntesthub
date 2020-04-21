@@ -74,6 +74,10 @@
                                             </c:if>
                                         </div>
                                         <div class="form-group">
+                                            <label>类型-(1: 文字答题  2: 上传图片) </label>
+                                            <textarea class="form-control" name="cate">${exam.cate}</textarea>
+                                        </div>
+                                        <div class="form-group">
                                             <label>答案-(多文字使用英文逗号分割,) </label>
                                             <textarea class="form-control" name="answer">${exam.answer}</textarea>
                                         </div>

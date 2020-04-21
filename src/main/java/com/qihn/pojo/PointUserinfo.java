@@ -55,10 +55,20 @@ public class PointUserinfo implements Serializable {
     private String prize;// 奖品文字描述
     @Column
     private String prizeimg;
+    @Column
+    private String cate; //任务类型  1: 文字答题  2: 上传图片
 
 
     public String getPointname() {
         return pointname;
+    }
+
+    public String getCate() {
+        return cate;
+    }
+
+    public void setCate(String cate) {
+        this.cate = cate;
     }
 
     public Long getTime() {

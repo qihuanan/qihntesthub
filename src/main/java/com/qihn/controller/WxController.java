@@ -178,10 +178,19 @@ public class WxController extends BaseController {
             pointUserinfo.setTime(System.currentTimeMillis());
             pointUserinfo.setAddScore(Integer.parseInt(point.getJifen()));
             pointUserinfo.setFinish("1");
+            // 答题信息
+            if(Utils.isNotNullOrEmpty(pointUserinfo.getExamid())){
+                Exam exam = this.examService.findById(Exam.class,Long.parseLong(pointUserinfo.getExamid()));
+                pointUserinfo.setCate(exam.getCate());
+                pointUserinfo.setPrize(exam.getPrize());
+                pointUserinfo.setPrizeimg(exam.getPrizeimg());
+            }
+
             pointUserinfoService.save(pointUserinfo);
             user.setScore(user.getScore()+pointUserinfo.getAddScore());
             this.userService.update(user);
             map.put("data", "ok");
+            map.put("pointUserinfo", pointUserinfo);
         }else{
             map.put("data", "has");
         }
