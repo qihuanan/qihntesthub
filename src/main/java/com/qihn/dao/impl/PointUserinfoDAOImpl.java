@@ -42,6 +42,10 @@ public class PointUserinfoDAOImpl extends BaseDaoImpl<PointUserinfo> implements 
                     hql.append(" and c.userid =:getUserid");
                     params.put("getUserid", entity.getUserid());
                 }
+                if(Utils.isNotNullOrEmpty(entity.getFinish())){
+                    hql.append(" and c.finish =:getFinish");
+                    params.put("getFinish", entity.getFinish());
+                }
 
             }
         }

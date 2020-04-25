@@ -170,29 +170,75 @@ public class WxController extends BaseController {
         Map map = new HashMap();
         Point point = pointService.findById(Point.class,pointUserinfo.getPointid());
         User user = userService.findById(User.class,pointUserinfo.getUserid());
-        long c = this.pointUserinfoService.countByProperties(pointUserinfo);
-        if(c==0){
+        PointUserinfo old = this.pointUserinfoService.findByProperties(pointUserinfo);
+        if(old == null){
             pointUserinfo.setLineid(point.getLineid());
             pointUserinfo.setPointname(point.getName());
             pointUserinfo.setUsername(user.getName());
             pointUserinfo.setTime(System.currentTimeMillis());
-            pointUserinfo.setAddScore(Integer.parseInt(point.getJifen()));
-            pointUserinfo.setFinish("1");
+
             // 答题信息
             if(Utils.isNotNullOrEmpty(pointUserinfo.getExamid())){
                 Exam exam = this.examService.findById(Exam.class,Long.parseLong(pointUserinfo.getExamid()));
                 pointUserinfo.setCate(exam.getCate());
-                pointUserinfo.setPrize(exam.getPrize());
-                pointUserinfo.setPrizeimg(exam.getPrizeimg());
+                pointUserinfo.setChance(exam.getChance()-1);
+                if(pointUserinfo.getCate().equals("1")){ //1: 文字答题  2: 上传图片
+                    if(Arrays.asList(exam.getAnswer().split(";")).contains(pointUserinfo.getAnswer())){
+                        pointUserinfo.setPrize(exam.getPrize());
+                        pointUserinfo.setPrizeimg(exam.getPrizeimg());
+                        map.put("data", "ok");
+                        pointUserinfo.setAddScore(Integer.parseInt(point.getJifen()));
+                        user.setScore(user.getScore()+pointUserinfo.getAddScore());
+                        pointUserinfo.setFinish("1");
+                    }else{
+                        pointUserinfo.setPrize("答案错误");
+                        pointUserinfo.setPrizeimg("");
+                        pointUserinfo.setFinish("0");
+                        map.put("data", "err");
+                        if(pointUserinfo.getChance()<1){
+                            pointUserinfo.setFinish("1");
+                            map.put("data", "errnochance");
+                        }
+                    }
+                }
             }
-
             pointUserinfoService.save(pointUserinfo);
-            user.setScore(user.getScore()+pointUserinfo.getAddScore());
             this.userService.update(user);
-            map.put("data", "ok");
             map.put("pointUserinfo", pointUserinfo);
         }else{
-            map.put("data", "has");
+            if(old.getChance()>0){
+                // 答题信息 更新
+                if(Utils.isNotNullOrEmpty(old.getExamid())){
+                    Exam exam = this.examService.findById(Exam.class,Long.parseLong(old.getExamid()));
+                    old.setCate(exam.getCate());
+                    old.setChance(exam.getChance()-1);
+                    if(old.getCate().equals("1")){ //1: 文字答题  2: 上传图片
+                        if(Arrays.asList(exam.getAnswer().split(";")).contains(pointUserinfo.getAnswer())){
+                            old.setPrize(exam.getPrize());
+                            old.setPrizeimg(exam.getPrizeimg());
+                            map.put("data", "ok");
+                            old.setAddScore(Integer.parseInt(point.getJifen()));
+                            user.setScore(user.getScore()+old.getAddScore());
+                            old.setFinish("1");
+                        }else{
+                            old.setPrize("答案错误");
+                            old.setPrizeimg("");
+                            old.setFinish("0");
+                            map.put("data", "err");
+                            if(old.getChance()<1){
+                                old.setFinish("1");
+                                map.put("data", "errnochance");
+                            }
+                        }
+                    }
+                }
+                pointUserinfoService.update(old);
+                this.userService.update(user);
+                map.put("pointUserinfo", old);
+
+            }else {
+                map.put("data", "has");
+            }
         }
         // 判断 线路是否完成
         //Line line = this.lineService.findById(Line.class,point.getLineid());
@@ -202,6 +248,7 @@ public class WxController extends BaseController {
         PointUserinfo pu = new PointUserinfo();
         pu.setUserid(user.getId());
         pu.setLineid(point.getLineid());
+        pu.setFinish("1");
         long pusize = this.pointUserinfoService.countByProperties(pu);
         log.info("判断 线路是否完成 "+ pointsize + " "+pusize);
         if(pointsize == pusize){
@@ -448,12 +495,14 @@ public class WxController extends BaseController {
             }
         }
         // 当前签到点旗帜颜色变为 黄色
-//        for(int i = 0;i<marklist.size();i++){
-//            if(marklist.get(i).getId() == point.getId()){
-//                marklist.get(i).setIconPath("/pages/images/icon-flg-ylw@2x.png");
-//            }
-//        }
-//        map.put("marklist",marklist);
+        for(int i = 0;i<marklist.size();i++){
+            if(marklist.get(i).getId() == point.getId()){
+                marklist.get(i).setIconPath("/pages/images/icon-flg-ylw@2x.png");
+                marklist.get(i).setWidth("30");
+                marklist.get(i).setHeight("30");
+            }
+        }
+        map.put("marklist",marklist);
         map.put("point",point);
         // 当前point 的 tips
         Tip tip = new Tip();

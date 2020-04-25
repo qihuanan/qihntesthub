@@ -38,7 +38,7 @@
                                 <div class="table-responsive">
                                     <div class="row" style="width: 99%">
                                         <div class="col-sm-6" style="margin-bottom: 5px;">&nbsp;&nbsp;
-                                            S: <input type="text" name="username" value="${lineUser.username}">
+                                            S: <input type="text" name="user.name" value="${lineUser.user.name}">
                                             <input type="submit" value="查询"></input>&nbsp;
                                             <a href="${sysPath}/lineUser/mergeUI"><input type="button" value="添加"></input></a>
                                         </div>
@@ -71,8 +71,8 @@
                                                 <td> ${obj.user.name } </td>
                                                 <td> ${obj.flag } </td>
                                                 <td> ${obj.finish } </td>
-                                                <td><fmt:formatDate value="${obj.begintime}" pattern="yyyy-MM-dd HH:mm:ss"/> ${obj.begintime } </td>
-                                                <td><fmt:formatDate value="${obj.endtime}" pattern="yyyy-MM-dd HH:mm:ss"/> ${obj.endtime } </td>
+                                                <td> ${obj.begintime } </td>
+                                                <td> ${obj.endtime } </td>
                                                 <td> ${obj.addScore } </td>
                                                 <td>
                                                     <a href="${sysPath}//lineUser/mergeUI?id=${obj.id }">编辑</a>

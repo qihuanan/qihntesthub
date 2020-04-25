@@ -36,6 +36,11 @@ public class LineUserDAOImpl extends BaseDaoImpl<LineUser> implements LineUserDA
                     hql.append(" and c.flag =:getFlag");
                     params.put("getFlag", entity.getFlag());
                 }
+                if(Utils.isNotNullOrEmpty(entity.getUser().getName())){
+                    hql.append(" and c.user.name like :name");
+                    params.put("name", "%"+entity.getUser().getName()+"%");
+                }
+
             }
         }
         Map<String, Object> returnMap = new HashMap<String, Object>();

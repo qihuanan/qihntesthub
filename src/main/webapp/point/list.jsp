@@ -87,10 +87,10 @@
                                                     <br><br>
                                                     <a href="${sysPath}//tip/list?pointid=${obj.id }&pointname=${obj.name}">签到点提示</a>
                                                     <br><br>
-                                                    <!--
+                                                    <!-- -->
                                                     <a href="${sysPath}//exam/list?pointid=${obj.id }&pointname=${obj.name}">签到点答题</a>
                                                     <br><br>
-                                                    -->
+
                                                     <a href="${sysPath}//point/delete?id=${obj.id }">删除</a>
 
                                                 </td>

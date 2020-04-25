@@ -50,6 +50,8 @@ public class PointUserinfo implements Serializable {
     @Column
     private String examid;
     @Column
+    private Integer chance;
+    @Column
     private String answer;
     @Column
     private String prize;// 奖品文字描述
@@ -101,6 +103,14 @@ public class PointUserinfo implements Serializable {
 
     public void setPrize(String prize) {
         this.prize = prize;
+    }
+
+    public Integer getChance() {
+        return chance;
+    }
+
+    public void setChance(Integer chance) {
+        this.chance = chance;
     }
 
     public String getPrizeimg() {

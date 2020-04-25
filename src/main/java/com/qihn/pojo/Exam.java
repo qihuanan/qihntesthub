@@ -30,7 +30,7 @@ public class Exam implements Serializable {
     private String prizeimg;
 
     @Column
-    private String chance = "10"; // 机会 选择题只有一次机会，预留
+    private Integer chance = 1; // 机会 选择题只有一次机会，预留
     @Column
     private String success;
     @Column
@@ -121,11 +121,11 @@ public class Exam implements Serializable {
         this.prizeimg = prizeimg;
     }
 
-    public String getChance() {
+    public Integer getChance() {
         return chance;
     }
 
-    public void setChance(String chance) {
+    public void setChance(Integer chance) {
         this.chance = chance;
     }
 

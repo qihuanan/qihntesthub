@@ -78,7 +78,7 @@
                                             <textarea class="form-control" name="cate">${exam.cate}</textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>答案-(多文字使用英文逗号分割,) </label>
+                                            <label>答案-(多文字使用英文分号分割 ; ) </label>
                                             <textarea class="form-control" name="answer">${exam.answer}</textarea>
                                         </div>
                                         <div class="form-group">
