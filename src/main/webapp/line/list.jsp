@@ -66,6 +66,7 @@
                                             <th >顺序</th>
                                             <th >时间</th>
                                             <th >显示</th>
+                                            <th >密码</th>
                                             <th >操作</th>
 
                                         </tr>
@@ -96,6 +97,7 @@
                                                 <td> ${obj.shunxu } </td>
                                                 <td> ${obj.shijian } </td>
                                                 <td> ${obj.onshow } </td>
+                                                <td> ${obj.mima } </td>
                                                 <td width="100px;">
                                                     <a href="${sysPath}//line/mergeUI?id=${obj.id }">编辑</a>
                                                     <br><br>

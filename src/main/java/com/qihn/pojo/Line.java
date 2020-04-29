@@ -48,7 +48,8 @@ public class Line implements Serializable {
     private Long shijian ; // 设定时间  秒
     @Column
     private String onshow;// 是否显示
-
+    @Column
+    private String mima;
     //vo
     @Transient
     private String like;
@@ -59,7 +60,7 @@ public class Line implements Serializable {
     @Transient
     private String yidaka;
     @Transient
-    private String yijifen;
+    private String yijifen = "0";
     @Transient
     private String curpoint; // 需要或正在打卡的签到点
 
@@ -72,6 +73,14 @@ public class Line implements Serializable {
 
     public String getCurpoint() {
         return curpoint;
+    }
+
+    public String getMima() {
+        return mima;
+    }
+
+    public void setMima(String mima) {
+        this.mima = mima;
     }
 
     public void setCurpoint(String curpoint) {

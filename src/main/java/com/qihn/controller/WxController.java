@@ -176,16 +176,18 @@ public class WxController extends BaseController {
             pointUserinfo.setPointname(point.getName());
             pointUserinfo.setUsername(user.getName());
             pointUserinfo.setTime(System.currentTimeMillis());
-
+            pointUserinfo.setAddScore(0);
             // 答题信息
             if(Utils.isNotNullOrEmpty(pointUserinfo.getExamid())){
                 Exam exam = this.examService.findById(Exam.class,Long.parseLong(pointUserinfo.getExamid()));
                 pointUserinfo.setCate(exam.getCate());
                 pointUserinfo.setChance(exam.getChance()-1);
+                map.put("exam", exam);
                 if(pointUserinfo.getCate().equals("1")){ //1: 文字答题  2: 上传图片
                     if(Arrays.asList(exam.getAnswer().split(";")).contains(pointUserinfo.getAnswer())){
                         pointUserinfo.setPrize(exam.getPrize());
                         pointUserinfo.setPrizeimg(exam.getPrizeimg());
+                        pointUserinfo.setAddScore(Integer.parseInt(point.getJifen()));
                         map.put("data", "ok");
                         pointUserinfo.setAddScore(Integer.parseInt(point.getJifen()));
                         user.setScore(user.getScore()+pointUserinfo.getAddScore());
@@ -194,12 +196,21 @@ public class WxController extends BaseController {
                         pointUserinfo.setPrize("答案错误");
                         pointUserinfo.setPrizeimg("");
                         pointUserinfo.setFinish("0");
+                        pointUserinfo.setAddScore(0);
                         map.put("data", "err");
                         if(pointUserinfo.getChance()<1){
                             pointUserinfo.setFinish("1");
                             map.put("data", "errnochance");
                         }
                     }
+                }else{// 上传图片
+                    pointUserinfo.setPrize(exam.getPrize());
+                    pointUserinfo.setPrizeimg(exam.getPrizeimg());
+                    pointUserinfo.setAddScore(Integer.parseInt(point.getJifen()));
+                    map.put("data", "ok");
+                    pointUserinfo.setAddScore(Integer.parseInt(point.getJifen()));
+                    user.setScore(user.getScore()+pointUserinfo.getAddScore());
+                    pointUserinfo.setFinish("1");
                 }
             }
             pointUserinfoService.save(pointUserinfo);
@@ -210,12 +221,15 @@ public class WxController extends BaseController {
                 // 答题信息 更新
                 if(Utils.isNotNullOrEmpty(old.getExamid())){
                     Exam exam = this.examService.findById(Exam.class,Long.parseLong(old.getExamid()));
+                    map.put("exam", exam);
                     old.setCate(exam.getCate());
+                    old.setAddScore(0);
                     old.setChance(exam.getChance()-1);
                     if(old.getCate().equals("1")){ //1: 文字答题  2: 上传图片
                         if(Arrays.asList(exam.getAnswer().split(";")).contains(pointUserinfo.getAnswer())){
                             old.setPrize(exam.getPrize());
                             old.setPrizeimg(exam.getPrizeimg());
+                            old.setAddScore(Integer.parseInt(point.getJifen()));
                             map.put("data", "ok");
                             old.setAddScore(Integer.parseInt(point.getJifen()));
                             user.setScore(user.getScore()+old.getAddScore());
@@ -224,6 +238,7 @@ public class WxController extends BaseController {
                             old.setPrize("答案错误");
                             old.setPrizeimg("");
                             old.setFinish("0");
+                            old.setAddScore(0);
                             map.put("data", "err");
                             if(old.getChance()<1){
                                 old.setFinish("1");
@@ -388,20 +403,6 @@ public class WxController extends BaseController {
         if(c==1){
             line.setLike("1");
         }
-        // 获取参与信息  已用时间
-        lu.setFlag("1");
-        lu = this.lineUserService.findByProperties(lu);
-        line.setYiyongshi(Utils.shijiancha(lu.getBegintime(),System.currentTimeMillis()));
-        //是否超时，是否完成
-        if(Utils.isNotNullOrEmpty(lu.getEndtime())){
-            line.setYiyongshi(Utils.shijiancha(lu.getBegintime(),lu.getEndtime())+" 完成！");
-        }else {
-            // 未完成 判断是否超时
-            long t = System.currentTimeMillis()+5 - lu.getBegintime();
-            if(line.getShijian()*1000 < t){
-                line.setYiyongshi("超时啦！");
-            }
-        }
 
         // 获取 已打卡任务点
         PointUserinfo pu = new PointUserinfo();
@@ -413,7 +414,33 @@ public class WxController extends BaseController {
         }else {
             line.setYidaka("0");
         }
-        //已获积分
+
+        // 获取参与信息  已用时间
+        lu.setFlag("1");
+        lu = this.lineUserService.findByProperties(lu);
+        line.setYiyongshi(Utils.shijiancha(lu.getBegintime(),System.currentTimeMillis()));
+        //是否超时，是否完成
+        if(Utils.isNotNullOrEmpty(lu.getEndtime())){
+            line.setYiyongshi(Utils.shijiancha(lu.getBegintime(),lu.getEndtime())+" 完成！");
+        }else {
+            // 未完成 判断是否超时
+            long t = System.currentTimeMillis()+5 - lu.getBegintime(); // 经过的毫秒数
+            if(line.getShijian()*1000 < t){
+                line.setYiyongshi("超时啦！");
+            }
+            // 如果 一个任务点也没有打卡，并且超过1小时 重新开始打卡时间
+            if(Utils.isNullorEmpty(pulist)){
+                if(line.getShijian()*1000*60*60 > 1){
+                    line.setYiyongshi("00:00:01");
+                    lu.setBegintime(System.currentTimeMillis());
+                    this.lineUserService.update(lu);
+                }
+            }
+
+        }
+
+
+        //已获积分  错误
         int sum = pulist.stream().map(PointUserinfo::getAddScore).reduce(0,(a,b) -> a+b );
         sum = pulist.stream().map(PointUserinfo::getAddScore).reduce(0,Integer::sum);
         // 扣减签到点提示的积分
@@ -582,6 +609,33 @@ public class WxController extends BaseController {
         if(c==1){
             line.setCanyu("1");
         }*/
+        // 获取 已打卡任务点
+        PointUserinfo pu = new PointUserinfo();
+        pu.setLineid(line.getId());
+        pu.setUserid(user.getId());
+        List<PointUserinfo> pulist = pointUserinfoService.findByProperties(pu,null,50,null,null);
+        if(Utils.isNotNullOrEmpty(pulist)){
+            line.setYidaka(pulist.size()+"");
+        }else {
+            line.setYidaka("0");
+        }
+        //已获积分  错误
+        int sum = pulist.stream().map(PointUserinfo::getAddScore).reduce(0,(a,b) -> a+b );
+        sum = pulist.stream().map(PointUserinfo::getAddScore).reduce(0,Integer::sum);
+        // 扣减签到点提示的积分
+        TipUser tu = new TipUser();
+        tu.setLineid(line.getId());
+        tu.setUserid(user.getId());
+        List<TipUser> tulist = this.tipUserService.findByProperties(tu,null,null,null,null);
+        if(Utils.isNotNullOrEmpty(tulist)){
+            int disscore = 0;
+            for(int i=0;i<tulist.size();i++){
+                disscore+= tulist.get(i).getReduceScore();
+            }
+            sum = sum-disscore;
+        }
+
+        line.setYijifen(sum+"");
 
         map.put("data", line);
 
@@ -815,8 +869,12 @@ public class WxController extends BaseController {
     @RequestMapping(value = "/message/merge", method = RequestMethod.POST)
     public String merge(@ModelAttribute("message") Message message,HttpServletRequest request) throws Exception{
         if(message.getId()==null){
+            Line line = this.lineService.findById(Line.class,message.getLineid());
+            message.setLinename(line.getName());
             messageService.save(message);
         }else{
+            Line line = this.lineService.findById(Line.class,message.getLineid());
+            message.setLinename(line.getName());
             messageService.update(message);
         }
         return "redirect:/message/list";
@@ -862,6 +920,8 @@ public class WxController extends BaseController {
         if(tip.getId()==null){
             tipService.save(tip);
         }else{
+            Point point = this.pointService.findById(Point.class,tip.getPointid());
+            tip.setPointname(point.getName());
             tipService.update(tip);
         }
         return "redirect:/tip/list?pointid="+tip.getPointid()+"&pointname="+ URLEncoder.encode(tip.getPointname(),"UTF-8");
@@ -958,10 +1018,14 @@ public class WxController extends BaseController {
         if(Utils.isNotNullOrEmpty(pointUserinfo.getPointid())){
             Point point = pointService.findById(Point.class,pointUserinfo.getPointid());
             pointUserinfo.setPointname(point.getName());
+            Line line = this.lineService.findById(Line.class,point.getLineid());
+            pointUserinfo.setLinename(line.getName());
         }
         if(Utils.isNotNullOrEmpty(pointUserinfo.getUserid())){
             User user = userService.findById(User.class,pointUserinfo.getUserid());
             pointUserinfo.setUsername(user.getName());
+            Line line = this.lineService.findById(Line.class,pointUserinfo.getLineid());
+            pointUserinfo.setLinename(line.getName());
         }
 
         if(pointUserinfo.getId()==null){
@@ -1057,6 +1121,8 @@ public class WxController extends BaseController {
         if(point.getId()==null){
             pointService.save(point);
         }else{
+            Line line = this.lineService.findById(Line.class,point.getLineid());
+            point.setLinename(line.getName());
             pointService.update(point);
         }
         return "redirect:/point/list?lineid="+point.getLineid()+"&linename="+ URLEncoder.encode(point.getLinename(),"UTF-8");

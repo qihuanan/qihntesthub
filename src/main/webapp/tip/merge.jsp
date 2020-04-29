@@ -63,7 +63,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>上传图片 </label>
-                                            <input id="objpicture" name="img" type="hidden" value="${line.img}"/>
+                                            <input id="objpicture" name="img" type="hidden" value="${tip.img}"/>
                                             <input class="form-control" id="file_id" name="filepath" type="file" accept="image/*"/>
                                             <a class="btn btn-default" onclick="upfile();" href="javascript:void(0);">upfile</a>
                                             <div id="upfileimgdiv_id" style="display: none;">

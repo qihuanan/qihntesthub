@@ -97,6 +97,10 @@
                                             <label>是否显示（1 显示  0 不显示） </label>
                                             <textarea class="form-control" name="onshow">${line.onshow}</textarea>
                                         </div>
+                                        <div class="form-group">
+                                            <label>进入线路的密码 </label>
+                                            <textarea class="form-control" name="mima">${line.mima}</textarea>
+                                        </div>
 
                                         <div class="form-group">
                                             <label>上传封面图片 </label>

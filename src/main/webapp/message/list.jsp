@@ -52,7 +52,7 @@
                                     <table class="table table-striped table-bordered table-hover" style="width: 99%">
                                         <thead>
                                         <tr>
-
+                                            <th >所属线路</th>
                                             <th >用户名</th>
                                             <th >图片</th>
                                             <th >留言内容</th>
@@ -65,6 +65,7 @@
 
                                         <c:forEach var="obj" items="${list }">
                                             <tr>
+                                                <td> ${obj.linename } </td>
                                                 <td> ${obj.username } </td>
                                                 <td>
                                                     <c:if test="${!empty obj.avatarUrl }">

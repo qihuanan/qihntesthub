@@ -13,6 +13,8 @@ public class Message implements Serializable {
     @Column
     private Long lineid;
     @Column
+    private String linename;
+    @Column
     private Long userid;
     @Column
     private String username;
@@ -43,6 +45,14 @@ public class Message implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getLinename() {
+        return linename;
+    }
+
+    public void setLinename(String linename) {
+        this.linename = linename;
     }
 
     public Long getUserid() {

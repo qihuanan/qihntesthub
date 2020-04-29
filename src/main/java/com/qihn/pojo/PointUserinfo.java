@@ -12,7 +12,8 @@ public class PointUserinfo implements Serializable {
 
     @Column()
     private Long lineid;
-
+    @Column
+    private String linename;
     @Column()
     private Long pointid;
     @Column()
@@ -31,7 +32,7 @@ public class PointUserinfo implements Serializable {
     @JoinColumn()
     private User user;
 
-    @Column(name = "name", length = 500)
+    @Column()
     private String name;
 
     @Column
@@ -43,7 +44,7 @@ public class PointUserinfo implements Serializable {
     @Column
     private String finish;
     @Column
-    private Integer addScore;
+    private Integer addScore = 0;
     private Long time;
 
     // 新增答题相关
@@ -123,6 +124,14 @@ public class PointUserinfo implements Serializable {
 
     public void setLineid(Long lineid) {
         this.lineid = lineid;
+    }
+
+    public String getLinename() {
+        return linename;
+    }
+
+    public void setLinename(String linename) {
+        this.linename = linename;
     }
 
     public void setTime(Long time) {
