@@ -89,11 +89,11 @@
                                                 <td> ${obj.prize } </td>
                                                 <td> ${obj.prizeimg } </td>
                                                 <td>
-                                                    <!--
+                                                    <!-- -->
                                                     <a href="${sysPath}//pointUserinfo/mergeUI?id=${obj.id }">编辑</a>
                                                     <br><br>
                                                     <a href="${sysPath}//pointUserinfo/delete?id=${obj.id }">删除</a>
-                                                    -->
+
                                                 </td>
                                             </tr>
                                         </c:forEach>

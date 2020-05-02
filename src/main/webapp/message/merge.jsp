@@ -49,6 +49,7 @@
                                     <form id="form_id" role="form" action="${sysPath}/message/merge" method="post">
                                         <input type="hidden" name="id" value="${message.id}" />
                                         <input type="hidden" name="userid" value="${message.userid}" />
+                                        <input type="hidden" name="lineid" value="${message.lineid}" />
                                         <input type="hidden" name="avatarUrl" value="${message.avatarUrl}" />
                                         <div class="form-group">
                                             <label>用户名 </label>

@@ -1024,8 +1024,8 @@ public class WxController extends BaseController {
         if(Utils.isNotNullOrEmpty(pointUserinfo.getUserid())){
             User user = userService.findById(User.class,pointUserinfo.getUserid());
             pointUserinfo.setUsername(user.getName());
-            Line line = this.lineService.findById(Line.class,pointUserinfo.getLineid());
-            pointUserinfo.setLinename(line.getName());
+           /* Line line = this.lineService.findById(Line.class,pointUserinfo.getLineid());
+            pointUserinfo.setLinename(line.getName());*/
         }
 
         if(pointUserinfo.getId()==null){

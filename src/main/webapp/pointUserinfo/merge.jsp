@@ -50,6 +50,7 @@
                                         <input type="hidden" name="id" value="${pointUserinfo.id}" />
                                         <input type="hidden" name="pointid" value="${pointUserinfo.pointid}" />
                                         <input type="hidden" name="userid" value="${pointUserinfo.userid}" />
+                                        <input type="hidden" name="lineid" value="${pointUserinfo.lineid}" />
                                         <div class="form-group">
                                             <label>所属签到点 </label>
                                             <input class="form-control" name="pointname" type="text"  value="${pointUserinfo.pointname}"/>

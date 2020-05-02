@@ -107,13 +107,15 @@
                                             <textarea class="form-control" name="success">${exam.success}</textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>答题错误提示语(错误，很遗憾，再想想其他答案吧！)  </label>
+                                            <label>答题错误提示语(错误，很遗憾，再想想其他答案吧！ 答案是xx)  </label>
                                             <textarea class="form-control" name="fail">${exam.fail}</textarea>
                                         </div>
+                                        <!--
                                         <div class="form-group">
                                             <label>答错时是否显示答案（1：显示 0：不显示） </label>
                                             <textarea class="form-control" name="showanswer">${exam.showanswer}</textarea>
                                         </div>
+                                        -->
 
 
                                         <button type="submit" class="btn btn-default">提交</button>
