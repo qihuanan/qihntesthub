@@ -51,11 +51,56 @@ public class WxController extends BaseController {
     private TipUserService tipUserService;
     @Resource(name = "examService")
     private ExamService examService;
+    @Resource(name="baoxiangService")
+    private BaoxiangService baoxiangService;
+    @Resource(name="suipianService")
+    private SuipianService suipianService;
 
     private void inituser(){
 
     }
     //=========================前端=========================
+    @RequestMapping(value = "/wx/baoxiang", method = RequestMethod.GET)
+    public void baoxiang(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        User user = this.userService.findById(User.class,Long.parseLong(getParam("userid")));
+        Line line = this.lineService.findById(Line.class,Long.parseLong(getParam("lineid")));
+        Baoxiang baoxiang = new Baoxiang();
+        baoxiang.setLineid(line.getId());
+        List<Baoxiang> baoxiangList = this.baoxiangService.findByProperties(baoxiang,null,null,null,null);
+        Suipian suipian = new Suipian();
+        suipian.setLineid(line.getId());
+        List<Suipian> suipianList = this.suipianService.findByProperties(suipian,null,null,"bianhao","asc");
+
+        PointUserinfo pointUserinfo = new PointUserinfo();
+        pointUserinfo.setUserid(user.getId());
+        pointUserinfo.setLineid(line.getId());
+        List<PointUserinfo> pointUserinfoList = this.pointUserinfoService.findByProperties(pointUserinfo,null,null,null,null);
+
+
+        // 用户是否获取了这个碎片
+        for(int i=0;i<suipianList.size();i++){
+            for(int j =0 ;j<pointUserinfoList.size();j++){
+                if(pointUserinfoList.get(j).getPrize().equals(suipianList.get(i).getName())){
+                    suipianList.get(i).setHas("1");
+                    suipianList.get(i).setImg(pointUserinfoList.get(j).getPrizeimg());
+                }
+
+            }
+        }
+
+        int yijiesuo = pointUserinfoList.size();
+        int zongpianshu = baoxiangList.size()*6;
+        Map map = new HashMap();
+        map.put("baoxiangList", baoxiangList);
+        map.put("suipianList",suipianList);
+        map.put("line",line);
+        map.put("yijiesuo",yijiesuo);
+        map.put("zongpianshu",zongpianshu);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
     @RequestMapping(value = "/wx/exam", method = RequestMethod.GET)
     public void exam(HttpServletRequest request, HttpServletResponse response) throws Exception{
         this.setReqAndRes(request,response);
@@ -783,6 +828,104 @@ public class WxController extends BaseController {
     }
     //=======================================前端end=============================
 
+    //======================suipian====================================
+    @RequestMapping(value = "/suipian/list", method = {RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView suipianlist(@ModelAttribute("suipian") Suipian suipian, @ModelAttribute("pageInfo") PageInfo pageInfo) {
+        ModelAndView mv = new ModelAndView();
+        if (pageInfo == null) {
+            pageInfo = new PageInfo();
+        }
+        List<Suipian> list = this.suipianService.findByProperties(suipian,pageInfo,null,"id","desc");
+        pageInfo.setTotalCount(this.suipianService.countByProperties(suipian));
+        mv.addObject("list", list);
+        mv.addObject("pageInfo",pageInfo);
+        mv.addObject("suipian",suipian);
+        mv.setViewName("suipian/list");
+        return mv;
+
+    }
+    @RequestMapping(value = "/suipian/mergeUI", method = RequestMethod.GET)
+    public ModelAndView mergeUI(@ModelAttribute("suipian") Suipian suipian) {
+        ModelAndView mv = new ModelAndView();
+        if (Utils.isNotNullOrEmpty(suipian) && Utils.isNotNullOrEmpty(suipian.getId())) {
+            suipian = this.suipianService.findByProperties(suipian);
+            mv.addObject(suipian);
+            mv.setViewName("suipian/merge");
+        }
+        mv.setViewName("suipian/merge");
+        return mv;
+    }
+
+    @RequestMapping(value = "/suipian/merge", method = RequestMethod.POST)
+    public String merge(@ModelAttribute("suipian") Suipian suipian,HttpServletRequest request) throws Exception{
+        if(suipian.getId()==null){
+            suipian.setLineid(this.baoxiangService.findById(Baoxiang.class,suipian.getBaoxiangid()).getLineid());
+            suipianService.save(suipian);
+        }else{
+            suipian.setLineid(this.baoxiangService.findById(Baoxiang.class,suipian.getBaoxiangid()).getLineid());
+            suipian.setBaoxiangname(this.baoxiangService.findById(Baoxiang.class,suipian.getBaoxiangid()).getName());
+            suipianService.update(suipian);
+        }
+        return "redirect:/suipian/list?baoxiangid="+suipian.getBaoxiangid()+"&baoxiangname="+ URLEncoder.encode(suipian.getBaoxiangname(),"UTF-8");
+    }
+
+    @RequestMapping(value = "/suipian/delete", method = RequestMethod.GET)
+    public String delete(@ModelAttribute("suipian") Suipian suipian) throws Exception{
+        suipian = suipianService.findById(Suipian.class,suipian.getId());
+        suipianService.delete(suipian);
+        return "redirect:/suipian/list?baoxiangid="+suipian.getBaoxiangid()+"&baoxiangname="+ URLEncoder.encode(suipian.getBaoxiangname(),"UTF-8");
+    }
+
+    //==================================================================
+    
+    //======================baoxiang====================================
+    @RequestMapping(value = "/baoxiang/list", method = {RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView baoxianglist(@ModelAttribute("baoxiang") Baoxiang baoxiang, @ModelAttribute("pageInfo") PageInfo pageInfo) {
+        ModelAndView mv = new ModelAndView();
+        if (pageInfo == null) {
+            pageInfo = new PageInfo();
+        }
+        List<Baoxiang> list = this.baoxiangService.findByProperties(baoxiang,pageInfo,null,"id","desc");
+        pageInfo.setTotalCount(this.baoxiangService.countByProperties(baoxiang));
+        mv.addObject("list", list);
+        mv.addObject("pageInfo",pageInfo);
+        mv.addObject("baoxiang",baoxiang);
+        mv.setViewName("baoxiang/list");
+        return mv;
+
+    }
+    @RequestMapping(value = "/baoxiang/mergeUI", method = RequestMethod.GET)
+    public ModelAndView mergeUI(@ModelAttribute("baoxiang") Baoxiang baoxiang) {
+        ModelAndView mv = new ModelAndView();
+        if (Utils.isNotNullOrEmpty(baoxiang) && Utils.isNotNullOrEmpty(baoxiang.getId())) {
+            baoxiang = this.baoxiangService.findByProperties(baoxiang);
+            mv.addObject(baoxiang);
+            mv.setViewName("baoxiang/merge");
+        }
+        mv.setViewName("baoxiang/merge");
+        return mv;
+    }
+
+    @RequestMapping(value = "/baoxiang/merge", method = RequestMethod.POST)
+    public String merge(@ModelAttribute("baoxiang") Baoxiang baoxiang,HttpServletRequest request) throws Exception{
+        if(baoxiang.getId()==null){
+            baoxiangService.save(baoxiang);
+        }else{
+            baoxiang.setLinename(this.lineService.findById(Line.class,baoxiang.getLineid()).getName());
+            baoxiangService.update(baoxiang);
+        }
+        return "redirect:/baoxiang/list?lineid="+baoxiang.getLineid()+"&linename="+ URLEncoder.encode(baoxiang.getLinename(),"UTF-8");
+    }
+
+    @RequestMapping(value = "/baoxiang/delete", method = RequestMethod.GET)
+    public String delete(@ModelAttribute("baoxiang") Baoxiang baoxiang) throws Exception{
+        baoxiang = baoxiangService.findById(Baoxiang.class,baoxiang.getId());
+        baoxiangService.delete(baoxiang);
+        return "redirect:/baoxiang/list?lineid="+baoxiang.getLineid()+"&linename="+ URLEncoder.encode(baoxiang.getLinename(),"UTF-8");
+    }
+
+    //==================================================================
+    
     //======================lineUser====================================
     @RequestMapping(value = "/lineUser/list", method = {RequestMethod.GET,RequestMethod.POST})
     public ModelAndView lineUserlist(@ModelAttribute("lineUser") LineUser lineUser, @ModelAttribute("pageInfo") PageInfo pageInfo) {

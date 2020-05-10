@@ -82,7 +82,7 @@
                                             <textarea class="form-control" name="answer">${exam.answer}</textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>奖励-文字描述 </label>
+                                            <label>奖励-文字描述（和宝藏里面碎片的“碎片代号”一样才能匹配到宝藏显示完整碎片） </label>
                                             <textarea class="form-control" name="prize">${exam.prize}</textarea>
                                         </div>
                                         <div class="form-group">

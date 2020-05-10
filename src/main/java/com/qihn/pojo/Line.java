@@ -50,6 +50,8 @@ public class Line implements Serializable {
     private String onshow;// 是否显示
     @Column
     private String mima;
+
+
     //vo
     @Transient
     private String like;
