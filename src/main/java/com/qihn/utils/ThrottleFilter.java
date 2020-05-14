@@ -50,8 +50,21 @@ public class ThrottleFilter implements Filter {
                     + httpRequest.getServletPath() //请求的相对url
                     + "?" + httpRequest.getQueryString(); //请求参数
 
+            String requestUrl2 = httpRequest.getServletPath();
+
+            if(requestUrl2.contains("adminlogin")){
+               // nextFilter.doFilter(request, response);
+                //return;
+            }
+
+            if(!requestUrl2.contains("index") && ((HttpServletRequest) request).getSession().getAttribute("user")==null){
+                HttpServletResponse response1 = (HttpServletResponse)response;
+                //response1.sendRedirect(httpRequest.getContextPath()+"/index.jsp");
+               // return;
+            }
+
             //log.info("ip:"+ip+"filter-url: "+requestUrl);
-            synchronized (this) {
+           /* synchronized (this) {
                 Integer count = ip2countCache.get(ip);
 
                 if (count == null || count.intValue() == 0) {
@@ -65,9 +78,9 @@ public class ThrottleFilter implements Filter {
                     isOverflow = true;
                     blackList.add(ip);
                 }
-            }
+            }*/
 
-            if (isOverflow) {
+            /*if (isOverflow) {
                 // block it
                 log.info(" ip {} has reached the threshold {} in {} second, block it!"+ new Object[]{ip, maxConcurrentRequests, PERIOD});
 
@@ -77,7 +90,7 @@ public class ThrottleFilter implements Filter {
                     //((HttpServletResponse) response).sendError(503, ip + " has too many concurrent requests per " + PERIOD + " second");
                 }
                 return;
-            }
+            }*/
         } // else go ahead below
 
         // every thing is okay, go ahead

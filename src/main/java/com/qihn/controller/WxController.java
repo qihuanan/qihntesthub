@@ -78,19 +78,20 @@ public class WxController extends BaseController {
         pointUserinfo.setLineid(line.getId());
         List<PointUserinfo> pointUserinfoList = this.pointUserinfoService.findByProperties(pointUserinfo,null,null,null,null);
 
-
+        int yijiesuo = 0;
         // 用户是否获取了这个碎片
         for(int i=0;i<suipianList.size();i++){
             for(int j =0 ;j<pointUserinfoList.size();j++){
                 if(pointUserinfoList.get(j).getPrize().equals(suipianList.get(i).getName())){
                     suipianList.get(i).setHas("1");
                     suipianList.get(i).setImg(pointUserinfoList.get(j).getPrizeimg());
+                    yijiesuo++;
                 }
 
             }
         }
 
-        int yijiesuo = pointUserinfoList.size();
+
         int zongpianshu = baoxiangList.size()*6;
         Map map = new HashMap();
         map.put("baoxiangList", baoxiangList);
@@ -226,9 +227,14 @@ public class WxController extends BaseController {
             if(Utils.isNotNullOrEmpty(pointUserinfo.getExamid())){
                 Exam exam = this.examService.findById(Exam.class,Long.parseLong(pointUserinfo.getExamid()));
                 pointUserinfo.setCate(exam.getCate());
-                pointUserinfo.setChance(exam.getChance()-1);
+                pointUserinfo.setChance(exam.getChance());
+
                 map.put("exam", exam);
                 if(pointUserinfo.getCate().equals("1")){ //1: 文字答题  2: 上传图片
+                    if(pointUserinfo.getChance()<1){
+                        pointUserinfo.setFinish("1");
+                        map.put("data", "errnochance");
+                    }
                     if(Arrays.asList(exam.getAnswer().split(";")).contains(pointUserinfo.getAnswer())){
                         pointUserinfo.setPrize(exam.getPrize());
                         pointUserinfo.setPrizeimg(exam.getPrizeimg());
@@ -257,7 +263,9 @@ public class WxController extends BaseController {
                     user.setScore(user.getScore()+pointUserinfo.getAddScore());
                     pointUserinfo.setFinish("1");
                 }
+                pointUserinfo.setChance(exam.getChance()-1);
             }
+
             pointUserinfoService.save(pointUserinfo);
             this.userService.update(user);
             map.put("pointUserinfo", pointUserinfo);
@@ -292,12 +300,15 @@ public class WxController extends BaseController {
                         }
                     }
                 }
+                old.setChance(old.getChance()-1);
                 pointUserinfoService.update(old);
                 this.userService.update(user);
                 map.put("pointUserinfo", old);
 
             }else {
                 map.put("data", "has");
+                map.put("data", "errnochance");
+
             }
         }
         // 判断 线路是否完成
@@ -828,7 +839,24 @@ public class WxController extends BaseController {
     }
     //=======================================前端end=============================
 
-    //======================suipian====================================
+    //======================login====================================
+    @RequestMapping(value = "/adminlogin", method = {RequestMethod.GET,RequestMethod.POST})
+    public String adminlogin(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("User") User user) {
+        ModelAndView mv = new ModelAndView();
+        log.info("---------------------");
+        User u = this.userService.findByProperties(user);
+        if(u!=null){
+            log.info("---------dddd------------");
+            request.getSession().setAttribute("user",u);
+            mv.setViewName("line/list");
+            return "redirect:line/list";
+        }else {
+            log.info("--------------eeeeee-------");
+            return "redirect:index";
+        }
+
+    }
+
     @RequestMapping(value = "/suipian/list", method = {RequestMethod.GET,RequestMethod.POST})
     public ModelAndView suipianlist(@ModelAttribute("suipian") Suipian suipian, @ModelAttribute("pageInfo") PageInfo pageInfo) {
         ModelAndView mv = new ModelAndView();

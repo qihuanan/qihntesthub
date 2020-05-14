@@ -95,10 +95,10 @@
                                                     <a href="${sysPath}//point/list?lineid=${obj.id }&linename=${obj.name}">签到点</a>
                                                     <br><br>
 
-                                                    <!--
+
                                                     <a href="${sysPath}/baoxiang/list?lineid=${obj.id }&linename=${obj.name}">宝箱</a>
                                                     <br><br>
-
+                                                    <!--
                                                     <a href="${sysPath}//line/delete?id=${obj.id }">删除</a>
                                                     -->
                                                 </td>

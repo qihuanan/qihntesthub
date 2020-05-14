@@ -83,7 +83,7 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
-  <!--
+  <!-- -->
   <filter>
     <filter-name>ipfilter</filter-name>
     <filter-class>com.qihn.utils.ThrottleFilter</filter-class>
@@ -92,7 +92,7 @@
     <filter-name>ipfilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  -->
+
 
 
   <servlet>

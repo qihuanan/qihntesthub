@@ -1,7 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -32,7 +29,7 @@
 
 <div class="container">
     <div class="form row">
-        <form class="form-horizontal col-sm-offset-3 col-md-offset-3" id="login_form" action="adminlogin">
+        <form class="form-horizontal col-sm-offset-3 col-md-offset-3" id="login_form" action="/adminlogin">
             <h3 class="form-title" style="padding-left: 60px;">欢迎登录</h3>
             <div class="col-sm-9 col-md-9">
                 <div class="form-group">
@@ -41,7 +38,7 @@
                 </div>
                 <div class="form-group">
                     <i class="fa fa-lock fa-lg"></i>
-                    <input class="form-control required" type="password" placeholder="Password" name="mobile" maxlength="20"/>
+                    <input class="form-control required" type="password" placeholder="Password" name="mobile" maxlength="8"/>
                 </div>
                 <div class="form-group">
                     <hr />
