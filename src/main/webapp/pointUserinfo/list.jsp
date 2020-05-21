@@ -81,7 +81,7 @@
                                                     </c:if>
                                                 </td>
                                                 <td> ${obj.finish } </td>
-                                                <td> ${obj.time } </td>
+                                                <td> ${obj.timestr } </td>
                                                 <td> ${obj.addScore } </td>
 
                                                 <td> ${obj.examid } </td>

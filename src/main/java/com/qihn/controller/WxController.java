@@ -938,6 +938,18 @@ public class WxController extends BaseController {
     public String merge(@ModelAttribute("baoxiang") Baoxiang baoxiang,HttpServletRequest request) throws Exception{
         if(baoxiang.getId()==null){
             baoxiangService.save(baoxiang);
+            String [] sparr = baoxiang.getDescription().split(";");
+
+            for(int i=0;i<sparr.length;i++ ){
+                Suipian suipian = new Suipian();
+                suipian.setLineid(baoxiang.getLineid());
+                suipian.setBaoxiangname(baoxiang.getName());
+                suipian.setBaoxiangid(baoxiang.getId());
+                suipian.setName(sparr[i].split(",")[0]);
+                suipian.setBianhao(sparr[i].split(",")[1]);
+                this.suipianService.save(suipian);
+
+            }
         }else{
             baoxiang.setLinename(this.lineService.findById(Line.class,baoxiang.getLineid()).getName());
             baoxiangService.update(baoxiang);
@@ -1165,6 +1177,12 @@ public class WxController extends BaseController {
         }
         List<PointUserinfo> list = this.pointUserinfoService.findByProperties(pointUserinfo,pageInfo,null,"id","desc");
         pageInfo.setTotalCount(this.pointUserinfoService.countByProperties(pointUserinfo));
+
+        for(int i=0;i<list.size();i++){
+            list.get(i).setTimestr(Utils.formatLongDate(new Date(list.get(i).getTime()) ));
+            list.get(i).setLinename(this.lineService.findById(Line.class,list.get(i).getLineid()).getName());
+        }
+
         mv.addObject("list", list);
         mv.addObject("pageInfo",pageInfo);
         mv.addObject("pointUserinfo",pointUserinfo);

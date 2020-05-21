@@ -61,6 +61,16 @@ public class PointUserinfo implements Serializable {
     @Column
     private String cate; //任务类型  1: 文字答题  2: 上传图片
 
+    @Transient
+    private String timestr;
+
+    public String getTimestr() {
+        return timestr;
+    }
+
+    public void setTimestr(String timestr) {
+        this.timestr = timestr;
+    }
 
     public String getPointname() {
         return pointname;

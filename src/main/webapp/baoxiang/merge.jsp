@@ -57,8 +57,19 @@
                                             <label>宝箱名称 </label>
                                             <input class="form-control" name="name" type="text"  value="${baoxiang.name}"/>
                                         </div>
+
+                                        <!--
                                         <div class="form-group">
                                             <label>宝箱描述 </label>
+                                            <textarea class="form-control" name="description">${baoxiang.description}</textarea>
+                                        </div>
+                                        -->
+
+                                        <div class="form-group">
+                                            <label>碎片代号语编号（代号匹配答题的代号使用，编号用作显示顺序（1-6））<br>
+                                            每个碎片使用英文分割，碎片的代号和编号使用英文的逗号分割
+                                                eg:  j101,1;j102,2;j103,3;j104,4;j105,5;j106,6
+                                            </label>
                                             <textarea class="form-control" name="description">${baoxiang.description}</textarea>
                                         </div>
 
