@@ -74,8 +74,12 @@
                                             </c:if>
                                         </div>
                                         <div class="form-group">
-                                            <label>类型-(1: 文字答题  2: 上传图片) </label>
+                                            <label>类型-(1: 文字答题  2: 上传图片  3: 选择题) </label>
                                             <textarea class="form-control" name="cate">${exam.cate}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>选择题选项 （ eg:  name1,value1;name2,value2 系统会使用用户选中的namex对应的valuex和下面的答案值进行比较 ） </label>
+                                            <textarea class="form-control" name="radiolist">${exam.radiolist}</textarea>
                                         </div>
                                         <div class="form-group">
                                             <label>答案-(多文字使用英文分号分割 ; ) </label>

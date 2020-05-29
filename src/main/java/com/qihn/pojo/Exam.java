@@ -39,7 +39,11 @@ public class Exam implements Serializable {
     private String showanswer = "0";// 答错是否显示 正确答案。
 
     @Column
-    private String cate; //任务类型  1: 文字答题  2: 上传图片
+    private String cate; //任务类型  1: 文字答题  2: 上传图片  3 选择题
+
+    @Column
+    private String radiolist;
+
 
     public String getCate() {
         return cate;
@@ -59,6 +63,14 @@ public class Exam implements Serializable {
 
     public String getPointname() {
         return pointname;
+    }
+
+    public String getRadiolist() {
+        return radiolist;
+    }
+
+    public void setRadiolist(String radiolist) {
+        this.radiolist = radiolist;
     }
 
     public void setPointname(String pointname) {

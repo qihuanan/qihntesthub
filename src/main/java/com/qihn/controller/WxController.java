@@ -3,10 +3,7 @@ package com.qihn.controller;
 import com.google.gson.JsonObject;
 import com.qihn.pojo.*;
 import com.qihn.service.*;
-import com.qihn.utils.HttpUtil;
-import com.qihn.utils.JSONUtils;
-import com.qihn.utils.PageInfo;
-import com.qihn.utils.Utils;
+import com.qihn.utils.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONObject;
@@ -111,10 +108,21 @@ public class WxController extends BaseController {
         Exam exam = new Exam();
         exam.setPointid(Long.parseLong(getParam("pointid")));
         exam = examService.findByProperties(exam);
+        List<Pricevo> radiolist = new ArrayList<>();
+        if(exam.getCate().equals("3")){
+            String arr[] = exam.getRadiolist().split(";");
+            for(int i = 0;i<arr.length;i++){
+                Pricevo p  = new Pricevo();
+                p.setName(arr[i].split(",")[0]);
+                p.setValue(arr[i].split(",")[1]);
+                radiolist.add(p);
+            }
+        }
 
         Map map = new HashMap();
         map.put("exam", exam);
         map.put("point",point);
+        map.put("radiolist",radiolist);
         this.printjson(JSONUtils.toJSON(map));
     }
 
@@ -230,7 +238,8 @@ public class WxController extends BaseController {
                 pointUserinfo.setChance(exam.getChance());
 
                 map.put("exam", exam);
-                if(pointUserinfo.getCate().equals("1")){ //1: 文字答题  2: 上传图片
+                if(pointUserinfo.getCate().equals("1") || pointUserinfo.getCate().equals("3")){ //1: 文字答题  2: 上传图片
+                    pointUserinfo.setPicture("");
                     if(pointUserinfo.getChance()<1){
                         pointUserinfo.setFinish("1");
                         map.put("data", "errnochance");
@@ -278,7 +287,8 @@ public class WxController extends BaseController {
                     old.setCate(exam.getCate());
                     old.setAddScore(0);
                     old.setChance(exam.getChance()-1);
-                    if(old.getCate().equals("1")){ //1: 文字答题  2: 上传图片
+                    if(old.getCate().equals("1") || old.getCate().equals("3")){ //1: 文字答题  2: 上传图片
+                        old.setPicture("");
                         if(Arrays.asList(exam.getAnswer().split(";")).contains(pointUserinfo.getAnswer())){
                             old.setPrize(exam.getPrize());
                             old.setPrizeimg(exam.getPrizeimg());
@@ -286,6 +296,7 @@ public class WxController extends BaseController {
                             map.put("data", "ok");
                             old.setAddScore(Integer.parseInt(point.getJifen()));
                             user.setScore(user.getScore()+old.getAddScore());
+                            old.setPicture("");
                             old.setFinish("1");
                         }else{
                             old.setPrize("答案错误");
@@ -420,12 +431,16 @@ public class WxController extends BaseController {
         user = userService.findById(User.class,Long.parseLong(getParam("userid")));
          tu = new TipUser();
         tu.setUserid(user.getId());
-        List<TipUser> tulist = this.tipUserService.findByProperties(tu,null,null,null,null);
+        List<TipUser> tulist = this.tipUserService.findByProperties(tu,null,null,"id","desc");
         if(Utils.isNotNullOrEmpty(tulist)){
+            log.info("tulist "+JSONUtils.toJSON(tulist));
             for(int i=0;i<tipList.size();i++){
+
                 for(int j =0;j<tulist.size();j++){
-                    if(tipList.get(i).getId()== tulist.get(j).getTipid()){
+                    if(tipList.get(i).getId().longValue()== tulist.get(j).getTipid().longValue()){
                         tipList.get(i).setLockflag("0");
+                        log.info("-----------"+JSONUtils.toJSON(tipList.get(i)) );
+                        break;
                     }
                 }
             }
@@ -636,6 +651,7 @@ public class WxController extends BaseController {
         this.setReqAndRes(request,response);
         showparam();
         Message message = new Message();
+        message.setShow("1");
         message.setLineid(Long.parseLong(getParam("lineid")));
         List<Message> list = this.messageService.findByProperties(message,null,20,"id","desc");
         Map map = new HashMap();

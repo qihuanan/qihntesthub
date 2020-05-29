@@ -31,8 +31,19 @@ public class Message implements Serializable {
     @Column
     private String time;
 
+    @Column
+    private String show;
+
     public Long getId() {
         return id;
+    }
+
+    public String getShow() {
+        return show;
+    }
+
+    public void setShow(String show) {
+        this.show = show;
     }
 
     public String getAvatarUrl() {
