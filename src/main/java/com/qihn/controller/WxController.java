@@ -256,6 +256,10 @@ public class WxController extends BaseController {
                         pointUserinfo.setPrize("答案错误");
                         pointUserinfo.setPrizeimg("");
                         pointUserinfo.setFinish("0");
+                        if(pointUserinfo.getChance()==1){
+                            pointUserinfo.setFinish("1");
+                        }
+
                         pointUserinfo.setAddScore(0);
                         map.put("data", "err");
                         if(pointUserinfo.getChance()<1){
@@ -304,7 +308,7 @@ public class WxController extends BaseController {
                             old.setFinish("0");
                             old.setAddScore(0);
                             map.put("data", "err");
-                            if(old.getChance()<1){
+                            if(old.getChance()<=1){
                                 old.setFinish("1");
                                 map.put("data", "errnochance");
                             }
@@ -317,6 +321,9 @@ public class WxController extends BaseController {
                 map.put("pointUserinfo", old);
 
             }else {
+                old.setChance(0);
+                old.setFinish("1");
+                pointUserinfoService.update(old);
                 map.put("data", "has");
                 map.put("data", "errnochance");
 
