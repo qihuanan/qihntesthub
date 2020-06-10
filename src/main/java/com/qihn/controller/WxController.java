@@ -863,6 +863,12 @@ public class WxController extends BaseController {
     //=======================================前端end=============================
 
     //======================login====================================
+    @RequestMapping(value = "/adminlogout", method = {RequestMethod.GET,RequestMethod.POST})
+    public String adminlogout(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("User") User user) {
+        ModelAndView mv = new ModelAndView();
+        request.getSession().removeAttribute("user");// .setAttribute("user",u);
+            return "login";
+    }
     @RequestMapping(value = "/adminlogin", method = {RequestMethod.GET,RequestMethod.POST})
     public String adminlogin(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("User") User user) {
         ModelAndView mv = new ModelAndView();
@@ -875,7 +881,7 @@ public class WxController extends BaseController {
             return "redirect:line/list";
         }else {
             log.info("--------------eeeeee-------");
-            return "redirect:index";
+            return "login";
         }
 
     }

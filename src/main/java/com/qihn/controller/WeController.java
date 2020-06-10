@@ -102,7 +102,7 @@ public class WeController extends BaseController {
         mv.addObject("list", list);
         mv.addObject("pageInfo",pageInfo);
         mv.addObject("weItem",weItem);
-        mv.setViewName("weItem/list");
+        mv.setViewName("we/weItem/list");
         return mv;
 
     }
@@ -114,7 +114,7 @@ public class WeController extends BaseController {
             mv.addObject(weItem);
             mv.setViewName("weItem/merge");
         }
-        mv.setViewName("weItem/merge");
+        mv.setViewName("we/weItem/merge");
         return mv;
     }
 
@@ -129,14 +129,14 @@ public class WeController extends BaseController {
         }else{
             weItemService.update(weItem);
         }
-        return "redirect:/weItem/list?weShopid="+weItem.getWeShopid();
+        return "redirect:/we/weItem/list?weShopid="+weItem.getWeShopid();
     }
 
     @RequestMapping(value = "/weItem/delete", method = RequestMethod.GET)
     public String delete(@ModelAttribute("weItem") WeItem weItem) throws Exception{
         weItem = weItemService.findById(WeItem.class,weItem.getId());
         weItemService.delete(weItem);
-        return "redirect:/weItem/list?weShopid="+weItem.getWeShopid();
+        return "redirect:/we/weItem/list?weShopid="+weItem.getWeShopid();
     }
 
     //==================================================================
@@ -153,7 +153,7 @@ public class WeController extends BaseController {
         mv.addObject("list", list);
         mv.addObject("pageInfo",pageInfo);
         mv.addObject("weShop",weShop);
-        mv.setViewName("weShop/list");
+        mv.setViewName("we/weShop/list");
         return mv;
 
     }
@@ -165,7 +165,7 @@ public class WeController extends BaseController {
             mv.addObject(weShop);
             mv.setViewName("weShop/merge");
         }
-        mv.setViewName("weShop/merge");
+        mv.setViewName("we/weShop/merge");
         return mv;
     }
 
@@ -202,7 +202,7 @@ public class WeController extends BaseController {
         mv.addObject("list", list);
         mv.addObject("pageInfo",pageInfo);
         mv.addObject("weCate",weCate);
-        mv.setViewName("weCate/list");
+        mv.setViewName("we/weCate/list");
         return mv;
 
     }
@@ -212,9 +212,9 @@ public class WeController extends BaseController {
         if (Utils.isNotNullOrEmpty(weCate) && Utils.isNotNullOrEmpty(weCate.getId())) {
             weCate = this.weCateService.findByProperties(weCate);
             mv.addObject(weCate);
-            mv.setViewName("weCate/merge");
+            mv.setViewName("we/weCate/merge");
         }
-        mv.setViewName("weCate/merge");
+        mv.setViewName("we/weCate/merge");
         return mv;
     }
 

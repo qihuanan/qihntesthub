@@ -10,14 +10,22 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/"><i class="fa fa-gear"></i> <strong>HYBRID</strong></a>
+        <a class="navbar-brand" href="${sysPath}"><i class="fa fa-gear"></i> <strong>空间探秘后台管理</strong></a>
     </div>
 
-    <!--
+    <!--  -->
     <ul class="nav navbar-top-links navbar-right">
+
         <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                右侧菜单2
+            <a class="dropdown-toggle"  href="${sysPath}/adminlogout" >
+                退出登录
+            </a>
+
+        </li>
+        <!--
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="${sysPath}/adminlogout" aria-expanded="false">
+                退出登录
             </a>
             <ul class="dropdown-menu dropdown-user">
                 <li><a href="#"><i class="fa fa-gear fa-fw"></i>右侧菜单1</a>
@@ -29,22 +37,9 @@
                 </li>
             </ul>
         </li>
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                右侧菜单
-            </a>
-            <ul class="dropdown-menu dropdown-user">
-                <li><a href="#"><i class="fa fa-gear fa-fw"></i>右侧菜单1</a>
-                </li>
-                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                </li>
-                <li class="divider"></li>
-                <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                </li>
-            </ul>
-        </li>
+        -->
     </ul>
--->
+
 </nav>
 <script>
     var _hmt = _hmt || [];

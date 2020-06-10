@@ -606,7 +606,22 @@ public class Utils  {
 			long min = ((l / (60 * 1000)) - day * 24 * 60 - hour * 60);
 			long s = (l / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
 			//System.out.println("" + day + "天" + hour + "小时" + min + "分" + s + "秒");
-			return day*24+hour + ":"+min+":"+s+"";
+			StringBuffer sb = new StringBuffer();
+			if(day>0){
+				sb.append((day*24+hour));
+			}else {
+				if(hour<10){
+					sb.append("0"+hour);
+				}
+			}
+			if(min<10){
+				sb.append("0"+min);
+			}
+			if(s<10){
+				sb.append("0"+s);
+			}
+			return sb.toString();
+			//return day*24+hour + ":"+min+":"+s+"";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

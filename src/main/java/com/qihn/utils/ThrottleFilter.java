@@ -52,15 +52,18 @@ public class ThrottleFilter implements Filter {
 
             String requestUrl2 = httpRequest.getServletPath();
 
-            if(requestUrl2.contains("adminlogin")){
-               // nextFilter.doFilter(request, response);
-                //return;
+            if(requestUrl2.contains("login")){
+                nextFilter.doFilter(request, response);
+                return;
             }
 
-            if(!requestUrl2.contains("index") && ((HttpServletRequest) request).getSession().getAttribute("user")==null){
-                HttpServletResponse response1 = (HttpServletResponse)response;
-                //response1.sendRedirect(httpRequest.getContextPath()+"/index.jsp");
-               // return;
+            if(!requestUrl2.contains("login")){
+                if(((HttpServletRequest) request).getSession().getAttribute("user")==null){
+                    HttpServletResponse response1 = (HttpServletResponse)response;
+                    response1.sendRedirect(httpRequest.getContextPath()+"/login.jsp");
+                    return;
+                }
+
             }
 
             //log.info("ip:"+ip+"filter-url: "+requestUrl);

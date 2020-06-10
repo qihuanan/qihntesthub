@@ -29,9 +29,9 @@ public class WeItem implements Serializable {
 
     @Column()
     private Integer index;
-
+    @Column()
     private Double price;
-
+    @Column()
     private String priceUnit;
 
     @Column()
