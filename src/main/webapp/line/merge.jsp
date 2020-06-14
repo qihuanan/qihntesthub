@@ -90,6 +90,10 @@
                                             <textarea class="form-control" name="shunxu">${line.shunxu}</textarea>
                                         </div>
                                         <div class="form-group">
+                                            <label>点击旗帜后缩放（1-30的数） </label>
+                                            <textarea class="form-control" name="qizhidaxiao">${line.qizhidaxiao}</textarea>
+                                        </div>
+                                        <div class="form-group">
                                             <label>设定时间（秒） </label>
                                             <textarea class="form-control" name="shijian">${line.shijian}</textarea>
                                         </div>
@@ -100,6 +104,10 @@
                                         <div class="form-group">
                                             <label>进入线路的密码 </label>
                                             <textarea class="form-control" name="mima">${line.mima}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>签到点顺序打卡限制（1：强制顺序 0： 不强制） </label>
+                                            <textarea class="form-control" name="orderflag">${line.orderflag}</textarea>
                                         </div>
 
                                         <div class="form-group">

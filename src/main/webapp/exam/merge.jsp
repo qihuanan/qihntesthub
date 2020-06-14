@@ -82,7 +82,7 @@
                                             <textarea class="form-control" name="radiolist">${exam.radiolist}</textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>答案-(多文字使用英文分号分割 ; ) </label>
+                                            <label>答案-(多文字使用英文分号分割 ; 三个星 *** 将匹配所有答案) </label>
                                             <textarea class="form-control" name="answer">${exam.answer}</textarea>
                                         </div>
                                         <div class="form-group">

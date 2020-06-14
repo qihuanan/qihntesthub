@@ -51,6 +51,12 @@ public class ThrottleFilter implements Filter {
                     + "?" + httpRequest.getQueryString(); //请求参数
 
             String requestUrl2 = httpRequest.getServletPath();
+            if(requestUrl2.contains("wx") || requestUrl2.contains("js") ||
+                    requestUrl2.contains("css") || requestUrl2.contains("jpg") ||
+                    requestUrl2.contains("png") || requestUrl2.contains("download") ) {
+                nextFilter.doFilter(request, response);
+                return;
+            }
 
             if(requestUrl2.contains("login")){
                 nextFilter.doFilter(request, response);

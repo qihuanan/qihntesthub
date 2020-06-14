@@ -41,6 +41,8 @@ public class Line implements Serializable {
 
     @Column
     private Integer ditudaxiao = 14;
+    @Column
+    private Integer qizhidaxiao = 17;
 
     @Column
     private String shunxu ;
@@ -50,6 +52,8 @@ public class Line implements Serializable {
     private String onshow;// 是否显示
     @Column
     private String mima;
+    @Column
+    private String orderflag = "0"; // 是否限制顺序
 
 
     //vo
@@ -79,6 +83,22 @@ public class Line implements Serializable {
 
     public String getMima() {
         return mima;
+    }
+
+    public String getOrderflag() {
+        return orderflag;
+    }
+
+    public void setOrderflag(String orderflag) {
+        this.orderflag = orderflag;
+    }
+
+    public Integer getQizhidaxiao() {
+        return qizhidaxiao;
+    }
+
+    public void setQizhidaxiao(Integer qizhidaxiao) {
+        this.qizhidaxiao = qizhidaxiao;
     }
 
     public void setMima(String mima) {

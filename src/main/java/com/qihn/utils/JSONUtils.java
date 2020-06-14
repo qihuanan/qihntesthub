@@ -153,7 +153,10 @@ public class JSONUtils {
 
 
 
-	public static String toJSON(Object obj) throws Exception {
+	public static String toJSON(Object obj)  {
+        try{
+
+
 		if ( obj == null ) {
 			return null;
 		}
@@ -163,6 +166,10 @@ public class JSONUtils {
         }
 
 		return new String(om.writeValueAsBytes(obj), JSON_CHARSET);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
 	}
 
     public static String toJSON2(Object obj) {

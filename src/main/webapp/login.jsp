@@ -9,16 +9,16 @@
     <title>登录</title>
     <!--用百度的静态资源库的cdn安装bootstrap环境-->
     <!-- Bootstrap 核心 CSS 文件 -->
-    <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
     <!--font-awesome 核心我CSS 文件-->
-    <link href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- 在bootstrap.min.js 之前引入 -->
-    <script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
     <!-- Bootstrap 核心 JavaScript 文件 -->
-    <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="https://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <!--jquery.validate-->
-    <script type="text/javascript" src="${sysPath}/js/jquery.validate.min.js" ></script>
-    <script type="text/javascript" src="${sysPath}/js/message.js" ></script>
+    <script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/jquery-validate/1.19.2/jquery.validate.js" ></script>
+    <script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/jquery-validate/1.19.2/localization/messages_ar.js" ></script>
     <style type="text/css">
         body{background: url(img/4.jpg) no-repeat;background-size:cover;font-size: 16px;}
         .form{background: rgba(255,255,255,0.2);width:400px;margin:100px auto;}
@@ -42,13 +42,13 @@
                 </div>
                 <div class="form-group">
                     <i class="fa fa-lock fa-lg"></i>
-                    <input class="form-control required" type="password" placeholder="Password" name="mobile" maxlength="20"/>
+                    <input class="form-control required" type="password" id="pass" placeholder="Password" name="mobile" maxlength="20"/>
                 </div>
                 <div class="form-group">
                     <hr />
                 </div>
                 <div class="form-group" style="padding-left: 75px;" >
-                    <input type="submit" class="btn btn-success " value="Login "/>
+                    <input type="button" onclick="sub();" class="btn btn-success " value="Login "/>
                 </div>
             </div>
         </form>
@@ -57,24 +57,16 @@
 </div>
 <script type="text/javascript" >
     $().ready(function() {
-        $("#login_form").validate({
-            rules: {
-                username: "required",
-                password: {
-                    required: true,
-                    minlength: 4
-                },
-            },
-            messages: {
-                username: "请输入",
-                password: {
-                    required: "请输入密码",
-                    minlength: jQuery.format("密码不能小于{0}个字 符")
-                },
-            }
-        });
+
 
     });
+    function sub(){
+        var pass = $('#pass').val();
+        if(pass.trim() != ''){
+            document.forms[0].submit();
+        }
+    }
+
     $(function() {
         $("#register_btn").click(function() {
             $("#register_form").css("display", "block");

@@ -57,9 +57,9 @@
                                             <th >经度<br>纬度</th>
                                             <th >长度<br>签到点个数</th>
                                             <th >积分<br>验证距离</th>
-                                            <th >地图缩放<br>顺序</th>
+                                            <th >地图缩放<br>顺序<br>旗帜缩放</th>
                                             <th >时间<br>显示</th>
-                                            <th >密码<br></th>
+                                            <th >密码<br>强制顺序</th>
                                             <th >操作</th>
 
                                         </tr>
@@ -86,9 +86,9 @@
                                                 <td> ${obj.jingdu }<br>${obj.weidu } </td>
                                                 <td> ${obj.changdu }<br> ${obj.dianshu } </td>
                                                 <td> ${obj.jifen }<br>${obj.qiandaojuli } </td>
-                                                <td> ${obj.ditudaxiao }<br>${obj.shunxu } </td>
+                                                <td> ${obj.ditudaxiao }<br>${obj.shunxu }<br>${obj.qizhidaxiao } </td>
                                                 <td> ${obj.shijian }<br>${obj.onshow }  </td>
-                                                <td> ${obj.mima }<br> </td>
+                                                <td> ${obj.mima }<br>${obj.orderflag } </td>
                                                 <td width="100px;">
                                                     <a href="${sysPath}//line/mergeUI?id=${obj.id }">编辑</a>
                                                     <br><br>

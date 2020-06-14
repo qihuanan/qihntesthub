@@ -51,7 +51,17 @@ public class Utils  {
 	private static final DateFormat dayFormat = new SimpleDateFormat("dd");
 	//public static ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(ServletActionContext.getServletContext());// new ClassPathXmlApplicationContext("spring/application*.xml");
 	private static final DateFormat compactDateFormatSSS = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-	
+
+
+	public static String formatString0(int i){
+		StringBuffer sb = new StringBuffer();
+		if(i<10){
+			sb.append("0").append(i);
+		}else{
+			sb.append(i);
+		}
+		return sb.toString();
+	}
 	
 	/**
 	 * yyyy

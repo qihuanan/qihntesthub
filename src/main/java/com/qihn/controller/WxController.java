@@ -222,6 +222,7 @@ public class WxController extends BaseController {
         this.setReqAndRes(request,response);
         showparam();
         Map map = new HashMap();
+        String answertemp = pointUserinfo.getAnswer();// 用户填写的答案
         Point point = pointService.findById(Point.class,pointUserinfo.getPointid());
         User user = userService.findById(User.class,pointUserinfo.getUserid());
         PointUserinfo old = this.pointUserinfoService.findByProperties(pointUserinfo);
@@ -244,7 +245,7 @@ public class WxController extends BaseController {
                         pointUserinfo.setFinish("1");
                         map.put("data", "errnochance");
                     }
-                    if(Arrays.asList(exam.getAnswer().split(";")).contains(pointUserinfo.getAnswer())){
+                    if(Arrays.asList(exam.getAnswer().split(";")).contains(pointUserinfo.getAnswer()) || exam.getAnswer().contains("***")){
                         pointUserinfo.setPrize(exam.getPrize());
                         pointUserinfo.setPrizeimg(exam.getPrizeimg());
                         pointUserinfo.setAddScore(Integer.parseInt(point.getJifen()));
@@ -283,6 +284,10 @@ public class WxController extends BaseController {
             this.userService.update(user);
             map.put("pointUserinfo", pointUserinfo);
         }else{
+            old.setAnswer(old.getAnswer()+"; "+answertemp);
+            if(old.getAnswer().length()>250){
+                old.setAnswer(old.getAnswer().substring(0,250));
+            }
             if(old.getChance()>0){
                 // 答题信息 更新
                 if(Utils.isNotNullOrEmpty(old.getExamid())){
@@ -293,7 +298,7 @@ public class WxController extends BaseController {
                     old.setChance(exam.getChance()-1);
                     if(old.getCate().equals("1") || old.getCate().equals("3")){ //1: 文字答题  2: 上传图片
                         old.setPicture("");
-                        if(Arrays.asList(exam.getAnswer().split(";")).contains(pointUserinfo.getAnswer())){
+                        if(Arrays.asList(exam.getAnswer().split(";")).contains(pointUserinfo.getAnswer()) || exam.getAnswer().contains("***")){
                             old.setPrize(exam.getPrize());
                             old.setPrizeimg(exam.getPrizeimg());
                             old.setAddScore(Integer.parseInt(point.getJifen()));
@@ -486,7 +491,7 @@ public class WxController extends BaseController {
         PointUserinfo pu = new PointUserinfo();
         pu.setLineid(line.getId());
         pu.setUserid(user.getId());
-        List<PointUserinfo> pulist = pointUserinfoService.findByProperties(pu,null,50,null,null);
+        List<PointUserinfo> pulist = pointUserinfoService.findByProperties(pu,null,100,"id","desc");
         if(Utils.isNotNullOrEmpty(pulist)){
             line.setYidaka(pulist.size()+"");
         }else {
@@ -496,26 +501,30 @@ public class WxController extends BaseController {
         // 获取参与信息  已用时间
         lu.setFlag("1");
         lu = this.lineUserService.findByProperties(lu);
-        line.setYiyongshi(Utils.shijiancha(lu.getBegintime(),System.currentTimeMillis()));
-        //是否超时，是否完成
-        if(Utils.isNotNullOrEmpty(lu.getEndtime())){
-            line.setYiyongshi(Utils.shijiancha(lu.getBegintime(),lu.getEndtime())+" 完成！");
-        }else {
-            // 未完成 判断是否超时
-            long t = System.currentTimeMillis()+5 - lu.getBegintime(); // 经过的毫秒数
-            if(line.getShijian()*1000 < t){
-                line.setYiyongshi("超时啦！");
-            }
-            // 如果 一个任务点也没有打卡，并且超过1小时 重新开始打卡时间
-            if(Utils.isNullorEmpty(pulist)){
-                if(line.getShijian()*1000*60*60 > 1){
-                    line.setYiyongshi("00:00:01");
-                    lu.setBegintime(System.currentTimeMillis());
-                    this.lineUserService.update(lu);
+        if(lu.getBegintime()!=null){
+            line.setYiyongshi(Utils.shijiancha(lu.getBegintime(),System.currentTimeMillis()));
+            //是否超时，是否完成
+            if(Utils.isNotNullOrEmpty(lu.getEndtime())){
+                line.setYiyongshi(Utils.shijiancha(lu.getBegintime(),lu.getEndtime())+" 完成！");
+            }else {
+                // 未完成 判断是否超时
+                long t = System.currentTimeMillis()+5 - lu.getBegintime(); // 经过的毫秒数
+                if(line.getShijian()*1000 < t){
+                    line.setYiyongshi("超时啦！");
+                }
+                // 如果 一个任务点也没有打卡，并且超过1小时 重新开始打卡时间
+                if(Utils.isNullorEmpty(pulist)){
+                    if(line.getShijian()*1000*60*60 > 1){
+                        line.setYiyongshi("00:00:01");
+                        lu.setBegintime(System.currentTimeMillis());
+                        this.lineUserService.update(lu);
+                    }
                 }
             }
-
+        }else{
+            line.setYiyongshi("未开始");
         }
+
 
 
         //已获积分  错误
@@ -556,6 +565,7 @@ public class WxController extends BaseController {
                 vo.setId(pointlist.get(i).getId());
                 vo.setHeight("25");
                 vo.setIconPath("/pages/images/icon-des-d@2x.png");
+                vo.setIconPath("/pages/images/svg/point-unchecked"+Utils.formatString0(pointlist.get(i).getShunxu())+".png");
                 vo.setLongitude(pointlist.get(i).getJingdu());
                 vo.setLatitude(pointlist.get(i).getWeidu());
                 vo.setTitle(pointlist.get(i).getName());
@@ -566,6 +576,7 @@ public class WxController extends BaseController {
                         if(pointlist.get(i).getId().longValue()==pulist.get(j).getPointid().longValue()){
                             // 已打卡任务点
                             vo.setIconPath("/pages/images/icon-des-und@2x.png");
+                            vo.setIconPath("/pages/images/svg/point-checked"+Utils.formatString0(pointlist.get(i).getShunxu())+".png");
                         }
                     }
                 }
@@ -588,12 +599,34 @@ public class WxController extends BaseController {
             for(int i=0;i<pointlist.size();i++){
                 point = pointlist.get(i);
                 boolean exist = false;
+                boolean notfinish = false;
                 for(int j=0;j<pulist.size();j++){
                     if(point.getId() == pulist.get(j).getPointid()){
                         exist = true;
+                        // 如果打卡过 但是 任务失败还有机会，那还停留在这个点，用户继续在这个点答题
+                        if(!pulist.get(j).getFinish().equals("1")){
+                            exist = false;
+                            notfinish = true;
+                        }
                         break;
                     }
                 }
+                // 上面逻辑是顺序打卡，最小的点
+                // 不强制按顺序打卡时候 获取当前打卡记录的最大打卡点后的那个点
+                // 如果不是当前点未完成，对于不按顺序打开的，应该获取已打卡点的下个大的顺序点
+                if(!notfinish && line.getOrderflag()!=null && line.getOrderflag().equals("0")){
+                    if(pulist!=null && pulist.size()>0){
+                        Point finishpoint =this.pointService.findById(Point.class,pulist.get(0).getPointid()); // 当前最大的打卡点，
+                        if(finishpoint!=null && finishpoint.getShunxu()!=null){
+                            int tarshunxu = finishpoint.getShunxu()+1;
+                            if(point.getShunxu().intValue() == tarshunxu){
+                                break;
+                            }
+                        }
+
+                    }
+                }
+
                 if(!exist){
                     break;
                 }
@@ -603,6 +636,7 @@ public class WxController extends BaseController {
         for(int i = 0;i<marklist.size();i++){
             if(marklist.get(i).getId() == point.getId()){
                 marklist.get(i).setIconPath("/pages/images/icon-flg-ylw@2x.png");
+                marklist.get(i).setIconPath("/pages/images/svg/point-select"+Utils.formatString0(pointlist.get(i).getShunxu())+".png");
                 marklist.get(i).setWidth("30");
                 marklist.get(i).setHeight("30");
             }
@@ -771,7 +805,7 @@ public class WxController extends BaseController {
             lu.setLine(line);
             lu.setUser(user);
             lu.setFlag("1");
-            lu.setBegintime(System.currentTimeMillis());
+            //lu.setBegintime(System.currentTimeMillis());
             this.lineUserService.save(lu);
         }
 
@@ -1291,12 +1325,48 @@ public class WxController extends BaseController {
 
     @RequestMapping(value = "/line/merge", method = RequestMethod.POST)
     public String merge(@ModelAttribute("line") Line line,HttpServletRequest request) throws Exception{
+        convertjingweidu(line,null);
         if(line.getId()==null){
             lineService.save(line);
         }else{
             lineService.update(line);
         }
         return "redirect:/line/list";
+    }
+
+    public void convertjingweidu(Line line,Point point){
+        try {
+
+        StringBuffer sb = new StringBuffer();
+        if(line!=null){
+            sb.append(line.getWeidu()).append(",").append(line.getJingdu());
+            String url = "https://apis.map.qq.com/ws/coord/v1/translate?locations="+sb.toString()+"&type=3&key=IDRBZ-RP53R-WI7WN-W3BAI-HFUU5-JIBEY";
+            String res = HttpUtil.sendGet(url);
+            log.info("qq-rul: "+url);
+            log.info("qq: "+res);
+            JSONObject resjson =new JSONObject(res);
+            if(resjson.getInt("status") ==0){
+                line.setJingdu(resjson.getJSONArray("locations").getJSONObject(0).get("lng").toString() );
+                line.setWeidu(resjson.getJSONArray("locations").getJSONObject(0).get("lat").toString() );
+            }
+        }
+        if(point!=null){
+            sb = new StringBuffer();
+            sb.append(point.getWeidu()).append(",").append(point.getJingdu());
+            String url = "https://apis.map.qq.com/ws/coord/v1/translate?locations="+sb.toString()+"&type=3&key=IDRBZ-RP53R-WI7WN-W3BAI-HFUU5-JIBEY";
+            String res = HttpUtil.sendGet(url);
+            log.info("qq-rul: "+url);
+            log.info("qq: "+res);
+            JSONObject resjson =new JSONObject(res);
+            if(resjson.getInt("status") ==0){
+                point.setJingdu(resjson.getJSONArray("locations").getJSONObject(0).get("lng").toString() );
+                point.setWeidu(resjson.getJSONArray("locations").getJSONObject(0).get("lat").toString() );
+            }
+        }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping(value = "/line/delete", method = RequestMethod.GET)
@@ -1336,6 +1406,7 @@ public class WxController extends BaseController {
 
     @RequestMapping(value = "/point/merge", method = RequestMethod.POST)
     public String merge(@ModelAttribute("point") Point point,HttpServletRequest request) throws Exception{
+        convertjingweidu(null,point);
         if(point.getId()==null){
             pointService.save(point);
         }else{
