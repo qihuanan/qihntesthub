@@ -618,17 +618,21 @@ public class Utils  {
 			//System.out.println("" + day + "天" + hour + "小时" + min + "分" + s + "秒");
 			StringBuffer sb = new StringBuffer();
 			if(day>0){
-				sb.append((day*24+hour));
+				sb.append((day*24+hour)).append(":");
 			}else {
 				if(hour<10){
-					sb.append("0"+hour);
+					sb.append("0"+hour).append(":");
 				}
 			}
 			if(min<10){
-				sb.append("0"+min);
+				sb.append("0"+min).append(":");
+			}else{
+				sb.append(""+min).append(":");
 			}
 			if(s<10){
-				sb.append("0"+s);
+				sb.append("0"+s).append(":");
+			}else{
+				sb.append(""+s).append(":");
 			}
 			return sb.toString();
 			//return day*24+hour + ":"+min+":"+s+"";

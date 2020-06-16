@@ -598,7 +598,10 @@ public class WxController extends BaseController {
             // 显示下一个要进行的签到点  在用户签到点没有签到的
             for(int i=0;i<pointlist.size();i++){
                 point = pointlist.get(i);
-                boolean exist = false;
+                if(Utils.isNullorEmpty(pulist)){
+                    break;
+                }
+                boolean exist = false; // 是否打开完成这个点
                 boolean notfinish = false;
                 for(int j=0;j<pulist.size();j++){
                     if(point.getId() == pulist.get(j).getPointid()){
@@ -611,12 +614,16 @@ public class WxController extends BaseController {
                         break;
                     }
                 }
+
+
                 // 上面逻辑是顺序打卡，最小的点
                 // 不强制按顺序打卡时候 获取当前打卡记录的最大打卡点后的那个点
                 // 如果不是当前点未完成，对于不按顺序打开的，应该获取已打卡点的下个大的顺序点
                 if(!notfinish && line.getOrderflag()!=null && line.getOrderflag().equals("0")){
+                    log.info("不安顺序打卡 ");
                     if(pulist!=null && pulist.size()>0){
                         Point finishpoint =this.pointService.findById(Point.class,pulist.get(0).getPointid()); // 当前最大的打卡点，
+                        log.info("当前最大打卡点： "+JSONUtils.toJSON(finishpoint));
                         if(finishpoint!=null && finishpoint.getShunxu()!=null){
                             int tarshunxu = finishpoint.getShunxu()+1;
                             if(point.getShunxu().intValue() == tarshunxu){
@@ -625,11 +632,13 @@ public class WxController extends BaseController {
                         }
 
                     }
+                }else{
+                    // 顺序打卡，那么就是这个点
+                    if(!exist){
+                        break;
+                    }
                 }
 
-                if(!exist){
-                    break;
-                }
             }
         }
         // 当前签到点旗帜颜色变为 黄色
@@ -1340,7 +1349,7 @@ public class WxController extends BaseController {
         StringBuffer sb = new StringBuffer();
         if(line!=null){
             sb.append(line.getWeidu()).append(",").append(line.getJingdu());
-            String url = "https://apis.map.qq.com/ws/coord/v1/translate?locations="+sb.toString()+"&type=3&key=IDRBZ-RP53R-WI7WN-W3BAI-HFUU5-JIBEY";
+            String url = "https://apis.map.qq.com/ws/coord/v1/translate?locations="+sb.toString()+"&type=1&key=IDRBZ-RP53R-WI7WN-W3BAI-HFUU5-JIBEY";
             String res = HttpUtil.sendGet(url);
             log.info("qq-rul: "+url);
             log.info("qq: "+res);
