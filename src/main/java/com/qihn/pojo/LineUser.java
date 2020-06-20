@@ -38,7 +38,7 @@ public class LineUser implements Serializable {
     @Column
     private String finish;
     @Column
-    private Integer addScore;
+    private Integer addScore = 0;
 
     public Long getId() {
         return id;

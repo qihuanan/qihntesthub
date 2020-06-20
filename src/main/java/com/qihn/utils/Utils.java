@@ -618,7 +618,12 @@ public class Utils  {
 			//System.out.println("" + day + "天" + hour + "小时" + min + "分" + s + "秒");
 			StringBuffer sb = new StringBuffer();
 			if(day>0){
-				sb.append((day*24+hour)).append(":");
+				if(day*24+hour>99){
+					sb.append(99).append(":");
+				}else {
+					sb.append((day*24+hour)).append(":");
+				}
+
 			}else {
 				if(hour<10){
 					sb.append("0"+hour).append(":");
@@ -630,9 +635,9 @@ public class Utils  {
 				sb.append(""+min).append(":");
 			}
 			if(s<10){
-				sb.append("0"+s).append(":");
+				sb.append("0"+s);
 			}else{
-				sb.append(""+s).append(":");
+				sb.append(""+s);
 			}
 			return sb.toString();
 			//return day*24+hour + ":"+min+":"+s+"";

@@ -17,6 +17,6 @@ public class Score implements Serializable {
     private String openid;
 
     @Column
-    private Integer score;
+    private Integer score = 0;
 
 }

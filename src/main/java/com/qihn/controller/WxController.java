@@ -345,15 +345,20 @@ public class WxController extends BaseController {
         pu.setFinish("1");
         long pusize = this.pointUserinfoService.countByProperties(pu);
         log.info("判断 线路是否完成 "+ pointsize + " "+pusize);
-        if(pointsize == pusize){
-            LineUser lu = new LineUser();
-            lu.setUserid(user.getId());
-            lu.setLineid(point.getLineid());
-            lu = this.lineUserService.findByProperties(lu);
+
+        LineUser lu = new LineUser();
+        lu.setUserid(user.getId());
+        lu.setLineid(point.getLineid());
+        lu = this.lineUserService.findByProperties(lu);
+        if(pointsize <= pusize){
             lu.setEndtime(System.currentTimeMillis());
             lu.setFinish("1");
-            this.lineUserService.update(lu);
+        }else {
+            if(Utils.isNullorEmpty(lu.getBegintime())){
+                lu.setBegintime(System.currentTimeMillis());
+            }
         }
+        this.lineUserService.update(lu);
 
 
         this.printjson(JSONUtils.toJSON(map));
@@ -569,6 +574,7 @@ public class WxController extends BaseController {
                 vo.setLongitude(pointlist.get(i).getJingdu());
                 vo.setLatitude(pointlist.get(i).getWeidu());
                 vo.setTitle(pointlist.get(i).getName());
+                vo.setTitle("");
                 vo.setWidth("25");
 
                 if(Utils.isNotNullOrEmpty(pulist)){// 已打卡的任务点标记不同的小旗颜色
@@ -601,7 +607,7 @@ public class WxController extends BaseController {
                 if(Utils.isNullorEmpty(pulist)){
                     break;
                 }
-                boolean exist = false; // 是否打开完成这个点
+                boolean exist = false; // 是否打卡完成这个点
                 boolean notfinish = false;
                 for(int j=0;j<pulist.size();j++){
                     if(point.getId() == pulist.get(j).getPointid()){
@@ -622,14 +628,17 @@ public class WxController extends BaseController {
                 if(!notfinish && line.getOrderflag()!=null && line.getOrderflag().equals("0")){
                     log.info("不安顺序打卡 ");
                     if(pulist!=null && pulist.size()>0){
-                        Point finishpoint =this.pointService.findById(Point.class,pulist.get(0).getPointid()); // 当前最大的打卡点，
-                        log.info("当前最大打卡点： "+JSONUtils.toJSON(finishpoint));
-                        if(finishpoint!=null && finishpoint.getShunxu()!=null){
+                        Point finishpoint =this.pointService.findById(Point.class,pulist.get(0).getPointid()); // 当前最后时间打卡点，
+
+                        log.info("当前最后打卡点： "+JSONUtils.toJSON(finishpoint));
+                       point = this.logic(finishpoint,pointlist,pulist);
+                       break;
+                        /*if(finishpoint!=null && finishpoint.getShunxu()!=null){
                             int tarshunxu = finishpoint.getShunxu()+1;
                             if(point.getShunxu().intValue() == tarshunxu){
                                 break;
                             }
-                        }
+                        }*/
 
                     }
                 }else{
@@ -677,6 +686,53 @@ public class WxController extends BaseController {
 
         map.put("line", line);
         this.printjson(JSONUtils.toJSON(map));
+    }
+
+    // 最后一个打卡点，查找离这个打卡点最近的打卡点
+
+    /**
+     *
+     * @param finishpoint
+     * @param pointlist  顺序升序
+     * @param pulist  打卡时间倒叙
+     */
+    private Point logic(Point finishpoint, List<Point> pointlist,List<PointUserinfo> pulist){
+        List<Point> unlist = new ArrayList<>();
+        for(int i=0;i<pointlist.size();i++){
+            boolean exist = false;
+            for(int j=0;j<pulist.size();j++){
+                if(pointlist.get(i).getId()==pulist.get(j).getPointid()){
+                    exist = true;
+                    break;
+                }
+            }
+            if(!exist){
+                unlist.add(pointlist.get(i));
+            }
+        }
+        log.info("未打卡列表："+JSONUtils.toJSON(unlist));
+        if(unlist.size()>0){
+           return getNumberThree(unlist,finishpoint);
+
+        }else {
+            return finishpoint;
+        }
+
+    }
+
+    public  Point getNumberThree(List<Point> intarray,Point number){
+        int index = Math.abs(number.getShunxu()-intarray.get(0).getShunxu());
+        Point result =intarray.get(0);
+        for (Point i : intarray) {
+            int abs = Math.abs(number.getShunxu()-i.getShunxu());
+            if(abs <= index){
+                index = abs;
+                result = i;
+            }
+        }
+
+        return result;
+
     }
 
     @RequestMapping(value = "/wx/writeMessage", method = RequestMethod.GET)
@@ -1348,6 +1404,12 @@ public class WxController extends BaseController {
 
         StringBuffer sb = new StringBuffer();
         if(line!=null){
+            if(Utils.isNullorEmpty(line.getId())){
+                Line old = this.lineService.findById(Line.class,line.getId());
+                if(old.getJingdu().equals(line.getJingdu())){
+                    return;
+                }
+            }
             sb.append(line.getWeidu()).append(",").append(line.getJingdu());
             String url = "https://apis.map.qq.com/ws/coord/v1/translate?locations="+sb.toString()+"&type=1&key=IDRBZ-RP53R-WI7WN-W3BAI-HFUU5-JIBEY";
             String res = HttpUtil.sendGet(url);
@@ -1360,6 +1422,13 @@ public class WxController extends BaseController {
             }
         }
         if(point!=null){
+            if(Utils.isNullorEmpty(point.getId())){
+                Point old = this.pointService.findById(Point.class,point.getId());
+                if(old.getJingdu().equals(line.getJingdu())){
+                    return;
+                }
+            }
+
             sb = new StringBuffer();
             sb.append(point.getWeidu()).append(",").append(point.getJingdu());
             String url = "https://apis.map.qq.com/ws/coord/v1/translate?locations="+sb.toString()+"&type=3&key=IDRBZ-RP53R-WI7WN-W3BAI-HFUU5-JIBEY";
