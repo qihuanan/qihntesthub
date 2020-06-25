@@ -1,5 +1,10 @@
 {
   "pages":[
+
+    "pages/searchbar/searchbar",
+    "pages/detail/detail",
+    "pages/list/list",
+   
     "pages/index/index",
     "pages/logs/logs"
   ],

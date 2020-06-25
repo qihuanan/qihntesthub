@@ -34,6 +34,7 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    baseurl: 'https://jd.yousheng.tech/qihntest/', 
   }
 })

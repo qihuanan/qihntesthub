@@ -1,0 +1,20 @@
+<block wx:for="{{actvielist }}" wx:for-index="index" wx:for-item="item" wx:key="t1">    
+<view class="active" class="weui-flex">
+    <view  class="weui-flex__item view-item">
+        <image  class="active-image" src="{{baseurl}}wx/showimg?filename={{item.picture1}}"  data-lineid="{{item.id}}" bindtap="todetail"  >
+        </image>
+    </view>
+</view>
+<view class="weui-flex__item view-item-text">
+{{item.name}}{{item.name}}{{item.name}}{{item.name}}{{item.name}}
+{{item.name}}{{item.name}}{{item.name}}{{item.name}}{{item.name}}
+{{item.name}}{{item.name}}{{item.name}}{{item.name}}{{item.name}}
+{{item.name}}{{item.name}}{{item.name}}{{item.name}}{{item.name}}
+</view>  
+<view class="pretabbar"></view>
+</block>
+
+<view class="pretabbar">　　　</view>
+<view class="pretabbar">　　　</view>
+<import src ="/pages/template/tabbarout.wxml"/>
+<template is="tabbarout" data="{{cur:1}}" />
