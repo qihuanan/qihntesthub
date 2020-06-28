@@ -28,7 +28,7 @@ public class WeItem implements Serializable {
     private Integer status;
 
     @Column()
-    private Integer index;
+    private Integer shunxu;
     @Column()
     private Double price;
     @Column()
@@ -56,12 +56,33 @@ public class WeItem implements Serializable {
     @JoinColumn()
     private WeCate weCate;
 
+    @Column()
+    private String weCateName;
+    @Column
+    private Long weCateid;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getWeCateName() {
+        return weCateName;
+    }
+
+    public void setWeCateName(String weCateName) {
+        this.weCateName = weCateName;
+    }
+
+    public Long getWeCateid() {
+        return weCateid;
+    }
+
+    public void setWeCateid(Long weCateid) {
+        this.weCateid = weCateid;
     }
 
     public String getName() {
@@ -128,12 +149,12 @@ public class WeItem implements Serializable {
         this.status = status;
     }
 
-    public Integer getIndex() {
-        return index;
+    public Integer getShunxu() {
+        return shunxu;
     }
 
-    public void setIndex(Integer index) {
-        this.index = index;
+    public void setShunxu(Integer shunxu) {
+        this.shunxu = shunxu;
     }
 
     public Double getPrice() {

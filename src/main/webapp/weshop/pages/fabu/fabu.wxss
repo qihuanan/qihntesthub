@@ -1,0 +1,16 @@
+.active-title-bottom{
+  background-color: white;
+  justify-content: center;
+  text-align: center;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+  color: #AAAAAA;
+  font-size: 35rpx;
+}
+.item-liuyanban{
+  color:white;
+  padding: 25rpx;
+  margin: 0 20rpx;
+  border-radius: 10rpx;
+  background-color:  #8FC400;
+}

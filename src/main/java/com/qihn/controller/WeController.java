@@ -41,6 +41,23 @@ public class WeController extends BaseController {
     }
     //=========================前端=========================
 
+    @RequestMapping(value = "/we/getItemList", method = RequestMethod.GET)
+    //@ResponseBody
+    public void getLineList(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("weItem") WeItem weItem,@ModelAttribute("pageInfo") PageInfo pageInfo) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        if (pageInfo == null) {
+            pageInfo = new PageInfo();
+        }
+        List<WeItem> list = this.weItemService.findByProperties(weItem,pageInfo,null,"shunxu asc id","desc");
+        //pageInfo.setTotalCount(this.weItemService.countByProperties(weItem));
+
+        Map map = new HashMap();
+
+        map.put("data", list);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
     @RequestMapping(value = "/we/login", method = RequestMethod.GET)
     @ResponseBody
     public void login(HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -112,7 +129,7 @@ public class WeController extends BaseController {
         if (Utils.isNotNullOrEmpty(weItem) && Utils.isNotNullOrEmpty(weItem.getId())) {
             weItem = this.weItemService.findByProperties(weItem);
             mv.addObject(weItem);
-            mv.setViewName("weItem/merge");
+            mv.setViewName("we/weItem/merge");
         }
         mv.setViewName("we/weItem/merge");
         return mv;
@@ -122,21 +139,24 @@ public class WeController extends BaseController {
     public String merge(@ModelAttribute("weItem") WeItem weItem,HttpServletRequest request) throws Exception{
         User user = this.userService.findById(User.class,weItem.getUserid());
         WeShop weShop = this.weShopService.findById(WeShop.class,weItem.getWeShopid());
+        WeCate cate = this.weCateService.findById(WeCate.class,weItem.getWeCateid());
         weItem.setUser(user);
         weItem.setWeShop(weShop);
+        weItem.setWeCate(cate);
+        weItem.setWeCateName(cate.getName());
         if(weItem.getId()==null){
             weItemService.save(weItem);
         }else{
             weItemService.update(weItem);
         }
-        return "redirect:/we/weItem/list?weShopid="+weItem.getWeShopid();
+        return "redirect:/weItem/list?weShopid="+weItem.getWeShopid();
     }
 
     @RequestMapping(value = "/weItem/delete", method = RequestMethod.GET)
     public String delete(@ModelAttribute("weItem") WeItem weItem) throws Exception{
         weItem = weItemService.findById(WeItem.class,weItem.getId());
         weItemService.delete(weItem);
-        return "redirect:/we/weItem/list?weShopid="+weItem.getWeShopid();
+        return "redirect:/weItem/list?weShopid="+weItem.getWeShopid();
     }
 
     //==================================================================

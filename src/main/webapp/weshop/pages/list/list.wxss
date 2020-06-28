@@ -21,3 +21,4 @@
 .view-item-text{
   margin: 10rpx;
 }
+@import '/pages/detail/detail.wxss'

@@ -1,0 +1,53 @@
+<view class="weui-cells__title">标题</view>
+<view class="weui-cells weui-cells_after-title">
+	<view class="weui-cell">
+		<view class="weui-cell__bd">
+			<input class="weui-input" placeholder="请输入" />
+		</view>
+	</view>
+</view>
+<view class="weui-cells__title">描述</view>
+<view class="weui-cells weui-cells_after-title">
+	<view class="weui-cell">
+		<view class="weui-cell__bd">
+			<textarea class="weui-textarea" placeholder="请输入" style="height: 5.3em" />
+			<view class="weui-textarea-counter">0/500</view>
+    </view>
+  </view>
+</view>
+
+<view class="weui-cells weui-cells_after-title">	
+	<view class="weui-cell weui-cell_select">
+			<view class="weui-cell__hd weui-cell__hd_in-select-after">
+					<view class="weui-label">分类标签：</view>
+			</view>
+			<view class="weui-cell__bd">
+					<picker bindchange="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
+							<view class="weui-select weui-select_in-select-after">{{countries[countryIndex]}}</view>
+					</picker>
+			</view>
+	</view>
+</view>
+
+<!-- camera.wxml -->
+<camera wx:if="{{cameraflag}}"  device-position="back" flash="off" binderror="error" style="width: 100%; height: 400rpx;"></camera>
+<view class="zhanweifu"></view>
+<image wx:if="{{src && src != ''}}" src="{{src}}" style="width: 100%; height: 400rpx;"></image>
+
+<view class="active-title-bottom weui-flex">
+  <view  class="weui-flex__item " bindtap="chooseImage" data-res="0" >
+      <view class="item-liuyanban" >选择相册上传图片</view>
+  </view>
+</view>
+<view class="active-title-bottom weui-flex">
+  <view  class="weui-flex__item " bindtap="openCamera" data-res="1"> 
+      <view class="item-liuyanban">打开相机</view>
+  </view>
+	<view  class="weui-flex__item " bindtap="takePhoto" data-res="1"> 
+      <view class="item-liuyanban">拍照上传</view>
+  </view>
+</view>
+
+<view class="weui-btn-area">
+		<button class="weui-btn" type="primary" bindtap="submitForm">发布</button>
+</view>

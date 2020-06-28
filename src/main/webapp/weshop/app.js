@@ -36,5 +36,6 @@ App({
   globalData: {
     userInfo: null,
     baseurl: 'https://jd.yousheng.tech/qihntest/', 
+    curupimgsrc:'',
   }
 })

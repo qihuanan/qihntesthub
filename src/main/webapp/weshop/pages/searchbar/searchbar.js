@@ -64,6 +64,9 @@ search: function (e) {
   that.setData({
     inputVal: e.detail.value
   });
+  util.navigateTo({
+    url: "/pages/list/list?name=" + e.detail.value,
+  });
   wx.request({
     url: app.globalData.baseurl +'wx/getLineList',
     header: { 'content-type': 'application/json' },

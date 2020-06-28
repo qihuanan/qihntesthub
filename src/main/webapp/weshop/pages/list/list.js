@@ -35,6 +35,12 @@ Page({
   onLoad: function () {
     //this.islogin()
   },
+  onPullDownRefresh: function() {
+    this.onShow()
+  },
+  onReachBottom: function() {
+    this.onShow()
+  },
 
   todetail: function(e){
     console.log('todetail-'+ e.target.dataset.lineid)

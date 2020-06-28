@@ -7,25 +7,25 @@
     </navigator>
   </view>
   <view class="weui-tabbar__item {{cur == 2 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/cate/cate" >
+    <navigator url="/pages/searchbar/searchbar" open-type="reLaunch" >
        <mp-icon icon="search" color="green" size="{{30}}"></mp-icon>
       <view class="weui-tabbar__label">搜索</view>
     </navigator>
   </view>
   <view class="weui-tabbar__item {{cur == 1 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/list/list" >
+    <navigator url="/pages/list/list" open-type="reLaunch" >
        <mp-icon icon="location" color="green" size="{{30}}"></mp-icon>
       <view class="weui-tabbar__label">附近</view>
     </navigator>
   </view>
   <view class="weui-tabbar__item {{cur == 1 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/list/list" >
+    <navigator url="/pages/list/list" open-type="reLaunch" >
      <mp-icon icon="shop" color="green" size="{{30}}"></mp-icon>
       <view class="weui-tabbar__label">购物车</view>
     </navigator>
   </view>
   <view class="weui-tabbar__item {{cur == 5 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/home/home" >
+    <navigator url="/pages/home/home" open-type="reLaunch" >
       <image src="../images/my.svg" alt class="weui-tabbar__icon weui-tabbar-img"></image>
       <view class="weui-tabbar__label">我的</view>
     </navigator>
