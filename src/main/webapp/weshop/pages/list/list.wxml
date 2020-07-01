@@ -1,4 +1,4 @@
-<block wx:for="{{actvielist }}" wx:for-index="index" wx:for-item="item" wx:key="t1">
+<block wx:for="{{weItemList }}" wx:for-index="index" wx:for-item="item" wx:key="t1">
 	<view class="active" class="weui-flex">
 		<view class="weui-flex__item view-item">
 			<image class="active-image" src="{{baseurl}}wx/showimg?filename={{item.picture1}}" data-lineid="{{item.id}}" bindtap="todetail">
@@ -15,7 +15,7 @@
 					</view>
 					<view class="active-title-bottom1 weui-flex">
 						<view class="weui-flex__item">
-							<view class="active-title-bottom-item">{{item.description}}</view>
+							<view class="active-title-bottom-item">{{item.remark}}</view>
 						</view>
 					</view>
 				</view>		

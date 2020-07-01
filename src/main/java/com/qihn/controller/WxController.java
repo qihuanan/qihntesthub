@@ -1410,8 +1410,24 @@ public class WxController extends BaseController {
                     return;
                 }
             }
+            String type = "1";
+            if(line.getDescription().contains("1")){
+                type = "1";
+            }else if(line.getDescription().contains("2")){
+                type = "2";
+            }else if(line.getDescription().contains("3")){
+                type = "3";
+            }else if(line.getDescription().contains("4")){
+                type = "4";
+            }else if(line.getDescription().contains("5")){
+                type = "5";
+            }else if(line.getDescription().contains("6")){
+                type = "6";
+            }
+
+
             sb.append(line.getWeidu()).append(",").append(line.getJingdu());
-            String url = "https://apis.map.qq.com/ws/coord/v1/translate?locations="+sb.toString()+"&type=1&key=IDRBZ-RP53R-WI7WN-W3BAI-HFUU5-JIBEY";
+            String url = "https://apis.map.qq.com/ws/coord/v1/translate?locations="+sb.toString()+"&type="+type+"&key=IDRBZ-RP53R-WI7WN-W3BAI-HFUU5-JIBEY";
             String res = HttpUtil.sendGet(url);
             log.info("qq-rul: "+url);
             log.info("qq: "+res);
@@ -1431,7 +1447,7 @@ public class WxController extends BaseController {
 
             sb = new StringBuffer();
             sb.append(point.getWeidu()).append(",").append(point.getJingdu());
-            String url = "https://apis.map.qq.com/ws/coord/v1/translate?locations="+sb.toString()+"&type=3&key=IDRBZ-RP53R-WI7WN-W3BAI-HFUU5-JIBEY";
+            String url = "https://apis.map.qq.com/ws/coord/v1/translate?locations="+sb.toString()+"&type=1&key=IDRBZ-RP53R-WI7WN-W3BAI-HFUU5-JIBEY";
             String res = HttpUtil.sendGet(url);
             log.info("qq-rul: "+url);
             log.info("qq: "+res);

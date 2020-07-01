@@ -1,4 +1,5 @@
 const app = getApp()
+const util = require('../../utils/util.js')
 Page({
   data: {
     baseurl: app.globalData.baseurl,
@@ -18,15 +19,15 @@ Page({
     })
     var that = this
     wx.request({
-      url: app.globalData.baseurl +'wx/getLineList',
+      url: app.globalData.baseurl +'we/getItemList',
       header: { 'content-type': 'application/json' },
       data: {
-        code: 1,
+        curPage: 1,
         userid: wx.getStorageSync("userid")
       }, success(res2) {
-        console.log("login getLineList2 " + JSON.stringify(res2.data.data))
+        console.log("onShow-getItemList " + JSON.stringify(res2.data))
         that.setData({
-          actvielist: res2.data.data,
+          weItemList: res2.data.weItemList,
           hasUserInfo: true
         })
       }
@@ -44,8 +45,8 @@ Page({
 
   todetail: function(e){
     console.log('todetail-'+ e.target.dataset.lineid)
-    wx.navigateTo({
-      url: "/pages/detail/detail?lineid=" + e.target.dataset.lineid,
+    util.navigateTo({
+      url: "/pages/detail/detail?id=" + e.target.dataset.lineid,
     });
   },
 

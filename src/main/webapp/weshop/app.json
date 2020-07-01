@@ -1,8 +1,9 @@
 {
   "pages":[
 
-    "pages/fabu/fabu",
     "pages/list/list",
+    "pages/fabu/fabu",
+    "pages/login/login",
     "pages/searchbar/searchbar",
     "pages/detail/detail",
     

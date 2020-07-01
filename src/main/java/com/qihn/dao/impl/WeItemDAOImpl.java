@@ -24,9 +24,16 @@ public class WeItemDAOImpl extends BaseDaoImpl<WeItem> implements WeItemDAO {
                 hql.append(" and c.id =:id");
                 params.put("id", entity.getId());
             }else{
-                if(Utils.isNotNullOrEmpty(entity.getUser()) ){
+                if(Utils.isNotNullOrEmpty(entity.getUserid()) ){
+                    hql.append(" and c.userid =:getUserid");
+                    params.put("getUserid", entity.getUserid());
+                }else if(Utils.isNotNullOrEmpty(entity.getUser()) ){
                     hql.append(" and c.user.id =:getUser");
                     params.put("getUser", entity.getUser().getId());
+                }
+                if(Utils.isNotNullOrEmpty(entity.getUpdatetime()) ){
+                    hql.append(" and c.updatetime =:getUpdatetime");
+                    params.put("getUpdatetime", entity.getUpdatetime());
                 }
                 if(Utils.isNotNullOrEmpty(entity.getName())){
                     hql.append(" and c.name like :name");

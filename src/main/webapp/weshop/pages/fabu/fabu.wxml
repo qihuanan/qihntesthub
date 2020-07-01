@@ -1,8 +1,9 @@
+<form catchsubmit="formSubmit" catchreset="formReset">
 <view class="weui-cells__title">标题</view>
 <view class="weui-cells weui-cells_after-title">
 	<view class="weui-cell">
 		<view class="weui-cell__bd">
-			<input class="weui-input" placeholder="请输入" />
+			<input name="name" class="weui-input" placeholder="请输入" />
 		</view>
 	</view>
 </view>
@@ -10,7 +11,7 @@
 <view class="weui-cells weui-cells_after-title">
 	<view class="weui-cell">
 		<view class="weui-cell__bd">
-			<textarea class="weui-textarea" placeholder="请输入" style="height: 5.3em" />
+			<textarea name="remark" class="weui-textarea" placeholder="请输入" style="height: 5.3em" />
 			<view class="weui-textarea-counter">0/500</view>
     </view>
   </view>
@@ -22,7 +23,7 @@
 					<view class="weui-label">分类标签：</view>
 			</view>
 			<view class="weui-cell__bd">
-					<picker bindchange="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
+					<picker name="weCateid" bindchange="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
 							<view class="weui-select weui-select_in-select-after">{{countries[countryIndex]}}</view>
 					</picker>
 			</view>
@@ -49,5 +50,11 @@
 </view>
 
 <view class="weui-btn-area">
-		<button class="weui-btn" type="primary" bindtap="submitForm">发布</button>
+		<button class="weui-btn" type="primary" formType="submit">发布</button>
 </view>
+</form>
+
+<view class="pretabbar">　　　</view>
+<view class="pretabbar">　　　</view>
+<import src="/pages/template/tabbarout.wxml" />
+<template is="tabbarout" data="{{cur:1}}" />

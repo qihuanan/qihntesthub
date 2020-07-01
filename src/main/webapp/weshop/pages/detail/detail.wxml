@@ -1,5 +1,5 @@
 <view>
-<image  wx:if="{{line.picture2}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{line.picture2}}" class="detailimg" src="{{baseurl}}download?filename={{line.picture2}}"></image>
+<image  wx:if="{{weItem.picture1}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture1}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture1}}"></image>
 </view>
 
 <view style="height: 500rpx;" class="weui-flex ">
@@ -7,68 +7,41 @@
     <view class="item-text">
       <view class="active-title">
         <view class="active-title-top">
-          {{line.name}}
-          <mp-icon bindtap="taplike" data-lineid="{{line.id}}"  class="active-title-like" icon="like" type="{{line.like == '1' ? 'field' : 'outline' }}" color="red" size="{{35}}"></mp-icon>
+          {{weItem.name}}
+          <mp-icon bindtap="taplike" data-lineid="{{weItem.id}}"  class="active-title-like" icon="like" type="{{weItem.like == '1' ? 'field' : 'outline' }}" color="red" size="{{35}}"></mp-icon>
         </view>
         
         <view class="active-title-bottom weui-flex">
           <view class="weui-flex__item">
               <view class="">总长</view>
-              <view class="active-title-bottom-item">约{{line.changdu}}km</view>
+              <view class="active-title-bottom-item">约{{weItem.name }}km</view>
           </view>
           <view class="weui-flex__item">
               <view class="">打卡点</view>
-              <view class="active-title-bottom-item">{{line.dianshu}}</view>
+              <view class="active-title-bottom-item">{{weItem.name }}</view>
           </view>
           <view class="weui-flex__item">
               <view class="">线路积分</view>
-              <view class="active-title-bottom-item">{{line.yijifen }}/{{line.jifen}}</view>
+              <view class="active-title-bottom-item">{{weItem.name }}</view>
           </view>
         </view>
-        <!-- 
+        <!--  -->
         <view class="active-title-bottom weui-flex">
-          <view class="weui-flex__item ">
-              <navigator url="/pages/message/message" class="item-liuyanban">留言板</navigator>
+          <view  class="weui-flex__item " > 
+              <button class="item-liuyanban" open-type="contact" >联系客服</button>
           </view>
-          <view  class="weui-flex__item " bindtap="dakaflagtap"> 
-              <navigator url="/pages/detailon/detail?lineid=1" class="item-liuyanban">开始打卡</navigator>
-          </view>
-        </view>
-        -->
-
-       
-        <view class="active-title-bottom weui-flex">
-         <!-- 
-          <view class="weui-flex__item ">
-              <navigator url="/pages/message/message" >
-                <image mode="aspectFit" src="/pages/images/btm-mes@3x.png" class="liuyanbandaka"></image>
-              </navigator>
-          </view>
-          -->
-
-          <view  class="weui-flex__item " bindtap="dakaflagtap" data-lineid="{{line.id}}"> 
-              <view >
-                <image mode="aspectFit" src="/pages/images/start.svg" class="liuyanbandaka"></image>
-              </view>
+           <view class="weui-flex__item ">
+              <view bindtap="bindfabu"  class="item-liuyanban">我要发布</view>
           </view>
         </view>
-
-      </view>
-
-      <view class="active-body">
-
         
-
       </view>
-
     </view>
   </view>
 			
 </view>
-<view class='list'>
-    <view class='li' wx:for='{{list}}' wx:key=''>{{item}}</view>
-</view>
-<view class='placeholder-view'></view>
-<view class="pretabbar"></view>
-<import src ="/pages/template/tabbar.wxml"/>
-<template is="tabbar"/>
+
+<view class="pretabbar">　　　</view>
+<view class="pretabbar">　　　</view>
+<import src="/pages/template/tabbarout.wxml" />
+<template is="tabbarout" data="{{cur:1}}" />

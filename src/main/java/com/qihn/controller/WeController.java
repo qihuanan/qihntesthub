@@ -41,20 +41,63 @@ public class WeController extends BaseController {
     }
     //=========================前端=========================
 
+    @RequestMapping(value = "/we/saveItem",  method = {RequestMethod.GET,RequestMethod.POST})
+    public void saveItem(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("weItem") WeItem weItem) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        User user = this.userService.findById(User.class,weItem.getUserid());
+        weItem.setUser(user);
+        weItem.setWeCate(this.weCateService.findById(WeCate.class,weItem.getWeCateid()));
+        weItem.setWeCateName(weItem.getWeCate().getName());
+        weItem.setCreatetime(Utils.formatLongDate());
+        weItem.setUpdatetime(Utils.formatLongDate());
+
+        WeShop weShop = new WeShop();
+        weShop.setUserid(user.getId());
+        weShop = this.weShopService.findByProperties(weShop);
+        if(Utils.isNullorEmpty(weShop)){
+            weShop = new WeShop();
+            weShop.setUserid(user.getId());
+            weShop.setUser(user);
+            weShop.setName(user.getName());
+            weShop.setStatus(1);
+            weShop.setRemark("自动");
+            this.weShopService.save(weShop);
+            weShop = this.weShopService.findByProperties(weShop);
+        }
+        weItem.setWeShop(weShop);
+        weItem.setWeShopid(weShop.getId());
+        this.weItemService.save(weItem);
+        WeItem temp = new WeItem();
+        temp.setUserid(weItem.getUserid());
+        temp.setUpdatetime(weItem.getUpdatetime());
+        weItem = this.weItemService.findByProperties(temp);
+        Map map = new HashMap();
+        map.put("weItem", weItem);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/we/getItem", method = RequestMethod.GET)
+    public void getItem(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("weItem") WeItem weItem,@ModelAttribute("pageInfo") PageInfo pageInfo) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        weItem = this.weItemService.findById(WeItem.class,weItem.getId());
+        Map map = new HashMap();
+        map.put("weItem", weItem);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
     @RequestMapping(value = "/we/getItemList", method = RequestMethod.GET)
-    //@ResponseBody
-    public void getLineList(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("weItem") WeItem weItem,@ModelAttribute("pageInfo") PageInfo pageInfo) throws Exception{
+    public void getItemList(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("weItem") WeItem weItem,@ModelAttribute("pageInfo") PageInfo pageInfo) throws Exception{
         this.setReqAndRes(request,response);
         showparam();
         if (pageInfo == null) {
             pageInfo = new PageInfo();
         }
-        List<WeItem> list = this.weItemService.findByProperties(weItem,pageInfo,null,"shunxu asc id","desc");
+        List<WeItem> weItemList = this.weItemService.findByProperties(weItem,pageInfo,null,"shunxu asc, id","desc");
         //pageInfo.setTotalCount(this.weItemService.countByProperties(weItem));
-
         Map map = new HashMap();
-
-        map.put("data", list);
+        map.put("weItemList", weItemList);
         this.printjson(JSONUtils.toJSON(map));
     }
 
@@ -64,8 +107,8 @@ public class WeController extends BaseController {
         this.setReqAndRes(request,response);
         showparam();
         StringBuffer sb = new StringBuffer("https://api.weixin.qq.com/sns/jscode2session?appid=");
-        sb.append(Utils.getProperty("appid"));
-        sb.append("&secret=").append(Utils.getProperty("secret"));
+        sb.append(Utils.getProperty("meappid"));
+        sb.append("&secret=").append(Utils.getProperty("mesecret"));
         sb.append("&js_code=").append(getParam("code"));
         sb.append("&grant_type=authorization_code");
         log.info("url: "+sb.toString());

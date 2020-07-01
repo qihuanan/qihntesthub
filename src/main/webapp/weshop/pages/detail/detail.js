@@ -1,62 +1,18 @@
 const util = require('../../utils/util.js')
 const app = getApp()
-
 Page({
   data: {
-    motto: 'Hello World',
     baseurl: app.globalData.baseurl,
-    iosDialog1: false,
-    unlock: false,
-    dakaflag:false,
-    photoflag:false,
-    files: [],
-    src: '',
-    line:'',
-    
-    
+    weItem:'',
   },
   //事件处理函数
   islogin: function () {
     var userid = wx.getStorageSync("userid")
     if (userid == null || userid == '') {
       util.navigateTo({
-        url: '/pages/login/login?goto=detail&lineid=' + app.globalData.curlineid
+        url: '/pages/login/login?goto=detail&id=' + app.globalData.curitemid
       })
     }
-  },
-  dakaflagtap: function(e){
-    this.islogin()
-    var userid = wx.getStorageSync("userid")
-    console.log("onLaunch userid " + userid)
-    if (userid == null || userid == '') {
-      return;
-    }
-    var that  = this
-    var lineid = e.currentTarget.dataset.lineid
-    console.log("dakaflagtap par  " + lineid)
-    wx.request({ // app.globalData.baseurl
-      url: app.globalData.baseurl+'wx/linedaka',
-      header: { 'content-type': 'application/json' },
-      data: {
-        lineid: lineid,
-        userid: wx.getStorageSync("userid")
-      }, success(res2) {
-        console.log("dakaflagtap res  " + JSON.stringify(res2.data.data))
-        util.navigateTo({
-          url: '/pages/detailon/detail?lineid=' + lineid
-        })
-      }
-    })
-
-    this.setData({
-      dakaflag: true
-    })
-  },
-
-  bindViewTap: function() {
-    util.navigateTo({
-      url: '../logs/logs'
-    })
   },
   onShareAppMessage: function () {
   },
@@ -68,15 +24,36 @@ Page({
       urls: [e.currentTarget.dataset.imgsrc]
     })
   },
+    //事件处理函数
+    islogin: function () {
+      var userid = wx.getStorageSync("userid")
+      if (userid == null || userid == '') {
+        util.navigateTo({
+          url: '/pages/login/login?goto=detail&lineid='
+        })
+        return
+      }
+    },
+  bindfabu: function(e){
+    this.islogin()
+    var userid = wx.getStorageSync("userid")
+    console.log(" userid " + userid)
+    if (userid == null || userid == '') {
+      return;
+    }
+    util.navigateTo({
+      url: "/pages/fabu/fabu",
+    });
+  },
   taplike: function(e){
     console.log('taplike ' + JSON.stringify(e))
-    console.log('curlineid ' + app.globalData.curlineid)
+    console.log('curitemid ' + app.globalData.curitemid)
     var that = this
     wx.request({
       url: app.globalData.baseurl +'wx/linelike',
       header: { 'content-type': 'application/json' },
       data: {
-        lineid: app.globalData.curlineid,
+        lineid: app.globalData.curitemid,
         userid: wx.getStorageSync("userid")
       }, success(res2) {
         console.log("taplike res  " +res2.data.data)
@@ -95,51 +72,22 @@ Page({
     })
     var that = this
     wx.request({
-      url: app.globalData.baseurl + 'wx/linedetail',
+      url: app.globalData.baseurl + 'we/getItem',
       header: { 'content-type': 'application/json' },
       data: {
-        code: 1,
-        lineid: app.globalData.curlineid,
+        id: app.globalData.curitemid,
         userid: wx.getStorageSync("userid")
       }, success(res2) {
-        console.log("detail onShow2 " + app.globalData.curlineid)
         console.log("detail onShow  " + JSON.stringify(res2.data.data))
-        //that.actvielist = res2.data.data
         that.setData({
-          //line: JSON.stringify(res2.data.data),
-          line: res2.data.data,
+          weItem: res2.data.weItem,
           hasUserInfo: true
         })
       }
     })
   },
   onLoad: function (options) {
-    console.log("onLoad-lineid:"+ options.lineid)
-    app.globalData.curlineid = options.lineid
-    return 
-    var that = this
-    wx.request({
-      url: app.globalData.baseurl +'wx/linedetail',
-      header: { 'content-type': 'application/json' },
-      data: {
-        code: 1,
-        lineid: app.globalData.curlineid,
-        userid: wx.getStorageSync("userid")
-      }, success(res2) {
-        //console.log("login getLineList " + res2.data)
-        console.log("detail onLoad  " + JSON.stringify(res2.data.data))
-        //that.actvielist = res2.data.data
-        that.setData({
-          //line: JSON.stringify(res2.data.data),
-          line: res2.data.data,
-          hasUserInfo: true
-        })
-      }
-    })
-    
+    console.log("onLoad-id:"+ options.id)
+    app.globalData.curitemid = options.id
   },
-
-  
-  
-  
 })

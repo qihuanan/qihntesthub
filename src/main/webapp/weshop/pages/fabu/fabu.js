@@ -8,7 +8,7 @@ Page({
     src: '',
     cameraflag:false,
     countries: ["中国", "美国", "英国"],
-    countryIndex: 0,
+    countryIndex: 1,
   },
   openCamera: function (e) {
     this.setData({
@@ -51,7 +51,7 @@ Page({
         app.globalData.curupimgsrc = res.tempFilePaths[0]
         console.log("chooseImage-res " + res.tempFilePaths)
         wx.showToast({
-          title: '正在验证地址信息！请确保打开GPS定位！',
+          title: '正在验证信息！',
           icon: 'none',
           duration: 2000
         })
@@ -96,7 +96,21 @@ Page({
     })
   },
   formSubmit(e) {
+    e.detail.value.picture1 = app.globalData.curupimgsrc
+    e.detail.value.userid = wx.getStorageSync("userid")
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
+    wx.request({
+      url: app.globalData.baseurl +'we/saveItem',
+      header: { 'content-type': 'application/json' },
+      data: e.detail.value, 
+      success(res2) {
+        console.log("taplike res  " + JSON.stringify(res2.data))
+        util.navigateTo({
+          url: "/pages/detail/detail?id="+res2.data.weItem.id,
+        });
+      }
+    })
+
   },
 
 })
