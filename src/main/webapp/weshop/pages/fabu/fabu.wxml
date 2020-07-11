@@ -3,7 +3,19 @@
 <view class="weui-cells weui-cells_after-title">
 	<view class="weui-cell">
 		<view class="weui-cell__bd">
-			<input name="name" class="weui-input" placeholder="请输入" />
+			<input name="name" class="weui-input" value="{{weItem.name}}" placeholder="请输入..." />
+
+			<input hidden="true" name="id"  value="{{weItem.id}}"  />
+			<input hidden="true" name="picture1"  value="{{weItem.picture1}}"  />
+			<input hidden="true" name="picture2"  value="{{weItem.picture2}}"  />
+			<input hidden="true" name="picture3"  value="{{weItem.picture3}}"  />
+			<input hidden="true" name="picture4"  value="{{weItem.picture4}}"  />
+			<input hidden="true" name="picture5"  value="{{weItem.picture5}}"  />
+			<input hidden="true" name="picture6"  value="{{weItem.picture6}}"  />
+			<input hidden="true" name="picture7"  value="{{weItem.picture7}}"  />
+			<input hidden="true" name="picture8"  value="{{weItem.picture8}}"  />
+			<input hidden="true" name="picture9"  value="{{weItem.picture9}}"  />
+			<input hidden="true" name="createtime"  value="{{weItem.createtime}}"  />
 		</view>
 	</view>
 </view>
@@ -11,7 +23,7 @@
 <view class="weui-cells weui-cells_after-title">
 	<view class="weui-cell">
 		<view class="weui-cell__bd">
-			<textarea name="remark" class="weui-textarea" placeholder="请输入" style="height: 5.3em" />
+			<textarea name="remark" value="{{weItem.remark}}" class="weui-textarea" placeholder="请输入..." style="height: 7.3em"  maxlength="500" />
 			<view class="weui-textarea-counter">0/500</view>
     </view>
   </view>
@@ -23,10 +35,12 @@
 					<view class="weui-label">分类标签：</view>
 			</view>
 			<view class="weui-cell__bd">
-					<picker name="weCateid" bindchange="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
-							<view class="weui-select weui-select_in-select-after">{{countries[countryIndex]}}</view>
+					<picker name="weCateid" bindchange="bindCountryChange" value="{{weCateList[weItemindex].id }}" range="{{weCateList}}" range-key="name">
+							<view class="weui-select weui-select_in-select-after">{{weCateList[weItemindex].name }}</view>
 					</picker>
+					
 			</view>
+			
 	</view>
 </view>
 
@@ -34,7 +48,19 @@
 <camera wx:if="{{cameraflag}}"  device-position="back" flash="off" binderror="error" style="width: 100%; height: 400rpx;"></camera>
 <view class="zhanweifu"></view>
 <image wx:if="{{src && src != ''}}" src="{{src}}" style="width: 100%; height: 400rpx;"></image>
-
+<block wx:for="{{files }}" wx:for-index="index" wx:for-item="item" wx:key="t1">
+<image src="{{item}}" style="width: 100%; height: 400rpx;"></image>
+</block>
+<block wx:if="{{files.length < 1 }}" >
+<image  wx:if="{{weItem.picture2}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture2}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture2}}"></image>
+<image  wx:if="{{weItem.picture3}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture3}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture3}}"></image>
+<image  wx:if="{{weItem.picture4}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture4}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture4}}"></image>
+<image  wx:if="{{weItem.picture5}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture5}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture5}}"></image>
+<image  wx:if="{{weItem.picture6}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture6}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture6}}"></image>
+<image  wx:if="{{weItem.picture7}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture7}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture7}}"></image>
+<image  wx:if="{{weItem.picture8}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture8}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture8}}"></image>
+<image  wx:if="{{weItem.picture9}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture9}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture9}}"></image>
+</block>
 <view class="active-title-bottom weui-flex">
   <view  class="weui-flex__item " bindtap="chooseImage" data-res="0" >
       <view class="item-liuyanban" >选择相册上传图片</view>

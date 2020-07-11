@@ -36,13 +36,14 @@ Page({
     },
   bindfabu: function(e){
     this.islogin()
+    console.log('bindfabu ' + JSON.stringify(e))
     var userid = wx.getStorageSync("userid")
     console.log(" userid " + userid)
     if (userid == null || userid == '') {
       return;
     }
     util.navigateTo({
-      url: "/pages/fabu/fabu",
+      url: "/pages/fabu/fabu?id="+e.target.dataset.id,
     });
   },
   taplike: function(e){
@@ -68,7 +69,7 @@ Page({
   },
   onShow: function (options){
     wx.setNavigationBarTitle({
-      title: '线路详情'
+      title: '详情'
     })
     var that = this
     wx.request({
@@ -78,7 +79,7 @@ Page({
         id: app.globalData.curitemid,
         userid: wx.getStorageSync("userid")
       }, success(res2) {
-        console.log("detail onShow  " + JSON.stringify(res2.data.data))
+        console.log("detail onShow  " + JSON.stringify(res2.data))
         that.setData({
           weItem: res2.data.weItem,
           hasUserInfo: true

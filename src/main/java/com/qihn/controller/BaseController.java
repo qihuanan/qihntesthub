@@ -1,5 +1,6 @@
 package com.qihn.controller;
 
+import com.qihn.utils.JSONUtils;
 import com.qihn.utils.Utils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -47,6 +48,9 @@ public abstract class BaseController {
         return  res;
     }
 
+    public void showparam(Object obj){
+        log.info("qihntest-para : "+": "+ JSONUtils.toJSON(obj));
+    }
     public void showparam(){
         Enumeration enu=request.getParameterNames();
         while(enu.hasMoreElements()){

@@ -31,6 +31,11 @@ public class WeItemDAOImpl extends BaseDaoImpl<WeItem> implements WeItemDAO {
                     hql.append(" and c.user.id =:getUser");
                     params.put("getUser", entity.getUser().getId());
                 }
+                if(Utils.isNotNullOrEmpty(entity.getStatus())){
+                    hql.append(" and c.status =:getStatus");
+                    params.put("getStatus", entity.getStatus());
+                }
+
                 if(Utils.isNotNullOrEmpty(entity.getUpdatetime()) ){
                     hql.append(" and c.updatetime =:getUpdatetime");
                     params.put("getUpdatetime", entity.getUpdatetime());

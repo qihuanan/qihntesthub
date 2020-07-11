@@ -23,6 +23,19 @@ public class WeItem implements Serializable {
     private String picture2;
     @Column
     private String picture3;
+    @Column
+    private String picture4;
+    @Column
+    private String picture5;
+    @Column
+    private String picture6;
+    @Column
+    private String picture7;
+    @Column
+    private String picture8;
+    @Column
+    private String picture9;
+
 
     @Column()
     private Integer status;
@@ -107,6 +120,54 @@ public class WeItem implements Serializable {
 
     public void setPicture1(String picture1) {
         this.picture1 = picture1;
+    }
+
+    public String getPicture4() {
+        return picture4;
+    }
+
+    public void setPicture4(String picture4) {
+        this.picture4 = picture4;
+    }
+
+    public String getPicture5() {
+        return picture5;
+    }
+
+    public void setPicture5(String picture5) {
+        this.picture5 = picture5;
+    }
+
+    public String getPicture6() {
+        return picture6;
+    }
+
+    public void setPicture6(String picture6) {
+        this.picture6 = picture6;
+    }
+
+    public String getPicture7() {
+        return picture7;
+    }
+
+    public void setPicture7(String picture7) {
+        this.picture7 = picture7;
+    }
+
+    public String getPicture8() {
+        return picture8;
+    }
+
+    public void setPicture8(String picture8) {
+        this.picture8 = picture8;
+    }
+
+    public String getPicture9() {
+        return picture9;
+    }
+
+    public void setPicture9(String picture9) {
+        this.picture9 = picture9;
     }
 
     public String getPicture2() {

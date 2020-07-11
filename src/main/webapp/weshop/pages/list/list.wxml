@@ -1,21 +1,21 @@
 <block wx:for="{{weItemList }}" wx:for-index="index" wx:for-item="item" wx:key="t1">
-	<view class="active" class="weui-flex">
-		<view class="weui-flex__item view-item">
-			<image class="active-image" src="{{baseurl}}wx/showimg?filename={{item.picture1}}" data-lineid="{{item.id}}" bindtap="todetail">
-			</image>
-		</view>
-	</view>
+	
 	<view style="" class="weui-flex ">
 		<view class="weui-flex__item">
 			<view class="item-text">
 				<view class="active-title">
-					<view class="active-title-top">
+					<view class="active-title-top" data-lineid="{{item.id}}" bindtap="todetail">
 						{{item.name}}
-						<mp-icon bindtap="taplike" data-lineid="{{line.id}}" class="active-title-like" icon="like" type="{{line.like == '1' ? 'field' : 'outline' }}" color="red" size="{{35}}"></mp-icon>
 					</view>
-					<view class="active-title-bottom1 weui-flex">
+					<view wx:if="{{item.picture1}}" class="active" class="weui-flex">
+						<view class="weui-flex__item view-item">
+							<image  class="active-image" src="{{baseurl}}wx/showimg?filename={{item.picture1}}" data-lineid="{{item.id}}" bindtap="todetail">
+							</image>
+						</view>
+					</view>
+					<view class=" weui-flex" >
 						<view class="weui-flex__item">
-							<view class="active-title-bottom-item">{{item.remark}}</view>
+							<view class="active-title-bottom-item" data-lineid="{{item.id}}" bindtap="todetail">{{item.remark}}</view>
 						</view>
 					</view>
 				</view>		

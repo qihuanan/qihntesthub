@@ -3,14 +3,16 @@ const util = require('../../utils/util.js')
 Page({
   data: {
     baseurl: app.globalData.baseurl,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    weItemList:[],
+    curpage : 1,
   },
   //事件处理函数
   onShareAppMessage: function () {
   },
-  onShow:function(){
+  onShow:function(curpage){
     var userid = wx.getStorageSync("userid")
-    console.log("onLaunch userid " + userid)
+    console.log("onShow userid " + userid+ " curpage:"+curpage)
     if (userid == null || userid == '') {
       //return;
     }
@@ -22,12 +24,12 @@ Page({
       url: app.globalData.baseurl +'we/getItemList',
       header: { 'content-type': 'application/json' },
       data: {
-        curPage: 1,
-        userid: wx.getStorageSync("userid")
+        curPage: curpage == undefined ? 1 : curpage,
+        //userid: wx.getStorageSync("userid")
       }, success(res2) {
         console.log("onShow-getItemList " + JSON.stringify(res2.data))
         that.setData({
-          weItemList: res2.data.weItemList,
+          weItemList: that.data.weItemList.concat(res2.data.weItemList) ,
           hasUserInfo: true
         })
       }
@@ -37,10 +39,10 @@ Page({
     //this.islogin()
   },
   onPullDownRefresh: function() {
-    this.onShow()
+    this.onShow(1)
   },
   onReachBottom: function() {
-    this.onShow()
+    this.onShow(++this.data.curpage)
   },
 
   todetail: function(e){

@@ -13,35 +13,55 @@
         
         <view class="active-title-bottom weui-flex">
           <view class="weui-flex__item">
-              <view class="">总长</view>
-              <view class="active-title-bottom-item">约{{weItem.name }}km</view>
+              <view class="">分类</view>
+              <view class="active-title-bottom-item">{{weItem.weCateName }}</view>
           </view>
           <view class="weui-flex__item">
-              <view class="">打卡点</view>
-              <view class="active-title-bottom-item">{{weItem.name }}</view>
+              <view class="">关注</view>
+              <view class="active-title-bottom-item">{{weItem.name }} 人</view>
           </view>
           <view class="weui-flex__item">
-              <view class="">线路积分</view>
-              <view class="active-title-bottom-item">{{weItem.name }}</view>
+              <view class="">赞</view>
+              <view class="active-title-bottom-item">{{weItem.name }} 个</view>
           </view>
         </view>
+        <view class="active-title-bottom weui-flex">
+          <view class="weui-flex__item">      
+              <view>{{weItem.remark }} </view>
+          </view>
+        </view>
+        <!-- -->
+        
+        <image  wx:if="{{weItem.picture2}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture2}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture2}}"></image>
+        <image  wx:if="{{weItem.picture3}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture3}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture3}}"></image>
+        <image  wx:if="{{weItem.picture4}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture4}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture4}}"></image>
+        <image  wx:if="{{weItem.picture5}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture5}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture5}}"></image>
+        <image  wx:if="{{weItem.picture6}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture6}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture6}}"></image>
+        <image  wx:if="{{weItem.picture7}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture7}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture7}}"></image>
+        <image  wx:if="{{weItem.picture8}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture8}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture8}}"></image>
+        <image  wx:if="{{weItem.picture9}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture9}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture9}}"></image>
+        
         <!--  -->
         <view class="active-title-bottom weui-flex">
           <view  class="weui-flex__item " > 
               <button class="item-liuyanban" open-type="contact" >联系客服</button>
           </view>
+          <view class="weui-flex__item ">
+              <view bindtap="bindfabu" data-id="{{weItem.id }}"  class="item-liuyanban">我要修改</view>
+          </view>   
+        </view>
+        <view class="active-title-bottom weui-flex">
            <view class="weui-flex__item ">
               <view bindtap="bindfabu"  class="item-liuyanban">我要发布</view>
           </view>
         </view>
-        
+        <view class="pretabbar">　　　</view>
       </view>
     </view>
   </view>
 			
 </view>
 
-<view class="pretabbar">　　　</view>
 <view class="pretabbar">　　　</view>
 <import src="/pages/template/tabbarout.wxml" />
 <template is="tabbarout" data="{{cur:1}}" />
