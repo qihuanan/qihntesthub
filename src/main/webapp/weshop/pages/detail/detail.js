@@ -4,6 +4,7 @@ Page({
   data: {
     baseurl: app.globalData.baseurl,
     weItem:'',
+    userid:''
   },
   //事件处理函数
   islogin: function () {
@@ -51,17 +52,15 @@ Page({
     console.log('curitemid ' + app.globalData.curitemid)
     var that = this
     wx.request({
-      url: app.globalData.baseurl +'wx/linelike',
+      url: app.globalData.baseurl +'we/like',
       header: { 'content-type': 'application/json' },
       data: {
-        lineid: app.globalData.curitemid,
+        weItemid: app.globalData.curitemid,
         userid: wx.getStorageSync("userid")
       }, success(res2) {
-        console.log("taplike res  " +res2.data.data)
-        console.log("taplike res  " + JSON.stringify(res2.data.data))
+        console.log("taplike res  " + JSON.stringify(res2.data))
         that.setData({
-          'line.like': res2.data.data,
-          hasUserInfo: true
+          'weItem.like': res2.data.data
         })
       }
     })
@@ -72,6 +71,9 @@ Page({
       title: '详情'
     })
     var that = this
+    this.setData({
+      userid: wx.getStorageSync("userid")
+    })
     wx.request({
       url: app.globalData.baseurl + 'we/getItem',
       header: { 'content-type': 'application/json' },
@@ -80,15 +82,31 @@ Page({
         userid: wx.getStorageSync("userid")
       }, success(res2) {
         console.log("detail onShow  " + JSON.stringify(res2.data))
-        that.setData({
-          weItem: res2.data.weItem,
-          hasUserInfo: true
-        })
+        if(res2.data.weItem.status==0){
+          //console.log('curitemid ' + res2.data.weItem.userid + '---'+)
+          if(res2.data.weItem.userid == that.data.userid){
+            that.setData({
+              weItem: res2.data.weItem,
+              hasUserInfo: true
+            })
+          }else{
+            that.setData({
+              'weItem.name':'非法内容！',          
+            })
+          }
+        }else{
+          that.setData({
+            weItem: res2.data.weItem,
+            hasUserInfo: true
+          })
+        }
+        
       }
     })
   },
   onLoad: function (options) {
     console.log("onLoad-id:"+ options.id)
     app.globalData.curitemid = options.id
+    
   },
 })

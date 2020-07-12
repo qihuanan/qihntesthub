@@ -14,8 +14,11 @@
   border-radius: 10rpx;
 }
 .view-item {
+  /*
   min-height: 400rpx;
-  max-height: 400rpx;
+  max-height: 800rpx;
+  */
+  
   margin: 10rpx;
 }
 .view-item-text{

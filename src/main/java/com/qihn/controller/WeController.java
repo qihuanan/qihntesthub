@@ -35,11 +35,129 @@ public class WeController extends BaseController {
     private WeItemService weItemService;
     @Resource(name = "weCateService")
     private WeCateService weCateService;
+    @Resource(name="weItemUserService")
+    private WeItemUserService weItemUserService;
 
     private void inituser(){
 
     }
     //=========================前端=========================
+    @RequestMapping(value = "/we/reduceCart", method = RequestMethod.GET)
+    public void reduceCart(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Map map = new HashMap();
+        this.setReqAndRes(request,response);
+        showparam();
+        WeItem weItem = this.weItemService.findById(WeItem.class,Long.parseLong(getParam("weItemid")));
+        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        WeItemUser weItemUser = new WeItemUser();
+        weItemUser.setUserid(user.getId());
+        weItemUser.setWeItemid(weItem.getId());
+        weItemUser.setCate("2");
+        weItemUser = this.weItemUserService.findByProperties(weItemUser);
+        if(weItemUser.getNum()>1){
+            weItemUser.setNum(weItemUser.getNum()-1);
+            weItemUser.setUpdatetime(Utils.formatLongDate());
+            this.weItemUserService.update(weItemUser);
+        }else {
+            this.weItemUserService.delete(weItemUser);
+        }
+
+        map.put("data", "1");
+        this.printjson(JSONUtils.toJSON(map));
+    }
+    @RequestMapping(value = "/we/delCart", method = RequestMethod.GET)
+    public void delCart(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Map map = new HashMap();
+        this.setReqAndRes(request,response);
+        showparam();
+        WeItem weItem = this.weItemService.findById(WeItem.class,Long.parseLong(getParam("weItemid")));
+        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        WeItemUser weItemUser = new WeItemUser();
+        weItemUser.setUserid(user.getId());
+        weItemUser.setWeItemid(weItem.getId());
+        weItemUser.setCate("2");
+        weItemUser = this.weItemUserService.findByProperties(weItemUser);
+        this.weItemUserService.delete(weItemUser);
+        map.put("data", "1");
+        this.printjson(JSONUtils.toJSON(map));
+    }
+    @RequestMapping(value = "/we/addCart", method = RequestMethod.GET)
+    public void addCart(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Map map = new HashMap();
+        this.setReqAndRes(request,response);
+        showparam();
+        WeItem weItem = this.weItemService.findById(WeItem.class,Long.parseLong(getParam("weItemid")));
+        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        WeItemUser weItemUser = new WeItemUser();
+        weItemUser.setUserid(user.getId());
+        weItemUser.setWeItemid(weItem.getId());
+        weItemUser.setCate("2");
+        weItemUser = this.weItemUserService.findByProperties(weItemUser);
+        if(weItemUser==null){
+            weItemUser = new WeItemUser();
+            weItemUser.setUserid(user.getId());
+            weItemUser.setWeItemid(weItem.getId());
+            weItemUser.setCate("2");
+            weItemUser.setNum(1);
+            weItemUser.setCreatetime(Utils.formatLongDate());
+            weItemUser.setUpdatetime(Utils.formatLongDate());
+            weItemUser.setUser(user);
+            weItemUser.setWeItem(weItem);
+            this.weItemUserService.save(weItemUser);
+            map.put("data", "1");
+        }else {
+            weItemUser.setNum(weItemUser.getNum()+1);
+            weItemUser.setUpdatetime(Utils.formatLongDate());
+            this.weItemUserService.update(weItemUser);
+        }
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/we/getLikeList", method = RequestMethod.GET)
+    public void getLikeList(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("weItemUser") WeItemUser weItemUser,@ModelAttribute("pageInfo") PageInfo pageInfo) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        showparam(weItemUser);
+        if (pageInfo == null) {
+            pageInfo = new PageInfo();
+        }
+        List<WeItemUser> weItemUserList = this.weItemUserService.findByProperties(weItemUser,pageInfo,null,"id","desc");
+        Map map = new HashMap();
+        map.put("weItemUserList", weItemUserList);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/we/like", method = RequestMethod.GET)
+    //@ResponseBody
+    public void like(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Map map = new HashMap();
+        this.setReqAndRes(request,response);
+        showparam();
+        WeItem weItem = this.weItemService.findById(WeItem.class,Long.parseLong(getParam("weItemid")));
+        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        WeItemUser weItemUser = new WeItemUser();
+        weItemUser.setUserid(user.getId());
+        weItemUser.setWeItemid(weItem.getId());
+        weItemUser.setCate("1");
+        weItemUser = this.weItemUserService.findByProperties(weItemUser);
+        if(weItemUser==null){
+            weItemUser = new WeItemUser();
+            weItemUser.setUserid(user.getId());
+            weItemUser.setWeItemid(weItem.getId());
+            weItemUser.setCate("1");
+            weItemUser.setCreatetime(Utils.formatLongDate());
+            weItemUser.setUpdatetime(Utils.formatLongDate());
+            weItemUser.setUser(user);
+            weItemUser.setWeItem(weItem);
+            this.weItemUserService.save(weItemUser);
+            map.put("data", "1");
+        }else {
+            this.weItemUserService.delete(weItemUser);
+            map.put("data", "0");
+        }
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
     @RequestMapping(value = "/we/auditItem", method = RequestMethod.GET)
     public void auditItem(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("weItem") WeItem weItem) throws Exception{
         this.setReqAndRes(request,response);
@@ -59,6 +177,16 @@ public class WeController extends BaseController {
         showparam(weItem);
         weItem.setStatus(0);
         imagelogic(weItem);
+        //腾讯大数据检查内容安全
+        if(WxUtils.msgSecCheck(weItem.getName()+weItem.getRemark())){
+            if(WxUtils.imgSecCheck(weItem.getPicture1()) && WxUtils.imgSecCheck(weItem.getPicture2())
+                    && WxUtils.imgSecCheck(weItem.getPicture3())&& WxUtils.imgSecCheck(weItem.getPicture4()) &&
+                    WxUtils.imgSecCheck(weItem.getPicture5())&& WxUtils.imgSecCheck(weItem.getPicture6())&&
+                    WxUtils.imgSecCheck(weItem.getPicture7())&& WxUtils.imgSecCheck(weItem.getPicture8())
+                    && WxUtils.imgSecCheck(weItem.getPicture9()) ){
+                weItem.setStatus(1);
+            }
+        }
         User user = this.userService.findById(User.class,weItem.getUserid());
         weItem.setUser(user);
         weItem.setWeCate(this.weCateService.findById(WeCate.class,weItem.getWeCateid()));
@@ -99,6 +227,16 @@ public class WeController extends BaseController {
         weItem.setUpdatetime(Utils.formatLongDate());
         weItem.setStatus(0);
         imagelogic(weItem);
+        //腾讯大数据检查内容安全
+        if(WxUtils.msgSecCheck(weItem.getName()+weItem.getRemark())){
+            if(WxUtils.imgSecCheck(weItem.getPicture1()) && WxUtils.imgSecCheck(weItem.getPicture2())
+                    && WxUtils.imgSecCheck(weItem.getPicture3())&& WxUtils.imgSecCheck(weItem.getPicture4()) &&
+                    WxUtils.imgSecCheck(weItem.getPicture5())&& WxUtils.imgSecCheck(weItem.getPicture6())&&
+                    WxUtils.imgSecCheck(weItem.getPicture7())&& WxUtils.imgSecCheck(weItem.getPicture8())
+                    && WxUtils.imgSecCheck(weItem.getPicture9()) ){
+                weItem.setStatus(1);
+            }
+        }
 
         WeShop weShop = new WeShop();
         weShop.setUserid(user.getId());
@@ -161,6 +299,20 @@ public class WeController extends BaseController {
         showparam();
         weItem = this.weItemService.findById(WeItem.class,weItem.getId());
         List<WeCate> weCateList = this.weCateService.findAll(WeCate.class,"id","asc");
+        if(getParam("userid")!=null){
+            User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+            WeItemUser weItemUser = new WeItemUser();
+            weItemUser.setUserid(user.getId());
+            weItemUser.setWeItemid(weItem.getId());
+            weItemUser.setCate("1");
+            weItemUser = this.weItemUserService.findByProperties(weItemUser);
+            if(Utils.isNotNullOrEmpty(weItemUser)){
+                //喜欢
+                weItem.setLike("1");
+
+            }
+        }
+
 
         Map map = new HashMap();
         map.put("weItemindex", 0);
@@ -178,6 +330,7 @@ public class WeController extends BaseController {
     public void getItemList(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("weItem") WeItem weItem,@ModelAttribute("pageInfo") PageInfo pageInfo) throws Exception{
         this.setReqAndRes(request,response);
         showparam();
+        showparam(weItem);
         if (pageInfo == null) {
             pageInfo = new PageInfo();
         }
@@ -217,6 +370,28 @@ public class WeController extends BaseController {
         Map map = new HashMap();
         //map.put("data", JSONUtils.listToJson(lineList));
         map.put("data", user);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/we/wode", method = RequestMethod.GET)
+    public void wode(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("weItem") WeItem weItem,@ModelAttribute("pageInfo") PageInfo pageInfo) throws Exception{
+        Map map = new HashMap();
+        this.setReqAndRes(request,response);
+        showparam();
+
+        User user = this.userService.findById(User.class,Long.parseLong(getParam("userid")));
+        if (pageInfo == null) {
+            pageInfo = new PageInfo();
+        }
+        List<WeItem> weItemList = this.weItemService.findByProperties(weItem,pageInfo,null,"shunxu asc, id","desc");
+        for(int i=0;i<weItemList.size();i++){
+            if(weItemList.get(i).getRemark().length()>25)
+                weItemList.get(i).setRemark(weItemList.get(i).getRemark().substring(0,25)+"...");
+        }
+
+        map.put("weItemList", weItemList);
+
+        map.put("user", user);
         this.printjson(JSONUtils.toJSON(map));
     }
 

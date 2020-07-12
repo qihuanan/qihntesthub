@@ -18,16 +18,18 @@
           </view>
           <view class="weui-flex__item">
               <view class="">关注</view>
-              <view class="active-title-bottom-item">{{weItem.name }} 人</view>
+              <view class="active-title-bottom-item">{{1 }} 人</view>
           </view>
           <view class="weui-flex__item">
               <view class="">赞</view>
-              <view class="active-title-bottom-item">{{weItem.name }} 个</view>
+              <view class="active-title-bottom-item">{{1 }} 个</view>
           </view>
         </view>
         <view class="active-title-bottom weui-flex">
           <view class="weui-flex__item">      
-              <view>{{weItem.remark }} </view>
+              <view>{{weItem.remark }} 
+              <view wx:if="{{weItem.status==0}}" style="color:red;">自动审核失败，含有非法内容！请修改！</view>
+              </view>
           </view>
         </view>
         <!-- -->
@@ -46,7 +48,7 @@
           <view  class="weui-flex__item " > 
               <button class="item-liuyanban" open-type="contact" >联系客服</button>
           </view>
-          <view class="weui-flex__item ">
+          <view  wx:if="{{weItem.userid == userid }}" class="weui-flex__item">
               <view bindtap="bindfabu" data-id="{{weItem.id }}"  class="item-liuyanban">我要修改</view>
           </view>   
         </view>

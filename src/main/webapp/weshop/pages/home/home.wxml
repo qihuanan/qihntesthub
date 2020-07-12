@@ -1,0 +1,86 @@
+<view class="weui-flex">
+  <view class="weui-flex__item item-top-login">
+      <view class="weui-flex item-top-logon">
+        <view class="weui-flex__item ">
+          <image  class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        </view>
+        <view class="weui-flex__item weui-flex__item2">
+          <view>
+            <text >{{userInfo.nickName}}</text>
+            <text class="jifen">积分：{{score}}</text>
+          </view>
+        </view>
+      </view>
+  </view>
+</view>
+<!-- 导航 -->
+<view class="weui-flex daohang">
+  <view class="weui-flex__item {{showpanel == 1 ? 'iconunderline' : '' }}" data-panel="1"  bindtap="showmyactive">
+    <image class="myimg-tips" src="/pages/images/icon-his@2x.png" ></image>
+    <view class="dakatext">发布记录</view>
+  </view>
+  <view class="weui-flex__item {{showpanel == 2 ? 'iconunderline' : '' }}" bindtap="showmyactive" data-panel="2"  >
+    <image class="myimg-tips" src="/pages/images/icon-fav-1@2x.png" ></image>
+    <view class="dakatext">收藏记录</view>
+  </view>
+</view>
+
+<block wx:if="{{showpanel == 1 }}">
+<block wx:for="{{weItemList }}" wx:for-index="index" wx:for-item="item" wx:key="t1">
+<view style="" class="weui-flex ">
+  <view class="weui-flex__item">
+    <view class="item-text">
+      <view class="active-title">
+        <view class="active-title-top" data-lineid="{{item.id}}" bindtap="todetail">
+          {{item.name}}
+        </view>
+        <view wx:if="{{item.picture1}}" class="active" class="weui-flex">
+          <view class="weui-flex__item view-item">
+            <image  class="active-image" src="{{baseurl}}wx/showimg?filename={{item.picture1}}" data-lineid="{{item.id}}" bindtap="todetail">
+            </image>
+          </view>
+        </view>
+        <view class=" weui-flex" >
+          <view class="weui-flex__item">
+            <view class="active-title-bottom-item" data-lineid="{{item.id}}" bindtap="todetail">{{item.remark}}</view>
+            <view wx:if="{{item.status==0}}" style="color:red;">自动审核失败，含有非法内容！请修改！</view>
+          </view>
+        </view>
+      </view>		
+    </view>
+  </view>
+</view>
+</block>
+</block>
+<!-- 我喜欢的 收藏 -->
+<block wx:if="{{showpanel == 2 }}">
+<block wx:for="{{weItemUserList }}" wx:for-index="index" wx:for-item="item" wx:key="t1">
+<view style="" class="weui-flex ">
+  <view class="weui-flex__item">
+    <view class="item-text">
+      <view class="active-title">
+        <view class="active-title-top" data-lineid="{{item.weItemid}}" bindtap="todetail">
+          {{item.weItem.name}}
+        </view>
+        <view wx:if="{{item.weItem.picture1}}" class="active" class="weui-flex">
+          <view class="weui-flex__item view-item">
+            <image  class="active-image" src="{{baseurl}}wx/showimg?filename={{item.weItem.picture1}}" data-lineid="{{item.weItemid}}" bindtap="todetail">
+            </image>
+          </view>
+        </view>
+        <view class=" weui-flex" >
+          <view class="weui-flex__item">
+            <view class="active-title-bottom-item" data-lineid="{{item.weItemid}}" bindtap="todetail">{{item.weItem.remark}}</view>
+            
+          </view>
+        </view>
+      </view>		
+    </view>
+  </view>
+</view>
+</block>
+</block>
+
+<view class="pretabbar"></view>
+<import src ="/pages/template/tabbarout.wxml"/>
+<template is="tabbarout" data="{{cur:5}}" />

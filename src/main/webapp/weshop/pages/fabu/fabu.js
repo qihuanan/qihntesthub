@@ -28,17 +28,18 @@ Page({
       quality: 'high',
       success: (res) => {
         app.globalData.curupimgsrc = res.tempImagePath
+        that.setData({
+          cameraflag: false,
+          files: that.data.files.concat(res.tempImagePath),
+        });
         wx.showToast({
           title: '正在处理...',
           icon: 'none',
           duration: 1000
         })
-        that.qiandaotap(e)
-        this.setData({
-          cameraflag: false,
-          //src: res.tempImagePath,
-          files: that.data.files.concat(res.tempImagePath),
-        })
+        //that.qiandaotap(e)
+        that.qiandaotapbatch(that.data.files[0],that)   
+        
       }
     })
   },
@@ -132,12 +133,12 @@ Page({
   },
   formSubmit(e) {
     //e.detail.value.picture1 = app.globalData.curupimgsrc
-    if(this.data.upedfiles.length>1){
+    if(this.data.upedfiles.length>0){
       e.detail.value.picture1 = this.data.upedfiles.join(";")
     }
     console.log('formSubmit-upedfiles--------- ', this.data.upedfiles);
     e.detail.value.userid = wx.getStorageSync("userid")
-    if(e.detail.value.name == "" || e.detail.value.name == "remark"){
+    if(e.detail.value.name == ""){
       wx.showToast({
         title: '请填写发布内容！',
         icon: 'none',
@@ -146,6 +147,11 @@ Page({
       return false;
     }
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
+    wx.showToast({
+      title: '发布内容腾讯大数据自动审核，非法内容被记录，请文明发布！',
+      icon: 'none',
+      duration: 3000
+    })
     var target = "we/saveItem"
     if( e.detail.value.id!=''){
       target = "we/updateItem"

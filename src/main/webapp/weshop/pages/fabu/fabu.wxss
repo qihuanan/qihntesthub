@@ -14,3 +14,6 @@
   border-radius: 10rpx;
   background-color:  #8FC400;
 }
+.item-center {
+  text-align: center;
+}

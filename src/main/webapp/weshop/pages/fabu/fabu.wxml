@@ -48,10 +48,12 @@
 <camera wx:if="{{cameraflag}}"  device-position="back" flash="off" binderror="error" style="width: 100%; height: 400rpx;"></camera>
 <view class="zhanweifu"></view>
 <image wx:if="{{src && src != ''}}" src="{{src}}" style="width: 100%; height: 400rpx;"></image>
-<block wx:for="{{files }}" wx:for-index="index" wx:for-item="item" wx:key="t1">
+<view class="item-center">
+<block class="item-center" wx:for="{{files }}" wx:for-index="index" wx:for-item="item" wx:key="t1">
 <image src="{{item}}" style="width: 100%; height: 400rpx;"></image>
 </block>
 <block wx:if="{{files.length < 1 }}" >
+
 <image  wx:if="{{weItem.picture2}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture2}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture2}}"></image>
 <image  wx:if="{{weItem.picture3}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture3}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture3}}"></image>
 <image  wx:if="{{weItem.picture4}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture4}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture4}}"></image>
@@ -61,6 +63,7 @@
 <image  wx:if="{{weItem.picture8}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture8}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture8}}"></image>
 <image  wx:if="{{weItem.picture9}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture9}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture9}}"></image>
 </block>
+</view>
 <view class="active-title-bottom weui-flex">
   <view  class="weui-flex__item " bindtap="chooseImage" data-res="0" >
       <view class="item-liuyanban" >选择相册上传图片</view>

@@ -7,12 +7,11 @@ import org.apache.commons.logging.LogFactory;
 import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WxUtils {
     private static Log log = LogFactory.getLog(WxUtils.class);
@@ -35,14 +34,45 @@ public class WxUtils {
 
     }
 
-    public static String imgSecCheck(){
-
+    public static boolean imgSecCheck(String imgurl){
+        if(Utils.isNullorEmpty(imgurl)){
+            return true;
+        }
         String token = geToken();
         String url = "https://api.weixin.qq.com/wxa/img_sec_check?access_token="+token;
 
-        //String res = HttpUtil.formUpload();
+        Map<String, String> fileMap = new HashMap<>();
+        fileMap.put("1",Utils.getProperty("basefilepath")+ File.separator+imgurl);
+        //fileMap.put("1",imgurl);
+        String res = HttpUtil.formUpload(url,null,fileMap);
+        System.out.println("imgSecCheck-res:"+res);
+        if(new JSONObject(res).getInt("errcode")==0){
+            return true;
+        }
+        return false;
 
-        return null;
+    }
+    public static boolean msgSecCheck(String msg){
+        String token = geToken();
+        String url = "https://api.weixin.qq.com/wxa/msg_sec_check?access_token="+token;
+        JSONObject json = new JSONObject();
+        json.put("content",msg);
+        String res = HttpUtil.postJson(url,json.toString());
+        System.out.println("msgSecCheck-res:"+res);
+        if(new JSONObject(res).getInt("errcode")==0){
+            return true;
+        }
+        return false;
+
+    }
+
+    public static void main(String args[]){
+        String imgurl2="https://jd.yousheng.tech/qihntest/download?filename=2020-07-12/tmp_f37cc74ebbd72129780d08a66d6311a7a3a920c4b601dae1.jpg";
+        String imgurl="badaling.jpg";
+        imgSecCheck(imgurl);
+        String msg = "习大大";
+        boolean res = msgSecCheck(msg);
+        System.out.println(res);
 
     }
 

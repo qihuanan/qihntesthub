@@ -11,20 +11,19 @@ Page({
   onShareAppMessage: function () {
   },
   onShow:function(curpage){
+    
+  },
+  loadlistdate:function(curpage,that){
     var userid = wx.getStorageSync("userid")
     console.log("onShow userid " + userid+ " curpage:"+curpage)
-    if (userid == null || userid == '') {
-      //return;
-    }
-    this.setData({
-      cur:1
-    })
-    var that = this
+    if(curpage == 1){ that.setData({ weItemList:[] } ) }
+    that.setData({ cur:1  })
     wx.request({
       url: app.globalData.baseurl +'we/getItemList',
       header: { 'content-type': 'application/json' },
       data: {
         curPage: curpage == undefined ? 1 : curpage,
+        status:1,
         //userid: wx.getStorageSync("userid")
       }, success(res2) {
         console.log("onShow-getItemList " + JSON.stringify(res2.data))
@@ -36,13 +35,14 @@ Page({
     })
   },
   onLoad: function () {
-    //this.islogin()
+    this.loadlistdate(1,this)
   },
   onPullDownRefresh: function() {
-    this.onShow(1)
+    this.loadlistdate(1,this)
   },
   onReachBottom: function() {
-    this.onShow(++this.data.curpage)
+    //this.onShow(++this.data.curpage)
+    this.loadlistdate(++this.data.curpage,this)
   },
 
   todetail: function(e){

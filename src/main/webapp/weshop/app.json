@@ -2,6 +2,7 @@
   "pages":[
 
     "pages/list/list",
+    "pages/home/home",
     "pages/fabu/fabu",
     "pages/login/login",
     "pages/searchbar/searchbar",

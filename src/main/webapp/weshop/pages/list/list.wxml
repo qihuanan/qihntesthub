@@ -9,7 +9,7 @@
 					</view>
 					<view wx:if="{{item.picture1}}" class="active" class="weui-flex">
 						<view class="weui-flex__item view-item">
-							<image  class="active-image" src="{{baseurl}}wx/showimg?filename={{item.picture1}}" data-lineid="{{item.id}}" bindtap="todetail">
+							<image mode="widthFix"  class="active-image" src="{{baseurl}}wx/showimg?filename={{item.picture1}}" data-lineid="{{item.id}}" bindtap="todetail">
 							</image>
 						</view>
 					</view>
