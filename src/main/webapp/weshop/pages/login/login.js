@@ -47,9 +47,9 @@ Page({
   onLoad: function (options) {
     //console.log('qihndebug-options- ' + options)
     console.log('onLoad options ' + JSON.stringify(options))
-    if (options && options.goto) { // /pages/detail / detail ? lineid =
+    if (options && options.goto && options.id) { // /pages/detail / detail ? lineid =
       app.globalData.goto = options.goto,
-        app.globalData.curlineid = options.lineid
+        app.globalData.curitemid = options.id
     }
     var that = this;
     if (app.globalData.userInfo) {
@@ -119,9 +119,9 @@ Page({
                 app.globalData.score = res2.data.data.score
                 console.log('qihndebug-4-app.globalData.score ' + app.globalData.score)
                 
-                if (app.globalData.goto = 'detail' && app.globalData.curlineid !=0){
+                if (app.globalData.goto = 'detail' && app.globalData.curitemid !=0){
                   util.navigateTo({
-                    url: '/pages/detail/detail?lineid=' + app.globalData.curlineid
+                    url: '/pages/detail/detail?id=' + app.globalData.curitemid
                   });
                 }else{
                   util.navigateTo({

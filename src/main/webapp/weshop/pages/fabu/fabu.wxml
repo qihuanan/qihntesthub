@@ -3,7 +3,7 @@
 <view class="weui-cells weui-cells_after-title">
 	<view class="weui-cell">
 		<view class="weui-cell__bd">
-			<input name="name" class="weui-input" value="{{weItem.name}}" placeholder="请输入..." />
+			<input name="name" class="weui-input" auto-focus value="{{weItem.name}}" maxlength="10" placeholder="请输入..." />
 
 			<input hidden="true" name="id"  value="{{weItem.id}}"  />
 			<input hidden="true" name="picture1"  value="{{weItem.picture1}}"  />
@@ -16,6 +16,7 @@
 			<input hidden="true" name="picture8"  value="{{weItem.picture8}}"  />
 			<input hidden="true" name="picture9"  value="{{weItem.picture9}}"  />
 			<input hidden="true" name="createtime"  value="{{weItem.createtime}}"  />
+			<input hidden="true" name="shunxu"  value="{{weItem.shunxu}}"  />
 		</view>
 	</view>
 </view>
@@ -36,11 +37,36 @@
 			</view>
 			<view class="weui-cell__bd">
 					<picker name="weCateid" bindchange="bindCountryChange" value="{{weCateList[weItemindex].id }}" range="{{weCateList}}" range-key="name">
-							<view class="weui-select weui-select_in-select-after">{{weCateList[weItemindex].name }}</view>
-					</picker>
-					
+							<view class="weui-select weui-select_in-select-after">{{weCateList[(weItemindex)].name }}</view>
+					</picker>	
 			</view>
-			
+	</view>
+</view>
+
+<view class="weui-cells__title">单价（元，支持小数点）</view>
+<view class="weui-cells weui-cells_after-title">
+	<view class="weui-cell">
+		<view class="weui-cell__bd">
+			<input name="price" type="digit" class="weui-input" value="{{weItem.price}}" placeholder="请输入..." />
+		</view>
+	</view>
+</view>
+
+<view class="weui-cells__title">单价对应的单位（个/斤/KG/袋/台 等等）</view>
+<view class="weui-cells weui-cells_after-title">
+	<view class="weui-cell">
+		<view class="weui-cell__bd">
+			<input name="priceUnit" class="weui-input" value="{{weItem.priceUnit}}" placeholder="请输入..." />
+		</view>
+	</view>
+</view>
+
+<view class="weui-cells__title">库存数量</view>
+<view class="weui-cells weui-cells_after-title">
+	<view class="weui-cell">
+		<view class="weui-cell__bd">
+			<input name="stocknum" type="number" class="weui-input" value="{{weItem.stocknum}}" placeholder="请输入..." />
+		</view>
 	</view>
 </view>
 

@@ -10,6 +10,7 @@ Page({
     cameraflag:false,
     weCateList:[],
     weItemindex: 0,
+    weItemcount: 1,
   },
   openCamera: function (e) {
     this.setData({
@@ -128,7 +129,8 @@ Page({
   bindCountryChange: function(e) {
     console.log('picker country 发生选择改变，携带值为', e.detail.value);
     this.setData({
-      weItemindex: e.detail.value
+      weItemindex: (e.detail.value-1),
+      weItemcount:e.detail.value
     })
   },
   formSubmit(e) {
@@ -136,7 +138,10 @@ Page({
     if(this.data.upedfiles.length>0){
       e.detail.value.picture1 = this.data.upedfiles.join(";")
     }
-    console.log('formSubmit-upedfiles--------- ', this.data.upedfiles);
+    console.log('formSubmit-upedfiles--------- ', this.data.upedfiles)
+    console.log('formSubmit-upedfiles--------- ', e.detail.value.weCateid);
+    //e.detail.value.weCateid = e.detail.value.weCateid +1
+    console.log('formSubmit-upedfiles--------- ', e.detail.value.weCateid);
     e.detail.value.userid = wx.getStorageSync("userid")
     if(e.detail.value.name == ""){
       wx.showToast({
@@ -191,10 +196,11 @@ Page({
               id: app.globalData.curitemid,
               userid: wx.getStorageSync("userid")
             }, success(res2) {
-              console.log("detail onShow  " + JSON.stringify(res2.data.data))
+              console.log("detail onShow  " + JSON.stringify(res2.data))
               that.setData({
                 weItem: res2.data.weItem,
                 weItemindex:res2.data.weItemindex,
+                weItemcount:res2.data.weItemindex+1,
                 hasUserInfo: true
               })
             }

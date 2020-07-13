@@ -17,12 +17,12 @@
               <view class="active-title-bottom-item">{{weItem.weCateName }}</view>
           </view>
           <view class="weui-flex__item">
-              <view class="">关注</view>
-              <view class="active-title-bottom-item">{{1 }} 人</view>
+              <view class="">单价</view>
+              <view class="active-title-bottom-item">{{weItem.price }}元/{{weItem.priceUnit}}</view>
           </view>
           <view class="weui-flex__item">
-              <view class="">赞</view>
-              <view class="active-title-bottom-item">{{1 }} 个</view>
+              <view class="">库存</view>
+              <view class="active-title-bottom-item">{{weItem.stocknum }} {{weItem.priceUnit}}</view>
           </view>
         </view>
         <view class="active-title-bottom weui-flex">
@@ -44,11 +44,18 @@
         <image  wx:if="{{weItem.picture9}}" mode="widthFix"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{weItem.picture9}}" class="detailimg" src="{{baseurl}}download?filename={{weItem.picture9}}"></image>
         
         <!--  -->
-        <view class="active-title-bottom weui-flex">
-          <view  class="weui-flex__item " > 
-              <button class="item-liuyanban" open-type="contact" >联系客服</button>
-          </view>
-          <view  wx:if="{{weItem.userid == userid }}" class="weui-flex__item">
+        <view class="active-title-bottom weui-flex" >
+           <view  class="weui-flex__item">
+              <view bindtap="bindcart" data-id="{{weItem.id }}"  class="item-liuyanban">加购物车</view>
+          </view>   
+        </view>
+        <view class="active-title-bottom weui-flex" >
+           <view  class="weui-flex__item">
+              <view bindtap="bindyuding" data-id="{{weItem.id }}"  class="item-liuyanban">直接预定</view>
+          </view>   
+        </view>
+        <view class="active-title-bottom weui-flex" wx:if="{{weItem.userid == userid }}">
+           <view  class="weui-flex__item">
               <view bindtap="bindfabu" data-id="{{weItem.id }}"  class="item-liuyanban">我要修改</view>
           </view>   
         </view>
@@ -57,6 +64,13 @@
               <view bindtap="bindfabu"  class="item-liuyanban">我要发布</view>
           </view>
         </view>
+
+        <view class="active-title-bottom weui-flex">
+          <view  class="weui-flex__item " > 
+              <button class="item-liuyanban" open-type="contact" >联系客服</button>
+          </view>
+        </view>
+
         <view class="pretabbar">　　　</view>
       </view>
     </view>

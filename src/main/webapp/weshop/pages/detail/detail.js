@@ -30,7 +30,7 @@ Page({
       var userid = wx.getStorageSync("userid")
       if (userid == null || userid == '') {
         util.navigateTo({
-          url: '/pages/login/login?goto=detail&lineid='
+          url: '/pages/login/login?goto=detail&id='
         })
         return
       }
@@ -46,6 +46,48 @@ Page({
     util.navigateTo({
       url: "/pages/fabu/fabu?id="+e.target.dataset.id,
     });
+  },
+  bindcart: function(e){
+    this.islogin()
+    console.log('taplike ' + JSON.stringify(e))
+    var that = this
+    wx.request({
+      url: app.globalData.baseurl +'we/addCart',
+      header: { 'content-type': 'application/json' },
+      data: {
+        weItemid: app.globalData.curitemid,
+        userid: wx.getStorageSync("userid")
+      }, success(res2) {
+        console.log("taplike res  " + JSON.stringify(res2.data))
+        wx.showToast({
+          title: '加入购物车成功',
+          icon: 'success',
+          duration: 2000
+        })
+      }
+    })
+  },
+  
+  bindyuding: function(e){
+    this.islogin()
+    console.log('bindyuding ' + JSON.stringify(e))
+    var that = this
+    wx.request({
+      url: app.globalData.baseurl +'we/yuding',
+      header: { 'content-type': 'application/json' },
+      data: {
+        weItemid: app.globalData.curitemid,
+        num:1,
+        userid: wx.getStorageSync("userid")
+      }, success(res2) {
+        console.log("taplike res  " + JSON.stringify(res2.data))
+        wx.showToast({
+          title: '预定成功',
+          icon: 'success',
+          duration: 2000
+        })
+      }
+    })
   },
   taplike: function(e){
     console.log('taplike ' + JSON.stringify(e))

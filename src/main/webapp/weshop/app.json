@@ -2,13 +2,14 @@
   "pages":[
 
     "pages/list/list",
-    "pages/home/home",
     "pages/fabu/fabu",
+    
+    "pages/home/home",
+    "pages/detail/detail",
+  
     "pages/login/login",
     "pages/searchbar/searchbar",
-    "pages/detail/detail",
     
-   
     "pages/index/index",
     "pages/logs/logs"
   ],

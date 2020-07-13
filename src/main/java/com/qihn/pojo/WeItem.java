@@ -38,7 +38,7 @@ public class WeItem implements Serializable {
 
 
     @Column()
-    private Integer status;
+    private Integer status; // 0:审核不通过  1：审核通过  2： 下架
 
     @Column()
     private Integer shunxu;
@@ -74,9 +74,20 @@ public class WeItem implements Serializable {
     @Column
     private Long weCateid;
 
+    @Column()
+    private Integer stocknum;
+
     //vo
     @Transient
     private String  like;
+
+    public Integer getStocknum() {
+        return stocknum;
+    }
+
+    public void setStocknum(Integer stocknum) {
+        this.stocknum = stocknum;
+    }
 
     public String getLike() {
         return like;

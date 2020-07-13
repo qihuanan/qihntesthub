@@ -30,7 +30,7 @@ public class WeItemUser implements Serializable {
     @Column()
     private String cate; //1 喜欢  2 购物车  3 已预订  4 已完成  5已取消已删除
     @Column()
-    private Integer num; // 加入购物车数量
+    private Integer num; // 加入购物车数量  预定数量
     @Column()
     private String yudingdate;// 预定日期
     @Column()

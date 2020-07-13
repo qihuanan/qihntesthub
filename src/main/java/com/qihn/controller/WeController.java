@@ -42,6 +42,75 @@ public class WeController extends BaseController {
 
     }
     //=========================前端=========================
+    @RequestMapping(value = "/we/yudingquxiao", method = RequestMethod.GET)
+    public void yudingquxiao(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Map map = new HashMap();
+        this.setReqAndRes(request,response);
+        showparam();
+        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        WeItemUser weItemUser = this.weItemUserService.findById(WeItemUser.class, Long.parseLong(getParam("id")));
+        weItemUser.setCate("5");// 取消
+        this.weItemUserService.update(weItemUser);
+        // 商品库存更新
+        WeItem weItem =  this.weItemService.findById(WeItem.class,weItemUser.getWeItemid());
+        weItem.setStocknum(weItemUser.getNum()+weItem.getStocknum());
+        this.weItemService.update(weItem);
+        map.put("data", "1");
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/we/yuding", method = RequestMethod.GET)
+    public void yuding(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Map map = new HashMap();
+        this.setReqAndRes(request,response);
+        showparam();
+        WeItem weItem = this.weItemService.findById(WeItem.class,Long.parseLong(getParam("weItemid")));
+        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        Integer num = 1;
+        try {
+            num =Integer.parseInt(getParam("num"));
+        }catch (Exception e){
+            num =1;
+        }
+        WeItemUser weItemUser = new WeItemUser();
+        weItemUser.setUserid(user.getId());
+        weItemUser.setWeItemid(weItem.getId());
+        weItemUser.setCate("3");//预定
+        //yyyy-MM-dd  预定日期，一天可以多次预定，只有一条记录  数量累加
+        weItemUser.setYudingdate(Utils.formatShortDate());
+
+        weItemUser = this.weItemUserService.findByProperties(weItemUser);
+        if(Utils.isNullorEmpty(weItemUser)){
+            weItemUser = new WeItemUser();
+            weItemUser.setUserid(user.getId());
+            weItemUser.setWeItemid(weItem.getId());
+            weItemUser.setCate("3");//预定
+            //yyyy-MM-dd  预定日期，一天可以多次预定，只有一条记录  数量累加
+            weItemUser.setYudingdate(Utils.formatShortDate());
+
+            weItemUser.setUser(user);
+            weItemUser.setWeItem(weItem);
+            weItemUser.setNum(num);
+            weItemUser.setCreatetime(Utils.formatLongDate());
+            weItemUser.setUpdatetime(Utils.formatLongDate());
+            weItemUser.setQuhuodate(Utils.formatShortDate());
+            weItemUser.setPrice(weItem.getPrice());
+            weItemUser.setTotalPrice(weItem.getPrice()*weItemUser.getNum());
+            this.weItemUserService.save(weItemUser);
+        }else {
+            weItemUser.setUpdatetime(Utils.formatLongDate());
+            weItemUser.setNum(weItemUser.getNum()+num);
+            weItemUser.setPrice(weItem.getPrice());
+            weItemUser.setTotalPrice(weItem.getPrice()*weItemUser.getNum());
+            this.weItemUserService.update(weItemUser);
+        }
+        // 商品库存更新num
+
+        weItem.setStocknum(weItem.getStocknum()-num);
+        this.weItemService.update(weItem);
+        map.put("data", "1");
+        this.printjson(JSONUtils.toJSON(map));
+    }
     @RequestMapping(value = "/we/reduceCart", method = RequestMethod.GET)
     public void reduceCart(HttpServletRequest request, HttpServletResponse response) throws Exception{
         Map map = new HashMap();
@@ -104,12 +173,13 @@ public class WeController extends BaseController {
             weItemUser.setUser(user);
             weItemUser.setWeItem(weItem);
             this.weItemUserService.save(weItemUser);
-            map.put("data", "1");
+
         }else {
             weItemUser.setNum(weItemUser.getNum()+1);
             weItemUser.setUpdatetime(Utils.formatLongDate());
             this.weItemUserService.update(weItemUser);
         }
+        map.put("data", "1");
         this.printjson(JSONUtils.toJSON(map));
     }
 
@@ -211,6 +281,7 @@ public class WeController extends BaseController {
         showparam();
         List<WeCate> weCateList = this.weCateService.findAll(WeCate.class,"id","asc");
         Map map = new HashMap();
+        //weCateList.add(0,weCateList.get(0));
         map.put("weCateList", weCateList);
         this.printjson(JSONUtils.toJSON(map));
     }
@@ -316,6 +387,7 @@ public class WeController extends BaseController {
 
         Map map = new HashMap();
         map.put("weItemindex", 0);
+        //weCateList.add(0,weCateList.get(0));
         for(int i=0;i<weCateList.size();i++){
             if(weItem.getWeCateid()==weCateList.get(i).getId()){
                 map.put("weItemindex", i);
