@@ -77,6 +77,7 @@ Page({
       header: { 'content-type': 'application/json' },
       data: {
         curPage: curpage == undefined ? 1 : curpage,
+        cate: 1,
         userid: wx.getStorageSync("userid")
       }, success(res2) {
         console.log("home loadlistdate2-res  " + JSON.stringify(res2.data))

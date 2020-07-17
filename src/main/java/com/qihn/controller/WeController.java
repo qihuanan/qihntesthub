@@ -122,6 +122,7 @@ public class WeController extends BaseController {
         weItemUser.setUserid(user.getId());
         weItemUser.setWeItemid(weItem.getId());
         weItemUser.setCate("2");
+        weItemUser.setSelected(true);
         weItemUser = this.weItemUserService.findByProperties(weItemUser);
         if(weItemUser.getNum()>1){
             weItemUser.setNum(weItemUser.getNum()-1);
@@ -131,6 +132,19 @@ public class WeController extends BaseController {
             this.weItemUserService.delete(weItemUser);
         }
 
+        map.put("data", "1");
+        this.printjson(JSONUtils.toJSON(map));
+    }
+    @RequestMapping(value = "/we/setSelectedCart", method = RequestMethod.GET)
+    public void unsecletCart(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Map map = new HashMap();
+        this.setReqAndRes(request,response);
+        showparam();
+
+        WeItemUser weItemUser = this.weItemUserService.findById(WeItemUser.class, Long.parseLong(getParam("id")));
+
+        weItemUser.setSelected(weItemUser.isSelected()==true?false:true);
+        this.weItemUserService.update(weItemUser);
         map.put("data", "1");
         this.printjson(JSONUtils.toJSON(map));
     }
@@ -161,6 +175,7 @@ public class WeController extends BaseController {
         weItemUser.setUserid(user.getId());
         weItemUser.setWeItemid(weItem.getId());
         weItemUser.setCate("2");
+        weItemUser.setSelected(true);
         weItemUser = this.weItemUserService.findByProperties(weItemUser);
         if(weItemUser==null){
             weItemUser = new WeItemUser();
@@ -172,6 +187,7 @@ public class WeController extends BaseController {
             weItemUser.setUpdatetime(Utils.formatLongDate());
             weItemUser.setUser(user);
             weItemUser.setWeItem(weItem);
+            weItemUser.setSelected(true);
             this.weItemUserService.save(weItemUser);
 
         }else {

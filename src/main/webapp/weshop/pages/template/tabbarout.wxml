@@ -19,7 +19,7 @@
     </navigator>
   </view>
   <view class="weui-tabbar__item {{cur == 1 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/list/list" open-type="reLaunch" >
+    <navigator url="/pages/cart2/cart" open-type="reLaunch" >
      <mp-icon icon="shop" color="green" size="{{30}}"></mp-icon>
       <view class="weui-tabbar__label">购物车</view>
     </navigator>

@@ -48,6 +48,8 @@ public class WeItemUser implements Serializable {
     private String createtime;
     @Column()
     private String updatetime;
+    @Column()
+    private boolean selected = true;
 
 
     public Long getId() {
@@ -60,6 +62,14 @@ public class WeItemUser implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public void setName(String name) {

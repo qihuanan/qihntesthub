@@ -1,6 +1,7 @@
 {
   "pages":[
-
+    "pages/cart2/cart",
+    "pages/cart/cart",
     "pages/list/list",
     "pages/fabu/fabu",
     
@@ -32,4 +33,5 @@
       "desc": "你的位置信息将用于位置验证!"
     }
   }
+
 }
