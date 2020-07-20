@@ -1,7 +1,12 @@
 {
   "pages":[
-    "pages/cart2/cart",
+
     "pages/cart/cart",
+
+    "pages/user/user",
+    "pages/address/address",
+    "pages/orders/orders",
+    
     "pages/list/list",
     "pages/fabu/fabu",
     

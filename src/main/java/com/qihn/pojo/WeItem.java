@@ -43,9 +43,9 @@ public class WeItem implements Serializable {
     @Column()
     private Integer shunxu;
     @Column()
-    private Double price;
+    private Double price = 0d;
     @Column()
-    private String priceUnit;
+    private String priceUnit ="个";
 
     @Column()
     private String createtime;

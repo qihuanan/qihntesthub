@@ -3,7 +3,7 @@
 <view class="weui-cells weui-cells_after-title">
 	<view class="weui-cell">
 		<view class="weui-cell__bd">
-			<input name="name" class="weui-input" auto-focus value="{{weItem.name}}" maxlength="10" placeholder="请输入..." />
+			<input name="name" class="weui-input" auto-focus value="{{weItem.name}}" maxlength="30" placeholder="请输入..." />
 
 			<input hidden="true" name="id"  value="{{weItem.id}}"  />
 			<input hidden="true" name="picture1"  value="{{weItem.picture1}}"  />

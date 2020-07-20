@@ -15,6 +15,17 @@
 </view>
 <!-- 导航 -->
 <view class="weui-flex daohang">
+  <view class="weui-flex__item {{showpanel == 3 ? 'iconunderline' : '' }}" data-panel="3"  bindtap="showmyorder">
+    <mp-icon icon="note" color="green" size="{{35}}"></mp-icon>
+    <view class="dakatext">我的订单</view>
+  </view>
+  <view class="weui-flex__item {{showpanel == 4 ? 'iconunderline' : '' }}" bindtap="goaddress" data-panel="4"  >
+    <mp-icon  icon="location" color="green" size="{{35}}"></mp-icon>
+    <view class="dakatext">我的地址</view>
+  </view>
+</view>
+
+<view class="weui-flex daohang">
   <view class="weui-flex__item {{showpanel == 1 ? 'iconunderline' : '' }}" data-panel="1"  bindtap="showmyactive">
     <image class="myimg-tips" src="/pages/images/icon-his@2x.png" ></image>
     <view class="dakatext">发布记录</view>
@@ -53,7 +64,7 @@
 </block>
 </block>
 <!-- 我喜欢的 收藏 -->
-<block wx:if="{{showpanel == 2 }}">
+<block wx:if="{{showpanel == 2 || showpanel == 3 }}">
 <block wx:for="{{weItemUserList }}" wx:for-index="index" wx:for-item="item" wx:key="t1">
 <view style="" class="weui-flex ">
   <view class="weui-flex__item">

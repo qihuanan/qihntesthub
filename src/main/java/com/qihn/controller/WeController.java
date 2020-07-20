@@ -59,6 +59,41 @@ public class WeController extends BaseController {
         this.printjson(JSONUtils.toJSON(map));
     }
 
+    /**
+     * 从购物车预定
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/we/cartyuding", method = RequestMethod.GET)
+    public void cartyuding(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Map map = new HashMap();
+        this.setReqAndRes(request,response);
+        showparam();
+        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        String ids [] = getParam("userid").split(",");
+        for(int i=0;i<ids.length;i++){
+            WeItemUser weItemUser = this.weItemUserService.findById(WeItemUser.class, Long.parseLong(ids[i]));
+            weItemUser.setCate("3");//预定
+            weItemUser.setYudingdate(Utils.formatShortDate());
+            weItemUser.setUpdatetime(Utils.formatLongDate());
+            weItemUser.setTotalPrice(weItemUser.getPrice()*weItemUser.getNum());
+            this.weItemUserService.update(weItemUser);
+            // 商品库存更新num
+            WeItem weItem = this.weItemService.findById(WeItem.class,weItemUser.getWeItemid());
+            weItem.setStocknum(weItem.getStocknum()-weItemUser.getNum());
+            this.weItemService.update(weItem);
+        }
+
+        map.put("data", "1");
+        this.printjson(JSONUtils.toJSON(map));
+    }
+    /**
+     * 商品页面直接单个预定
+     * @param request
+     * @param response
+     * @throws Exception
+     */
     @RequestMapping(value = "/we/yuding", method = RequestMethod.GET)
     public void yuding(HttpServletRequest request, HttpServletResponse response) throws Exception{
         Map map = new HashMap();
@@ -153,14 +188,9 @@ public class WeController extends BaseController {
         Map map = new HashMap();
         this.setReqAndRes(request,response);
         showparam();
-        WeItem weItem = this.weItemService.findById(WeItem.class,Long.parseLong(getParam("weItemid")));
-        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
-        WeItemUser weItemUser = new WeItemUser();
-        weItemUser.setUserid(user.getId());
-        weItemUser.setWeItemid(weItem.getId());
-        weItemUser.setCate("2");
-        weItemUser = this.weItemUserService.findByProperties(weItemUser);
-        this.weItemUserService.delete(weItemUser);
+        //User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        //WeItemUser weItemUser = this.weItemUserService.findById(WeItemUser.class, Long.parseLong(getParam("id")));
+        this.weItemUserService.delete(WeItemUser.class,Long.parseLong(getParam("id")));
         map.put("data", "1");
         this.printjson(JSONUtils.toJSON(map));
     }

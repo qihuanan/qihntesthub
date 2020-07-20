@@ -47,6 +47,18 @@ Page({
     })
     this.onPullDownRefresh()
   },
+  showmyorder: function (e){
+    console.log(e.currentTarget.dataset.panel)
+    this.setData({
+      showpanel: e.currentTarget.dataset.panel
+    })
+    this.loadlistdate3(1,this)
+  },
+  goaddress: function(e){
+    util.navigateTo({
+      url: "/pages/address/address",
+    });
+  },
   onShow:function(curpage){
     console.log('qihndebug-onShow-curpage ' + curpage )
   },
@@ -81,6 +93,24 @@ Page({
         userid: wx.getStorageSync("userid")
       }, success(res2) {
         console.log("home loadlistdate2-res  " + JSON.stringify(res2.data))
+        that.setData({
+          weItemUserList: that.data.weItemUserList.concat(res2.data.weItemUserList) ,
+        })
+      }
+    })
+  },
+  loadlistdate3:function(curpage,that){ //订单记录
+    console.log("home loadlistdate2-curpage  " + curpage)
+    if(curpage == 1){ that.setData({ weItemUserList:[] } ) }
+    wx.request({
+      url: app.globalData.baseurl +'we/getLikeList', // 
+      header: { 'content-type': 'application/json' },
+      data: {
+        curPage: curpage == undefined ? 1 : curpage,
+        cate: 3,
+        userid: wx.getStorageSync("userid")
+      }, success(res2) {
+        console.log("home loadlistdate3-res  " + JSON.stringify(res2.data))
         that.setData({
           weItemUserList: that.data.weItemUserList.concat(res2.data.weItemUserList) ,
         })

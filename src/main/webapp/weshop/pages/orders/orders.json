@@ -1,6 +1,5 @@
 {
-  "navigationBarTitleText": "购物车",
-  "component": true,
+  "navigationBarTitleText": "订单详情",
   "usingComponents": {
     "mp-icon": "/pages/components/icon/icon"
   }

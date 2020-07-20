@@ -3,36 +3,32 @@ const util = require('../../utils/util.js')
 Page({
   data: {
     baseurl: app.globalData.baseurl,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    weItemList:[],
+    weItemUserList:[],               // 购物车列表
+    hasList:false,          // 列表是否有数据
+    totalPrice:0,           // 总价，初始为0
+    selectAllStatus:true,    // 全选状态，默认全选
     curpage : 1,
-    minusStatus: 'disabled',
-    item:{},
+    obj:{
+        name:"hello"
+    }
   },
-  //事件处理函数
-  onShareAppMessage: function () {
-  },
-  onShow:function(curpage){
-    
-  },
-  loadlistdate:function(curpage,that){
-    var userid = wx.getStorageSync("userid")
-    console.log("onShow userid " + userid+ " curpage:"+curpage)
-    if(curpage == 1){ that.setData({ weItemList:[] } ) }
-    that.setData({ cur:1  })
+
+  loadlistdate:function(curpage,that){ 
+    console.log("home loadlistdate2-curpage  " + curpage)
+    if(curpage == 1){ that.setData({ weItemUserList:[] } ) }
     wx.request({
-      url: app.globalData.baseurl +'we/getItemList',
+      url: app.globalData.baseurl +'we/getLikeList', // 
       header: { 'content-type': 'application/json' },
       data: {
         curPage: curpage == undefined ? 1 : curpage,
-        status:1,
-        //userid: wx.getStorageSync("userid")
+        cate: 2,
+        userid: wx.getStorageSync("userid")
       }, success(res2) {
-        console.log("onShow-getItemList " + JSON.stringify(res2.data))
+        console.log("home loadlistdate2-res  " + JSON.stringify(res2.data))
         that.setData({
-          weItemList: that.data.weItemList.concat(res2.data.weItemList) ,
-          hasUserInfo: true
+          weItemUserList: that.data.weItemUserList.concat(res2.data.weItemUserList) ,
         })
+        that.getTotalPrice();
       }
     })
   },
@@ -53,41 +49,153 @@ Page({
       url: "/pages/detail/detail?id=" + e.target.dataset.lineid,
     });
   },
-  /* 点击减号 */  
-  bindMinus: function() {  
-    var num = this.data.num;  
-    // 如果大于1时，才可以减  
-    if (num > 1) {  
-        num --;  
-    }  
-    // 只有大于一件的时候，才能normal状态，否则disable状态  
-    var minusStatus = num <= 1 ? 'disabled' : 'normal';  
-    // 将数值与状态写回  
-    this.setData({  
-        num: num,  
-        minusStatus: minusStatus  
-    });  
-  },  
-  /* 点击加号 */  
-  bindPlus: function() {  
-    var num = this.data.num;  
-    // 不作过多考虑自增1  
-    num ++;  
-    // 只有大于一件的时候，才能normal状态，否则disable状态  
-    var minusStatus = num < 1 ? 'disabled' : 'normal';  
-    // 将数值与状态写回  
-    this.setData({  
-        num: num,  
-        minusStatus: minusStatus  
-    });  
-  },  
-/* 输入框事件 */  
-  bindManual: function(e) {  
-    var num = e.detail.value;  
-    // 将数值与状态写回  
-    this.setData({  
-        num: num  
-    });  
+  onShow() {
+    this.setData({
+      hasList: true,
+    });
+    this.getTotalPrice();
+  },
+  /**
+   * 当前商品选中事件
+   */
+  selectList(e) {
+    const index = e.currentTarget.dataset.index;
+    let weItemUserList = this.data.weItemUserList;
+    const selected = weItemUserList[index].selected;
+    weItemUserList[index].selected = !selected;
+    this.setData({
+      weItemUserList: weItemUserList
+    });
+    this.getTotalPrice();
+    this.setSelectedCart(weItemUserList[index].id)
+    
+  },
+
+  setSelectedCart(obj) {
+    wx.request({
+      url: app.globalData.baseurl +'we/setSelectedCart', // 
+      header: { 'content-type': 'application/json' },
+      data: {
+        id: obj,
+        userid: wx.getStorageSync("userid")
+      }, success(res2) {
+        console.log("changeItem-res  " + JSON.stringify(res2.data))
+      }
+    })   
+  },
+  /**
+   * 删除购物车当前商品
+   */
+  deleteList(e) {
+    const index = e.currentTarget.dataset.index;
+    let weItemUserList = this.data.weItemUserList;
+    this.delCart(weItemUserList[index].id)
+    weItemUserList.splice(index,1);
+    this.setData({
+      weItemUserList: weItemUserList
+    });
+    if(!weItemUserList.length){
+      this.setData({
+        hasList: false
+      });
+    }else{
+      this.getTotalPrice();
+    }
+    
+  },
+  delCart(obj) {
+    wx.request({
+      url: app.globalData.baseurl +'we/delCart', // 
+      header: { 'content-type': 'application/json' },
+      data: {
+        id: obj,
+        userid: wx.getStorageSync("userid")
+      }, success(res2) {
+        console.log("changeItem-res  " + JSON.stringify(res2.data))
+      }
+    })   
+  },
+  /**
+   * 购物车全选事件
+   */
+  selectAll(e) {
+    let selectAllStatus = this.data.selectAllStatus;
+    selectAllStatus = !selectAllStatus;
+    let weItemUserList = this.data.weItemUserList;
+
+    for (let i = 0; i < weItemUserList.length; i++) {
+      weItemUserList[i].selected = selectAllStatus;
+      this.setSelectedCart(weItemUserList[index].id)
+    }
+    this.setData({
+      selectAllStatus: selectAllStatus,
+      weItemUserList: weItemUserList
+    });
+    this.getTotalPrice();
+  },
+
+  /**
+   * 绑定加数量事件
+   */
+  addCount(e) {
+    const index = e.currentTarget.dataset.index;
+    let weItemUserList = this.data.weItemUserList;
+    let num = weItemUserList[index].num;
+    num = num + 1;
+    weItemUserList[index].num = num;
+    this.setData({
+      weItemUserList: weItemUserList
+    });
+    this.getTotalPrice();
+    this.addreduceCart('addCart',weItemUserList[index].weItemid);
+  },
+
+  /**
+   * 绑定减数量事件
+   */
+  minusCount(e) {
+    const index = e.currentTarget.dataset.index;
+    const obj = e.currentTarget.dataset.obj;
+    let weItemUserList = this.data.weItemUserList;
+    let num = weItemUserList[index].num;
+    if(num <= 1){
+      return false;
+    }
+    num = num - 1;
+    weItemUserList[index].num = num;
+    this.setData({
+      weItemUserList: weItemUserList
+    });
+    this.getTotalPrice();
+    this.addreduceCart('reduceCart',weItemUserList[index].weItemid);
+  },
+  addreduceCart(op,obj) { // op: reduceCart addCart
+    wx.request({
+      url: app.globalData.baseurl +'we/'+op, // 
+      header: { 'content-type': 'application/json' },
+      data: {
+        weItemid: obj,
+        userid: wx.getStorageSync("userid")
+      }, success(res2) {
+        console.log("changeItem-res  " + JSON.stringify(res2.data))
+      }
+    })   
+  },
+  /**
+   * 计算总价
+   */
+  getTotalPrice() {
+    let weItemUserList = this.data.weItemUserList;                  // 获取购物车列表
+    let total = 0;
+    for(let i = 0; i<weItemUserList.length; i++) {         // 循环列表得到每个数据
+      if(weItemUserList[i].selected) {                     // 判断选中才会计算价格
+        total += weItemUserList[i].num * weItemUserList[i].weItem.price;   // 所有价格加起来
+      }
+    }
+    this.setData({                                // 最后赋值到data中渲染到页面
+      weItemUserList: weItemUserList,
+      totalPrice: total.toFixed(2)
+    });
   }
 
 })
