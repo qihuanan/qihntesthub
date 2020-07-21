@@ -36,9 +36,9 @@ public class User implements Serializable {
     @Column()
     private String mobile;
     @Column()
-    private String linkopenid;
+    private String linkopenid; // 姓名
     @Column()
-    private String linkmobile;
+    private String linkmobile; // 地址
 
     public String getMobile() {
         return mobile;

@@ -42,6 +42,24 @@ public class WeController extends BaseController {
 
     }
     //=========================前端=========================
+
+    @RequestMapping(value = "/we/setaddress", method = RequestMethod.GET)
+    public void setaddress(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Map map = new HashMap();
+        this.setReqAndRes(request, response);
+        showparam();
+        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        String mobile = getParam("mobile");
+        String linkopenid = getParam("linkopenid");
+        String linkmobile = getParam("linkmobile");
+        user.setMobile(mobile);
+        user.setLinkopenid(linkopenid);
+        user.setLinkmobile(linkmobile);
+        this.userService.update(user);
+        map.put("data", "1");
+        this.printjson(JSONUtils.toJSON(map));
+
+    }
     @RequestMapping(value = "/we/yudingquxiao", method = RequestMethod.GET)
     public void yudingquxiao(HttpServletRequest request, HttpServletResponse response) throws Exception{
         Map map = new HashMap();
@@ -71,13 +89,28 @@ public class WeController extends BaseController {
         this.setReqAndRes(request,response);
         showparam();
         User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
-        String ids [] = getParam("userid").split(",");
-        for(int i=0;i<ids.length;i++){
-            WeItemUser weItemUser = this.weItemUserService.findById(WeItemUser.class, Long.parseLong(ids[i]));
+        WeItemUser weItemUser = new WeItemUser();
+        weItemUser.setUserid(user.getId());
+        weItemUser.setCate("2");//购物车
+        weItemUser.setSelected("1");
+        List<WeItemUser> selectCartList = this.weItemUserService.findByProperties(weItemUser,null,100,null,null);
+
+        String name = user.getName()+" "+user.getMobile();
+        Double total = 0d;
+        for(int i=0;i<selectCartList.size();i++){
+            total+= selectCartList.get(i).getWeItem().getPrice()*selectCartList.get(i).getNum();
+        }
+        name = name+" "+total;
+
+        for(int i=0;i<selectCartList.size();i++){
+            weItemUser = selectCartList.get(i);
             weItemUser.setCate("3");//预定
-            weItemUser.setYudingdate(Utils.formatShortDate());
+            weItemUser.setYudingdate(Utils.formatCompactDateSSS());
             weItemUser.setUpdatetime(Utils.formatLongDate());
+            weItemUser.setQuhuodate(Utils.formatShortDate());
+            weItemUser.setPrice(weItemUser.getWeItem().getPrice());
             weItemUser.setTotalPrice(weItemUser.getPrice()*weItemUser.getNum());
+            weItemUser.setName(name);
             this.weItemUserService.update(weItemUser);
             // 商品库存更新num
             WeItem weItem = this.weItemService.findById(WeItem.class,weItemUser.getWeItemid());
@@ -108,20 +141,11 @@ public class WeController extends BaseController {
             num =1;
         }
         WeItemUser weItemUser = new WeItemUser();
-        weItemUser.setUserid(user.getId());
-        weItemUser.setWeItemid(weItem.getId());
-        weItemUser.setCate("3");//预定
-        //yyyy-MM-dd  预定日期，一天可以多次预定，只有一条记录  数量累加
-        weItemUser.setYudingdate(Utils.formatShortDate());
-
-        weItemUser = this.weItemUserService.findByProperties(weItemUser);
-        if(Utils.isNullorEmpty(weItemUser)){
             weItemUser = new WeItemUser();
             weItemUser.setUserid(user.getId());
             weItemUser.setWeItemid(weItem.getId());
             weItemUser.setCate("3");//预定
-            //yyyy-MM-dd  预定日期，一天可以多次预定，只有一条记录  数量累加
-            weItemUser.setYudingdate(Utils.formatShortDate());
+            weItemUser.setYudingdate(Utils.formatCompactDateSSS());
 
             weItemUser.setUser(user);
             weItemUser.setWeItem(weItem);
@@ -131,14 +155,9 @@ public class WeController extends BaseController {
             weItemUser.setQuhuodate(Utils.formatShortDate());
             weItemUser.setPrice(weItem.getPrice());
             weItemUser.setTotalPrice(weItem.getPrice()*weItemUser.getNum());
+            weItemUser.setName(user.getName()+" "+user.getMobile()+" "+ weItemUser.getTotalPrice()+"");
             this.weItemUserService.save(weItemUser);
-        }else {
-            weItemUser.setUpdatetime(Utils.formatLongDate());
-            weItemUser.setNum(weItemUser.getNum()+num);
-            weItemUser.setPrice(weItem.getPrice());
-            weItemUser.setTotalPrice(weItem.getPrice()*weItemUser.getNum());
-            this.weItemUserService.update(weItemUser);
-        }
+
         // 商品库存更新num
 
         weItem.setStocknum(weItem.getStocknum()-num);
@@ -157,7 +176,7 @@ public class WeController extends BaseController {
         weItemUser.setUserid(user.getId());
         weItemUser.setWeItemid(weItem.getId());
         weItemUser.setCate("2");
-        weItemUser.setSelected(true);
+        weItemUser.setSelected("1");
         weItemUser = this.weItemUserService.findByProperties(weItemUser);
         if(weItemUser.getNum()>1){
             weItemUser.setNum(weItemUser.getNum()-1);
@@ -178,7 +197,7 @@ public class WeController extends BaseController {
 
         WeItemUser weItemUser = this.weItemUserService.findById(WeItemUser.class, Long.parseLong(getParam("id")));
 
-        weItemUser.setSelected(weItemUser.isSelected()==true?false:true);
+        weItemUser.setSelected(weItemUser.getSelected().equals("1")?"0":"1");
         this.weItemUserService.update(weItemUser);
         map.put("data", "1");
         this.printjson(JSONUtils.toJSON(map));
@@ -205,7 +224,7 @@ public class WeController extends BaseController {
         weItemUser.setUserid(user.getId());
         weItemUser.setWeItemid(weItem.getId());
         weItemUser.setCate("2");
-        weItemUser.setSelected(true);
+        weItemUser.setSelected("1");
         weItemUser = this.weItemUserService.findByProperties(weItemUser);
         if(weItemUser==null){
             weItemUser = new WeItemUser();
@@ -217,7 +236,7 @@ public class WeController extends BaseController {
             weItemUser.setUpdatetime(Utils.formatLongDate());
             weItemUser.setUser(user);
             weItemUser.setWeItem(weItem);
-            weItemUser.setSelected(true);
+            weItemUser.setSelected("1");
             this.weItemUserService.save(weItemUser);
 
         }else {

@@ -37,6 +37,10 @@ public class WeItemUserDAOImpl extends BaseDaoImpl<WeItemUser> implements WeItem
                     hql.append(" and c.cate =:getCate");
                     params.put("getCate", entity.getCate());
                 }
+                if(Utils.isNotNullOrEmpty(entity.getSelected())){
+                    hql.append(" and c.selected =:getSelected");
+                    params.put("getSelected", entity.getSelected());
+                }
                 if(Utils.isNotNullOrEmpty(entity.getYudingdate())){
                     hql.append(" and c.yudingdate =:getYudingdate");
                     params.put("getYudingdate", entity.getYudingdate());

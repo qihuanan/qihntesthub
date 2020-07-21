@@ -62,7 +62,7 @@ Page({
     const index = e.currentTarget.dataset.index;
     let weItemUserList = this.data.weItemUserList;
     const selected = weItemUserList[index].selected;
-    weItemUserList[index].selected = !selected;
+    weItemUserList[index].selected = selected == "1" ? "0" : "1";
     this.setData({
       weItemUserList: weItemUserList
     });
@@ -124,7 +124,7 @@ Page({
     let weItemUserList = this.data.weItemUserList;
 
     for (let i = 0; i < weItemUserList.length; i++) {
-      weItemUserList[i].selected = selectAllStatus;
+      weItemUserList[i].selected = selectAllStatus == true ? "1" : "0";
       this.setSelectedCart(weItemUserList[index].id)
     }
     this.setData({
@@ -188,7 +188,7 @@ Page({
     let weItemUserList = this.data.weItemUserList;                  // 获取购物车列表
     let total = 0;
     for(let i = 0; i<weItemUserList.length; i++) {         // 循环列表得到每个数据
-      if(weItemUserList[i].selected) {                     // 判断选中才会计算价格
+      if(weItemUserList[i].selected == "1") {                     // 判断选中才会计算价格
         total += weItemUserList[i].num * weItemUserList[i].weItem.price;   // 所有价格加起来
       }
     }

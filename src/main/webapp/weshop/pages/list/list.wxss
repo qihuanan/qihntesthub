@@ -25,3 +25,8 @@
   margin: 10rpx;
 }
 @import '/pages/detail/detail.wxss'
+
+.itemremark{
+  overflow: hidden;
+  max-height: 200rpx;
+}

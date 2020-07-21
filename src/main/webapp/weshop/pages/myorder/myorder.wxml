@@ -9,17 +9,16 @@
     </navigator>
 
     <view class="orders-box">
-    <block wx:for="{{weItemUserList}}" wx:key="index" >
-        <view  wx:if="{{item.selected == '1'}}" class="orders-list">   
-            <image class="orders-thumb" src="{{baseurl}}wx/showimg?filename={{item.weItem.picture1}}"></image>
-            <view class="orders-pro-name">{{item.weItem.name}}</view>
-            <view class="orders-pro-price">￥{{item.weItem.price}} × {{item.num}}</view>         
+        <view wx:for="{{orders}}" wx:key="index" class="orders-list">
+            <image class="orders-thumb" src="{{item.image}}"></image>
+            <view class="orders-pro-name">{{item.title}}</view>
+            <view class="orders-pro-price">￥{{item.price}}</view>
+            <view class="orders-count-num">×{{item.num}}</view>
         </view>
-    </block>
     </view>
 
     <view class="orders-footer">
-        <view class="orders-footer-total">订单金额：￥{{totalPrice}}</view>
+        <view class="orders-footer-total">订单金额：￥{{total}}</view>
         <view class="orders-footer-btn" bindtap="toPay">确定下单</view>
     </view>
 </view>

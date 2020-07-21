@@ -50,25 +50,19 @@
 }
 .orders-list{
     position: relative;
-    padding:20rpx 20rpx 20rpx 250rpx;
-    height: 220rpx;
-
+    padding:20rpx 20rpx 20rpx 220rpx;
+    height: 180rpx;
     border-bottom: 1rpx solid #ededed;
 }
 .orders-thumb{
     position: absolute;
     top: 20rpx;
     left: 20rpx;
-    width: 210rpx;
-    height: 210rpx;
+    width: 180rpx;
+    height: 180rpx;
 }
 .orders-list view{
     line-height: 60rpx;
-}
-.orders-pro-name{
-    line-height: 120rpx;
-    overflow: hidden;
-    max-height: 120rpx;
 }
 
 .orders-footer{

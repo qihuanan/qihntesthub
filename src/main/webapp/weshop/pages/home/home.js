@@ -48,11 +48,14 @@ Page({
     this.onPullDownRefresh()
   },
   showmyorder: function (e){
+    util.navigateTo({
+      url: "/pages/myorder/myorder",
+    });
     console.log(e.currentTarget.dataset.panel)
     this.setData({
       showpanel: e.currentTarget.dataset.panel
     })
-    this.loadlistdate3(1,this)
+    //this.loadlistdate3(1,this)
   },
   goaddress: function(e){
     util.navigateTo({

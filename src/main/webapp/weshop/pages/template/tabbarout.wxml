@@ -13,9 +13,9 @@
     </navigator>
   </view>
   <view class="weui-tabbar__item {{cur == 1 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/list/list" open-type="reLaunch" >
-       <mp-icon icon="location" color="green" size="{{30}}"></mp-icon>
-      <view class="weui-tabbar__label">附近</view>
+    <navigator url="/pages/fabu/fabu" open-type="reLaunch" >
+       <mp-icon icon="pencil" color="green" size="{{30}}"></mp-icon>
+      <view class="weui-tabbar__label">发布</view>
     </navigator>
   </view>
   <view class="weui-tabbar__item {{cur == 1 ? 'weui-bar__item_on' : ''}}">

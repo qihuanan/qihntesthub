@@ -28,7 +28,7 @@ public class WeItemUser implements Serializable {
     private WeItem weItem;
 
     @Column()
-    private String cate; //1 喜欢  2 购物车  3 已预订  4 已完成  5已取消已删除
+    private String cate; //1 喜欢  2 购物车  3 已预订,已下单  4 已完成  5已取消已删除
     @Column()
     private Integer num; // 加入购物车数量  预定数量
     @Column()
@@ -49,7 +49,7 @@ public class WeItemUser implements Serializable {
     @Column()
     private String updatetime;
     @Column()
-    private boolean selected = true;
+    private String selected;
 
 
     public Long getId() {
@@ -64,11 +64,11 @@ public class WeItemUser implements Serializable {
         return name;
     }
 
-    public boolean isSelected() {
+    public String getSelected() {
         return selected;
     }
 
-    public void setSelected(boolean selected) {
+    public void setSelected(String selected) {
         this.selected = selected;
     }
 

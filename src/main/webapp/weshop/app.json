@@ -2,10 +2,9 @@
   "pages":[
 
     "pages/cart/cart",
-
-    "pages/user/user",
     "pages/address/address",
     "pages/orders/orders",
+    "pages/myorder/myorder",
     
     "pages/list/list",
     "pages/fabu/fabu",
