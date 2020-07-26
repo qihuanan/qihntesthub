@@ -34,7 +34,11 @@ Page({
       }
     })
   },
-  onLoad: function () {
+  onLoad: function (options) {
+    console.log('onLoad options ' + JSON.stringify(options))
+    if (options && options.weCateid) {
+      app.globalData.goto = options.goto
+    }
     this.loadlistdate(1,this)
   },
   onPullDownRefresh: function() {

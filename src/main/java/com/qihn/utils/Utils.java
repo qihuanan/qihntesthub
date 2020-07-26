@@ -51,6 +51,7 @@ public class Utils  {
 	private static final DateFormat dayFormat = new SimpleDateFormat("dd");
 	//public static ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(ServletActionContext.getServletContext());// new ClassPathXmlApplicationContext("spring/application*.xml");
 	private static final DateFormat compactDateFormatSSS = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+	private static final DateFormat compactDateFormatSSS2 = new SimpleDateFormat("yyyyMMdd-HHmmss-SSS");
 
 
 	public static String formatString0(int i){
@@ -150,6 +151,12 @@ public class Utils  {
 	public static String formatCompactDateSSS() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(compactDateFormatSSS.format(new Date())).append(new Random().nextInt(9)).append(new Random().nextInt(9)).append(new Random().nextInt(9));
+		return sb.toString();
+	}
+
+	public static String formatCompactDateSSS2() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(compactDateFormatSSS2.format(new Date())).append(new Random().nextInt(9)).append(new Random().nextInt(9)).append(new Random().nextInt(9));
 		return sb.toString();
 	}
 

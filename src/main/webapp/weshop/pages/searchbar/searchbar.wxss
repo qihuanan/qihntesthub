@@ -1,1 +1,30 @@
-.searchbar-result{margin-top:0;font-size:14px}.searchbar-result .weui-cell__bd{padding:2px 0 2px 20px;color:var(--weui-FG-1)}.searchbar-result:before{display:none}
+.searchbar-result {
+  margin-top: 0;
+  font-size: 14px
+}
+.searchbar-result .weui-cell__bd {
+  padding: 2px 0 2px 20px;
+  color: var(--weui-FG-1)
+}
+.searchbar-result:before {
+  display: none
+}
+
+.cateitem {
+  
+  line-height: 100rpx;
+ }
+ .father {
+  width: 660rpx;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center; 
+  margin:auto;
+
+
+ } 
+ .child{
+  width: 210rpx; 
+  text-align: center;
+  border-bottom: 1px solid #E6E6E6;
+ }

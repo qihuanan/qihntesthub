@@ -1,26 +1,19 @@
 <view class="main">
-    <navigator url="../address/address">
-        <view wx:if="{{hasAddress}}" class="orders-address">
-            <text class="orders-address-name">收货人: {{address.name}}</text>
-            <text class="orders-address-phone">电话: {{address.phone}}</text>
-            <view class="orders-address-detail">{{address.detail}}</view>
-        </view>
-        <view wx:else class="orders-no-address">添加收货地址</view>
-    </navigator>
-
     <view class="orders-box">
-        <view wx:for="{{orders}}" wx:key="index" class="orders-list">
-            <image class="orders-thumb" src="{{item.image}}"></image>
-            <view class="orders-pro-name">{{item.title}}</view>
-            <view class="orders-pro-price">￥{{item.price}}</view>
-            <view class="orders-count-num">×{{item.num}}</view>
+    <block wx:for="{{weItemUserList}}" wx:key="index" >
+        <view wx:if="{{item.remark == '1'}}" class="order-group">
+         订单号：{{item.yudingdate}} </view>
+        <view wx:if="{{item.remark == '1'}}" class="order-group">
+         {{item.name}} </view>
+        
+        <view class="orders-list">   
+            <image class="orders-thumb" src="{{baseurl}}wx/showimg?filename={{item.weItem.picture1}}"></image>
+            <view class="orders-pro-name">{{item.weItem.name}}</view>
+            <view class="orders-pro-price">￥{{item.weItem.price}} × {{item.num}}</view>         
         </view>
+    </block>
     </view>
 
-    <view class="orders-footer">
-        <view class="orders-footer-total">订单金额：￥{{total}}</view>
-        <view class="orders-footer-btn" bindtap="toPay">确定下单</view>
-    </view>
 </view>
 
 <view class="pretabbar">　　　</view>

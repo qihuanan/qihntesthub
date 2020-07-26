@@ -1,26 +1,41 @@
-// page/component/orders/orders.js
+const app = getApp() 
+const util = require('../../utils/util.js')
 Page({
   data:{
+    baseurl: app.globalData.baseurl,
+    weItemUserList:[], 
+    curpage : 1,
     address:{},
     hasAddress: false,
-    total:0,
-    orders:[
-        {id:1,title:'新鲜芹菜 半斤',image:'/image/s5.png',num:4,price:0.01},
-        {id:1,title:'新鲜芹菜 半斤',image:'/image/s5.png',num:4,price:0.01},
-        {id:1,title:'新鲜芹菜 半斤',image:'/image/s5.png',num:4,price:0.01},
-        {id:1,title:'新鲜芹菜 半斤',image:'/image/s5.png',num:4,price:0.01},
-        {id:1,title:'新鲜芹菜 半斤',image:'/image/s5.png',num:4,price:0.01},
-        {id:1,title:'新鲜芹菜 半斤',image:'/image/s5.png',num:4,price:0.01},
-        {id:1,title:'新鲜芹菜 半斤',image:'/image/s5.png',num:4,price:0.01},
-        {id:1,title:'新鲜芹菜 半斤',image:'/image/s5.png',num:4,price:0.01},
-        {id:2,title:'素米 500g',image:'/image/s6.png',num:1,price:0.03}
-      ]
+    totalPrice:0,
+    
   },
 
-  onReady() {
-    this.getTotalPrice();
+  loadlistdate:function(curpage,that){ 
+    console.log("home loadlistdate2-curpage  " + curpage)
+    if(curpage == 1){ that.setData({ weItemUserList:[] } ) }
+    wx.request({
+      url: app.globalData.baseurl +'we/getLikeList', // 
+      header: { 'content-type': 'application/json' },
+      data: {
+        curPage: curpage == undefined ? 1 : curpage,
+        cate: 3,//我的订单
+        userid: wx.getStorageSync("userid")
+      }, success(res2) {
+        console.log("home loadlistdate2-res  " + JSON.stringify(res2.data))
+        that.setData({
+          weItemUserList: that.data.weItemUserList.concat(res2.data.weItemUserList) ,
+        })
+        
+      }
+    })
   },
-  
+  onReady() {
+    
+  },
+  onLoad: function () {
+    this.loadlistdate(1,this)
+  },
   onShow:function(){
     const self = this;
     wx.getStorage({
@@ -32,32 +47,6 @@ Page({
         })
       }
     })
-  },
-
-  /**
-   * 计算总价
-   */
-  getTotalPrice() {
-    let orders = this.data.orders;
-    let total = 0;
-    for(let i = 0; i < orders.length; i++) {
-      total += orders[i].num * orders[i].price;
-    }
-    this.setData({
-      total: total
-    })
-  },
-
-  toPay() {
-    wx.showModal({
-      title: '提示',
-      content: '本系统只做演示，支付系统已屏蔽',
-      text:'center',
-      complete() {
-        wx.switchTab({
-          url: '/page/component/user/user'
-        })
-      }
-    })
   }
+
 })

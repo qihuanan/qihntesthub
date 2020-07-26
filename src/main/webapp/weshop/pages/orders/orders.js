@@ -1,4 +1,4 @@
-const app = getApp()
+const app = getApp() // 结算页去下单
 const util = require('../../utils/util.js')
 Page({
   data:{
@@ -87,6 +87,9 @@ Page({
             userid: wx.getStorageSync("userid")
           }, success(res2) {
             console.log("home loadlistdate2-res  " + JSON.stringify(res2.data))
+            util.navigateTo({
+              url: '/pages/myorder/myorder'
+            });
           }
         })
 

@@ -1,19 +1,21 @@
 {
   "pages":[
 
+    "pages/searchbar/searchbar",
+    "pages/list/list",
+    "pages/myorder/myorder",
     "pages/cart/cart",
     "pages/address/address",
     "pages/orders/orders",
-    "pages/myorder/myorder",
     
-    "pages/list/list",
+
     "pages/fabu/fabu",
     
     "pages/home/home",
     "pages/detail/detail",
   
     "pages/login/login",
-    "pages/searchbar/searchbar",
+
     
     "pages/index/index",
     "pages/logs/logs"

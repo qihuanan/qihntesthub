@@ -100,12 +100,13 @@ public class WeController extends BaseController {
         for(int i=0;i<selectCartList.size();i++){
             total+= selectCartList.get(i).getWeItem().getPrice()*selectCartList.get(i).getNum();
         }
-        name = name+" "+total;
+        name = name+" "+total+" "+user.getLinkmobile()+" "+user.getLinkopenid();
 
+        String time = Utils.formatCompactDateSSS2();
         for(int i=0;i<selectCartList.size();i++){
             weItemUser = selectCartList.get(i);
             weItemUser.setCate("3");//预定
-            weItemUser.setYudingdate(Utils.formatCompactDateSSS());
+            weItemUser.setYudingdate(time);
             weItemUser.setUpdatetime(Utils.formatLongDate());
             weItemUser.setQuhuodate(Utils.formatShortDate());
             weItemUser.setPrice(weItemUser.getWeItem().getPrice());
@@ -145,7 +146,7 @@ public class WeController extends BaseController {
             weItemUser.setUserid(user.getId());
             weItemUser.setWeItemid(weItem.getId());
             weItemUser.setCate("3");//预定
-            weItemUser.setYudingdate(Utils.formatCompactDateSSS());
+            weItemUser.setYudingdate(Utils.formatCompactDateSSS2());
 
             weItemUser.setUser(user);
             weItemUser.setWeItem(weItem);
@@ -155,7 +156,7 @@ public class WeController extends BaseController {
             weItemUser.setQuhuodate(Utils.formatShortDate());
             weItemUser.setPrice(weItem.getPrice());
             weItemUser.setTotalPrice(weItem.getPrice()*weItemUser.getNum());
-            weItemUser.setName(user.getName()+" "+user.getMobile()+" "+ weItemUser.getTotalPrice()+"");
+            weItemUser.setName(user.getName()+" "+user.getMobile()+" "+ weItemUser.getTotalPrice()+" "+user.getLinkmobile()+" "+user.getLinkopenid());
             this.weItemUserService.save(weItemUser);
 
         // 商品库存更新num
@@ -196,7 +197,9 @@ public class WeController extends BaseController {
         showparam();
 
         WeItemUser weItemUser = this.weItemUserService.findById(WeItemUser.class, Long.parseLong(getParam("id")));
-
+        if(weItemUser.getSelected()==null){
+            weItemUser.setSelected("1");
+        }
         weItemUser.setSelected(weItemUser.getSelected().equals("1")?"0":"1");
         this.weItemUserService.update(weItemUser);
         map.put("data", "1");
@@ -248,6 +251,14 @@ public class WeController extends BaseController {
         this.printjson(JSONUtils.toJSON(map));
     }
 
+    /**
+     * 收藏  购物车 订单列表
+     * @param request
+     * @param response
+     * @param weItemUser
+     * @param pageInfo
+     * @throws Exception
+     */
     @RequestMapping(value = "/we/getLikeList", method = RequestMethod.GET)
     public void getLikeList(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("weItemUser") WeItemUser weItemUser,@ModelAttribute("pageInfo") PageInfo pageInfo) throws Exception{
         this.setReqAndRes(request,response);
@@ -256,7 +267,34 @@ public class WeController extends BaseController {
         if (pageInfo == null) {
             pageInfo = new PageInfo();
         }
-        List<WeItemUser> weItemUserList = this.weItemUserService.findByProperties(weItemUser,pageInfo,null,"id","desc");
+        String order = "id";
+        if(weItemUser.getCate().equals("3") || weItemUser.getCate().equals("4") || weItemUser.getCate().equals("5") ){
+            //如果是订单 ，预定日期倒叙排列
+            order = "yudingdate";
+        }
+        List<WeItemUser> weItemUserList = this.weItemUserService.findByProperties(weItemUser,pageInfo,null,order,"desc");
+        if(weItemUser.getCate().equals("3")){
+            // 如果是订单的， 一个订单内只显示 第一个商品的 订单标题信息
+            if(Utils.isNotNullOrEmpty(weItemUserList)){
+                WeItemUser temp = weItemUser;
+                for(int i=0;i<weItemUserList.size();i++){
+                    if(Utils.isNullorEmpty(temp.getSelected())){// 默认的第一个 显示 订单信息
+                        temp = weItemUserList.get(i);
+                        weItemUserList.get(i).setRemark("1");
+                    }else {
+                        if(!weItemUserList.get(i).getYudingdate().equals(temp.getYudingdate())){
+                            // 不相等 那是下个订单的开始了，标记
+                            temp = weItemUserList.get(i);
+                            weItemUserList.get(i).setRemark("1");
+                        }
+                    }
+
+
+
+                }
+            }
+        }
+
         Map map = new HashMap();
         map.put("weItemUserList", weItemUserList);
         this.printjson(JSONUtils.toJSON(map));

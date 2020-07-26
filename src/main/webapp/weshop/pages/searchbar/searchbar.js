@@ -2,6 +2,7 @@ const util = require('../../utils/util.js')
 const app = getApp()
 Page({
     data: {
+      weCateList:{},
         inputShowed: false,
         inputVal: ""
     },
@@ -32,7 +33,7 @@ Page({
       inputVal: e.detail.value
     });
     wx.request({
-      url: app.globalData.baseurl +'wx/getLineList',
+      url: app.globalData.baseurl +'we/getItemList',
       header: { 'content-type': 'application/json' },
       data: {
         userid: wx.getStorageSync("userid")
@@ -68,7 +69,7 @@ search: function (e) {
     url: "/pages/list/list?name=" + e.detail.value,
   });
   wx.request({
-    url: app.globalData.baseurl +'wx/getLineList',
+    url: app.globalData.baseurl +'we/getItemList',
     header: { 'content-type': 'application/json' },
     data: {
       userid: wx.getStorageSync("userid")
@@ -79,6 +80,30 @@ search: function (e) {
       })
     }
   })
+},
+onShow:function(curpage){
+  var that = this
+  wx.request({
+    url: app.globalData.baseurl +'we/getCateList',
+    header: { 'content-type': 'application/json' },
+    data: {
+      curPage: curpage == undefined ? 1 : curpage,
+      status:1,
+      //userid: wx.getStorageSync("userid")
+    }, success(res2) {
+      console.log("onShow-getItemList " + JSON.stringify(res2.data))
+      that.setData({
+        weCateList: res2.data.weCateList ,
+        hasUserInfo: true
+      })
+    }
+  })
+},
+bindcate:function(e){
+  console.log('todetail-'+ e.target.dataset.weCateid)
+    util.navigateTo({
+      url: "/pages/list/list?weCateid=" + e.target.dataset.weCateid,
+    });
 },
 
 });

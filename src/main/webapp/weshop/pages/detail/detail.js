@@ -86,6 +86,9 @@ Page({
           icon: 'success',
           duration: 2000
         })
+        util.navigateTo({
+          url: '/pages/myorder/myorder'
+        });
       }
     })
   },

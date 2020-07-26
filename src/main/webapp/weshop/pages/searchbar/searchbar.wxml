@@ -20,11 +20,13 @@
 	</view>
 </view>
 
-<view class="weui-flex weui-cell" style="text-align:center;" wx:for="{{5}}" wx:key="key">
-	<view class="weui-flex__item"><view class="placeholder">weui</view></view>
-	<view class="weui-flex__item"><view class="placeholder">weui</view></view>
-	<view class="weui-flex__item"><view class="placeholder">weui</view></view>
+<view class=" father" style="text-align:center;">
+<block wx:for="{{weCateList}}" wx:key="key">
+	<view class="child cateitem" bindtap="bindcate" data-weCateid="{{item.id}}">{{item.name}}</view>
+	</block>
 </view>
+
+
 
 <view class="pretabbar">　　　</view>
 <view class="pretabbar">　　　</view>
