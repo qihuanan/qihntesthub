@@ -1,7 +1,7 @@
 <template name="tabbarout">
 <view class="weui-tabbar">
   <view class="weui-tabbar__item {{cur == 1 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/list/list" open-type="reLaunch">
+    <navigator url="/pages/index/index" open-type="reLaunch">
       <image src="../images/home.svg" alt class="weui-tabbar__icon weui-tabbar-img"></image>
       <view class="weui-tabbar__label">首页</view>
     </navigator>

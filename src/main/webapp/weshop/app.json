@@ -1,8 +1,12 @@
 {
   "pages":[
 
-    "pages/searchbar/searchbar",
+   
+    "pages/index/index",
+    "pages/search/search",
     "pages/list/list",
+    "pages/searchbar/searchbar",
+    
     "pages/myorder/myorder",
     "pages/cart/cart",
     "pages/address/address",
@@ -16,8 +20,6 @@
   
     "pages/login/login",
 
-    
-    "pages/index/index",
     "pages/logs/logs"
   ],
   "window":{

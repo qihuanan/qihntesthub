@@ -1,54 +1,69 @@
-//index.js
-//获取应用实例
 const app = getApp()
+const util = require('../../utils/util.js')
 
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    imgUrls: [
+      '/pages/images/logo.png',
+      '/pages/images/logo.png',
+      '/pages/images/logo.png',
+    ],
+    indicatorDots: false,
+    autoplay: false,
+    interval: 3000,
+    duration: 800,
+    baseurl: app.globalData.baseurl,
+    weItemList:[],
+    curpage : 1,
   },
+
   //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
+  onShareAppMessage: function () {
   },
-  onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
+  onShow:function(curpage){
+    
+  },
+  loadlistdate:function(curpage,that){
+    var userid = wx.getStorageSync("userid")
+    console.log("onShow userid " + userid+ " curpage:"+curpage)
+    if(curpage == 1){ that.setData({ weItemList:[] } ) }
+    that.setData({ cur:1  })
+    wx.request({
+      url: app.globalData.baseurl +'we/getItemList',
+      header: { 'content-type': 'application/json' },
+      data: {
+        curPage: curpage == undefined ? 1 : curpage,
+        status:1,
+        //userid: wx.getStorageSync("userid")
+      }, success(res2) {
+        console.log("onShow-getItemList " + JSON.stringify(res2.data))
+        that.setData({
+          weItemList: that.data.weItemList.concat(res2.data.weItemList) ,
           hasUserInfo: true
         })
       }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
-  },
-  getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
     })
-  }
+  },
+  onLoad: function (options) {
+    console.log('onLoad options ' + JSON.stringify(options))
+    if (options && options.weCateid) {
+      app.globalData.goto = options.goto
+    }
+    this.loadlistdate(1,this)
+  },
+  onPullDownRefresh: function() {
+    this.loadlistdate(1,this)
+  },
+  onReachBottom: function() {
+    //this.onShow(++this.data.curpage)
+    this.loadlistdate(++this.data.curpage,this)
+  },
+
+  todetail: function(e){
+    console.log('todetail-'+ e.target.dataset.lineid)
+    util.navigateTo({
+      url: "/pages/detail/detail?id=" + e.target.dataset.lineid,
+    });
+  },
+
 })

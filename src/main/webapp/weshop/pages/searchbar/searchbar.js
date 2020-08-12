@@ -40,7 +40,7 @@ Page({
       }, success(res2) {
         console.log("login getLineList2 " + JSON.stringify(res2.data.data))
         that.setData({
-          list: res2.data.data,
+          weCateList: res2.data.data,
         })
       }
     })
@@ -76,7 +76,7 @@ search: function (e) {
     }, success(res2) {
       console.log("login getLineList2 " + JSON.stringify(res2.data.data))
       that.setData({
-        list: res2.data.data,
+        weCateList: res2.data.data,
       })
     }
   })
