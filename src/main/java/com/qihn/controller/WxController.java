@@ -99,15 +99,21 @@ public class WxController extends BaseController {
         this.printjson(JSONUtils.toJSON(map));
     }
 
-    @RequestMapping(value = "/wx/exam", method = RequestMethod.GET)
-    public void exam(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    /**
+     * 附加题
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/wx/exam2", method = RequestMethod.GET)
+    public void exam2(HttpServletRequest request, HttpServletResponse response) throws Exception{
         this.setReqAndRes(request,response);
         showparam();
         User user = this.userService.findById(User.class,Long.parseLong(getParam("userid")));
         Point point = pointService.findById(Point.class,Long.parseLong(getParam("pointid")));
         Exam exam = new Exam();
         exam.setPointid(Long.parseLong(getParam("pointid")));
-        exam = examService.findByProperties(exam);
+        exam = examService.findByProperties(exam,null,2,null,null).get(1);
         List<Pricevo> radiolist = new ArrayList<>();
         if(exam.getCate().equals("3")){
             String arr[] = exam.getRadiolist().split(";");
@@ -123,6 +129,37 @@ public class WxController extends BaseController {
         map.put("exam", exam);
         map.put("point",point);
         map.put("radiolist",radiolist);
+        map.put("count",1);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    @RequestMapping(value = "/wx/exam", method = RequestMethod.GET)
+    public void exam(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        User user = this.userService.findById(User.class,Long.parseLong(getParam("userid")));
+        Point point = pointService.findById(Point.class,Long.parseLong(getParam("pointid")));
+        Exam exam = new Exam();
+        exam.setPointid(Long.parseLong(getParam("pointid")));
+        long count = examService.countByProperties(exam);
+        exam = examService.findByProperties(exam);
+
+        List<Pricevo> radiolist = new ArrayList<>();
+        if(exam.getCate().equals("3")){
+            String arr[] = exam.getRadiolist().split(";");
+            for(int i = 0;i<arr.length;i++){
+                Pricevo p  = new Pricevo();
+                p.setName(arr[i].split(",")[0]);
+                p.setValue(arr[i].split(",")[1]);
+                radiolist.add(p);
+            }
+        }
+
+        Map map = new HashMap();
+        map.put("exam", exam);
+        map.put("point",point);
+        map.put("radiolist",radiolist);
+        map.put("count",count);
         this.printjson(JSONUtils.toJSON(map));
     }
 
@@ -353,16 +390,24 @@ public class WxController extends BaseController {
         if(pointsize <= pusize){
             lu.setEndtime(System.currentTimeMillis());
             lu.setFinish("1");
+            map.put("finish", "1");
         }else {
             if(Utils.isNullorEmpty(lu.getBegintime())){
                 lu.setBegintime(System.currentTimeMillis());
             }
+            map.put("finish", "0");
         }
         this.lineUserService.update(lu);
 
+        Exam exam = new Exam();
+        exam.setPointid(point.getId());
+        long count = examService.countByProperties(exam);
+        map.put("count", count);
 
         this.printjson(JSONUtils.toJSON(map));
     }
+
+
 
     @RequestMapping(value = "/wx/tiplist", method = RequestMethod.GET)
     public void tiplist(HttpServletRequest request, HttpServletResponse response) throws Exception{

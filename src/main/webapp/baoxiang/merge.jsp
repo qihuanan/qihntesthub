@@ -73,6 +73,12 @@
                                             <textarea class="form-control" name="description">${baoxiang.description}</textarea>
                                         </div>
 
+                                        <div class="form-group">
+                                            <label>兑换勋章说明内容
+                                            </label>
+                                            <textarea class="form-control" name="remark" rows="5">${baoxiang.remark}</textarea>
+                                        </div>
+
                                         <button type="submit" class="btn btn-default">提交</button>
                                         <button type="reset" class="btn btn-default">重置</button>
                                     </form>
