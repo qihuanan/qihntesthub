@@ -1,0 +1,114 @@
+.item-text {
+  margin-top: 10rpx;
+  border-radius: 10rpx;
+  border: 0rpx solid #ffffff;
+  border-top: none;
+  background-color: white;
+}
+.active-title {
+  vertical-align: center;
+  font-size: 50rpx;
+  font-weight: 500;
+  }
+
+.active-title-like{
+  float: right;
+  margin-right: 60rpx;
+}
+.active-title-top{
+  height: 100rpx;
+  border-radius: 10rpx;
+  margin-top: 1rpx;
+  justify-content:center;
+  padding-top: 20rpx;
+  padding-left: 125rpx;
+  color: white;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1073' height='180' version='1.1' id='svg13'%3E%3Cdefs id='defs6'%3E%3Cstyle id='style4'%3E.cls-2%7Bfill:%230c0509;fill-rule:evenodd;opacity:.1%7D%3C/style%3E%3C/defs%3E%3Crect id='圆角矩形_2_拷贝_2' data-name='圆角矩形 2 拷贝 2' width='1073' height='180' rx='15' ry='15' fill='%23fabf13'/%3E%3Cpath id='矩形_5_拷贝_11' data-name='矩形 5 拷贝 11' class='cls-2' d='M-21.538-128.024L727.875 206.5l-27.294 60.535L-48.832-67.49z'/%3E%3Cpath id='矩形_5_拷贝_12' data-name='矩形 5 拷贝 12' class='cls-2' d='M305.462-128.024L1054.87 206.5l-27.29 60.535L278.168-67.49z'/%3E%3Cpath id='矩形_5_拷贝_13' data-name='矩形 5 拷贝 13' class='cls-2' d='M530.462-173.024L1279.87 161.5l-27.29 60.535L503.168-112.49z'/%3E%3Cpath id='矩形_5_拷贝_14' data-name='矩形 5 拷贝 14' class='cls-2' d='M-197.538-58.024L551.875 276.5l-27.294 60.535L-224.832 2.51z'/%3E%3Cg transform='matrix(2.52868 0 0 2.25925 -12.401 13.237)' id='g24' style='line-height:1.25'%3E%3Cpath id='path22' fill='%23f9f9f9' opacity='.9' d='M28.596 16.42c-.485 1.98-1.195 4.256-1.736 5.638l.187.13c1.512-.99 3.042-2.426 4.312-4.07.448.02.709-.111.802-.354zm-10.79.374c.84 1.288 1.7 3.005 1.98 4.61 2.538 1.942 4.722-3.08-1.83-4.704zm12.115 4.274l-1.27 1.4h-2.706v-6.365c.523-.075.654-.261.69-.541L23.2 15.3v7.169h-6.085l.168.522h11.573v3.678H18.03l.168.522h10.66v3.79H16.74l.168.522h11.947v1.494h.448c1.008 0 2.296-.654 2.315-.86v-8.642c.43-.093.69-.28.82-.448zm8.288 6.29v-2.52h1.904v2.52zm1.904-5.281v2.24h-1.904v-2.24zm-.186-.523h-1.643l-2.595-1.046v12.47h.392c1.102 0 2.128-.597 2.128-.86v-4.235h1.904v2.24c0 .205-.056.317-.298.317a28.69 28.69 0 01-1.307-.074v.242c.653.13.896.41 1.064.766.187.354.243.914.26 1.698 2.465-.224 2.8-1.101 2.8-2.706v-7.878c.393-.074.636-.242.748-.392l-2.333-1.81zm6.7.28c.524-.075.655-.28.69-.523l-3.115-.28v8.27h.429c.933 0 1.997-.392 1.997-.56zm1.4 8.213c0 .224-.092.299-.372.299-.41 0-2.501-.112-2.501-.112v.224c1.026.187 1.418.467 1.736.82.317.393.429.953.485 1.737 2.819-.224 3.21-1.138 3.21-2.837V21.18c.43-.056.617-.224.654-.504l-3.21-.28zm.095-10.995h-3.304c1.269-.784 2.669-1.792 3.509-2.52.448 0 .653-.15.71-.392l-3.66-.877a31.92 31.92 0 01-1.12 3.79h-3.285c1.512-.542 1.699-3.435-3.061-3.622l-.13.093c.708.822 1.4 2.054 1.586 3.248.186.13.373.224.56.28h-5.544l.149.523H51.63c.28 0 .485-.093.54-.3-.97-.84-2.612-2.09-2.612-2.09zm-28.15 24.883c.728-1.158 1.362-2.446 1.922-3.883.43.019.672-.15.766-.392l-3.584-1.064c-.654 3.64-2.128 7.392-3.603 9.782l.205.13a14.688 14.688 0 002.11-1.792v9.632h.504c1.064 0 2.165-.56 2.202-.765V44.7c.374-.075.523-.205.58-.373zm13.104 3.827c.26 0 .485-.094.54-.3-.932-.858-2.5-2.165-2.5-2.165l-1.4 1.942h-1.643v-5.152c1.139-.15 2.203-.318 3.062-.523.709.243 1.194.205 1.437 0l-2.912-2.67c-1.773 1.14-5.358 2.67-8.25 3.51l.036.187a54.286 54.286 0 003.827-.206v4.854h-4.33l.149.523h4.18v7.168H21.28l.15.522h11.18c.28 0 .504-.093.542-.298-.934-.878-2.54-2.203-2.54-2.203l-1.436 1.979h-1.102v-7.168zm12.768-6.347c-.597.896-1.362 1.698-2.277 2.426-1.083-.41-2.035-.952-2.8-1.624.28-.26.54-.522.784-.802zm1.699-1.942l-1.661 1.42h-3.865c.336-.412.654-.822.934-1.233.523.019.672-.075.747-.28l-3.715-.86c-.84 2.559-2.763 5.452-4.76 7l.13.132c1.81-.672 3.528-1.755 4.984-3.043a9.27 9.27 0 001.848 2.203c-2.165 1.363-4.89 2.37-7.84 3.043l.075.224c2.5-.13 4.797-.504 6.87-1.12 0 .803-.057 1.643-.206 2.445H35.95l.168.523h4.853c-.616 2.408-2.277 4.667-6.235 6.216l.094.205c5.805-1.138 8.1-3.453 9.035-6.421h3.117c-.187 1.904-.467 3.155-.84 3.435-.15.112-.3.149-.597.149-.411 0-1.998-.093-3.043-.168v.187c.99.205 1.792.54 2.22.933.393.392.487 1.008.468 1.736 1.4 0 2.147-.205 2.8-.616 1.008-.653 1.475-2.315 1.717-5.19.392-.055.616-.186.766-.335l-2.296-1.904-1.344 1.25h-2.82c.132-.522.225-1.045.3-1.605.466-.02.672-.205.709-.504l-3.528-.41c.84-.262 1.642-.56 2.39-.897 1.79 1.008 3.994 1.606 6.458 1.979.243-1.325.877-2.24 2.016-2.595v-.243c-2.053-.018-4.125-.15-6.03-.522a12.62 12.62 0 002.726-2.54c.504-.036.71-.092.859-.316z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100%; 
+}
+.active-title-bottom{
+  background-color: #FFFFFF;
+  justify-content: center;
+  text-align: center;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+  color: #888888;
+  font-size: 35rpx;
+}
+.active-title-bottom-item {
+  color: #fabf13;
+}
+
+.active-body{
+  background-color: white;
+}
+.body-item{
+  border-top: 2rpx solid #DDDEDE;
+  border-bottom: 2rpx solid #DDDEDE;
+  padding: 20rpx;
+  background-color: white;
+}
+.body-item-pointname{
+  color: #FFFFFF;
+  margin-bottom: 10rpx;
+  font-weight: bold;
+  font-size: 30px;
+}
+.body-item-pointdesc{
+  font-weight: 500;
+}
+
+.body-item-tips{
+  margin-top: 40rpx;
+  background-color: white;
+  padding: 10rpx;
+}
+.body-item-tips-name{
+  margin-left: 25rpx;
+  color: #fabf13;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+.body-item-tips-desc{
+  font-size: 30rpx;
+  margin-left: 25rpx;
+}
+.img-tips{
+  height: 100rpx;
+  width: 435rpx;
+  margin-top: 40rpx;
+  padding-bottom: 10px;
+}
+.view-imgmask{
+  align-items: center;
+  text-align: center;
+}
+
+.item-liuyanban{
+  color:white;
+  padding: 25rpx;
+  margin: 0 20rpx;
+  border-radius: 10rpx;
+  background-color:  #fabf13;
+}
+.zhanweifu{
+  margin: 10rpx;
+}
+
+.viewhidden{
+  display: none;
+}
+.viewshow{
+  display: block;
+}
+.tipimg{
+  width: 100%;
+  text-align:left;
+  margin-left: 25rpx;
+}
+
+
+.placeholder-view {
+  width: 100%;
+  height: 150rpx;
+}

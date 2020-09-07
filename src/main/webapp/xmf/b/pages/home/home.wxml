@@ -1,0 +1,73 @@
+<view class="weui-flex">
+  <view class="weui-flex__item item-top-login">
+      <view class="weui-flex item-top-logon">
+        <view class="weui-flex__item ">
+          <image  class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        </view>
+        <view class="weui-flex__item weui-flex__item2">
+          <view>
+            <text >{{userInfo.nickName}}</text>
+            <text class="jifen">积分：{{score}}</text>
+          </view>
+        
+        </view>
+      </view>
+    
+  </view>
+  
+</view>
+
+<!-- 导航 -->
+<view class="weui-flex daohang">
+  <view class="weui-flex__item {{showpanel == 1 ? 'iconunderline' : '' }}" data-panel="1"  bindtap="showmyactive">
+
+    <image class="img-tips" src="/pages/images/icon-his.svg" ></image>
+    <view class="dakatext">我的宝箱</view>
+  </view>
+  <view class="weui-flex__item {{showpanel == 2 ? 'iconunderline' : '' }}" bindtap="showmyactive" data-panel="2"  >
+    
+    <image class="img-tips" src="/pages/images/icon-fav.svg" ></image>
+    <view class="dakatext">收藏路线</view>
+  </view>
+</view>
+
+<block wx:if="{{showpanel == 1 }}">
+<block wx:for="{{activelist }}" wx:for-index="index" wx:for-item="item" wx:key="t1">
+<view wx:if="{{item.flag == 1 }}" class="img-view-active " bindtap="todetail2" data-lineid="{{item.lineid}}">
+  <image class="xiangche-img-active" src="{{baseurl}}wx/showimg?filename={{item.line.picture1}}"></image>
+  <view class="item-text">
+    <view class="active-title">
+      {{item.line.name}}
+    </view>
+    <view class="active-titlesub">
+      <text class="active-titlesub-text">已打卡{{item.username}}/总计{{item.line.dianshu}}个点</text>
+    </view>
+  </view>
+</view>
+</block>
+</block>
+
+
+<!-- 我喜欢的活动列表 -->
+<block wx:if="{{showpanel == 2 }}">
+<block wx:for="{{activelist }}" wx:for-index="index" wx:for-item="item" wx:key="t1">
+<view wx:if="{{item.flag == 2 }}" class="img-view-active " bindtap="todetail" data-lineid="{{item.lineid}}">
+  <image class="xiangche-img-active" src="{{baseurl}}wx/showimg?filename={{item.line.picture1}}"></image>
+  <view class="item-text">
+    <view class="active-title">
+      {{item.line.name}}
+    </view>
+    <view class="active-titlesub">
+      <text class="active-titlesub-text">{{item.line.dianshu}}个点</text>
+    </view>
+  </view>
+</view>
+</block>
+</block>
+<view class='list'>
+    <view class='li' wx:for='{{list}}' wx:key=''>{{item}}</view>
+</view>
+<view class='placeholder-view'></view>
+<view class="pretabbar"></view>
+<import src ="/pages/template/tabbarout.wxml"/>
+<template is="tabbarout" data="{{cur:5}}" />

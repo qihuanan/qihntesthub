@@ -1,0 +1,68 @@
+<block wx:if="{{listshow == 1  }}" >
+<scroll-view  scroll-y="true" style="height: 1000rpx;" class="weui-panel weui-panel_access">
+  <view class="weui-panel__bd">
+    <block wx:for="{{list}}" wx:key="key">
+    <a class="weui-media-box weui-media-box_appmsg userview">
+      <view class="weui-media-box__hd ">
+        <image class="weui-media-box__thumb userimg" src="{{item.avatarUrl}}"></image>
+        <view class="weui-media-box__title userimgname">{{item.username}}</view>
+        
+      </view>
+      <view class="weui-media-box__bd">
+        <view class="weui-media-box__desc">{{item.description}}</view>
+        <view class="messtime">{{item.time}}</view>
+      </view>
+    </a>
+    </block>
+  </view>
+</scroll-view>
+
+<view class="weui-flex bottom-view">
+<!-- 
+  <view class="weui-flex__item ">
+    <view class="item-liuyanban2" bindtap="showmess">
+      <image class="liuyanbandaka" src="/pages/images/btm-mes@2x.png" ></image>
+    </view>
+  </view>
+  -->
+  <view class="weui-flex__item ">
+    <view  class="item-liuyanban" bindtap="showmess">留言</view>
+  </view>
+  
+</view>
+</block>
+
+<block wx:if="{{listshow == 0}}" >
+<form bindsubmit="fabuaction">
+<view class="weui-form__control-area">
+  <view class="weui-cells__group weui-cells__group_form">
+    <view class="weui-cells weui-cells_form">
+      <view class="weui-cell ">
+        <view class="weui-cell__bd">
+          <textarea name="evaContent"  class="weui-textarea" placeholder="请输入留言内容，文明留言" rows="3"></textarea>
+          <view class="weui-textarea-counter"><text>0</text>/200</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="weui-flex bottom-view">
+  <view class="weui-flex__item ">
+    <!--<view  class="item-liuyanban" bindtap="fabuaction">发布</view>-->
+    <button formType="submit" class="item-liuyanban" >发布</button>
+  </view>
+</view>
+</form>
+</block>
+
+<view class="fadeIn {{hideToast ? 'fadeOut' : ''}}" wx:if="{{toast}}">
+  <view class="weui-mask_transparent"></view>
+  <view class="weui-toast">
+    <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+    <view class="weui-toast__content">待人工审核通过后显示！</view>
+  </view>
+</view>
+
+<view class="pretabbar"></view>
+<import src ="/pages/template/tabbar.wxml"/>
+<template is="tabbar" data="{{cur:2}}" />

@@ -1,0 +1,19 @@
+<view class="container">
+  <view class="userinfo">
+    
+    <view class="item-title">
+      <image wx:if="{{prizeimg != '' }}"  class="logoimg" src="{{baseurl}}download?filename={{prizeimg}}" mode="cover"></image>
+    </view>
+<!--
+      <view class="item-gongxi">恭喜您</view>
+-->
+    <view class="item-huode">{{success}}</view>
+    <view class="item-huode"></view> 
+
+    <view wx:if="{{jifen != '' }}" class="item-gongxi">+{{jifen}}积分</view>
+    <button wx:if="{{finish == '0' }}" class="userinfobtn" bindtap="gonext"> 继续探索 </button>
+    <button wx:if="{{count == '2' }}" class="userinfobtn" bindtap="gonext"> 额外加分任务 </button>
+    <button wx:if="{{finish == '1' }}" class="userinfobtn" bindtap="gobaoxiang"> 我的宝箱 </button>
+  </view>
+  
+</view>

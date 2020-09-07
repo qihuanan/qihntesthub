@@ -1,0 +1,49 @@
+{
+  "pages": [
+   
+    
+    "pages/index/index",
+
+   "pages/list/list",
+    "pages/detailon/detail",
+    
+    "pages/baoxiang/baoxiang",
+    
+    "pages/login/login",
+    
+    "pages/examsuccess/examsuccess",
+    "pages/examfail/examfail",
+    
+    "pages/message/message",
+    
+    "pages/home/home",
+    
+    "pages/detailmap/detail",
+    "pages/detail/detail",
+    "pages/detailqiandao/detail",
+    "pages/detailqiandao2/detail",
+    "pages/detailexam/detail",
+   
+    
+
+    "pages/msgsuccess/msg_success",
+    "pages/msgwarn/msg_warn",
+ 
+    
+    "pages/logs/logs"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "小蜜蜂探索",
+    "navigationBarTextStyle": "black"
+  },
+  "style": "v2",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于签到位置验证!"
+    }
+  },
+  
+  "sitemapLocation": "sitemap.json"
+}
