@@ -425,11 +425,18 @@ public class WxController extends BaseController {
         TipUser tu = new TipUser();
         tu.setUserid(user.getId());
         List<TipUser> tulist = this.tipUserService.findByProperties(tu,null,null,null,null);
+
         if(Utils.isNotNullOrEmpty(tulist)){
             for(int i=0;i<tipList.size();i++){
                 for(int j =0;j<tulist.size();j++){
-                    if(tipList.get(i).getId()== tulist.get(j).getTipid()){
+                    if(tipList.get(i).getId().longValue()== tulist.get(j).getTipid().longValue() ){
+                        log.info("用户已解锁过此点，标记已解锁");
+
                         tipList.get(i).setLockflag("0");
+                        Tip temp = tipList.get(i);
+                        temp.setLockflag("0");
+                        tipList.remove(i);
+                        tipList.add(temp);
                     }
                 }
             }
@@ -659,7 +666,7 @@ public class WxController extends BaseController {
                 boolean exist = false; // 是否打卡完成这个点
                 boolean notfinish = false;
                 for(int j=0;j<pulist.size();j++){
-                    if(point.getId() == pulist.get(j).getPointid()){
+                    if(point.getId().longValue() == pulist.get(j).getPointid().longValue()){
                         exist = true;
                         // 如果打卡过 但是 任务失败还有机会，那还停留在这个点，用户继续在这个点答题
                         if(!pulist.get(j).getFinish().equals("1")){
@@ -715,11 +722,19 @@ public class WxController extends BaseController {
         tip.setPointid(point.getId());
         List<Tip> tipList = this.tipService.findByProperties(tip,null,null,null,null);
         // 标记 提示 是否解锁
+        log.info("tulist: "+JSONUtils.toJSON(tulist));
         if(Utils.isNotNullOrEmpty(tulist)){
             for(int i=0;i<tipList.size();i++){
                 for(int j =0;j<tulist.size();j++){
-                    if(tipList.get(i).getId()== tulist.get(j).getTipid()){
+                    if(tipList.get(i).getId().longValue()== tulist.get(j).getTipid().longValue()){
                         tipList.get(i).setLockflag("0");
+                        log.info("用户已解锁过此点，标记已解锁");
+
+                        tipList.get(i).setLockflag("0");
+                        Tip temp = tipList.get(i);
+                        temp.setLockflag("0");
+                        tipList.remove(i);
+                        tipList.add(temp);
                     }
                 }
             }
@@ -1439,7 +1454,10 @@ public class WxController extends BaseController {
 
     @RequestMapping(value = "/line/merge", method = RequestMethod.POST)
     public String merge(@ModelAttribute("line") Line line,HttpServletRequest request) throws Exception{
-        convertjingweidu(line,null);
+        if(line.getLike()!=null && line.getLike().equals("1")){
+            convertjingweidu(line,null);
+        }
+
         if(line.getId()==null){
             lineService.save(line);
         }else{
@@ -1449,6 +1467,7 @@ public class WxController extends BaseController {
     }
 
     public void convertjingweidu(Line line,Point point){
+
         try {
 
         StringBuffer sb = new StringBuffer();
@@ -1549,7 +1568,10 @@ public class WxController extends BaseController {
 
     @RequestMapping(value = "/point/merge", method = RequestMethod.POST)
     public String merge(@ModelAttribute("point") Point point,HttpServletRequest request) throws Exception{
-        convertjingweidu(null,point);
+        if(point.getLike()!=null && point.getLike().equals("1")){
+            convertjingweidu(null,point);
+        }
+
         if(point.getId()==null){
             pointService.save(point);
         }else{

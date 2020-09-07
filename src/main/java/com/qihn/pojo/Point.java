@@ -43,6 +43,9 @@ public class Point implements Serializable {
     @Column
     private Integer shunxu;
 
+    @Transient
+    private String like;
+
     public String getJifen() {
         return jifen;
     }
@@ -69,6 +72,14 @@ public class Point implements Serializable {
 
     public Long getLineid() {
         return lineid;
+    }
+
+    public String getLike() {
+        return like;
+    }
+
+    public void setLike(String like) {
+        this.like = like;
     }
 
     public void setLineid(Long lineid) {

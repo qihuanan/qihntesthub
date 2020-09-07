@@ -62,6 +62,10 @@
                                             <textarea class="form-control" name="description">${point.description}</textarea>
                                         </div>
                                         <div class="form-group">
+                                            <label>是否转换坐标（1：转换，0 或空 不转换） </label>
+                                            <textarea class="form-control" name="like">${point.like}</textarea>
+                                        </div>
+                                        <div class="form-group">
                                             <label>经度 </label>
                                             <textarea class="form-control" name="jingdu">${point.jingdu}</textarea>
                                         </div>
