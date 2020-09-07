@@ -1,0 +1,113 @@
+/**index.wxss**/
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+.userinfobtn{
+  background-color: #06AD56;
+  color: white;
+  width: 50%;
+  margin-top: 200rpx; 
+}
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+  padding-right: 50rpx;
+}
+
+.usermotto {
+  margin-top: 200px;
+}
+
+.navigator-hover {
+  color:blue;
+}
+.other-navigator-hover {
+  color:red;
+}
+
+.btn-area {
+  padding: 30rpx;
+}
+.other-navigator-hover {
+  color: red;
+}
+
+.item-title{
+  padding-top: 20rpx;
+  text-align: center;
+  justify-content: center;
+}
+.item-top-login{
+  background-color: #F7F8FA;
+  justify-content: center; 
+}
+.logoimg{
+  width: 200px;
+  height: 200px;
+  
+}
+.logoimg2{
+  width: 100px;
+  height: 100px;
+  
+}
+.item-top-logon {
+  align-items: center;
+  
+}
+.weui-flex__item2{
+  flex: 2;
+}
+.mobile{
+  font-size: 25rpx;
+  color: #aaa;
+  padding-right: 50rpx;
+}
+.mobile2{
+  text-decoration: underline;
+}
+
+.jifen{
+  padding-left: 50rpx;
+}
+
+.xiangche-img{
+  width: 80rpx;
+  height: 80rpx;
+}
+.weui-flex__item5{
+  flex: 5;
+  font-size: 30rpx;
+}
+.img-view{
+  display:flex;
+  flex: 1;
+}
+
+
+
+.item-text {
+  text-align: center;
+  margin-top: -250rpx;
+  
+}
+
+
+.img-tips{
+  height: 30px;
+  width: 30px;
+}
+.dakatext{
+  font-weight: bold;
+  padding-bottom: 5px;
+}

@@ -1,0 +1,17 @@
+<view class="page" data-weui-theme="{{theme}}">
+	<view class="weui-msg">
+		<view class="weui-msg__icon-area"><i class="weui-icon-warn weui-icon_msg"></i></view>
+		<view class="weui-msg__text-area">
+			<h2 class="weui-msg__title">位置验证-签到失败</h2>
+			<view class="weui-msg__desc">离签到点有点远，走近些再试试！</view>
+			<view class="weui-msg__desc">当前距离：{{distance}} 米</view>
+		</view>
+		
+		<view class="weui-msg__opr-area">
+			<view class="weui-btn-area">
+				<view bindtap="goback" class="weui-btn weui-btn_default">继续加油</view>
+			</view>
+		</view>
+		
+	</view>
+</view>

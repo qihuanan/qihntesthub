@@ -1,0 +1,14 @@
+<view class="container">
+  <view class="userinfo">
+    
+    <view class="item-title">
+      <image class="logoimg" src="/pages/images/ils-nuli@2x.png" mode="cover"></image>
+    </view>
+    <view class="item-gongxi">很遗憾！</view>
+  
+    <view class="item-huode">{{failmsg}}</view>
+    
+    <button class="userinfobtn" bindtap="gonext"> 继续探秘 </button>
+  </view>
+  
+</view>
