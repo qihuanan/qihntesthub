@@ -517,6 +517,11 @@ public class WxController extends BaseController {
                 if(line.getShijian()*1000 < t){
                     line.setYiyongshi("超时啦！");
                 }
+                // 超过99.50.59 就显示这个 超过100小时的
+                if(t> 1000*60 * 60 *100){
+                    line.setYiyongshi("99:59:59");
+                }
+
                 // 如果 一个任务点也没有打卡，并且超过1小时 重新开始打卡时间
                 if(Utils.isNullorEmpty(pulist)){
                     if(line.getShijian()*1000*60*60 > 1){
