@@ -53,6 +53,18 @@ Page({
     })
   },
 
+  mrdatap: function(e){
+    this.islogin()
+    var userid = wx.getStorageSync("userid")
+    if (userid == null || userid == '') { return; }
+    var that  = this
+    var lineid = e.currentTarget.dataset.lineid
+    util.navigateTo({
+      url: '/pages/meiridaka/meiridaka?'
+    })
+
+  },
+
   bindViewTap: function() {
     util.navigateTo({
       url: '../logs/logs'

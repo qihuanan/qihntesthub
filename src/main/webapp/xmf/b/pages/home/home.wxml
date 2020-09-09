@@ -21,7 +21,7 @@
 <view class="weui-flex daohang">
   <view class="weui-flex__item {{showpanel == 1 ? 'iconunderline' : '' }}" data-panel="1"  bindtap="showmyactive">
 
-    <image class="img-tips" src="/pages/images/icon-his.svg" ></image>
+    <image class="img-tips" src="/pages/images/box.svg" ></image>
     <view class="dakatext">我的宝箱</view>
   </view>
   <view class="weui-flex__item {{showpanel == 2 ? 'iconunderline' : '' }}" bindtap="showmyactive" data-panel="2"  >

@@ -375,29 +375,32 @@ public class WxController extends BaseController {
         //Line line = this.lineService.findById(Line.class,point.getLineid());
         Point tp = new Point();
         tp.setLineid(point.getLineid());
-        long pointsize = this.pointService.countByProperties(tp);
+        Long pointsize = this.pointService.countByProperties(tp);
         PointUserinfo pu = new PointUserinfo();
         pu.setUserid(user.getId());
         pu.setLineid(point.getLineid());
         pu.setFinish("1");
-        long pusize = this.pointUserinfoService.countByProperties(pu);
+        Long pusize = this.pointUserinfoService.countByProperties(pu);
         log.info("判断 线路是否完成 "+ pointsize + " "+pusize);
 
         LineUser lu = new LineUser();
         lu.setUserid(user.getId());
         lu.setLineid(point.getLineid());
         lu = this.lineUserService.findByProperties(lu);
-        if(pointsize <= pusize){
-            lu.setEndtime(System.currentTimeMillis());
-            lu.setFinish("1");
-            map.put("finish", "1");
-        }else {
-            if(Utils.isNullorEmpty(lu.getBegintime())){
-                lu.setBegintime(System.currentTimeMillis());
+        if(lu!=null && pointsize!=null && pusize!=null){
+            if(pointsize.longValue() <= pusize.longValue()){
+                lu.setEndtime(System.currentTimeMillis());
+                lu.setFinish("1");
+                map.put("finish", "1");
+            }else {
+                if(Utils.isNullorEmpty(lu.getBegintime())){
+                    lu.setBegintime(System.currentTimeMillis());
+                }
+                map.put("finish", "0");
             }
-            map.put("finish", "0");
+            this.lineUserService.update(lu);
         }
-        this.lineUserService.update(lu);
+
 
         Exam exam = new Exam();
         exam.setPointid(point.getId());

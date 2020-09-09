@@ -11,10 +11,12 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   //事件处理函数
-  bindViewTap: function() {
+  bindViewTap: function() { 
     wx.navigateTo({
       url: '../logs/logs'
     })
+  },
+  onShareAppMessage: function () {
   },
   bindtolist:function(){
     util.navigateTo({
@@ -32,7 +34,7 @@ Page({
       data: {
         code: 1,
         lineid: 1,
-        userid: wx.getStorageSync("userid") 
+        //userid: wx.getStorageSync("userid") 
       }, success(res2) {
         console.log("detail onShow  " + JSON.stringify(res2.data.data))
         that.setData({
@@ -43,6 +45,6 @@ Page({
     })
   },
   onLoad: function (options) {
-    this.onShow()
+    //this.onShow()
   }
 })
