@@ -1,6 +1,7 @@
 {
   "pages": [
    
+    "pages/share/share",
     "pages/meiridaka/meiridaka", 
     "pages/index/index",
     
