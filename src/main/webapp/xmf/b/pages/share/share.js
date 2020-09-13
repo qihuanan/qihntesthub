@@ -171,59 +171,5 @@ Page({
     
   },
 
-  drawShareImage() {
-    //绘制canvas图片
-    //创建一个canvas对象
-    const ctx = wx.createCanvasContext('shareBox', this);
-    // this.drawNormalText(ctx, "canvas生成的图片", 0, 0, 30, '#ffffff', 'left', 'middle')
-    //商品主图
-    var bgSize1 = 750 / 500
-    this.drawImage(ctx, "/pages/images/share_share.png", 20, 20, 710, 710 / bgSize1);
-    //绘制商品标题部分
-    var bgSize2 = 750 / 246
-    this.drawImage(ctx, "/pages/images/share_share.png", 20, 490, 710, 710 / bgSize2);
-    //绘制分享标题
-    this.drawNormalText(ctx, "canvas生成的图片", 50, 548, 30, '#ffffff', 'left', 'middle')
-    this.drawNormalText(ctx, "230.00元", 50, 660, 30, 'red', 'left', 'middle')
-    this.drawNormalText(ctx, "230.00元", 50 + 1, 660, 30, 'red', 'left', 'middle')
-    this.drawNormalText(ctx, "230.00元", 50, 660 + 1, 30, 'red', 'left', 'middle')
-    this.drawNormalText(ctx, "230.00元", 50 + 1, 660 + 1, 30, 'red', 'left', 'middle')
-    //绘制canvas标记(绘制圆形并加阴影)
-    ctx.arc(120 * scale, 120 * scale, 80 * scale, 0, 5 * scale * Math.PI)
-    ctx.setFillStyle('#22aaff')
-    ctx.setShadow(0, 0, 20 * scale, "#aaaaaa")
-    ctx.fill()
-    this.drawNormalText(ctx, "Canvas", 118, 100, 30, 'white', 'center', 'middle')
-    this.drawNormalText(ctx, "合成", 118, 140, 30, 'white', 'center', 'middle')
-
-    //绘制画布，并在回调中获取画布文件的临时路径
-    var self = this
-    ctx.draw(true, function() {
-      wx.canvasToTempFilePath({
-        canvasId: 'shareBox',
-        success(res) {
-          console.log(res)
-          if (res.tempFilePath) {
-            self.setData({
-              shareUrl: res.tempFilePath
-            })
-            wx.setStorageSync("shareUrl", res.tempFilePath)
-          }
-        }
-      })
-    });
-  },
-  //绘制图片封装
-  drawImage(ctx, url, x, y, w, h) {
-    ctx.drawImage(url, x * scale, y * scale, w * scale, h * scale);
-  },
-  // 绘制只有一行的文字
-  drawNormalText(ctx, str, x, y, font, style, align, baseLine) {
-    ctx.setFontSize(font * scale);
-    ctx.setFillStyle(style);
-    ctx.setTextAlign(align);
-    ctx.setTextBaseline(baseLine);
-    ctx.fillText(str, x * scale, y * scale);
-  },
   
 })

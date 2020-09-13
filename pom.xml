@@ -335,6 +335,11 @@
       <artifactId>htmlunit</artifactId>
       <version>2.13</version>
     </dependency>
+    <dependency>
+      <groupId>net.coobird</groupId>
+      <artifactId>thumbnailator</artifactId>
+      <version>0.4.8</version>
+    </dependency>
 
 
 

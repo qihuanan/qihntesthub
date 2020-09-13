@@ -2,6 +2,8 @@ package com.qihn.pojo;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Random;
+
 @Entity(name = "Point")
 public class Point implements Serializable {
 
@@ -157,4 +159,9 @@ public class Point implements Serializable {
     public void setWeidu(String weidu) {
         this.weidu = weidu;
     }
+
+    public static void main(String args[]){
+        System.out.println(new Random().nextInt(500) );
+    }
+
 }

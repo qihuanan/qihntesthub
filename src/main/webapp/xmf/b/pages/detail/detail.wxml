@@ -51,7 +51,7 @@
                 <image mode="aspectFit" src="/pages/images/start.svg" class="liuyanbandaka"></image>
               </view>
           </view>
-          <view  class="weui-flex__item " bindtap="mrdatap" data-lineid="{{line.id}}"> 
+          <view wx:if="{{line.id == 10}}"  class="weui-flex__item " bindtap="mrdatap" data-lineid="{{line.id}}"> 
               <view >
                 <image mode="aspectFit" src="/pages/images/mrdk.svg" class="liuyanbandaka"></image>
               </view>

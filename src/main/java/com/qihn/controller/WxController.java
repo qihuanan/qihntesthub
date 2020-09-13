@@ -100,6 +100,44 @@ public class WxController extends BaseController {
     }
 
     /**
+     * 每日打卡,随机
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/wx/exammrdk", method = RequestMethod.GET)
+    public void exammrdk(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        User user = this.userService.findById(User.class,Long.parseLong(getParam("userid")));
+        Point point = pointService.findById(Point.class,Long.parseLong(getParam("pointid")));
+        Exam exam = new Exam();
+        exam.setPointid(Long.parseLong(getParam("pointid")));
+        Long count = examService.countByProperties(exam);
+        List<Exam> examList = examService.findByProperties(exam,null,500,null,null);
+        int rand = new Random().nextInt(count.intValue());
+        exam = examList.get(rand);
+
+        List<Pricevo> radiolist = new ArrayList<>();
+        if(exam.getCate().equals("3")){
+            String arr[] = exam.getRadiolist().split(";");
+            for(int i = 0;i<arr.length;i++){
+                Pricevo p  = new Pricevo();
+                p.setName(arr[i].split(",")[0]);
+                p.setValue(arr[i].split(",")[1]);
+                radiolist.add(p);
+            }
+        }
+
+        Map map = new HashMap();
+        map.put("exam", exam);
+        map.put("point",point);
+        map.put("radiolist",radiolist);
+        map.put("count",count);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    /**
      * 附加题
      * @param request
      * @param response
@@ -830,6 +868,31 @@ public class WxController extends BaseController {
         Map map = new HashMap();
         //map.put("data", JSONUtils.listToJson(lineList));
         map.put("data", list);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    /**
+     * 分享页面数据加载，背景图随机
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/wx/linedetailshare", method = RequestMethod.GET)
+    //@ResponseBody
+    public void linedetailshare(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Map map = new HashMap();
+        this.setReqAndRes(request,response);
+        showparam();
+        Line line = this.lineService.findById(Line.class,Long.parseLong(getParam("lineid")));
+        User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
+        Point point = new Point();
+        point.setLineid(line.getId());
+        Long cont = this.pointService.countByProperties(point);
+        List<Point> pointList = this.pointService.findByProperties(point,null,100,null,null);
+        map.put("point",pointList.get(new Random().nextInt(cont.intValue()) ));
+
+        map.put("data", line);
+
         this.printjson(JSONUtils.toJSON(map));
     }
 
