@@ -12,6 +12,7 @@ Page({
     photoflag:false,
     files: [],
     src: '',
+    point:{},
     line:'',
     
     
@@ -110,7 +111,7 @@ Page({
     })
     var that = this
     wx.request({
-      url: app.globalData.baseurl + 'wx/linedetail',
+      url: app.globalData.baseurl + 'wx/linedetailshare',
       header: { 'content-type': 'application/json' },
       data: {
         lineid: 3,
@@ -119,6 +120,7 @@ Page({
         console.log("share onShow  " + JSON.stringify(res2.data.data))
         that.setData({
           line: res2.data.data,
+          point: res2.data.point,
           hasUserInfo: true
         })
       }

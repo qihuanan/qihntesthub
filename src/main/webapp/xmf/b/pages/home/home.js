@@ -26,10 +26,9 @@ Page({
     console.log(e.detail.encryptedData)
   },
   todetail: function (e) {
-    console.log('markertap ' + JSON.stringify(e))
     console.log('todetail-' + e.currentTarget.dataset.lineid)
-    wx.navigateTo({
-      url: "/pages/baoxiang/baoxiang?lineid=" + e.currentTarget.dataset.lineid,
+    util.navigateTo({
+      url: "/pages/detail/detail?lineid=" + e.currentTarget.dataset.lineid,
     });
   },
   islogin: function () {

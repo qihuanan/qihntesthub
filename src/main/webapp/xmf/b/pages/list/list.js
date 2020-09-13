@@ -1,5 +1,4 @@
-//index.js
-//获取应用实例
+const util = require('../../utils/util.js')
 const app = getApp()
 
 Page({
@@ -40,7 +39,7 @@ Page({
         icon: 'none',
         duration: 2000
       })
-      wx.navigateTo({
+      util.navigateTo({
         url: "/pages/detail/detail?lineid=" + that.data.curlineid,
       });
     }else{
@@ -120,7 +119,7 @@ Page({
   },
   todetail: function(e){
     console.log('todetail-'+ e.target.dataset.lineid)
-    wx.navigateTo({
+    util.navigateTo({
       url: "/pages/detail/detail?lineid=" + e.target.dataset.lineid,
     });
   },

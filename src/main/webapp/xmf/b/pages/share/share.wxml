@@ -1,6 +1,6 @@
 <view class="outer">
   <view class="inner">
-    <image  wx:if="{{line.picture2}}"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{line.picture2}}" class="detailimg" src="{{baseurl}}download?filename={{line.picture2}}"></image>
+    <image  wx:if="{{point.picture1}}"  bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{point.picture1}}" class="detailimg" src="{{baseurl}}download?filename={{point.picture1}}"></image>
 
     <view class="userinfo"> 
       <image  class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
