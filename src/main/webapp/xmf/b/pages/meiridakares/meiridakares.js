@@ -13,9 +13,9 @@ Page({
   },
   //事件处理函数
   
-  gonext: function (e) { 
+  goshare: function (e) { 
     util.navigateTo({
-      url: "/pages/detailon/detail",
+      url: "/pages/share/share",
     });
   },
 

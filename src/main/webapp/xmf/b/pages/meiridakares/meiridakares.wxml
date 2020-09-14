@@ -15,7 +15,7 @@
     <!-- 
     <button  class="userinfobtn" bindtap="gonext"> 邀请大家一起来打卡吧 </button>
     -->
-    <image class="yqdk" src="/pages/images/yqdk.png" mode="aspectFit"></image>
+    <image bindtap="goshare" class="yqdk" src="/pages/images/yqdk.png" mode="aspectFit"></image>
   </view>
   
 </view>

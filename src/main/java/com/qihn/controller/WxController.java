@@ -442,6 +442,7 @@ public class WxController extends BaseController {
 
         Exam exam = new Exam();
         exam.setPointid(point.getId());
+        // 是否有加分任务，多题目
         long count = examService.countByProperties(exam);
         map.put("count", count);
 

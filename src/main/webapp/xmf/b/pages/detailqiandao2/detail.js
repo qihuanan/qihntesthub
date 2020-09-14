@@ -3,7 +3,6 @@ const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
     baseurl: app.globalData.baseurl,
     iosDialog1: false,
     unlock: false,
@@ -18,6 +17,7 @@ Page({
     point:{},
     exam: { picture1:''},
     juli: 1,
+    fujiati: 0,
     inputValue:'',
     ritems: [
       { value: 'USA', name: '北京' },
@@ -93,7 +93,7 @@ Page({
                 // 1期 提示获取积分
                 //url: '/pages/msgsuccess/msg_success?jifen=' + that.data.point.jifen
                 // 2期 碎片奖励
-                url: '/pages/examsuccess/examsuccess?prizeimg=' + res2.data.pointUserinfo.prizeimg + '&jifen=' + that.data.point.jifen + '&success=' + that.data.exam.success + '&finish='+ res2.data.finish + '&count='+res2.data.count
+                url: '/pages/examsuccess/examsuccess?prizeimg=' + res2.data.pointUserinfo.prizeimg + '&jifen=' + that.data.point.jifen + '&success=' + that.data.exam.success + '&finish='+ res2.data.finish + '&count='+res2.data.count+'&fujiati='+that.data.fujiati
               })
             }
 
@@ -159,7 +159,7 @@ Page({
             // 1期 提示获取积分
             //url: '/pages/msgsuccess/msg_success?jifen=' + that.data.point.jifen
             // 2期 碎片奖励
-            url: '/pages/examsuccess/examsuccess?prizeimg=' + res2.data.pointUserinfo.prizeimg + '&jifen=' + that.data.point.jifen + '&success=' + that.data.exam.success+ '&finish='+ res2.data.finish + '&count='+res2.data.count
+            url: '/pages/examsuccess/examsuccess?prizeimg=' + res2.data.pointUserinfo.prizeimg + '&jifen=' + that.data.point.jifen + '&success=' + that.data.exam.success+ '&finish='+ res2.data.finish + '&count='+res2.data.count+'&fujiati='+that.data.fujiati
           })
         }
 
@@ -283,6 +283,31 @@ Page({
       }
     })
   },
+  // 附加题
+  qiandaotap2: function (e) {
+    console.log('qiandaotap2 ' + JSON.stringify(e))
+    var that = this
+    wx.request({
+      url: app.globalData.baseurl +'wx/exam2',
+      header: { 'content-type': 'application/json' },
+      data: {
+        pointid: app.globalData.curpointid,
+        userid: wx.getStorageSync("userid")
+      }, success(res2) {
+        console.log("detail qiandaotap-res  " + JSON.stringify(res2.data))
+        that.setData({
+          point: res2.data.point,
+          cate: res2.data.exam.cate,
+          ritems: res2.data.radiolist,
+          exam: res2.data.exam
+        })
+        
+      }
+    })
+ 
+   
+  },
+
   bindViewTap: function() {
     util.navigateTo({
       url: '../logs/logs'
@@ -305,7 +330,12 @@ Page({
           point: res2.data.point,
           juli: res2.data.line.qiandaojuli
         })
-        that.qiandaotap(options)
+        if(that.data.fujiati !=1){
+          that.qiandaotap(options)
+        }else{ // 附加题
+          that.qiandaotap2(options)
+        }
+        
       }
     })
     this.setData({
@@ -314,9 +344,11 @@ Page({
     
   },
   onLoad: function (options) {
-    console.log("detailqiandao2-onLoad-cate " + options.cate)
+    console.log("detailqiandao2-onLoad-cate " + options.cate) // 无用的，没有传递
+    console.log("detailqiandao2-onLoad-fujiati " + options.fujiati)
     this.setData({
       cate: options.cate,
+      fujiati: options.fujiati
     })
     console.log("detailqiandao2-onLoad-point " + app.globalData.curpointid)
     

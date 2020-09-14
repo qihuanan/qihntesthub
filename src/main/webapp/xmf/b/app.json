@@ -1,9 +1,10 @@
 {
   "pages": [
    
+    "pages/index/index",
     "pages/share/share",
     "pages/meiridaka/meiridaka", 
-    "pages/index/index",
+    
     
    "pages/list/list",
     "pages/detailon/detail",
