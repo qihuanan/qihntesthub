@@ -27,6 +27,11 @@ Page({
     }
   },
   onShareAppMessage: function () {
+    return {
+      title: '我参与了绿色家园建设每日打卡行动，邀请你一起来!',
+      //desc: '我参与了绿色家园建设每日打卡行动，邀请你一起来!',
+      path: '/pages/meiridaka/meiridaka' // 路径，传递参数到指定页面。
+     }
   },
   dakaflagtap: function(e){
     this.islogin()
@@ -74,8 +79,7 @@ Page({
       url: '../logs/logs'
     })
   },
-  onShareAppMessage: function () {
-  },
+
   showimgTap:function(e){
     console.log('showimgTap ' + JSON.stringify(e))
     console.log('showimgTap ' + e.currentTarget.dataset.imgsrc)
@@ -106,6 +110,7 @@ Page({
 
   },
   onShow: function (options){
+    console.log("img: "+this.data.userInfo.avatarUrl)
     wx.setNavigationBarTitle({
       title: '分享'
     })

@@ -1,6 +1,5 @@
 package com.qihn.utils;
 
-import com.qihn.controller.GoodsController;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,12 +9,11 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
 
-public class XcxUtil {
+public class XcxUtilbak {
 
     /***
      *
@@ -31,7 +29,7 @@ public class XcxUtil {
      * @see
      */
 
-    private static Log logger = LogFactory.getLog(XcxUtil.class);
+    private static Log logger = LogFactory.getLog(XcxUtilbak.class);
         /****
          *
          * Project Name: wechat-management-util
@@ -68,47 +66,26 @@ public class XcxUtil {
             renderingHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
             renderingHints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
             int height = background.getHeight() * 750 / background.getWidth();
-            System.out.println("height: "+height);
             // 图片大小
-            BufferedImage img = new BufferedImage(750, 1334, BufferedImage.TYPE_INT_RGB);
+            BufferedImage img = new BufferedImage(750, height, BufferedImage.TYPE_INT_RGB);
             // 开启画图
             Graphics2D g = (Graphics2D) img.getGraphics();
 
             try {
                 g.setRenderingHints(renderingHints);
-                // 画底图
-                g.drawImage(background.getScaledInstance(750, 1334, Image.SCALE_FAST), 0, 0, null);
-
-                // 教师海报图 - 需要将原图进行剪切 剪切后的长度是 750*830 上面部分图
-                BufferedImage teacherImage = ImageUtils.zoomImage(poster,750,473);
+                // 教师海报图 - 需要将原图进行剪切 剪切后的长度是 750*830
+                BufferedImage teacherImage = null; // cutPic(poster, 158, 0, 750, 830);
+                teacherImage = ImageUtils.zoomImage(poster,750,830);
                 g.drawImage(teacherImage.getScaledInstance(750,teacherImage.getHeight(), Image.SCALE_FAST), 0, 0, null);
-
+                // 画底图
+                g.drawImage(background.getScaledInstance(750, height, Image.SCALE_FAST), 0, 0, null);
                 // 画头像
                 if (null != avatar) {
-                    g.drawImage(XcxUtil.roundImage(avatar, avatar.getWidth(), avatar.getHeight(), 360).getScaledInstance(128, 128, Image.SCALE_FAST), 310, 510, null);
-
-                    // 设置字体大小
-                    font = font.deriveFont(34f);
-                    // 设置字体颜色
-                    Color color = new Color(55,69,97);
-                    g.setColor(color);
-                    g.setFont(font);
-                    if(nickname.length() > 5) {
-                        //nickname = nickname.substring(0, 5) + "...";
-                    }
-                    // 计算文字长度，计算居中的x点坐标
-                    FontMetrics fm = g.getFontMetrics(font);
-                    int textWidth = fm.stringWidth(nickname);
-                    int widthX = (750 - textWidth) / 2;
-                    // 表示这段文字在图片上的位置(x,y) .第一个是你设置的内容。
-                    g.drawString(nickname,widthX,100);
-                    g.drawString(nickname, 260, 680);
+                    g.drawImage(XcxUtilbak.roundImage(avatar, avatar.getWidth(), avatar.getHeight(), 360).getScaledInstance(45*2, 45*2, Image.SCALE_FAST), 25*2, 603*2, null);
                 }
-                //
-
                 // 画二维码
                 if (null != qr) {
-                    g.drawImage(qr.getScaledInstance(329, 325, Image.SCALE_FAST), 210, 1000, null);
+                    g.drawImage(qr.getScaledInstance(70*2, 70*2, Image.SCALE_FAST), 286*2, 591*2, null);
                 }
 
                 // 设置字体大小
@@ -121,7 +98,7 @@ public class XcxUtil {
                 nickname = nickname == null ? "" : nickname;
                 //nickname = EmojiUtils.emojiRecovery(nickname);
 
-                if(nickname.length() > 9) {
+                if(nickname.length() > 5) {
                     nickname = nickname.substring(0, 9) + "...";
                 }
 
@@ -216,19 +193,18 @@ public class XcxUtil {
     }
 
 
-
     public static void main(String[] args) {
         try {
-            BufferedImage bg = ImageIO.read(new File("E:\\temp\\bg.png"));
-            BufferedImage poster = ImageIO.read(new File("E:\\temp\\sharebg.png"));
-            BufferedImage qr = ImageIO.read(new File("E:\\temp\\xmfma.png"));
-            BufferedImage avatar = ImageIO.read(new URL("https://thirdwx.qlogo.cn/mmopen/vi_32/hg8EqGcExhtxldAdeZibTncBKkibFicrvVHobbm6JF90vlQsINar1codibGmUXQgqq4hWpdt0XIWsFIe1icUQHPeMzg/132"));
+            BufferedImage bg = ImageIO.read(new File("E:\\temp\\sharebg.png"));
+            BufferedImage poster = ImageIO.read(new File("E:\\temp\\poster.jpg"));
+            BufferedImage qr = ImageIO.read(new File("E:\\temp\\qr.jpg"));
+            BufferedImage avatar = ImageIO.read(new URL("https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTK4DYtvaMV6YIficQnj2D8CiaabaSAq1kzNZUAZCWn5oGv6n8AnjuYTH3bBqELica2yeKbYiakSUMsQIQ/132"));
             String nickname = "早起的小闹钟";
             String courseName = "我已坚持打卡xx天，我参与了绿色家园建设每日打卡行动，邀请你一起来!";
             String courseTip = "给人看和给人讲的PPT有什么区别？\n为什么用了模板还是很丑为什么用了模板还是很丑为什么用了模板还是很丑？\n如何体现PPT制作的专业性?";
-            BufferedImage img = XcxUtil.createSharePoster(bg, poster, qr, avatar, getPingFang(), nickname, courseName, courseTip);
+            BufferedImage img = XcxUtilbak.createSharePoster(bg, poster, qr, avatar, getPingFang(), nickname, courseName, courseTip);
             ImageIO.write(img, "jpg", new File("E:\\temp\\result"+Utils.formatCompactDateSSS()+".jpg"));
-            System.out.println("done: ");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
