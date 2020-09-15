@@ -1,9 +1,21 @@
 <wxs src="../../utils/filter.wxs" module="util"></wxs>
-
+<view class="weui-flex ">
+  <view class="weui-flex__item">
+    <view class="item-text">
+      <view class="active-title">
+        <view class="active-title-top">
+      {{exam.name}}
+        </view>
+      </view>
+    </view>
+  </view>	
+</view>
 <view class="weui-flex">
   <view  class="weui-flex__item question" > 
-    <view class="question-name">
-      {{exam.name}}
+    <view  class="question-desc">
+       <text>
+       {{util.format(exam.description)}}
+        </text>
     </view>
     <view class="question-img">
       <image mode="widthFix" wx:if="{{exam.picture1 != '' }}" src="{{baseurl}}download?filename={{exam.picture1}}" ></image>
@@ -13,7 +25,7 @@
     <view class="question-name" wx:if="{{cate == 1 || cate == 3}}">
       请您选择答案：
     </view>
-    <view wx:if="{{cate == 1}}" class="question-desc">
+    <view wx:if="{{cate == 1}}" class="option-desc">
       <input class="inputclass" bindinput="bindKeyInput"  placeholder="请在此输入" ></input>
     </view>
     

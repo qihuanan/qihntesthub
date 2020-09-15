@@ -15,7 +15,7 @@
   </view>
   <view class='placeholder-view2'></view>
    <view class="weui-flex" style="text-align:center;">
-      <view  class="weui-flex__item " bindtap="" data-lineid="{{line.id}}"> 
+      <view  class="weui-flex__item " bindtap="createshareimg" data-lineid="{{line.id}}"> 
         <image mode="aspectFit" src="/pages/images/share_xiazai.png" class="liuyanbandaka"></image>  
       </view>
       <view  class="weui-flex__item " > 

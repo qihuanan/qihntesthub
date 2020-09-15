@@ -58,6 +58,9 @@
 .question-desc{ 
   padding: 5px 0px;
 }
+.option-desc {
+  font-size: 24rpx; 
+}
 .inputclass{
   border: 1px solid #DDDEDE;
   height: 40px;

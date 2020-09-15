@@ -76,7 +76,7 @@
     <view class="weui-mask"></view>
     <view class="weui-dialog">
         <view class="weui-dialog__hd"><strong class="weui-dialog__title">兑换勋章说明</strong></view>
-        <view class="weui-dialog__bd"><text>{{curbaoxiang.remark}} 换勋章说明</text></view>
+        <view class="weui-dialog__bd"><text>{{curbaoxiang.remark}} </text></view>
         <view class="weui-dialog__ft"> 
             <a class="weui-dialog__btn weui-dialog__btn_primary" bindtap="close">确定</a>
         </view>

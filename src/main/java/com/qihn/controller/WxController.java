@@ -57,6 +57,55 @@ public class WxController extends BaseController {
 
     }
     //=========================前端=========================
+
+    @RequestMapping(value = "/wx/createshareimg", method = RequestMethod.GET)
+    public void createshareimg(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        Map map = new HashMap();
+
+        String basefilepath = Utils.getProperty("basefilepath")+ "/" ;
+
+        //String bgimgpath,String shareimgpath,String qrcodepath,
+        // String avatarurl,String nickname, List<String> strlist,String resultimgpath
+        Line line = this.lineService.findById(Line.class,3l); // 固定
+        String bgimgpathfull = basefilepath+ line.getPicture1();
+        String qrcodepathfull = basefilepath+ line.getPicture2();
+        Point point = new Point();
+        point.setLineid(line.getId());
+        Long cont = this.pointService.countByProperties(point);
+        List<Point> pointList = this.pointService.findByProperties(point,null,100,null,null);
+        map.put("point",pointList.get(new Random().nextInt(cont.intValue()) ));
+        String shareimgpath = pointList.get(new Random().nextInt(cont.intValue()) ).getPicture1();
+        String shareimgpathfull = basefilepath +shareimgpath;
+        //User user = this.userService.findById(User.class,Long.parseLong(getParam("userid")));
+        String nickname = getParam("nickname");
+        String avatarurl = getParam("avatarurl");
+        List<String> strList = new ArrayList<>();
+        //strList.add("我已坚持打卡xx天");
+        strList.add("我参与了绿色家园建设每日打卡行动");
+        strList.add("邀请你一起来!");
+
+        String datepath =  Utils.formatShortDate();
+        //上传时生成的临时文件保存目录
+        String tempPath = basefilepath + datepath;
+        File tmpFile = new File(tempPath);
+        if (!tmpFile.exists()) {
+            tmpFile.mkdirs();
+        }
+        String filename = datepath +"/"+Utils.formatCompactDateSSS()+".jpg";
+        String resultimgpathfull = basefilepath +filename;
+        String res = XcxUtil.createshareimg(bgimgpathfull,shareimgpathfull,qrcodepathfull,avatarurl,
+                nickname,strList,resultimgpathfull);
+
+        map.put("data", line);
+        if(res!=null){
+            map.put("shareimgpath",filename);
+        }
+
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
     @RequestMapping(value = "/wx/baoxiang", method = RequestMethod.GET)
     public void baoxiang(HttpServletRequest request, HttpServletResponse response) throws Exception{
         this.setReqAndRes(request,response);

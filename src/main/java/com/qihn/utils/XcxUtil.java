@@ -12,6 +12,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,19 +50,15 @@ public class XcxUtil {
          * 			二维码图片
          * @param avatar
          * 			头像图片
-         * @param font
-         * 			字体
          * @param nickname
          * 			昵称
-         * @param courseName
-         * 			课程名称
-         * @param courseTip
-         * 			课程大纲
          * @return
          * @throws IOException
          */
         public static BufferedImage createSharePoster(BufferedImage background, BufferedImage poster,
-                                                      BufferedImage qr, BufferedImage avatar, Font font, String nickname, String courseName, String courseTip ) throws  IOException{
+                                                      BufferedImage qr, BufferedImage avatar,
+                                                      String nickname, List<String> strlist) throws  IOException{
+            Font font = new Font("宋体",Font.BOLD,20);
             // 开启抗锯齿
             RenderingHints renderingHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             // 使用高质量压缩
@@ -81,6 +78,7 @@ public class XcxUtil {
 
                 // 教师海报图 - 需要将原图进行剪切 剪切后的长度是 750*830 上面部分图
                 BufferedImage teacherImage = ImageUtils.zoomImage(poster,750,473);
+
                 g.drawImage(teacherImage.getScaledInstance(750,teacherImage.getHeight(), Image.SCALE_FAST), 0, 0, null);
 
                 // 画头像
@@ -101,81 +99,46 @@ public class XcxUtil {
                     int textWidth = fm.stringWidth(nickname);
                     int widthX = (750 - textWidth) / 2;
                     // 表示这段文字在图片上的位置(x,y) .第一个是你设置的内容。
-                    g.drawString(nickname,widthX,100);
-                    g.drawString(nickname, 260, 680);
-                }
-                //
+                    g.drawString(nickname,widthX,680);
 
-                // 画二维码
-                if (null != qr) {
-                    g.drawImage(qr.getScaledInstance(329, 325, Image.SCALE_FAST), 210, 1000, null);
                 }
 
-                // 设置字体大小
+                // 写提示文案名称
+                font = new Font("微软雅黑",Font.BOLD,34);
                 font = font.deriveFont(34f);
-                // 设置字体颜色
                 Color color = new Color(55,69,97);
                 g.setColor(color);
                 g.setFont(font);
-                //昵称
-                nickname = nickname == null ? "" : nickname;
-                //nickname = EmojiUtils.emojiRecovery(nickname);
+                // 计算文字长度，计算居中的x点坐标
 
-                if(nickname.length() > 9) {
-                    nickname = nickname.substring(0, 9) + "...";
+                int curheight = 760;
+                for(int i=0;i<strlist.size();i++){
+                    FontMetrics fm = g.getFontMetrics(font);
+                    int textWidth = fm.stringWidth(strlist.get(i));
+                    int widthX = (750 - textWidth) / 2;
+                    // 表示这段文字在图片上的位置(x,y) .第一个是你设置的内容。
+                    g.drawString(strlist.get(i),widthX,curheight);
+                    curheight+=50;
                 }
 
-                int stringWidth = getWidth(g.getFontRenderContext(), g, nickname);
-                g.drawString(nickname, 84 * 2 , 623 * 2);
-
-                /*//画'向您推荐好课'
-                String recommendText = "早起的小闹钟";
-                font = font.deriveFont(24f);
-                // 设置字体颜色
-                color = new Color(55,69,97);
-                g.setColor(color);
-                g.setFont(font);
-                g.drawString(recommendText, 84 * 2 +  stringWidth , 623 * 2);*/
-
-                // 写课程名称
-                font = font.deriveFont(60.0f);
-                color = new Color(69,75,106);
-                g.setColor(color);
-                g.setFont(font);
-                int courseWidth = getWidth(g.getFontRenderContext(), g, courseName);
-                if(courseWidth >= 334*2) {
-                    String c1 = courseName.substring(0, 10);
-                    String c2 = courseName.substring(10, courseName.length());
-                    int courseHeight = getHeight(g.getFontRenderContext(), g, c1);
-                    g.drawString(c1, 21 * 2 , (430 * 2) - 2);
-                    g.drawString(c2, 21 * 2 , 420 * 2 + courseHeight + 2);
-
-                }else {
-                    g.drawString(courseName, 21 * 2 , 448 * 2);
-
+                // 画二维码
+                if (null != qr) {
+                    //curheight+=50;
+                    g.drawImage(qr.getScaledInstance(329, 325, Image.SCALE_FAST), 210, curheight, null);
+                    String qrstr = "长按识别小程序码";
+                    font = new Font("宋体",Font.PLAIN,34);
+                    // 设置字体颜色
+                    color = new Color(55,69,97);
+                    g.setColor(color);
+                    g.setFont(font);
+                    FontMetrics fm = g.getFontMetrics(font);
+                    int textWidth = fm.stringWidth(qrstr);
+                    int widthX = (750 - textWidth) / 2;
+                    curheight+=325;
+                    curheight+=50;
+                    g.drawString(qrstr ,widthX,curheight);
                 }
 
-               /* //写课程大纲
-                List<String> tipList = Arrays.asList(courseTip.split("\n"));
-                String tip1 = tipList.get(0);
-                if(tip1.length() >= 20) {
-                    tip1 = tip1.substring(0, 19) + "...";
-                }
-                String tip2 = tipList.get(1);
-                if(tip2.length() >= 20) {
-                    tip2 = tip2.substring(0, 19) + "...";
-                }
-                String tip3 = tipList.get(2);
-                if(tip3.length() >= 20) {
-                    tip3 = tip3.substring(0, 19) + "...";
-                }
-                font = font.deriveFont(30.0f);
-                color = new Color(176,153,104);
-                g.setColor(color);
-                g.setFont(font);
-                g.drawString(tip1, 47 * 2 , 494 * 2);
-                g.drawString(tip2, 47 * 2 , 527 * 2);
-                g.drawString(tip3, 47 * 2 , 559 * 2);*/
 
                 img = Thumbnails.of(img).scale(1f).outputQuality(1f).asBufferedImage();
             } catch (IOException e) {
@@ -211,11 +174,27 @@ public class XcxUtil {
         return roundImage(image, image.getWidth(), image.getHeight(), cornerRadius);
     }
 
-    public static Font getPingFang() {
-            return new Font("宋体",Font.BOLD,20);
+
+    public static String createshareimg( String bgimgpath,String shareimgpath,String qrcodepath,String avatarurl,String nickname, List<String> strlist,String resultimgpath){
+        try {
+            BufferedImage bg = ImageIO.read(new File(bgimgpath));
+            BufferedImage poster = ImageIO.read(new File(shareimgpath));
+            BufferedImage qr = ImageIO.read(new File(qrcodepath));
+            BufferedImage avatar = ImageIO.read(new URL(avatarurl));
+            //String nickname = "早起的小闹钟";
+            //List<String> strList = new ArrayList<>();
+            //strList.add("我已坚持打卡xx天");
+            //strList.add("我参与了绿色家园建设每日打卡行动");
+            //strList.add("邀请你一起来!");
+            BufferedImage img = XcxUtil.createSharePoster(bg, poster, qr, avatar, nickname, strlist);
+            ImageIO.write(img, "jpg", new File(resultimgpath));
+            System.out.println("createshareimg-done: "+resultimgpath);
+            return resultimgpath;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-
-
 
     public static void main(String[] args) {
         try {
@@ -224,9 +203,11 @@ public class XcxUtil {
             BufferedImage qr = ImageIO.read(new File("E:\\temp\\xmfma.png"));
             BufferedImage avatar = ImageIO.read(new URL("https://thirdwx.qlogo.cn/mmopen/vi_32/hg8EqGcExhtxldAdeZibTncBKkibFicrvVHobbm6JF90vlQsINar1codibGmUXQgqq4hWpdt0XIWsFIe1icUQHPeMzg/132"));
             String nickname = "早起的小闹钟";
-            String courseName = "我已坚持打卡xx天，我参与了绿色家园建设每日打卡行动，邀请你一起来!";
-            String courseTip = "给人看和给人讲的PPT有什么区别？\n为什么用了模板还是很丑为什么用了模板还是很丑为什么用了模板还是很丑？\n如何体现PPT制作的专业性?";
-            BufferedImage img = XcxUtil.createSharePoster(bg, poster, qr, avatar, getPingFang(), nickname, courseName, courseTip);
+            List<String> strList = new ArrayList<>();
+            //strList.add("我已坚持打卡xx天");
+            strList.add("我参与了绿色家园建设每日打卡行动");
+            strList.add("邀请你一起来!");
+            BufferedImage img = XcxUtil.createSharePoster(bg, poster, qr, avatar, nickname, strList);
             ImageIO.write(img, "jpg", new File("E:\\temp\\result"+Utils.formatCompactDateSSS()+".jpg"));
             System.out.println("done: ");
         } catch (Exception e) {

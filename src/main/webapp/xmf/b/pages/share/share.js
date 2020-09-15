@@ -11,6 +11,7 @@ Page({
     dakaflag:false,
     photoflag:false,
     files: [],
+    shareimgpath: '',
     src: '',
     point:{},
     line:'',
@@ -88,29 +89,88 @@ Page({
       urls: [e.currentTarget.dataset.imgsrc]
     })
   },
-  taplike: function(e){
-    console.log('taplike ' + JSON.stringify(e))
-    console.log('curlineid ' + app.globalData.curlineid)
+  createshareimg: function(e){
+    //console.log('createshareimg ' + JSON.stringify(e))
+    console.log('createshareimg-curlineid ' + app.globalData.curlineid)
     var that = this
     wx.request({
-      url: app.globalData.baseurl +'wx/linelike',
+      url: app.globalData.baseurl +'wx/createshareimg',
       header: { 'content-type': 'application/json' },
       data: {
         lineid: app.globalData.curlineid,
+        nickname: that.data.userInfo.nickName,
+        avatarurl: that.data.userInfo.avatarUrl,
         userid: wx.getStorageSync("userid")
       }, success(res2) {
-        console.log("taplike res  " +res2.data.data)
-        console.log("taplike res  " + JSON.stringify(res2.data.data))
+        console.log("createshareimg res  " + JSON.stringify(res2.data))
         that.setData({
-          'line.like': res2.data.data,
+          shareimgpath: res2.data.shareimgpath,
           hasUserInfo: true
         })
+
+        //获取相册授权
+        wx.getSetting({ success(res) {
+          if (!res.authSetting['scope.writePhotosAlbum']) {
+            wx.authorize({
+              scope:'scope.writePhotosAlbum',
+              success() {
+                console.log('授权成功')
+              }
+            })
+          }
+        }})
+
+        var imgSrc = that.data.baseurl+"download?filename="+that.data.shareimgpath
+        console.log("imgSrc: "+imgSrc)
+  
+        let fileName = new Date().valueOf();
+        let filePath = wx.env.USER_DATA_PATH + '/' + fileName + '.jpg'
+        wx.downloadFile({
+        url: imgSrc,
+        filePath:filePath,
+        success: function (res) {
+          console.log(res);
+        //图片保存到本地
+        wx.saveImageToPhotosAlbum({
+          //filePath: res.tempFilePath,
+          filePath: filePath,
+          success: function (data) {
+          wx.showToast({
+            title: '保存成功',
+            icon: 'success',
+            duration: 2000
+          })
+        },
+        fail: function (err) {
+          console.log(err);
+          if (err.errMsg === "saveImageToPhotosAlbum:fail auth deny") {
+            console.log("当初用户拒绝，再次发起授权")
+          wx.openSetting({
+            success(settingdata) {
+              console.log(settingdata)
+              if (settingdata.authSetting['scope.writePhotosAlbum']) {
+                console.log('获取权限成功，给出再次点击图片保存到相册的提示。')
+              } else {
+                console.log('获取权限失败，给出不给权限就无法正常使用的提示')
+              }
+            }
+           })
+          }
+        },
+        complete(res){
+          console.log(res);
+        }
+        })
+
+        }
+        })
+
+
       }
     })
 
   },
   onShow: function (options){
-    console.log("img: "+this.data.userInfo.avatarUrl)
     wx.setNavigationBarTitle({
       title: '分享'
     })
