@@ -5,7 +5,6 @@
     <view class="userinfo"> 
       <image  class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-      <text class="userinfo-nickname2">我已坚持打卡xx天</text>
       <text class="userinfo-nickname2">我参与了绿色家园建设每日打卡行动</text>
       <text class="userinfo-nickname2">邀请你一起来!</text>
       <image  class="userinfo-avatar2" src="/pages/images/xmfma.png" mode="cover"></image>
@@ -15,7 +14,7 @@
   </view>
   <view class='placeholder-view2'></view>
    <view class="weui-flex" style="text-align:center;">
-      <view  class="weui-flex__item " bindtap="createshareimg" data-lineid="{{line.id}}"> 
+      <view  class="weui-flex__item " bindtap="createshareimg2" data-lineid="{{line.id}}"> 
         <image mode="aspectFit" src="/pages/images/share_xiazai.png" class="liuyanbandaka"></image>  
       </view>
       <view  class="weui-flex__item " > 

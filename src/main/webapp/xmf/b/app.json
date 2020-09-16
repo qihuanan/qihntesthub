@@ -1,9 +1,12 @@
 {
   "pages": [
    
+    "pages/list/list",
+    "pages/meiridaka/meiridaka", 
+    "pages/meiridaka/meiridakares", 
     "pages/share/share",
     
-   "pages/list/list",
+ 
     "pages/detailon/detail",
     
     "pages/baoxiang/baoxiang",
@@ -19,18 +22,14 @@
     
     "pages/detailmap/detail",
     "pages/detail/detail",
-    "pages/detailqiandao/detail",
     "pages/detailqiandao2/detail",
-    "pages/detailexam/detail",
-   
-    
 
     "pages/msgsuccess/msg_success",
     "pages/msgwarn/msg_warn",
  
     "pages/index/index",
     
-    "pages/meiridaka/meiridaka", 
+  
     
     "pages/logs/logs"
   ],

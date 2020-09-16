@@ -44,8 +44,8 @@
 
 }
 .yqdk{
-  width: 800rpx;
-  height: 400rpx;
+  width: 500rpx;
+  height: 250rpx;
 }
 .tipsimg{
   width: 400rpx;
