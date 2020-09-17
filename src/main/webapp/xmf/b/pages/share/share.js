@@ -14,7 +14,7 @@ Page({
     shareimgpath: '',
     src: '',
     point:{},
-    line:'',
+    line:{},
     
     
   },

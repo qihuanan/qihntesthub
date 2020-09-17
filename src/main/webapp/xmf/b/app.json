@@ -1,12 +1,12 @@
 {
   "pages": [
    
+  
     "pages/list/list",
     "pages/meiridaka/meiridaka", 
     "pages/meiridaka/meiridakares", 
     "pages/share/share",
     
- 
     "pages/detailon/detail",
     
     "pages/baoxiang/baoxiang",
