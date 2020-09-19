@@ -1,0 +1,4 @@
+<!--index.wxml -->
+<view class="bg">
+<image bindtap="bindtolist" wx:if="{{line.picture1}}"  src="{{baseurl}}download?filename={{line.picture1}}"></image>
+</view>

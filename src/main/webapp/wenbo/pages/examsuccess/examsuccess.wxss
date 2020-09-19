@@ -1,0 +1,31 @@
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.userinfobtn{
+  background-color: #9d2933;
+  color: white;
+  width: 50%;
+  margin-top: 100rpx; 
+}
+.item-title{
+  padding-top: 20rpx;
+  text-align: center;
+  justify-content: center;
+}
+.logoimg{
+  width: 200px;
+  height: 200px;
+}
+.item-gongxi{
+  font-size: 15px;
+  font-weight: bold;
+}
+.item-huode{
+  font-size: 20px;
+  color: #9d2933;
+  font-weight: bold;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+}

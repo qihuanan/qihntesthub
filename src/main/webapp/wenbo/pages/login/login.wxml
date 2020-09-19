@@ -1,0 +1,15 @@
+<!--index.wxml && canIUse && score == 0  -->
+<view class="container">
+  <view class="userinfo">
+   
+    <view class="item-title">文博探秘</view>
+    <view class="item-title">
+      <image class="logoimg" src="/pages/images/logo.png" mode="cover"></image>
+    </view>
+    <button class="userinfobtn" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 微信登录 </button>
+    
+
+   
+  </view>
+  
+</view>

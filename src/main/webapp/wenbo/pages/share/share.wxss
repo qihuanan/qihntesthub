@@ -1,0 +1,80 @@
+.outer{
+  padding:40rpx 40rpx;
+  background-color: #9d2933;
+}
+.inner{
+  background-color: white;
+  text-align: center;
+}
+
+.item-liuyanban{
+  color:white;
+  padding: 25rpx;
+  margin: 0 20rpx;
+  border-radius: 10rpx;
+  background-color:  #9d2933;
+}
+.zhanweifu{
+  margin: 10rpx;
+}
+
+.viewhidden{
+  display: none;
+}
+.viewshow{
+  display: block;
+}
+
+.detailimg{
+  width: 100%;
+  height: 500rpx;
+  /*border-radius: 15rpx;*/
+}
+.liuyanbandaka{
+  height: 62px;
+  width: 133px;
+}
+.liuyanbandaka3{
+  height: 186px;
+  width: 459px;
+}
+.placeholder-view {
+  width: 100%;
+  height: 150rpx;
+}
+
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+.userinfo-nickname {
+  color: #aaa;
+  margin-bottom: 30rpx;
+}
+.userinfo-nickname2 {
+  color: black;
+  font-weight: bold;
+}
+.userinfo-avatar2 {
+  width: 228rpx;
+  height: 228rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+.placeholder-view2 {
+  width: 100%;
+  height: 50rpx;
+}
+.share-btn2{
+  background-color:  #9d2933;
+  clear: both;
+  margin: 0;
+  padding: 0;
+}

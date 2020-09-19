@@ -1,0 +1,21 @@
+ <view class="question-name item-huode">
+      {{examname}}
+    </view>
+<view class="container">
+  <view class="userinfo">
+  
+    <view class="item-title">
+      <image wx:if="{{prizeimg == 'ok' }}"  class="logoimg1" src="/pages/images/mrdkok.png" mode="aspectFit"></image>
+      <image wx:if="{{prizeimg == 'err' }}"  class="logoimg1" src="/pages/images/mrdkerr.png" mode="aspectFit"></image>
+      <image class="tipsimg" src="/pages/images/tips.png" mode="aspectFit"></image>
+    </view>
+
+    <view class="item-tips">{{success}}</view>
+
+    <!-- 
+    <button  class="userinfobtn" bindtap="gonext"> 邀请大家一起来打卡吧 </button>
+    -->
+    <image bindtap="goshare" class="yqdk" src="/pages/images/yqdk.png" mode="aspectFit"></image>
+  </view>
+  
+</view>

@@ -1,0 +1,80 @@
+
+<view class="weui-flex ">
+  <view class="weui-flex__item">
+    <view class="item-text">
+      <view class="active-title">
+        <view class="active-title-top">
+          {{point.name}}
+         <!-- 
+            <mp-icon bindtap="taplike" data-lineid="{{line.id}}"  class="active-title-like" icon="like" type="{{line.like == '1' ? 'field' : 'outline' }}" color="red" size="{{35}}"></mp-icon>
+            -->
+        </view>
+        
+        <view class="active-title-bottom weui-flex">
+          <view class="weui-flex__item">
+              <view class="">已用时</view>
+              <view class="active-title-bottom-item">{{line.yiyongshi}}</view>
+          </view>
+          <view class="weui-flex__item">
+              <view class="">已打卡</view>
+              <view class="active-title-bottom-item">{{line.yidaka}}</view>
+          </view>
+          <view class="weui-flex__item">
+              <view bindtap="totask" class="">已获积分</view>
+              <view class="active-title-bottom-item">{{line.yijifen }}</view>
+          </view>
+        </view>
+
+      </view>
+
+
+      <view class="active-body">
+
+        <block wx:for="{{tipList }}" wx:for-index="index" wx:key="t1">  
+          <view wx:if="{{item.lockflag == 0}}" class="weui-flex__item body-item-tips">
+              <view class="body-item-tips-name">{{item.name}} </view>
+              <view class="body-item-tips-desc">
+                <view>{{item.description}} </view>
+                <view></view>
+              <view class="tipimg">
+               <image mode="widthFix" wx:if="{{item.img != null && item.img != ''}}" bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{item.img}}"   src="{{baseurl}}download?filename={{item.img}}" ></image>
+               </view>
+              </view>
+          </view>
+          <block wx:if="{{item.lockflag == 1}}" >
+            <view class="weui-flex__item body-item-tips" >
+                <view class="body-item-tips-name">{{item.name}}</view>
+            </view>
+            <view class="view-imgmask" bindtap="openIOS1" data-canunlock="{{item.canunlock}}" data-jifen="{{item.jifen}}" data-tipid="{{item.id}}">
+            <image  class="img-tips" src="/pages/images/lock.png" ></image>
+            <!-- wx:if="{{! unlock}}" -->
+            </view>
+          </block>
+        </block>
+
+      </view>
+
+    </view>
+  </view>
+			
+</view>
+
+
+<view class="fadeIn" wx:if="{{iosDialog1}}">
+    <view class="weui-mask"></view>
+    <view class="weui-dialog">
+        <view class="weui-dialog__hd"><strong class="weui-dialog__title">提示</strong></view>
+        <view class="weui-dialog__bd">解锁提示，将扣除{{kouchujifen}}积分！</view>
+        <view class="weui-dialog__ft">
+            <a class="weui-dialog__btn weui-dialog__btn_default" bindtap="close">取消</a>
+            <a class="weui-dialog__btn weui-dialog__btn_primary" bindtap="close2">确定</a>
+        </view>
+    </view>
+</view>
+<view class='list'>
+    <view class='li' wx:for='{{list}}' wx:key=''>{{item}}</view>
+</view>
+<view class='placeholder-view'></view>
+<view class="pretabbar"></view>
+<import src ="/pages/template/tabbar.wxml"/>
+<template is="tabbar" data="{{cur:3, showqiandao:1 }}" />
