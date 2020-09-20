@@ -29,7 +29,7 @@
   </view>
 
   <view class="weui-tabbar__item {{cur == 4 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/detailmap/detail"  open-type="reLaunch">
+    <navigator url="/pages/imgpage/imgpage"  open-type="reLaunch">
       <image src="../images/map.png" alt class="weui-tabbar__icon weui-tabbar-img"></image>
       <view class="weui-tabbar__label">地图</view>
     </navigator>

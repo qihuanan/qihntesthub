@@ -1,0 +1,9 @@
+<!--index.wxml -->
+<view class="bg">
+<image wx:if="{{line.picture1}}"   bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{line.picture1}}" src="{{baseurl}}download?filename={{line.picture1}}"></image>
+</view>
+
+<view class='placeholder-view'></view>
+<view class="pretabbar"></view>
+<import src ="/pages/template/tabbar.wxml"/>
+<template is="tabbar" data="{{cur:3}}" />
