@@ -40,7 +40,22 @@
   border-radius: 10rpx;
 }
 
-
+.gengduo-div {
+  height: 100%;
+}
+.gengduo-image {
+  width: 100%;
+  height: 350rpx;
+  min-height: 350rpx;
+  max-height: 350rpx;
+  border-radius: 10rpx;
+  
+}
+.gengduo-item {
+  min-height: 220rpx;
+  max-height: 220rpx;
+  margin: 10rpx;
+}
 .labelclass {
   padding: 10rpx 0rpx;
   flex-shrink: 2;

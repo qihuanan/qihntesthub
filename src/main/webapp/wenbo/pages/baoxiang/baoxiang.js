@@ -1,3 +1,4 @@
+const util = require('../../utils/util.js')
 const app = getApp()
 
 Page({
@@ -18,6 +19,12 @@ Page({
     interval: 2000,
     duration: 500
     
+  },
+
+  goshare: function (e) { 
+    util.navigateTo({
+      url: "/pages/share/share",
+    });
   },
 
   bindchange: function (options){

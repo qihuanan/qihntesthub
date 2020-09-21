@@ -46,7 +46,7 @@
                 <view class="body-item-tips-name">{{item.name}}</view>
             </view>
             <view class="view-imgmask" bindtap="openIOS1" data-canunlock="{{item.canunlock}}" data-jifen="{{item.jifen}}" data-tipid="{{item.id}}">
-            <image  class="img-tips" src="/pages/images/lock.png" ></image>
+            <image mode="aspectFit" class="img-tips" src="/pages/images/lock.png" ></image>
             <!-- wx:if="{{! unlock}}" -->
             </view>
           </block>

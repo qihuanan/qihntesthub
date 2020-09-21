@@ -74,8 +74,7 @@ background-image:url('data:image/jpeg;base64,/9j/2wCEABALCwsMCxAMDBAYDw0PGBwVEBA
   margin-left: 25rpx;
 }
 .img-tips{
-  height: 100rpx;
-  width: 435rpx;
+  width: 50%;
   margin-top: 40rpx;
   padding-bottom: 10px;
 }

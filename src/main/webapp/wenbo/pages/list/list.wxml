@@ -9,22 +9,23 @@
         <image wx:if="{{item.mima == '' || item.mima == null}}" class="active-image" src="{{baseurl}}wx/showimg?filename={{item.picture1}}" data-verify="{{item.mima}}" data-lineid="{{item.id}}" bindtap="todetail" class="active-image" >
         </image>
         
-        <view class="item-text"  data-verify="{{item.mima}}" data-lineid="{{item.id}}">
+          <view class="item-text"  data-verify="{{item.mima}}" data-lineid="{{item.id}}">
           <view class="active-title">
-            {{item.name}}
+         <!--   {{item.name}}
+         -->
             <mp-icon bindtap="taplike" data-lineid="{{item.id}}" data-index="{{index}}" class="active-title-like" icon="like" type="{{item.like == '1' ? 'field' : 'outline' }}" color="#FFBB4C" size="{{40}}"></mp-icon>
             
           </view>
-          <view class="active-titlesub">
-            <text class="active-titlesub-text">{{item.changdu}}km</text>
-            <text class="active-titlesub-text">{{item.dianshu}}点</text>
-            <text class="active-titlesub-text">{{item.jifen}}积分</text>
-          </view>
         </view>
     </view>
-
+    
 </view>  
+    
 </block>
+<view  class="weui-flex__item view-item gengduo-div" >
+    <image mode="width-fix" class="gengduo-image" src="/pages/images/gengduo.jpg" ></image>
+</view>
+
 
 <view class="fadeIn" wx:if="{{iosDialog1}}">
     <view class="weui-mask"></view>

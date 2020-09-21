@@ -42,7 +42,7 @@ Page({
       data: {
         code: 1,
         lineid: 1,
-        //userid: wx.getStorageSync("userid") 
+        // userid: wx.getStorageSync("userid") 
       }, success(res2) {
         console.log("detail onShow  " + JSON.stringify(res2.data.data))
         that.setData({

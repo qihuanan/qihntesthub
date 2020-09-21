@@ -57,10 +57,10 @@
         </view>
 
         <view class="active-title-bottom weui-flex">
-          <view  class="weui-flex__item " bindtap="openIOS1" > 
-            <view >
+          <view  class="weui-flex__item " bindtap="goshare" > 
+            <view >分享并领取小礼物
               <image mode="aspectFit" src="/pages/images/dhxz.svg" class="liuyanbandaka">
-              兑换勋章</image>
+              </image>
             </view>
           </view>
         </view>

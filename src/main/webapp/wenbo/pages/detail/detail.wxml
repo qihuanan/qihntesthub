@@ -12,10 +12,7 @@
         </view>
         
         <view class="active-title-bottom weui-flex">
-          <view class="weui-flex__item">
-              <view class="">总长</view>
-              <view class="active-title-bottom-item">约{{line.changdu}}km</view>
-          </view>
+          
           <view class="weui-flex__item">
               <view class="">打卡点</view>
               <view class="active-title-bottom-item">{{line.dianshu}}</view>
