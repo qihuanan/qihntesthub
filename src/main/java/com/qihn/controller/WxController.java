@@ -64,7 +64,7 @@ public class WxController extends BaseController {
         showparam();
         Map map = new HashMap();
 
-        String basefilepath = Utils.getProperty("basefilepath")+ "/" ;
+        String basefilepath = Utils.getProperty("basefilepath")+ File.separator ;
 
         //String bgimgpath,String shareimgpath,String qrcodepath,
         // String avatarurl,String nickname, List<String> strlist,String resultimgpath
@@ -83,8 +83,8 @@ public class WxController extends BaseController {
         String avatarurl = getParam("avatarurl");
         List<String> strList = new ArrayList<>();
         //strList.add("我已坚持打卡xx天");
-        strList.add("我参与了绿色家园建设每日打卡行动");
-        strList.add("邀请你一起来!");
+        strList.add("探索美的秘密！");
+        strList.add("徐悲鸿纪念馆邀请你一起来!");
 
         String datepath =  Utils.formatShortDate();
         //上传时生成的临时文件保存目录
@@ -93,7 +93,7 @@ public class WxController extends BaseController {
         if (!tmpFile.exists()) {
             tmpFile.mkdirs();
         }
-        String filename = datepath +"/"+Utils.formatCompactDateSSS()+".jpg";
+        String filename = datepath +File.separator+Utils.formatCompactDateSSS()+".jpg";
         String resultimgpathfull = basefilepath +filename;
         String res = XcxUtil.createshareimg(bgimgpathfull,shareimgpathfull,qrcodepathfull,avatarurl,
                 nickname,strList,resultimgpathfull);
@@ -313,7 +313,7 @@ public class WxController extends BaseController {
             String basefilepath = Utils.getProperty("basefilepath");
             String datepath =  Utils.formatShortDate();
             //上传时生成的临时文件保存目录
-            String tempPath = basefilepath + "/" + datepath;
+            String tempPath = basefilepath + File.separator + datepath;
             File tmpFile = new File(tempPath);
             if (!tmpFile.exists()) {
                 //创建临时目录
@@ -323,8 +323,8 @@ public class WxController extends BaseController {
 
             //String type = imagefile.getOriginalFilename().substring(imagefile.getOriginalFilename().lastIndexOf(".")).toLowerCase();
             String fileName = imagefile.getOriginalFilename();
-            String logicfilepathname = datepath + "/" + fileName;
-            String fullpath = basefilepath + "/" + logicfilepathname;
+            String logicfilepathname = datepath + File.separator + fileName;
+            String fullpath = basefilepath + File.separator + logicfilepathname;
 
             File targetFile = new File(fullpath);
             log.error("qihndebug -fullpath: "+fullpath);
@@ -1870,7 +1870,7 @@ public class WxController extends BaseController {
         String fileName = request.getParameter("filename");  //23239283-92489-阿凡达.avi
         fileName = new String(fileName.getBytes("iso8859-1"),"UTF-8");
         //得到要下载的文件
-        String fullpath = Utils.getProperty("basefilepath")+"/"+fileName;
+        String fullpath = Utils.getProperty("basefilepath") + File.separator +fileName;
         File file = new File(fullpath);
         //如果文件不存在
         if(!file.exists()){

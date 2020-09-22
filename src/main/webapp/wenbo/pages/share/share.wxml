@@ -8,9 +8,9 @@
       <!--
       <text class="userinfo-nickname2">我已坚持打卡xx天</text>
       -->
-      <text class="userinfo-nickname2">我参与了绿色家园建设每日打卡行动</text>
-      <text class="userinfo-nickname2">邀请你一起来!</text>
-      <image  class="userinfo-avatar2" src="/pages/images/xmfma.png" mode="cover"></image>
+      <text class="userinfo-nickname2">探索美的秘密！</text>
+      <text class="userinfo-nickname2">徐悲鸿纪念馆邀请你一起来!</text>
+      <image  class="userinfo-avatar2" src="/pages/images/wbtmxcxm.jpg" mode="cover"></image>
       <text class="userinfo-nickname">长按识别小程序码</text>
     </view>
 

@@ -86,6 +86,7 @@ public class XcxUtil {
                     g.drawImage(XcxUtil.roundImage(avatar, avatar.getWidth(), avatar.getHeight(), 360).getScaledInstance(128, 128, Image.SCALE_FAST), 310, 510, null);
 
                     // 设置字体大小
+                    font = new Font("微软雅黑",Font.PLAIN,34);
                     font = font.deriveFont(34f);
                     // 设置字体颜色
                     Color color = new Color(55,69,97);
@@ -126,7 +127,7 @@ public class XcxUtil {
                     //curheight+=50;
                     g.drawImage(qr.getScaledInstance(329, 325, Image.SCALE_FAST), 210, curheight, null);
                     String qrstr = "长按识别小程序码";
-                    font = new Font("宋体",Font.PLAIN,34);
+                    font = new Font("微软雅黑",Font.PLAIN,34);
                     // 设置字体颜色
                     color = new Color(55,69,97);
                     g.setColor(color);

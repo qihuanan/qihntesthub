@@ -28,7 +28,7 @@ public class UploadHandleServlet extends HttpServlet {
         String basefilepath = Utils.getProperty("basefilepath");
         String datepath =  Utils.formatShortDate();
         //上传时生成的临时文件保存目录
-        String tempPath = basefilepath + "/" + datepath;
+        String tempPath = basefilepath + File.separator + datepath;
         File tmpFile = new File(tempPath);
         if (!tmpFile.exists()) {
             //创建临时目录
@@ -105,8 +105,8 @@ public class UploadHandleServlet extends HttpServlet {
                     String saveFilename = makeFileName(filename);
 
                     //创建一个文件输出流
-                    String logicfilepathname = datepath + "/" + saveFilename;
-                    String fullpath = basefilepath + "/" + logicfilepathname;
+                    String logicfilepathname = datepath + File.separator + saveFilename;
+                    String fullpath = basefilepath + File.separator + logicfilepathname;
 
                     FileOutputStream out = new FileOutputStream(fullpath);
                     //创建一个缓冲区

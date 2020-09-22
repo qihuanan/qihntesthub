@@ -58,8 +58,8 @@
 
         <view class="active-title-bottom weui-flex">
           <view  class="weui-flex__item " bindtap="goshare" > 
-            <view >分享并领取小礼物
-              <image mode="aspectFit" src="/pages/images/dhxz.svg" class="liuyanbandaka">
+            <view >
+              <image mode="aspectFit" src="/pages/images/dhxz.jpg" class="liuyanbandaka">
               </image>
             </view>
           </view>

@@ -23,7 +23,7 @@ public class DownLoadServlet extends HttpServlet {
         String fileName = request.getParameter("filename");  //23239283-92489-阿凡达.avi
         fileName = new String(fileName.getBytes("iso8859-1"),"UTF-8");
         //得到要下载的文件
-        String fullpath = Utils.getProperty("basefilepath")+"/"+fileName;
+        String fullpath = Utils.getProperty("basefilepath")+File.separator+fileName;
         File file = new File(fullpath);
         //如果文件不存在
         if(!file.exists()){
