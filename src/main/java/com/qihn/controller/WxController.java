@@ -1540,7 +1540,7 @@ public class WxController extends BaseController {
         return "redirect:/pointUserinfo/list";
     }
     
-    //======================line====================================
+    //======================line=== =================================
     @RequestMapping(value = "/line/list", method = {RequestMethod.GET,RequestMethod.POST})
     public ModelAndView linelist(@ModelAttribute("line") Line line, @ModelAttribute("pageInfo") PageInfo pageInfo) {
         ModelAndView mv = new ModelAndView();
