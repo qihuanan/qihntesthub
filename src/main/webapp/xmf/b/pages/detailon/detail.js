@@ -287,7 +287,22 @@ Page({
 
     })
   },
+
+  islogin: function () {
+    var userid = wx.getStorageSync("userid")
+    if (userid == null || userid == '') {
+      util.navigateTo({
+        url: '/pages/login/login?goto=detailon&lineid=' + app.globalData.curlineid
+      })
+    }
+  },
   onShow: function (options){
+    this.islogin()
+    var userid = wx.getStorageSync("userid")
+    console.log("onLaunch userid " + userid)
+    if (userid == null || userid == '') {
+      return;
+    }
     wx.setNavigationBarTitle({
       title: '探索任务'
     })
@@ -299,11 +314,15 @@ Page({
       data: {
         code: 1,
         lineid: app.globalData.curlineid,
+        // 上个版本没有传递此参数，
+        pointid: app.globalData.curpointid2,
         userid: wx.getStorageSync("userid")
       }, success(res2) {
         console.log("detailon linedetailon  " + JSON.stringify(res2.data))
         //that.actvielist = res2.data.data
-        app.globalData.curpointid = res2.data.point.id
+        app.globalData.curpointid = res2.data.point.id 
+        // 扫码用过后清空
+        app.globalData.curpointid2 = 0
         that.setData({
           line: res2.data.line, //parseFloat
           pointlist: res2.data.pointlist,
@@ -333,6 +352,13 @@ Page({
     }else{
       //app.globalData.curlineid = 7
     }
+    //app.globalData.curpointid2 = 120
+    //options.pointid = 122
+    if (options && options.pointid){
+      app.globalData.curpointid2 = options.pointid
+      console.log("detailon onLoad-curpointid2 " + options.pointid)
+    }
+    
     
     
   },

@@ -123,6 +123,10 @@ Page({
                   util.navigateTo({
                     url: '/pages/detail/detail?lineid=' + app.globalData.curlineid
                   });
+                }else if (app.globalData.goto = 'detailon' && app.globalData.curlineid !=0){
+                  util.navigateTo({
+                    url: '/pages/detail/detailon?lineid=' + app.globalData.curlineid
+                  });
                 }else{
                   util.navigateTo({
                     url: "/pages/list/list",
