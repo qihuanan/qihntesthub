@@ -1068,23 +1068,26 @@ public class WxController extends BaseController {
         line.setOnshow("1");
         List<Line> lineList = this.lineService.findByProperties(line,null,20,"shunxu","asc");
         User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
-        LineUser lu = new LineUser();
-        lu.setUserid(user.getId());
-        lu.setFlag("2");
-        List<LineUser> lulist = this.lineUserService.findByProperties(lu,null,null,"id","desc");
-        log.error("qihndebug-lulist : "+ lulist);
-        if(Utils.isNotNullOrEmpty(lulist)){
-            for(int i=0;i<lineList.size();i++){
-                lineList.get(i).setLike("0");
-                log.error("qihndebug-lulist : "+ i);
-                for(int j=0;j<lulist.size();j++){
-                    if(lineList.get(i).getId()==lulist.get(j).getLineid()){
-                        lineList.get(i).setLike("1");
-                        log.error("qihndebug-lulist : "+ lineList.get(i).getLike());
+        if(user!=null){
+            LineUser lu = new LineUser();
+            lu.setUserid(user.getId());
+            lu.setFlag("2");
+            List<LineUser> lulist = this.lineUserService.findByProperties(lu,null,null,"id","desc");
+            log.error("qihndebug-lulist : "+ lulist);
+            if(Utils.isNotNullOrEmpty(lulist)){
+                for(int i=0;i<lineList.size();i++){
+                    lineList.get(i).setLike("0");
+                    log.error("qihndebug-lulist : "+ i);
+                    for(int j=0;j<lulist.size();j++){
+                        if(lineList.get(i).getId()==lulist.get(j).getLineid()){
+                            lineList.get(i).setLike("1");
+                            log.error("qihndebug-lulist : "+ lineList.get(i).getLike());
+                        }
                     }
                 }
             }
         }
+
 
         Map map = new HashMap();
 
@@ -1540,7 +1543,7 @@ public class WxController extends BaseController {
         return "redirect:/pointUserinfo/list";
     }
     
-    //======================line====================================
+    //======================line=== =================================
     @RequestMapping(value = "/line/list", method = {RequestMethod.GET,RequestMethod.POST})
     public ModelAndView linelist(@ModelAttribute("line") Line line, @ModelAttribute("pageInfo") PageInfo pageInfo) {
         ModelAndView mv = new ModelAndView();

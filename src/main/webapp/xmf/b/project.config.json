@@ -21,6 +21,8 @@
     "checkSiteMap": true,
     "uploadWithSourceMap": true,
     "compileHotReLoad": false,
+    "useMultiFrameRuntime": false,
+    "useApiHook": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -30,12 +32,10 @@
     "useCompilerModule": true,
     "userConfirmedUseCompilerModuleSwitch": false,
     "packNpmManually": false,
-    "packNpmRelationList": [],
-    "useMultiFrameRuntime": false,
-    "useApiHook": true
+    "packNpmRelationList": []
   },
   "compileType": "miniprogram",
-  "libVersion": "2.10.3",
+  "libVersion": "2.12.2",
   "appid": "wxb396476de17508d4",
   "projectname": "qihntest",
   "debugOptions": {

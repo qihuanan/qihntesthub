@@ -346,6 +346,9 @@ Page({
   onLoad: function (options) {
     console.log("detailqiandao2-onLoad-cate " + options.cate) // 无用的，没有传递
     console.log("detailqiandao2-onLoad-fujiati " + options.fujiati)
+    if (options && options.pointid){
+      app.globalData.curpointid = options.pointid
+    }
     this.setData({
       cate: options.cate,
       fujiati: options.fujiati
