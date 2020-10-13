@@ -743,7 +743,7 @@ public class WxController extends BaseController {
         //客户端传来 签到点 就获取当前签到点的提示信息，否则 获取线路的第一个签到点的信息
         Point point = pointlist.get(0);
         String pointid = getParam("pointid");
-        if(Utils.isNotNullOrEmpty(pointid)){
+        if(Utils.isNotNullOrEmpty(pointid) && !pointid.equals("0")){
             point.setId(Long.parseLong(pointid));
             point = this.pointService.findById(Point.class,point.getId());
         }else {
