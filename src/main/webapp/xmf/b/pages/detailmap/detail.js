@@ -80,11 +80,12 @@ Page({
     }
     app.globalData.curpointid = e.markerId
     console.log('markertap curpointid ' + e.markerId)
-    
+    app.globalData.curpointid2 = e.markerId
+    app.globalData.curpointid3 = e.markerId
     var markers = that.data.initmarkers
     for (var i in markers) {
       if (markers[i].iconPath.indexOf("select")) {
-        //markers[i].iconPath = "/pages/images/icon-des-d@2x.png"
+        //markers[i].iconPath = "/pages/images/icon-des-d@2x.png" 
         markers[i].iconPath = markers[i].iconPath.replace("select","unchecked")
       }
       markers[i].width = "30"
@@ -304,6 +305,8 @@ Page({
       data: {
         code: 1,
         lineid: app.globalData.curlineid,
+        // 上个版本没有传递此参数，
+        pointid: app.globalData.curpointid3,
         userid: wx.getStorageSync("userid")
       }, success(res2) {
         console.log("detailon linedetailon  " + JSON.stringify(res2.data))
