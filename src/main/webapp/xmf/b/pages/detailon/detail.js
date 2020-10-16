@@ -350,9 +350,9 @@ Page({
       curlineid = app.globalData.curlineid
       console.log("detailon onLoad-curlineid2 " + curlineid)
     }else{
-      //app.globalData.curlineid = 7
+      //app.globalData.curlineid = 10
     }
-    //app.globalData.curpointid2 = 120
+    //app.globalData.curpointid2 = 120 
     //options.pointid = 122
     if (options && options.pointid){
       app.globalData.curpointid2 = options.pointid

@@ -45,8 +45,7 @@ Page({
     })
   },
   onLoad: function (options) {
-    //console.log('qihndebug-options- ' + options)
-    console.log('onLoad options ' + JSON.stringify(options))
+    console.log('login.js-onLoad options ' + JSON.stringify(options))
     if (options && options.goto) { // /pages/detail / detail ? lineid =
       app.globalData.goto = options.goto,
         app.globalData.curlineid = options.lineid
@@ -56,7 +55,7 @@ Page({
       console.log('qihndebug-1-app.globalData.score ' + app.globalData.score)
       this.setData({
         userInfo: app.globalData.userInfo,
-        //score: app.globalData.score,
+        //score: app.globalData.score, 
         hasUserInfo: true
       })
     }else if (this.data.canIUse) {
@@ -119,13 +118,13 @@ Page({
                 app.globalData.score = res2.data.data.score
                 console.log('qihndebug-4-app.globalData.score ' + app.globalData.score)
                 
-                if (app.globalData.goto = 'detail' && app.globalData.curlineid !=0){
+                if (app.globalData.goto == 'detail' && app.globalData.curlineid !=0){
                   util.navigateTo({
                     url: '/pages/detail/detail?lineid=' + app.globalData.curlineid
                   });
-                }else if (app.globalData.goto = 'detailon' && app.globalData.curlineid !=0){
-                  util.navigateTo({
-                    url: '/pages/detail/detailon?lineid=' + app.globalData.curlineid
+                }else if (app.globalData.goto == 'detailon' && app.globalData.curlineid !=0){
+                  util.navigateTo({ 
+                    url: '/pages/detailon/detail?lineid=' + app.globalData.curlineid
                   });
                 }else{
                   util.navigateTo({

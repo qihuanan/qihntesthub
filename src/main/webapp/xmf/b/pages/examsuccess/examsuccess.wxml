@@ -11,7 +11,7 @@
     <view class="item-huode"></view> 
 
     <view wx:if="{{jifen != '' }}" class="item-gongxi">+{{jifen}}积分</view>
-    <button wx:if="{{finish == '0' }}" class="userinfobtn" bindtap="gonext"> 继续探索 </button>
+    <button wx:if="{{finish == '0' }}" class="userinfobtn" bindtap="gonext"> 下一个任务 </button>
     <button wx:if="{{count == '2' && fujiati != '1'}}" class="userinfobtn" bindtap="gonext2"> 额外加分任务 </button>
     <button wx:if="{{finish == '1' }}" class="userinfobtn" bindtap="gobaoxiang"> 查看我的宝箱 </button>
   </view>
