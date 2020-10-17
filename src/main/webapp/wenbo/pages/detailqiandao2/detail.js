@@ -145,7 +145,7 @@ Page({
         }
         if (res2.data.data == 'err') {
           util.navigateTo({
-            url: '/pages/examfail/examfail?failmsg=' + that.data.exam.fail
+            url: '/pages/examfail/examfail?failmsg=' + that.data.exam.fail+ '&count='+res2.data.count+'&fujiati='+that.data.fujiati
           })
         }
         if (res2.data.data == 'errnochance') {
