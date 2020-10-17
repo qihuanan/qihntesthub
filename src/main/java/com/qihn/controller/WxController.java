@@ -617,6 +617,38 @@ public class WxController extends BaseController {
         this.printjson(JSONUtils.toJSON(map));
     }
 
+    /**
+     * 跳过加分任务，把加分任务这个点的 签到信息改为完成，这样会自动跳转到下个签到点
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/wx/jiafenrenwufinish", method = RequestMethod.GET)
+    //@ResponseBody
+    public void jiafenrenwufinish(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Map map = new HashMap();
+        this.setReqAndRes(request, response);
+        showparam();
+        // 获取 已打卡任务点
+        PointUserinfo pu = new PointUserinfo();
+        pu.setPointid(Long.parseLong(getParam("pointid")));
+        pu.setUserid(Long.parseLong(getParam("userid")));
+        List<PointUserinfo> pulist = pointUserinfoService.findByProperties(pu,null,100,"id","desc");
+        if(Utils.isNotNullOrEmpty(pulist)){
+            for(int j=0;j<pulist.size();j++){
+                if(!pulist.get(j).getFinish().equals("1")){
+                    pu = pulist.get(j);
+                    pu.setFinish("1");
+                    this.pointUserinfoService.update(pu);
+                    log.info("jiafenrenwufinish- 更新附加任务点完成状态完成");
+                    map.put("data", "ok");
+                }
+            }
+        }
+
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
     @RequestMapping(value = "/wx/linedetailon", method = RequestMethod.GET)
     //@ResponseBody
     public void linedetailon(HttpServletRequest request, HttpServletResponse response) throws Exception{
