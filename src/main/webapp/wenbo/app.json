@@ -4,7 +4,6 @@
     
    "pages/list/list",
     "pages/detailon/detail",
-    
     "pages/baoxiang/baoxiang",
     
     "pages/login/login",
@@ -16,11 +15,9 @@
     
     "pages/home/home",
     
-    "pages/detailmap/detail",
+    "pages/share/share",
     "pages/detail/detail",
-    "pages/detailqiandao/detail",
     "pages/detailqiandao2/detail",
-    "pages/detailexam/detail",
     "pages/imgpage/imgpage",
     
 

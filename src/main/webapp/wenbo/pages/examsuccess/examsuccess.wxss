@@ -9,6 +9,12 @@
   width: 50%;
   margin-top: 100rpx; 
 }
+.userinfobtn2{
+  background-color: #fabf13;
+  color: white;
+  width: 50%;
+  margin-top: 100rpx; 
+}
 .item-title{
   padding-top: 20rpx;
   text-align: center;

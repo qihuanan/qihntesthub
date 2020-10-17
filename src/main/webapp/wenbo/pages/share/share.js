@@ -28,9 +28,8 @@ Page({
   },
   onShareAppMessage: function () {
     return {
-      title: '我参与了绿色家园建设每日打卡行动，邀请你一起来!',
-      //desc: '我参与了绿色家园建设每日打卡行动，邀请你一起来!',
-      path: '/pages/meiridaka/meiridaka' // 路径，传递参数到指定页面。
+      title: '徐悲鸿纪念馆邀请你一起来探索美的秘密!',
+      path: '/pages/list/list' // 路径，传递参数到指定页面。
      }
   },
   dakaflagtap: function(e){

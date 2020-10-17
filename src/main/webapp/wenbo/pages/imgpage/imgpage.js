@@ -41,7 +41,7 @@ Page({
       header: { 'content-type': 'application/json' },
       data: {
         code: 1,
-        lineid: 1,
+        lineid: app.globalData.curlineid,
         // userid: wx.getStorageSync("userid") 
       }, success(res2) {
         console.log("detail onShow  " + JSON.stringify(res2.data.data))

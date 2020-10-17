@@ -44,7 +44,7 @@
 
 .liuyanbandaka{
   height: 117rpx;
-  width: 465rpx;
+  width: 307rpx;
 }
 .question {
   padding: 0 20px;

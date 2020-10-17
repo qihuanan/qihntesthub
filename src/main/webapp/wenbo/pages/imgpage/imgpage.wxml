@@ -1,6 +1,6 @@
 <!--index.wxml  -->
 <view class="bg">
-<image wx:if="{{line.picture1}}"   bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{line.picture1}}" src="{{baseurl}}download?filename={{line.picture1}}" mode="aspectFit"></image>
+<image wx:if="{{line.picture1}}"   bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{line.picture1}}" src="{{baseurl}}download?filename={{line.picture3}}" mode="aspectFit"></image>
 </view>
 
 <view class='placeholder-view'></view>

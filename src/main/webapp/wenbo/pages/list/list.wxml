@@ -13,7 +13,7 @@
           <view class="active-title">
          <!--   {{item.name}}
          -->
-            <mp-icon bindtap="taplike" data-lineid="{{item.id}}" data-index="{{index}}" class="active-title-like" icon="like" type="{{item.like == '1' ? 'field' : 'outline' }}" color="#FFBB4C" size="{{40}}"></mp-icon>
+            <mp-icon bindtap="taplike" data-lineid="{{item.id}}" data-index="{{index}}" class="active-title-like" icon="like" type="{{item.like == '1' ? 'field' : 'outline' }}" color="#aa2222" size="{{40}}"></mp-icon>
             
           </view>
         </view>
