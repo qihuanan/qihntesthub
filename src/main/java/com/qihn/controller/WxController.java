@@ -587,7 +587,7 @@ public class WxController extends BaseController {
         long pointid = tip.getPointid();
         tip = new Tip();
         tip.setPointid(pointid);
-        List<Tip> tipList = this.tipService.findByProperties(tip,null,null,null,null);
+        List<Tip> tipList = this.tipService.findByProperties(tip,null,null,"shunxu","asc");
 
         // 用户已解锁的提示标记
         user = userService.findById(User.class,Long.parseLong(getParam("userid")));
