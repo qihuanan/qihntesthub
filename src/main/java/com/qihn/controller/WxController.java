@@ -526,8 +526,9 @@ public class WxController extends BaseController {
                         tipList.get(i).setLockflag("0");
                         Tip temp = tipList.get(i);
                         temp.setLockflag("0");
-                        tipList.remove(i);
-                        tipList.add(temp);
+                        //tipList.remove(i);
+                        //tipList.add(temp);
+                        tipList.set(i,temp);
                     }
                 }
             }
