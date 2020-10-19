@@ -305,7 +305,7 @@ Page({
       data: {
         code: 1,
         lineid: app.globalData.curlineid,
-        // 上个版本没有传递此参数，
+        // 上个版本没有传递此参数， 
         pointid: app.globalData.curpointid3,
         userid: wx.getStorageSync("userid")
       }, success(res2) {
