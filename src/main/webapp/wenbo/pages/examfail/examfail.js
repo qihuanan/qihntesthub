@@ -4,8 +4,8 @@ Page({
   data: {
     cur: 5,
     baseurl: app.globalData.baseurl,
-    failmsg:'很遗憾，回答错误'
-
+    failmsg:'很遗憾，回答错误',
+    count:1
   },
   //事件处理函数
 
