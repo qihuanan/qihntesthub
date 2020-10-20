@@ -11,6 +11,13 @@ Page({
 
   gonext: function (e) {
     util.navigateTo({
+      url: "/pages/detailon/detail",
+      //url: "/pages/detailqiandao2/detail?fujiati=1" // 沟通确认： 失败页面的再试一次 跳转到答题页面
+    });
+  },
+
+  gonext3: function (e) {
+    util.navigateTo({
       //url: "/pages/detailon/detail",
       url: "/pages/detailqiandao2/detail?fujiati=1" // 沟通确认： 失败页面的再试一次 跳转到答题页面
     });
