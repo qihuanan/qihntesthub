@@ -140,7 +140,7 @@ Page({
             duration: 3000
           })
           util.navigateTo({
-            url: '/pages/examfail/examfail?failmsg=您已经在此签到过，请前往下一个签到点吧！'
+            url: '/pages/examfail/examfail?failmsg=您已经在此签到过，请前往下一个签到点吧！&count=10'
           })
         }
         if (res2.data.data == 'err') {
@@ -151,7 +151,7 @@ Page({
         if (res2.data.data == 'errnochance') {
           
           util.navigateTo({
-            url: '/pages/examfail/examfail?failmsg=机会用光了，请到下一个签到点吧！' 
+            url: '/pages/examfail/examfail?failmsg=机会用光了，请到下一个签到点吧！&count=10' 
           })
         }
         if (res2.data.data == 'ok') {
