@@ -318,6 +318,7 @@ Page({
       title: '签到点任务'
     })
     var that = this
+    console.log("detailqiandao2 onShow-curpointid:  " + app.globalData.curpointid+ " that.data.fujiati "+that.data.fujiati)
     wx.request({
       url: app.globalData.baseurl +'wx/tiplist', //需要里面的point line   
       header: { 'content-type': 'application/json' },
