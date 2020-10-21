@@ -384,6 +384,7 @@ public class WxController extends BaseController {
                         if(pointUserinfo.getChance()==1){
                             pointUserinfo.setFinish("1");
                         }
+                        pointUserinfo.setChance(pointUserinfo.getChance()-1);
 
                         pointUserinfo.setAddScore(0);
                         map.put("data", "err");
@@ -419,7 +420,7 @@ public class WxController extends BaseController {
                     map.put("exam", exam);
                     old.setCate(exam.getCate());
                     old.setAddScore(0);
-                    old.setChance(exam.getChance()-1);
+                    old.setChance(old.getChance()-1);
                     if(old.getCate().equals("1") || old.getCate().equals("3")){ //1: 文字答题  2: 上传图片
                         old.setPicture("");
                         if(Arrays.asList(exam.getAnswer().split(";")).contains(pointUserinfo.getAnswer()) || exam.getAnswer().contains("***")){
@@ -429,6 +430,7 @@ public class WxController extends BaseController {
                             map.put("data", "ok");
                             old.setAddScore(Integer.parseInt(point.getJifen()));
                             user.setScore(user.getScore()+old.getAddScore());
+                            //old.setChance(old.getChance()-1);
                             old.setPicture("");
                             old.setFinish("1");
                         }else{
@@ -436,6 +438,7 @@ public class WxController extends BaseController {
                             old.setPrizeimg("");
                             old.setFinish("0");
                             old.setAddScore(0);
+                            //old.setChance(old.getChance()-1);
                             map.put("data", "err");
                             if(old.getChance()<=1){
                                 old.setFinish("1");
@@ -444,7 +447,7 @@ public class WxController extends BaseController {
                         }
                     }
                 }
-                old.setChance(old.getChance()-1);
+                //old.setChance(old.getChance()-1);
                 pointUserinfoService.update(old);
                 this.userService.update(user);
                 map.put("pointUserinfo", old);

@@ -319,7 +319,7 @@ Page({
     })
     var that = this
     wx.request({
-      url: app.globalData.baseurl +'wx/tiplist', //需要里面的point line   
+      url: app.globalData.baseurl +'wx/tiplist', //需要里面的point line    
       header: { 'content-type': 'application/json' },
       data: {
         pointid: app.globalData.curpointid,
