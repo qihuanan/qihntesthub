@@ -384,6 +384,7 @@ public class WxController extends BaseController {
                         if(pointUserinfo.getChance()==1){
                             pointUserinfo.setFinish("1");
                         }
+                        pointUserinfo.setChance(pointUserinfo.getChance()-1);
 
                         pointUserinfo.setAddScore(0);
                         map.put("data", "err");
