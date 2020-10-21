@@ -420,7 +420,7 @@ public class WxController extends BaseController {
                     map.put("exam", exam);
                     old.setCate(exam.getCate());
                     old.setAddScore(0);
-                    old.setChance(exam.getChance()-1);
+                    old.setChance(old.getChance()-1);
                     if(old.getCate().equals("1") || old.getCate().equals("3")){ //1: 文字答题  2: 上传图片
                         old.setPicture("");
                         if(Arrays.asList(exam.getAnswer().split(";")).contains(pointUserinfo.getAnswer()) || exam.getAnswer().contains("***")){
@@ -445,7 +445,7 @@ public class WxController extends BaseController {
                         }
                     }
                 }
-                old.setChance(old.getChance()-1);
+                //old.setChance(old.getChance()-1);
                 pointUserinfoService.update(old);
                 this.userService.update(user);
                 map.put("pointUserinfo", old);
