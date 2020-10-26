@@ -858,11 +858,15 @@ public class WxController extends BaseController {
                         tipList.get(i).setLockflag("0");
                         log.info("用户已解锁过此点，标记已解锁");
 
+//                        tipList.get(i).setLockflag("0");
+//                        Tip temp = tipList.get(i);
+//                        temp.setLockflag("0");
+//                        tipList.remove(i);
+//                        tipList.add(temp);
                         tipList.get(i).setLockflag("0");
                         Tip temp = tipList.get(i);
                         temp.setLockflag("0");
-                        tipList.remove(i);
-                        tipList.add(temp);
+                        tipList.set(i,temp);
                     }
                 }
             }
