@@ -848,7 +848,7 @@ public class WxController extends BaseController {
         // 当前point 的 tips
         Tip tip = new Tip();
         tip.setPointid(point.getId());
-        List<Tip> tipList = this.tipService.findByProperties(tip,null,null,null,null);
+        List<Tip> tipList = this.tipService.findByProperties(tip,null,null,"shunxu","asc");
         // 标记 提示 是否解锁
         log.info("tulist: "+JSONUtils.toJSON(tulist));
         if(Utils.isNotNullOrEmpty(tulist)){
