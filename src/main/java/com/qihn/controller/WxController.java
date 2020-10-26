@@ -470,7 +470,14 @@ public class WxController extends BaseController {
         pu.setUserid(user.getId());
         pu.setLineid(point.getLineid());
         pu.setFinish("1");
+        List<PointUserinfo> pulist = this.pointUserinfoService.findByProperties(pu,null,null,null,null);
+        Map<String,Object> tmap = new HashMap<>();
+        for(int i=0;i<pulist.size();i++){
+            tmap.put(pulist.get(i).getPointid().toString(),pulist.get(i));
+        }
+
         Long pusize = this.pointUserinfoService.countByProperties(pu);
+        pusize = Long.parseLong(tmap.size()+"");
         log.info("判断 线路是否完成 "+ pointsize + " "+pusize);
 
         LineUser lu = new LineUser();
