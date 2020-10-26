@@ -511,7 +511,7 @@ public class WxController extends BaseController {
         tip.setPointid(Long.parseLong(getParam("pointid")));
         Point point = this.pointService.findById(Point.class,Long.parseLong(getParam("pointid")));
         Line line = this.lineService.findById(Line.class,point.getLineid());
-        List<Tip> tipList = this.tipService.findByProperties(tip,null,null,null,null);
+        List<Tip> tipList = this.tipService.findByProperties(tip,null,null,"shunxu","asc");
         // 用户已解锁的提示标记
         User user = userService.findById(User.class,Long.parseLong(getParam("userid")));
         TipUser tu = new TipUser();
@@ -587,7 +587,7 @@ public class WxController extends BaseController {
         long pointid = tip.getPointid();
         tip = new Tip();
         tip.setPointid(pointid);
-        List<Tip> tipList = this.tipService.findByProperties(tip,null,null,null,null);
+        List<Tip> tipList = this.tipService.findByProperties(tip,null,null,"shunxu","asc");
 
         // 用户已解锁的提示标记
         user = userService.findById(User.class,Long.parseLong(getParam("userid")));
@@ -845,7 +845,7 @@ public class WxController extends BaseController {
         // 当前point 的 tips
         Tip tip = new Tip();
         tip.setPointid(point.getId());
-        List<Tip> tipList = this.tipService.findByProperties(tip,null,null,null,null);
+        List<Tip> tipList = this.tipService.findByProperties(tip,null,null,"shunxu","asc");
         // 标记 提示 是否解锁
         log.info("tulist: "+JSONUtils.toJSON(tulist));
         if(Utils.isNotNullOrEmpty(tulist)){
@@ -858,8 +858,11 @@ public class WxController extends BaseController {
                         tipList.get(i).setLockflag("0");
                         Tip temp = tipList.get(i);
                         temp.setLockflag("0");
-                        tipList.remove(i);
-                        tipList.add(temp);
+                        //tipList.remove(i);
+                        //tipList.add(temp);
+                        //tipList.remove(i);
+                        //tipList.add(temp);
+                        tipList.set(i,temp);
                     }
                 }
             }
