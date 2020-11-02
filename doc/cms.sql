@@ -1,17 +1,4 @@
-/*
-Navicat MySQL Data Transfer
 
-Source Server         : 123.206.87.60
-Source Server Version : 50560
-Source Host           : 123.206.87.60:3306
-Source Database       : cms
-
-Target Server Type    : MYSQL
-Target Server Version : 50560
-File Encoding         : 65001
-
-Date: 2020-11-02 20:36:03
-*/
 
 SET FOREIGN_KEY_CHECKS=0;
 
