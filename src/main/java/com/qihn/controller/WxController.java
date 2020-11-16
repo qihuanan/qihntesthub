@@ -901,7 +901,7 @@ public class WxController extends BaseController {
         for(int i=0;i<pointlist.size();i++){
             boolean exist = false;
             for(int j=0;j<pulist.size();j++){
-                if(pointlist.get(i).getId()==pulist.get(j).getPointid()){
+                if(pointlist.get(i).getId().longValue()==pulist.get(j).getPointid().longValue()){
                     exist = true;
                     break;
                 }
