@@ -7,21 +7,43 @@
         </block>
     </swiper>
     <view class="selected">
+        <view class="select-title"><text>今日超值榜</text></view>
+        <view class="select-top">
+            <block wx:for="{{weItemList }}" wx:for-index="index" wx:for-item="item" wx:key="t1">
+            <view class="select-top-small">
+                <navigator url="list/list">
+                    <image src="{{baseurl}}wx/showimg?filename={{item.picture1}}" data-lineid="{{item.id}}" bindtap="todetail"></image>
+                    <view class="newest-text"><text>{{item.name}} </text></view>
+                    <view class="newest-text1"><text>￥{{item.price}}</text></view>
+                </navigator>
+            </view>
+            </block>
+        </view> 
+    </view>
+    <view class="selected-cate">
+        <view class="select-title-cate"><text>精选分类1</text></view>
+        <view class="select-title-cate"><text>精选分类2</text></view>
+        <view class="select-title-cate"><text>精选分类3</text></view>
+        <view class="select-title-cate"><text>精选分类4</text></view>
+        <view class="select-title-cate"><text>精选分类5</text></view>
+        <view class="select-title-cate"><text>精选分类6</text></view>
+        <view class="select-title-cate"><text>精选分类7</text></view>
+        <view class="select-title-cate"><text>精选分类8</text></view>
+       
+    </view>
+    <view class="selected">
         <view class="select-title"><text>精选主题</text></view>
         <view class="select-top">
             <block wx:for="{{weItemList }}" wx:for-index="index" wx:for-item="item" wx:key="t1">
             <view class="select-top-small">
                 <navigator url="list/list">
                     <image src="{{baseurl}}wx/showimg?filename={{item.picture1}}" data-lineid="{{item.id}}" bindtap="todetail"></image>
-                    <view class="newest-text"><text>{{item.name}}</text></view>
-                    <!-- -->
+                    <view class="newest-text"><text>{{item.name}} </text></view>
                     <view class="newest-text1"><text>￥{{item.price}}</text></view>
                 </navigator>
             </view>
             </block>
-           
-        </view>
-       
+        </view> 
     </view>
 
 </view>

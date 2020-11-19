@@ -1,4 +1,8 @@
-
+.main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+}
 swiper {
     height: 421.5rpx;
 }
@@ -6,12 +10,15 @@ swiper-item image {
     width: 100%;
     height: 100%;
 }
-
-.select-title,.newest-title{
+.select-title{
     width: 100%;
     padding:30rpx 0;
     height: 40rpx;
     color: #AB956D;
+    text-align: center;
+}
+.select-top{
+    width: 100%;
     text-align: center;
 }
 .select-top-small{
@@ -19,10 +26,6 @@ swiper-item image {
     height: 505rpx;
     float: left;
     margin: 1rpx;
-}
-.select-top{
-    width: 100%;
-    text-align: center;
 }
 .select-top-small image,.select-top-small navigator{
     display: block;
@@ -43,4 +46,20 @@ swiper-item image {
     font-size: 24rpx;
     text-align: left;
     padding-left: 5px;
+}
+.selected-cate{
+    background-color:#F5F5F5;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center; 
+    padding:15rpx 0rpx;
+}
+
+.select-title-cate{
+    padding:15rpx 0rpx;
+    color: #AB956D;
+    font-weight: bold;
+    width:185rpx;
+    text-align: center;
 }
