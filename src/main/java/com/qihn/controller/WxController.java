@@ -691,7 +691,7 @@ public class WxController extends BaseController {
         // 获取参与信息  已用时间
         lu.setFlag("1");
         lu = this.lineUserService.findByProperties(lu);
-        if(lu.getBegintime()!=null){
+        if(lu!=null && lu.getBegintime()!=null){
             line.setYiyongshi(Utils.shijiancha(lu.getBegintime(),System.currentTimeMillis()));
             //是否超时，是否完成
             if(Utils.isNotNullOrEmpty(lu.getEndtime())){
