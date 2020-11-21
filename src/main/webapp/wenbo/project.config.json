@@ -4,7 +4,7 @@
     "ignore": []
   },
   "setting": {
-    "urlCheck": false,
+    "urlCheck": true,
     "es6": true,
     "enhance": false,
     "postcss": true,
@@ -35,15 +35,17 @@
     "packNpmRelationList": []
   },
   "compileType": "miniprogram",
-  "libVersion": "2.11.2",
-  "appid": "wx976bab1faaf89d4c",
-  "projectname": "weshop",
+  "libVersion": "2.10.3",
+  "appid": "wxa3aabe1dd1c75332",
+  "projectname": "wenbo",
+  "cloudfunctionTemplateRoot": "",
+  "watchOptions": {
+    "ignore": []
+  },
   "debugOptions": {
     "hidedInDevtools": []
   },
-  "isGameTourist": false,
-  "simulatorType": "wechat",
-  "simulatorPluginLibVersion": {},
+  "scripts": {},
   "condition": {
     "search": {
       "current": -1,
@@ -53,8 +55,16 @@
       "current": -1,
       "list": []
     },
+    "plugin": {
+      "current": -1,
+      "list": []
+    },
     "game": {
-      "currentL": -1,
+      "current": -1,
+      "list": []
+    },
+    "gamePlugin": {
+      "current": -1,
       "list": []
     },
     "miniprogram": {

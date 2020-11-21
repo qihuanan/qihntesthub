@@ -10,7 +10,7 @@ Page({
     cameraflag:false,
     weCateList:[],
     weItemindex: 0,
-    weItemcount: 1,
+
   },
   openCamera: function (e) {
     this.setData({
@@ -126,12 +126,8 @@ Page({
     })
   },
 
-  bindCountryChange: function(e) {
-    console.log('picker country 发生选择改变，携带值为', e.detail.value);
-    this.setData({
-      weItemindex: (e.detail.value-1),
-      weItemcount:e.detail.value
-    })
+  radioChange(e) {
+    console.log('radio发生change事件，携带value值为：', e.detail.value)
   },
   formSubmit(e) {
     //e.detail.value.picture1 = app.globalData.curupimgsrc
@@ -188,7 +184,8 @@ Page({
           weCateList: res2.data.weCateList ,
           hasUserInfo: true
         })
-        if(app.globalData.curitemid !='' && app.globalData.curitemid != 'undefined'){
+        if(app.globalData.curitemid &&  app.globalData.curitemid > 0 ){
+          console.log("onShow-curitemid------------ " + app.globalData.curitemid )
           wx.request({
             url: app.globalData.baseurl + 'we/getItem',
             header: { 'content-type': 'application/json' },
@@ -200,7 +197,6 @@ Page({
               that.setData({
                 weItem: res2.data.weItem,
                 weItemindex:res2.data.weItemindex,
-                weItemcount:res2.data.weItemindex+1,
                 hasUserInfo: true
               })
             }

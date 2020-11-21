@@ -471,7 +471,8 @@ public class WeController extends BaseController {
     public void getItem(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("weItem") WeItem weItem,@ModelAttribute("pageInfo") PageInfo pageInfo) throws Exception{
         this.setReqAndRes(request,response);
         showparam();
-        weItem = this.weItemService.findById(WeItem.class,weItem.getId());
+        if(weItem!=null && weItem.getId()!=null)
+            weItem = this.weItemService.findById(WeItem.class,weItem.getId());
         List<WeCate> weCateList = this.weCateService.findAll(WeCate.class,"id","asc");
         if(getParam("userid")!=null){
             User user = this.userService.findById(User.class, Long.parseLong(getParam("userid")));
@@ -492,7 +493,7 @@ public class WeController extends BaseController {
         map.put("weItemindex", 0);
         //weCateList.add(0,weCateList.get(0));
         for(int i=0;i<weCateList.size();i++){
-            if(weItem.getWeCateid()==weCateList.get(i).getId()){
+            if(weItem.getWeCateid().longValue()==weCateList.get(i).getId().longValue()){
                 map.put("weItemindex", i);
                 break;
             }
