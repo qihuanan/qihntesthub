@@ -344,6 +344,17 @@ public class WeController extends BaseController {
         this.printjson(JSONUtils.toJSON(map));
     }
 
+    @RequestMapping(value = "/we/downItem", method = RequestMethod.GET)
+    public void downItem(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("weItem") WeItem weItem) throws Exception {
+        this.setReqAndRes(request, response);
+        weItem = this.weItemService.findById(WeItem.class,weItem.getId());
+        weItem.setStatus(2);
+        this.weItemService.update(weItem);
+        Map map = new HashMap();
+        map.put("weItem", weItem);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
     @RequestMapping(value = "/we/updateItem", method = RequestMethod.GET)
     public void updateItem(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("weItem") WeItem weItem) throws Exception{
         this.setReqAndRes(request,response);

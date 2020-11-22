@@ -17,6 +17,7 @@
 			<input hidden="true" name="picture9"  value="{{weItem.picture9}}"  />
 			<input hidden="true" name="createtime"  value="{{weItem.createtime}}"  />
 			<input hidden="true" name="shunxu"  value="{{weItem.shunxu}}"  />
+			<input hidden="true" name="shunxu"  value="{{weItem.shunxu}}"  />
 		</view>
 	</view>
 </view>
@@ -75,12 +76,12 @@
 -->
 
 <!-- camera.wxml -->
-<camera wx:if="{{cameraflag}}"  device-position="back" flash="off" binderror="error" style="width: 100%; height: 400rpx;"></camera>
+<camera wx:if="{{cameraflag}}"  device-position="back" flash="off" binderror="error" style="width: 100%; height: 600rpx;"></camera>
 <view class="zhanweifu"></view>
-<image wx:if="{{src && src != ''}}" src="{{src}}" style="width: 100%; height: 400rpx;"></image>
+<image wx:if="{{src && src != ''}}" src="{{src}}" style="width: 100%; height: 600rpx;"></image>
 <view class="item-center">
 <block class="item-center" wx:for="{{files }}" wx:for-index="index" wx:for-item="item" wx:key="t1">
-<image src="{{item}}" style="width: 100%; height: 400rpx;"></image>
+<image src="{{item}}" style="width: 100%; height: 600rpx;"></image>
 </block>
 <block wx:if="{{files.length < 1 }}" >
 

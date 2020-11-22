@@ -56,9 +56,15 @@
               <view bindtap="bindyuding" data-id="{{weItem.id }}"  class="item-liuyanban">直接预定</view>
           </view>   
         </view>
-        <view class="active-title-bottom weui-flex" wx:if="{{weItem.userid == userid }}">
+        <view class="active-title-bottom weui-flex" wx:if="{{weItem.userid == userid || userid == 73757 || userid == 73973 }}">
            <view  class="weui-flex__item">
               <view bindtap="bindfabu" data-id="{{weItem.id }}"  class="item-liuyanban">修改</view>
+          </view>   
+        </view>
+        <view class="active-title-bottom weui-flex" wx:if="{{weItem.userid == userid || userid == 73757 || userid == 73973 }}">
+           <view  class="weui-flex__item">
+              <view wx:if="{{weItem.status == 1}}"  bindtap="bindxiajia" data-id="{{weItem.id }}"  class="item-liuyanban">下架</view>
+              <view wx:if="{{weItem.status != 1}}" bindtap="bindfabu" data-id="{{weItem.id }}"  class="item-liuyanban">已下架,修改后发布可重新发布上架</view>
           </view>   
         </view>
         <view class="active-title-bottom weui-flex">

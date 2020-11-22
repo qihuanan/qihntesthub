@@ -47,6 +47,25 @@ Page({
       url: "/pages/fabu/fabu?id="+e.target.dataset.id,
     });
   },
+
+  bindxiajia: function(e){
+    this.islogin()
+    var that = this
+    console.log('bindxiajia ' + JSON.stringify(e))
+    wx.request({
+      url: app.globalData.baseurl +'we/downItem',
+      header: { 'content-type': 'application/json' },
+      data: {
+        id: app.globalData.curitemid,
+        userid: wx.getStorageSync("userid")
+      }, success(res2) {
+        console.log("bindxiajia res  " + JSON.stringify(res2.data))
+        that.setData({
+          weItem: res2.data.weItem
+        })
+      }
+    })
+  },
   bindcart: function(e){
     this.islogin()
     console.log('taplike ' + JSON.stringify(e))
