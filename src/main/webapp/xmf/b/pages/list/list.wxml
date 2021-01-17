@@ -1,4 +1,3 @@
-
 <block wx:for="{{actvielist }}" wx:for-index="index" wx:for-item="item" wx:key="t1">    
 <view class="active" class="weui-flex">
   

@@ -1,3 +1,4 @@
+<wxs src="../../utils/filter.wxs" module="util"></wxs>
 <view class="container">
   <view class="userinfo">
     
@@ -7,7 +8,11 @@
 <!--
       <view class="item-gongxi">恭喜您</view>
 -->
-    <view class="item-huode">{{success}}</view>
+    <view class="item-huode">
+      <text>
+     {{util.format(success)}}
+     </text>
+     </view>
     <view class="item-huode"></view> 
 
     <view wx:if="{{jifen != '' }}" class="item-gongxi">+{{jifen}}积分</view>

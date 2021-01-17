@@ -1,4 +1,4 @@
-
+<wxs src="../../utils/filter.wxs" module="util"></wxs>
 <view class="weui-flex ">
   <view class="weui-flex__item">
     <view class="item-text">
@@ -34,8 +34,11 @@
           <view wx:if="{{item.lockflag == 0}}" class="weui-flex__item body-item-tips">
               <view class="body-item-tips-name">{{item.name}} </view>
               <view class="body-item-tips-desc">
-                <view>{{item.description}} </view>
-                <view></view>
+                <view>
+                <text>
+                {{util.format(item.description)}}
+                </text>
+                 </view>
               <view class="tipimg">
                <image mode="widthFix" wx:if="{{item.img != null && item.img != ''}}" bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{item.img}}"   src="{{baseurl}}download?filename={{item.img}}" ></image>
                </view>

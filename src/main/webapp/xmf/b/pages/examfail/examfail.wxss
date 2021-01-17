@@ -24,9 +24,9 @@
   font-weight: bold;
 }
 .item-huode{
-  font-size: 24px;
+  font-size: 18px;
   color: #fabf13;
   font-weight: bold;
-  padding-left: 10rpx;
-  padding-right: 10rpx;
+  padding-left: 50rpx;
+  padding-right: 50rpx;
 }

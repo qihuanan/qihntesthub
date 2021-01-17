@@ -5,8 +5,8 @@ Page({
   data: {
     motto: 'Hello World',
     baseurl: app.globalData.baseurl,
-    longitude: 116.384537,
-    latitude: 40.018720,
+    longitude: 120.047607,
+    latitude: 38.992805,
     scale: 14,
     scalecur: 14,
     iosDialog1: false,
@@ -31,10 +31,10 @@ Page({
     },
 
     markers: [{
-      id: 0,  title:'奥林匹克森林公园湿地',
-      latitude: 40.018720, longitude: 116.384537,
+      id: 0,  title:'程序标记点',
+      latitude: 38.992805, longitude: 120.047607,
       width: 30, height: 30,
-      iconPath: "/pages/images/svg/point-select01.png",
+      iconPath: "/pages/images/location.png",
     }],
     polyline: [],
     controls: [{
