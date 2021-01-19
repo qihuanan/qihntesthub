@@ -50,12 +50,14 @@ public class WxPayController extends BaseController{
         //订单支付金额，单位为分 String.valueOf((int)(pay_money * 100))
         map.put("total_fee", String.valueOf((int)(pay_money * 100)));
 
+        xcxUnifieldOrder("202101200001",1,"ss");
+
         return null;
     }
 
      public static void main(String args[]){
         try {
-            WxPayController.xcxUnifieldOrder("202101200001",1,"ss");
+            //WxPayController.xcxUnifieldOrder("202101200001",1,"ss");
 
         }catch (Exception e){
             e.printStackTrace();;
@@ -67,7 +69,7 @@ public class WxPayController extends BaseController{
     /**
      * 小程序支付统一下单
      */
-    public static Map<String,String> xcxUnifieldOrder(String orderNum, double payAmount,String openid) throws Exception{
+    public  Map<String,String> xcxUnifieldOrder(String orderNum, double payAmount,String openid) throws Exception{
         //封装参数
         SortedMap<String,Object> paramMap = new TreeMap<String,Object>();
         paramMap.put("appid", Utils.getProperty("appid"));
@@ -80,7 +82,7 @@ public class WxPayController extends BaseController{
         //paramMap.put("total_fee", PayUtil.moneyToIntegerStr(payAmount));
         //paramMap.put("spbill_create_ip", PayUtil.getLocalIp());
         //paramMap.put("notify_url", this.getNotifyUrl());
-        paramMap.put("notify_url", "http://xx.com");
+        paramMap.put("notify_url", "https://xx.com/test");
         Map<String,Object> amount = new HashMap<>();
         amount.put("total",1);
         amount.put("currency","CNY");
