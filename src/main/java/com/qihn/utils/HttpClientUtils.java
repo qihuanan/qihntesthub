@@ -184,6 +184,11 @@ public class HttpClientUtils {
             if (ArrayUtils.isNotEmpty(headers)) {
                 post.setHeaders(headers);
             }
+            if(paramsStr!=null){
+                post.setEntity(new StringEntity(paramsStr));
+            }
+
+
             response = httpClient.execute(post);
             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
 

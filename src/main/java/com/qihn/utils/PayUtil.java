@@ -117,9 +117,17 @@ public class PayUtil {
                 }
             }
             sb.append("key=" + key);
-            String sign = PayUtil.MD5(sb.toString());
+            String sign = Md5Util.MD5Encode(sb.toString(), "UTF-8").toUpperCase();
             return sign;
         }
+
+    public static String createSign2(String parameters,String key){
+        StringBuffer sb = new StringBuffer(parameters);
+
+        sb.append("&key=" + key);
+        String sign = Md5Util.MD5Encode(sb.toString(), "UTF-8").toUpperCase();
+        return sign;
+    }
 
     /**
      * 生成 MD5
