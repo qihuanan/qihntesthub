@@ -13,15 +13,15 @@
         
         <view class="active-title-bottom weui-flex">
           <view class="weui-flex__item">
-              <view class="">总长</view>
+              <view class="" bindtap="wxpay" data-paytype="3">总长</view>
               <view class="active-title-bottom-item">约{{line.changdu}}km</view>
           </view>
           <view class="weui-flex__item">
-              <view class="">打卡点</view>
+              <view class="" bindtap="wxpay" data-paytype="2">打卡点</view>
               <view class="active-title-bottom-item">{{line.dianshu}}</view>
           </view>
           <view class="weui-flex__item">
-              <view class="" bindtap="wxpay">线路积分</view>
+              <view class="" bindtap="wxpay" data-paytype="1">线路积分</view>
               <view class="active-title-bottom-item">{{line.yijifen }}/{{line.jifen}}</view>
           </view>
         </view>

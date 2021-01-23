@@ -26,61 +26,105 @@ Page({
   },
 
   wxpay: function(e){
+    var paytype = e.currentTarget.dataset.paytype
     this.islogin()
-    var openid = wx.getStorageSync("openid")
-    wx.request({ // app.globalData.baseurl
-      url: app.globalData.baseurl+'wx/wxPay',
+    var payday1 = '7'
+    var paymoney1 = '1'
+    var payday2 = '30'
+    var paymoney2 = '2'
+    var payday3 = '365'
+    var paymoney3 = '3'
+    var payday = '7'
+    var paymoney = '1'
+
+    wx.request({
+      url: app.globalData.baseurl+'wx/getpayset',
       header: { 'content-type': 'application/json' },
       data: {
-        openid: wx.getStorageSync("openid"),
-        pname: '7天会员1分',
-        money: 1
+        lineid: 4,
+        userid: wx.getStorageSync("userid")
       }, success(res2) {
-        console.log("wxPay res  " + JSON.stringify(res2.data))
-        wx.requestPayment({
-            "timeStamp": res2.data.timeStamp ,
-            "nonceStr": res2.data.nonceStr ,
-            "package": res2.data.package ,
-            "signType": "MD5",
-            "paySign": res2.data.paySign ,
-            "success":function(res){
-              console.log("pay-success res  " + JSON.stringify(res))
-              if(res.errMsg == 'requestPayment:ok'){
-                wx.request({
-                  url: app.globalData.baseurl+'wx/payresup',
-                  header: { 'content-type': 'application/json' },
-                  data: {
-                    lineid: app.globalData.curlineid,
-                    money: res2.data.money,
-                    out_trade_no: res2.data.out_trade_no,
-                    day:7,
-                    userid: wx.getStorageSync("userid")
-                  }, success(res2) {
-                    console.log("payresup res  " + JSON.stringify(res2.data))
-                    util.navigateTo({
-                      url: '/pages/detailon/detail?lineid=' + app.globalData.curlineid
-                    })
-                  }
-                })
+        console.log("getpayset res  " + JSON.stringify(res2.data))
+        payday1 = res2.data.payday1
+        paymoney1 = res2.data.paymoney1
+        payday2 = res2.data.payday2
+        paymoney2 = res2.data.paymoney2
+        payday3 = res2.data.payday3
+        paymoney3 = res2.data.paymoney3
+        if(paytype == 1){
+          payday = payday1;
+          paymoney = paymoney1;
+        }
+        if(paytype == 2){
+          payday = payday2;
+          paymoney = paymoney2;
+        }
+        if(paytype == 3){
+          payday = payday3;
+          paymoney = paymoney3;
+        }
 
+        var openid = wx.getStorageSync("openid")
+        wx.request({ // app.globalData.baseurl
+          url: app.globalData.baseurl+'wx/wxPay',
+          header: { 'content-type': 'application/json' },
+          data: {
+            openid: wx.getStorageSync("openid"),
+            pname: payday+'-'+paymoney,
+            money: paymoney
+          }, success(res2) {
+            console.log("wxPay res  " + JSON.stringify(res2.data))
+            wx.requestPayment({
+                "timeStamp": res2.data.timeStamp ,
+                "nonceStr": res2.data.nonceStr ,
+                "package": res2.data.package ,
+                "signType": "MD5",
+                "paySign": res2.data.paySign ,
+                "success":function(res){
+                  console.log("pay-success res  " + JSON.stringify(res))
+                  if(res.errMsg == 'requestPayment:ok'){
+                    wx.request({
+                      url: app.globalData.baseurl+'wx/payresup',
+                      header: { 'content-type': 'application/json' },
+                      data: {
+                        lineid: app.globalData.curlineid,
+                        money: res2.data.money,
+                        out_trade_no: res2.data.out_trade_no,
+                        day:7,
+                        userid: wx.getStorageSync("userid")
+                      }, success(res2) {
+                        console.log("payresup res  " + JSON.stringify(res2.data))
+                        util.navigateTo({
+                          url: '/pages/detailon/detail?lineid=' + app.globalData.curlineid
+                        })
+                      }
+                    })
+
+                  }
+                  wx.showToast({
+                    title: '下单支付ok',
+                    icon: 'none'
+                  })
+                },
+                "fail":function(res){
+                  wx.showToast({
+                    title: '下单支付失败',
+                    icon: 'none'
+                  })
+                },
+                "complete":function(res){}
               }
-              wx.showToast({
-                title: '下单支付ok',
-                icon: 'none'
-              })
-            },
-            "fail":function(res){
-              wx.showToast({
-                title: '统一下单出现异常',
-                icon: 'none'
-              })
-            },
-            "complete":function(res){}
+            )
+            
           }
-        )
-        
+        })
+
       }
     })
+
+    
+
+    
   },
 
   dakaflagtap: function(e){

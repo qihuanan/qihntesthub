@@ -41,6 +41,7 @@
                                             S: <input type="text" name="name" value="${line.name}">
                                             <input type="submit" value="查询"></input>&nbsp;
                                             <a href="${sysPath}/line/mergeUI"><input type="button" value="添加"></input></a>
+                                            <a href="${sysPath}/line/paysetUI"><input type="button" value="时间支付设置"></input></a>
                                         </div>
                                     </div>
                                     <div id='description' style="display: block;">
@@ -55,7 +56,7 @@
                                             <th >名称<br>文字介绍</th>
                                             <th >封面图片<br>详情图片</th>
                                             <th >经度<br>纬度</th>
-                                            <th >长度<br>签到点个数</th>
+                                            <th >长度<br>签到点个数<br>免费点个数</th>
                                             <th >积分<br>验证距离</th>
                                             <th >地图缩放<br>顺序<br>旗帜缩放</th>
                                             <th >时间<br>显示</th>
@@ -84,7 +85,7 @@
                                                 </td>
 
                                                 <td> ${obj.jingdu }<br>${obj.weidu } </td>
-                                                <td> ${obj.changdu }<br> ${obj.dianshu } </td>
+                                                <td> ${obj.changdu }<br> ${obj.dianshu }<br> ${obj.freenum } </td>
                                                 <td> ${obj.jifen }<br>${obj.qiandaojuli } </td>
                                                 <td> ${obj.ditudaxiao }<br>${obj.shunxu }<br>${obj.qizhidaxiao } </td>
                                                 <td> ${obj.shijian }<br>${obj.onshow }  </td>

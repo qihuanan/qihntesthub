@@ -78,6 +78,10 @@
                                             <textarea class="form-control" name="dianshu">${line.dianshu}</textarea>
                                         </div>
                                         <div class="form-group">
+                                            <label>免费点个数 </label>
+                                            <textarea class="form-control" name="freenum">${line.freenum}</textarea>
+                                        </div>
+                                        <div class="form-group">
                                             <label>积分 </label>
                                             <textarea class="form-control" name="jifen">${line.jifen}</textarea>
                                         </div>

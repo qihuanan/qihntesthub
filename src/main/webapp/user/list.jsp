@@ -55,7 +55,7 @@
                                             <th >用户名称</th>
                                             <th >openid</th>
                                             <th >头像地址</th>
-                                            <th >积分</th>
+
                                             <th >付费有效期</th>
                                             <th >付费线路</th>
                                             <th >操作</th>

@@ -3,6 +3,7 @@ package com.qihn.controller.wxpay;
 import com.google.gson.JsonObject;
 import com.qihn.controller.BaseController;
 import com.qihn.controller.WxPayController;
+import com.qihn.service.LineService;
 import com.qihn.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +28,8 @@ import java.util.TreeMap;
 public class WxpayController  extends BaseController {
     private static Log log = LogFactory.getLog(WxpayController.class);
     public static final String TOKEN = "qihn";
-
+    @Resource(name = "lineService")
+    private LineService lineService;
 
 
 
@@ -73,7 +76,8 @@ public class WxpayController  extends BaseController {
 
             //拼接统一下单接口使用的xml数据，要将上一步生成的签名一起拼接进去
             String xml = "<xml>" + "<appid>" + WxPayConfig.appid + "</appid>"
-                    + "<body><![CDATA[" + body2 + "]]></body>"
+                    //+ "<body><![CDATA[" + body2 + "]]></body>"
+                    + "<body>"+ body2 +"</body>"
                     + "<mch_id>" + WxPayConfig.mch_id + "</mch_id>"
                     + "<nonce_str>" + nonce_str + "</nonce_str>"
                     + "<notify_url>" + WxPayConfig.notify_url + "</notify_url>"

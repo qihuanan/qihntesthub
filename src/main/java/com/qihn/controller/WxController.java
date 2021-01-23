@@ -59,6 +59,23 @@ public class WxController extends BaseController {
 
     }
     //=========================前端=========================
+    @RequestMapping(value = "/wx/getpayset", method = RequestMethod.GET)
+    public void getpayset(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Line line = this.lineService.findById(Line.class,4l);
+        Map map = new HashMap();
+        String [] sparr = line.getDescription().split(";");
+        map.put("ok","ok");
+        //7,1;30,2;365,3
+        map.put("payday1",sparr[0].split(",")[0]);
+        map.put("paymoney1",sparr[0].split(",")[1]);
+        map.put("payday2",sparr[1].split(",")[0]);
+        map.put("paymoney2",sparr[1].split(",")[1]);
+        map.put("payday3",sparr[2].split(",")[0]);
+        map.put("paymoney3",sparr[2].split(",")[1]);
+
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
 
     /**
      * 微信支付结果上报
@@ -1686,6 +1703,22 @@ public class WxController extends BaseController {
             lineService.update(line);
         }
         return "redirect:/line/list";
+    }
+
+    @RequestMapping(value = "/line/paysetUI", method = RequestMethod.GET)
+    public ModelAndView paysetUI(@ModelAttribute("line") Line line) {
+        ModelAndView mv = new ModelAndView();
+        line = this.lineService.findById(Line.class,4l);
+        mv.addObject(line);
+        mv.setViewName("line/payset");
+        return mv;
+    }
+
+    @RequestMapping(value = "/line/payset", method = RequestMethod.POST)
+    public String payset(@ModelAttribute("line") Line line,HttpServletRequest request) throws Exception{
+
+        lineService.update(line);
+        return "redirect:/line/paysetUI";
     }
 
     public void convertjingweidu(Line line,Point point){

@@ -54,7 +54,8 @@ public class Line implements Serializable {
     private String mima;
     @Column
     private String orderflag = "0"; // 是否限制顺序
-
+    @Column
+    private Integer freenum; // 免费点数
 
     //vo
     @Transient
@@ -79,6 +80,14 @@ public class Line implements Serializable {
 
     public String getCurpoint() {
         return curpoint;
+    }
+
+    public Integer getFreenum() {
+        return freenum;
+    }
+
+    public void setFreenum(Integer freenum) {
+        this.freenum = freenum;
     }
 
     public String getMima() {
