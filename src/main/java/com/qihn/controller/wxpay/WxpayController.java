@@ -3,10 +3,7 @@ package com.qihn.controller.wxpay;
 import com.google.gson.JsonObject;
 import com.qihn.controller.BaseController;
 import com.qihn.controller.WxPayController;
-import com.qihn.utils.HttpClientUtils;
-import com.qihn.utils.HttpUtil;
-import com.qihn.utils.JSONUtils;
-import com.qihn.utils.PayUtil;
+import com.qihn.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,21 +28,28 @@ public class WxpayController  extends BaseController {
     public static final String TOKEN = "qihn";
 
 
+
+
     @RequestMapping("/wx/wxPay")
     @ResponseBody
     public Object wxPay( HttpServletRequest request){
         String openid = getParam("openid");
+        String pname = getParam("pname");
+        String money = getParam("money");
+        pname = "xmf-"+pname;
         try{
             //生成的随机字符串
             String nonce_str = WxPayConfig.getRandomStringByLength(32);
             //商品名称
-            String body = "测试商品名称";
+            String body2 = pname;
+            String body = pname;
             body = new String(body.getBytes("ISO-8859-1"),"UTF-8");
+            //body = new String(body.getBytes("UTF-8"),"UTF-8");
             //获取本机的ip地址
             String spbill_create_ip = WxPayConfig.getIpAddr(request);
 
-            String orderNo = "123456788";
-            String money = "1";//支付金额，单位：分，这边需要转成字符串类型，否则后面的签名会失败
+            String orderNo = Utils.formatCompactDateSSS();
+            //String money = "1";//支付金额，单位：分，这边需要转成字符串类型，否则后面的签名会失败
 
             TreeMap<String, String> packageParams = new TreeMap<String, String>();
             packageParams.put("appid", WxPayConfig.appid);
@@ -69,7 +73,7 @@ public class WxpayController  extends BaseController {
 
             //拼接统一下单接口使用的xml数据，要将上一步生成的签名一起拼接进去
             String xml = "<xml>" + "<appid>" + WxPayConfig.appid + "</appid>"
-                    + "<body><![CDATA[" + body + "]]></body>"
+                    + "<body><![CDATA[" + body2 + "]]></body>"
                     + "<mch_id>" + WxPayConfig.mch_id + "</mch_id>"
                     + "<nonce_str>" + nonce_str + "</nonce_str>"
                     + "<notify_url>" + WxPayConfig.notify_url + "</notify_url>"
@@ -114,9 +118,13 @@ public class WxpayController  extends BaseController {
                 //业务逻辑代码
             }
             response.put("appid", WxPayConfig.appid);
+            response.put("signType", "MD5");
+
+            response.put("out_trade_no", packageParams.get("out_trade_no"));
+            response.put("signType", "MD5");
             log.info("res: "+JSONUtils.toJSON(response));
 
-            return response;
+            return JSONUtils.toJSON(response);
         }catch(Exception e){
             e.printStackTrace();
 

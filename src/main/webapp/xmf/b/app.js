@@ -37,8 +37,8 @@ App({
   },
   globalData: {
     userInfo: null,
-    baseurl:'https://tycaching.cn/xmf/',
-    //baseurl:'https://jd.yousheng.tech/qihntest/',  
+    //baseurl:'https://tycaching.cn/xmf/',
+    baseurl:'https://jd.yousheng.tech/qihntest/',  
     score:0,
     curlineid:0,
     curpointid: 0,

@@ -46,6 +46,10 @@
 
 
 设置API密钥 ： bcc534f8f4c5967cf55844b7c0c1eae1
-
+openid: oHq_k5La6tz61XQFaPq2jwiHYdMI
+http://localhost:8080/qihntest//wx/wxPay?openid=oHq_k5La6tz61XQFaPq2jwiHYdMI&money=1&pname=%E6%B5%8B%E8%AF%95%E5%95%86%E5%93%81
 
 0256 9965011  茅台镇 60年老窖  孙 
+
+wxPay res  {"timeStamp":"1611372973","package":"prepay_id=wx2311361301200088a62dcccb1f8d8b0000","paySign":"23C78B7F5B60CE7AF617C1A5F3146DA4","appid":"wxb396476de17508d4","signType":"RSA","nonceStr":"zpqtfj60rhfp1wc3b07pti1yub00iuw6"}
+detail.js:45 pay-success res  {"errMsg":"requestPayment:ok"}

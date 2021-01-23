@@ -24,7 +24,7 @@ public class WxPayController extends BaseController{
     private static Log log = LogFactory.getLog(WxPayController.class);
     public static final String TOKEN = "qihn";
 
-    /**
+    /**  废弃
      * 调用微信支付统一下单接口，获取prepay_id等信息
      * 获取到prepay_id后，向前台发送wx.requestPayment所需参数
 

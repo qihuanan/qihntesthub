@@ -58,6 +58,24 @@ public class WxController extends BaseController {
     }
     //=========================前端=========================
 
+    @RequestMapping(value = "/wx/payres", method = RequestMethod.GET)
+    public void payres(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        this.setReqAndRes(request,response);
+        showparam();
+        String lineid = getParam("lineid");
+        String userid = getParam("userid");
+        String out_trade_no = getParam("out_trade_no");
+        String money = getParam("money");
+
+
+        User user = this.userService.findById(User.class,Long.parseLong(getParam("userid")));
+
+        Map map = new HashMap();
+
+        map.put("money",money);
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
     @RequestMapping(value = "/wx/createshareimg", method = RequestMethod.GET)
     public void createshareimg(HttpServletRequest request, HttpServletResponse response) throws Exception{
         this.setReqAndRes(request,response);

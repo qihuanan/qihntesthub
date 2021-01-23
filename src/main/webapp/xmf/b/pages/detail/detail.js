@@ -24,6 +24,44 @@ Page({
       })
     }
   },
+
+  wxpay: function(e){
+    this.islogin()
+    var openid = wx.getStorageSync("openid")
+    wx.request({ // app.globalData.baseurl
+      url: app.globalData.baseurl+'wx/wxPay',
+      header: { 'content-type': 'application/json' },
+      data: {
+        openid: wx.getStorageSync("openid")
+      }, success(res2) {
+        console.log("wxPay res  " + JSON.stringify(res2.data))
+        wx.requestPayment({
+            "timeStamp": res2.data.timeStamp ,
+            "nonceStr": res2.data.nonceStr ,
+            "package": res2.data.package ,
+            "signType": "MD5",
+            "paySign": res2.data.paySign ,
+            "success":function(res){
+              console.log("pay-success res  " + JSON.stringify(res))
+              wx.showToast({
+                title: '统一下单ok',
+                icon: 'none'
+              })
+            },
+            "fail":function(res){
+              wx.showToast({
+                title: '统一下单出现异常',
+                icon: 'none'
+              })
+            },
+            "complete":function(res){}
+          }
+        )
+        
+      }
+    })
+  },
+
   dakaflagtap: function(e){
     this.islogin()
     var userid = wx.getStorageSync("userid")
