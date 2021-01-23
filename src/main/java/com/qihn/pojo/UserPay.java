@@ -2,7 +2,7 @@ package com.qihn.pojo;
 
 import javax.persistence.*;
 import java.io.Serializable;
-
+@Entity(name = "UserPay")
 public class UserPay implements Serializable {
 
     @Id

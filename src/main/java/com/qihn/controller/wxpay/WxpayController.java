@@ -118,10 +118,11 @@ public class WxpayController  extends BaseController {
                 //业务逻辑代码
             }
             response.put("appid", WxPayConfig.appid);
-            response.put("signType", "MD5");
+
 
             response.put("out_trade_no", packageParams.get("out_trade_no"));
             response.put("signType", "MD5");
+            response.put("money", money);
             log.info("res: "+JSONUtils.toJSON(response));
 
             return JSONUtils.toJSON(response);

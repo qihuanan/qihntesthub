@@ -32,7 +32,9 @@ Page({
       url: app.globalData.baseurl+'wx/wxPay',
       header: { 'content-type': 'application/json' },
       data: {
-        openid: wx.getStorageSync("openid")
+        openid: wx.getStorageSync("openid"),
+        pname: '7天会员1分',
+        money: 1
       }, success(res2) {
         console.log("wxPay res  " + JSON.stringify(res2.data))
         wx.requestPayment({
@@ -43,8 +45,27 @@ Page({
             "paySign": res2.data.paySign ,
             "success":function(res){
               console.log("pay-success res  " + JSON.stringify(res))
+              if(res.errMsg == 'requestPayment:ok'){
+                wx.request({
+                  url: app.globalData.baseurl+'wx/payresup',
+                  header: { 'content-type': 'application/json' },
+                  data: {
+                    lineid: app.globalData.curlineid,
+                    money: res2.data.money,
+                    out_trade_no: res2.data.out_trade_no,
+                    day:7,
+                    userid: wx.getStorageSync("userid")
+                  }, success(res2) {
+                    console.log("payresup res  " + JSON.stringify(res2.data))
+                    util.navigateTo({
+                      url: '/pages/detailon/detail?lineid=' + app.globalData.curlineid
+                    })
+                  }
+                })
+
+              }
               wx.showToast({
-                title: '统一下单ok',
+                title: '下单支付ok',
                 icon: 'none'
               })
             },
