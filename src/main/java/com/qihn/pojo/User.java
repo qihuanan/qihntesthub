@@ -40,6 +40,28 @@ public class User implements Serializable {
     @Column()
     private String linkmobile; // 地址
 
+    @Column
+    private String endtime;
+    @Column
+    private String lineidstr;
+
+
+    public String getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(String endtime) {
+        this.endtime = endtime;
+    }
+
+    public String getLineidstr() {
+        return lineidstr;
+    }
+
+    public void setLineidstr(String lineidstr) {
+        this.lineidstr = lineidstr;
+    }
+
     public String getMobile() {
         return mobile;
     }

@@ -52,27 +52,67 @@ public class WxController extends BaseController {
     private BaoxiangService baoxiangService;
     @Resource(name="suipianService")
     private SuipianService suipianService;
+    @Resource(name="userPayService")
+    private UserPayService userPayService;
 
     private void inituser(){
 
     }
     //=========================前端=========================
 
-    @RequestMapping(value = "/wx/payres", method = RequestMethod.GET)
+    /**
+     * 微信支付结果上报
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/wx/payresup", method = RequestMethod.GET)
     public void payres(HttpServletRequest request, HttpServletResponse response) throws Exception{
         this.setReqAndRes(request,response);
         showparam();
         String lineid = getParam("lineid");
-        String userid = getParam("userid");
+        //String userid = getParam("userid");
+        String day = getParam("day");
         String out_trade_no = getParam("out_trade_no");
         String money = getParam("money");
-
-
         User user = this.userService.findById(User.class,Long.parseLong(getParam("userid")));
 
-        Map map = new HashMap();
+        UserPay userPay = new UserPay();
+        if(Utils.isNotNullOrEmpty(lineid)){
+            userPay.setLineid(Long.parseLong(lineid));
+            user.setLineidstr("-"+user.getLineidstr()+"-"+userPay.getLineid());
+            userPay.setEndtime(Utils.getDate2(3,0,0));
+        }else {
+            if(day.equals("7")){
+                userPay.setEndtime(Utils.getDate2(0,0,7));
+            }
+            if(day.equals("30")){
+                userPay.setEndtime(Utils.getDate2(0,1,0));
+            }
+            if(day.equals("365")){
+                userPay.setEndtime(Utils.getDate2(1,0,0));
+            }
+        }
 
+        userPay.setUser(user);
+        userPay.setUserid(user.getId());
+        userPay.setUsername(user.getName());
+        userPay.setDay(Integer.parseInt(day));
+        userPay.setOrderno(out_trade_no);
+        userPay.setPaytime(Utils.getDate2(0,0,0));
+        userPay.setMoney(money);
+        userPay.setName(day+"-"+lineid+"-");
+        userPayService.save(userPay);
+
+        user.setEndtime(userPay.getEndtime());
+        userService.update(user);
+
+
+        Map map = new HashMap();
+        map.put("ok","ok");
         map.put("money",money);
+        map.put("endtime",user.getEndtime());
+
         this.printjson(JSONUtils.toJSON(map));
     }
 

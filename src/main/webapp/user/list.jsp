@@ -56,6 +56,8 @@
                                             <th >openid</th>
                                             <th >头像地址</th>
                                             <th >积分</th>
+                                            <th >付费有效期</th>
+                                            <th >付费线路</th>
                                             <th >操作</th>
 
                                         </tr>
@@ -71,7 +73,8 @@
                                                         <img src="${obj.avatarUrl}" width="100px" height="100px">
                                                     </c:if>
                                                 </td>
-                                                <td> ${obj.score } </td>
+                                                <td> ${obj.endtime } </td>
+                                                <td> ${obj.lineidstr } </td>
                                                 <td>
                                                     <a href="${sysPath}//user/mergeUI?id=${obj.id }">编辑</a>
                                                     <br><br>

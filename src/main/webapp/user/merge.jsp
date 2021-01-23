@@ -61,6 +61,14 @@
                                             <textarea class="form-control" name="score">${user.score}</textarea>
                                         </div>
                                         <div class="form-group">
+                                            <label>付费有效期至 </label>
+                                            <textarea class="form-control" name="endtime">${user.endtime}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>付费线路 </label>
+                                            <textarea class="form-control" name="lineidstr">${user.lineidstr}</textarea>
+                                        </div>
+                                        <div class="form-group">
                                             <label>上传图片 </label>
                                             <input id="objpicture" name="avatarUrl" type="hidden" value="${user.avatarUrl}"/>
                                             <input class="form-control" id="file_id" name="filepath" type="file" accept="image/*"/>
