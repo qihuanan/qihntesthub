@@ -75,9 +75,13 @@ public class WxController extends BaseController {
         List<PointUserinfo> pointUserinfoList = this.pointUserinfoService.findByProperties(pointUserinfo,null,null,null,null);
 
         if(Utils.isNotNullOrEmpty(pointUserinfoList)){
+            log.info("needpay == 1 ");
+            log.info("needpay == 1 "+line.getFreenum() +" dd "+pointUserinfoList.size());
             if(Utils.isNotNullOrEmpty(line.getFreenum()) && line.getFreenum()<= pointUserinfoList.size()){
                 map.put("needpay",1);
+                log.info("needpay == 12 ");
                 if(Utils.isNotNullOrEmpty(user.getEndtime())){
+                    log.info("needpay == 13 ");
                     if(new SimpleDateFormat("yyyy-MM-dd").parse(user.getEndtime()).getTime() >= new SimpleDateFormat("yyyy-MM-dd").parse(Utils.getDate2(0,0,0)).getTime() ){
                         log.info("needpay 1 -> 0 已支付，有效期内");
                         map.put("needpay",0);
