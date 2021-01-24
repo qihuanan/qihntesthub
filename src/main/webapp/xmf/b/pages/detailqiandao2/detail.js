@@ -314,6 +314,14 @@ Page({
     })
   },
   onShow: function (options){
+    // 需要付费，跳转
+    var needpay = wx.getStorageSync("needpay")
+    if(needpay == 1){
+      util.navigateTo({
+        url: '/pages/detail/detail?lineid=' + app.globalData.curlineid
+      })
+    }
+
     wx.setNavigationBarTitle({
       title: '签到点任务'
     })

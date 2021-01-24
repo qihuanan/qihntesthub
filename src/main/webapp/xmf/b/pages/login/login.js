@@ -115,6 +115,7 @@ Page({
                 wx.setStorageSync("openid", res2.data.data.openid)
                 wx.setStorageSync("score", res2.data.data.score)
                 wx.setStorageSync("userid", res2.data.data.id)
+                wx.setStorageSync("endtime", res2.data.data.endtime)
                 app.globalData.score = res2.data.data.score
                 console.log('qihndebug-4-app.globalData.score ' + app.globalData.score)
                 

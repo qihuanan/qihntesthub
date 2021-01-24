@@ -296,8 +296,23 @@ Page({
       })
     }
   },
+  getCanPlayline: function () {
+    var userid = wx.getStorageSync("userid")
+    wx.request({
+      url: app.globalData.baseurl +'wx/getCanPlayline',
+      header: { 'content-type': 'application/json' },
+      data: {
+        lineid: app.globalData.curlineid,
+        userid: wx.getStorageSync("userid")
+      }, success(res2) {
+        console.log("getCanPlayline res  " + JSON.stringify(res2.data))
+        wx.setStorageSync("needpay", res2.data.needpay)
+      }
+    })
+  },
   onShow: function (options){
     this.islogin()
+    this.getCanPlayline()
     var userid = wx.getStorageSync("userid")
     console.log("onLaunch userid " + userid)
     if (userid == null || userid == '') {

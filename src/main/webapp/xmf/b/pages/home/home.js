@@ -65,6 +65,7 @@ Page({
         console.log("home onLoad-res  " + JSON.stringify(res2.data))
         app.globalData.score = res2.data.user.score
         wx.setStorageSync("score", app.globalData.score)
+        wx.setStorageSync("endtime",  res2.data.user.endtime)
         that.setData({
           activelist: res2.data.data,
           user: res2.data.user,

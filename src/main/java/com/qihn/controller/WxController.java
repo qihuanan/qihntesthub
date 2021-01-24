@@ -21,6 +21,7 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -59,6 +60,40 @@ public class WxController extends BaseController {
 
     }
     //=========================前端=========================
+
+    @RequestMapping(value = "/wx/getCanPlayline", method = RequestMethod.GET)
+    public void getCanPlayline(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Map map = new HashMap();
+
+        map.put("needpay",0);
+
+        Line line = this.lineService.findById(Line.class,Long.parseLong(getParam("lineid")));
+        User user = this.userService.findById(User.class,Long.parseLong(getParam("userid")));
+        PointUserinfo pointUserinfo = new PointUserinfo();
+        pointUserinfo.setUserid(user.getId());
+        pointUserinfo.setLineid(line.getId());
+        List<PointUserinfo> pointUserinfoList = this.pointUserinfoService.findByProperties(pointUserinfo,null,null,null,null);
+
+        if(Utils.isNotNullOrEmpty(pointUserinfoList)){
+            if(Utils.isNotNullOrEmpty(line.getFreenum()) && line.getFreenum()<= pointUserinfoList.size()){
+                map.put("needpay",1);
+                if(Utils.isNotNullOrEmpty(user.getEndtime())){
+                    if(new SimpleDateFormat("yyyy-MM-dd").parse(user.getEndtime()).getTime() >= new SimpleDateFormat("yyyy-MM-dd").parse(Utils.getDate2(0,0,0)).getTime() ){
+                        log.info("needpay 1 -> 0 已支付，有效期内");
+                        map.put("needpay",0);
+                    }else{
+                        log.info("needpay 超过有效期");
+                    }
+
+                }
+
+            }
+        }
+
+
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
     @RequestMapping(value = "/wx/getpayset", method = RequestMethod.GET)
     public void getpayset(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Line line = this.lineService.findById(Line.class,4l);
@@ -95,20 +130,22 @@ public class WxController extends BaseController {
         User user = this.userService.findById(User.class,Long.parseLong(getParam("userid")));
 
         UserPay userPay = new UserPay();
-        if(Utils.isNotNullOrEmpty(lineid)){
-            userPay.setLineid(Long.parseLong(lineid));
-            user.setLineidstr("-"+user.getLineidstr()+"-"+userPay.getLineid());
-            userPay.setEndtime(Utils.getDate2(3,0,0));
-        }else {
-            if(day.equals("7")){
-                userPay.setEndtime(Utils.getDate2(0,0,7));
-            }
-            if(day.equals("30")){
-                userPay.setEndtime(Utils.getDate2(0,1,0));
-            }
-            if(day.equals("365")){
-                userPay.setEndtime(Utils.getDate2(1,0,0));
-            }
+
+//        if(Utils.isNotNullOrEmpty(lineid)){
+//            userPay.setLineid(Long.parseLong(lineid));
+//            user.setLineidstr("-"+user.getLineidstr()+"-"+userPay.getLineid());
+//            userPay.setEndtime(Utils.getDate2(3,0,0));
+//        }else {
+//
+//        }
+        if(day.equals("7")){
+            userPay.setEndtime(Utils.getDate2(0,0,7));
+        }
+        if(day.equals("30")){
+            userPay.setEndtime(Utils.getDate2(0,1,0));
+        }
+        if(day.equals("365")){
+            userPay.setEndtime(Utils.getDate2(1,0,0));
         }
 
         userPay.setUser(user);

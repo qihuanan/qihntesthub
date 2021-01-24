@@ -92,8 +92,11 @@ Page({
                         out_trade_no: res2.data.out_trade_no,
                         day:7,
                         userid: wx.getStorageSync("userid")
-                      }, success(res2) {
+                      }, success(res2) { 
                         console.log("payresup res  " + JSON.stringify(res2.data))
+                        wx.setStorageSync("endtime", res2.data.endtime)
+                        console.log("payresup-cache endtime-get  " + wx.getStorageSync("endtime"))
+                      
                         util.navigateTo({
                           url: '/pages/detailon/detail?lineid=' + app.globalData.curlineid
                         })
