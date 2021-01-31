@@ -17,9 +17,9 @@ Page({
     line:{},
     point:{},
     exam: { picture1:''},
-    money: 1000,
+    money: 500,
     days:7,
-    inputValue:'1000',
+    inputValue:'500',
     ritems: [
       { value: 'USA', name: '北京' },
       { value: 'FRA', name: '上海' },
@@ -121,13 +121,13 @@ Page({
     })
     var that = this
     var payday1 = '7'
-    var paymoney1 = '10'
+    var paymoney1 = '500'
     var payday2 = '30'
     var paymoney2 = '20'
     var payday3 = '365'
     var paymoney3 = '30'
     var payday = '7'
-    var paymoney = '10'
+    var paymoney = '500'
     wx.request({
       url: app.globalData.baseurl +'wx/getpayset',
       header: { 'content-type': 'application/json' },
@@ -144,8 +144,9 @@ Page({
         paymoney3 = res2.data.paymoney3
         that.setData({
           line: res2.data.line,
+          money: paymoney1.split('-')[1],
           ritems: [
-            {value: paymoney1, name: payday1},
+            {value: paymoney1, name: payday1,checked:"true"},
             {value: paymoney2, name: payday2},
             {value: paymoney3, name: payday3}
           ]

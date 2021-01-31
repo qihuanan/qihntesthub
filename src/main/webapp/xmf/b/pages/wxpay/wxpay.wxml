@@ -24,7 +24,7 @@
       <radio-group bindchange="radioChange">
         <label class="weui-cell weui-check__label" wx:for="{{ritems}}" wx:key="{{item.value}}">
           <view class="weui-cell__hd">
-            <radio value="{{item.value}}" bind-name="{{item.name}}"/>
+            <radio value="{{item.value}}" bind-name="{{item.name}}" checked="{{item.checked}}"/>
           </view>
           <view class="weui-cell__bd">{{item.name}}</view>
         </label>
@@ -39,7 +39,7 @@
 <view  class="active-title-bottom weui-flex">
   <view  class="weui-flex__item "  > 
     <view class="item-liuyanban2" bindtap="wxpay">
-      <image class="liuyanbandaka-tj" src="/pages/images/tijiao.svg" ></image>
+      <image class="liuyanbandaka-tj" src="/pages/images/quzhifu.svg" ></image>
     </view>
   </view>
 </view>

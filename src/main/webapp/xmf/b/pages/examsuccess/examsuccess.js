@@ -23,12 +23,12 @@ Page({
         success (res) {
           if (res.confirm) {
             util.navigateTo({
-              url: '/pages/detail/detail?lineid=' + app.globalData.curlineid
+              url: '/pages/wxpay/wxpay?lineid=' + app.globalData.curlineid
             })
           } else if (res.cancel) {
             console.log('用户点击取消')
             util.navigateTo({
-              url: '/pages/detail/detail?lineid=' + app.globalData.curlineid
+              url: '/pages/wxpay/wxpay?lineid=' + app.globalData.curlineid
             })
           }
         }
