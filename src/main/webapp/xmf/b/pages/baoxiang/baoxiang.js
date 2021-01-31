@@ -1,5 +1,5 @@
 const app = getApp()
-
+//宝箱页面功能
 Page({
   data: {
     baseurl: app.globalData.baseurl,

@@ -1,7 +1,5 @@
-//index.js
-//获取应用实例
 const util = require('../../utils/util.js')
-const app = getApp()
+const app = getApp() // 登录页面
 
 Page({
   data: {

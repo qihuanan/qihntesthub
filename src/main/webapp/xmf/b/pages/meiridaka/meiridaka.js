@@ -1,5 +1,5 @@
 const util = require('../../utils/util.js')
-const app = getApp()
+const app = getApp() // 每日打开页面
 // 页面从 qiandao2原型来，注意样式和数据结构
 Page({
   data: {

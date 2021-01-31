@@ -1,4 +1,4 @@
-//logs.js
+//logs.js  log 页面 通用，不要删除
 const util = require('../../utils/util.js')
 
 Page({

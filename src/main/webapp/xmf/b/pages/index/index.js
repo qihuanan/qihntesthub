@@ -1,5 +1,5 @@
 const util = require('../../utils/util.js')
-const app = getApp()
+const app = getApp() // 中间一个版本的打开小程序封面页，暂时不删除
 
 Page({
   data: {

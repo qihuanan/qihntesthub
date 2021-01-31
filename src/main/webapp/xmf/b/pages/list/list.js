@@ -1,5 +1,5 @@
 const util = require('../../utils/util.js')
-const app = getApp()
+const app = getApp() // 活动列表页面，首页
 
 Page({
   data: {

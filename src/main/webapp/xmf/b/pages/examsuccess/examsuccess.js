@@ -1,5 +1,5 @@
 const util = require('../../utils/util.js')
-const app = getApp()
+const app = getApp() // 答题成功页面
 Page({
   data: {
     cur:5,
@@ -14,6 +14,29 @@ Page({
   //事件处理函数
   
   gonext: function (e) { 
+    // 需要付费，跳转
+    var needpay = wx.getStorageSync("needpay")
+    if(needpay == 1){
+      wx.showModal({
+        title: '提示',
+        content: '您需要付费才能继续签到',
+        success (res) {
+          if (res.confirm) {
+            util.navigateTo({
+              url: '/pages/detail/detail?lineid=' + app.globalData.curlineid
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+            util.navigateTo({
+              url: '/pages/detail/detail?lineid=' + app.globalData.curlineid
+            })
+          }
+        }
+      })
+      
+      return;
+    }
+
     util.navigateTo({
       url: "/pages/detailon/detail",
     });

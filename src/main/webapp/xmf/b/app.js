@@ -1,4 +1,4 @@
-//app.js
+//app.js 
 App({
   onLaunch: function () {
     // 展示本地存储能力
@@ -38,7 +38,8 @@ App({
   globalData: {
     userInfo: null,
     //baseurl:'https://tycaching.cn/xmf/',
-    baseurl:'https://jd.yousheng.tech/qihntest/',  
+    //baseurl:'https://jd.yousheng.tech/qihntest/',  
+    baseurl:'https://tycaching.cn/qihntest/',  
     score:0,
     curlineid:0,
     curpointid: 0,

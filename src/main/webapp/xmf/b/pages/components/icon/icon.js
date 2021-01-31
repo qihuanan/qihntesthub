@@ -1,5 +1,5 @@
 module.exports =
-/******/ (function(modules) { // webpackBootstrap
+/******/ (function(modules) { // webpackBootstrap  微信公共组件，公用不用删除
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/

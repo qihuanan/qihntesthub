@@ -1,5 +1,5 @@
 const util = require('../../utils/util.js')
-const app = getApp()
+const app = getApp() // 答题失败页面功能
 Page({
   data: {
     cur: 5,

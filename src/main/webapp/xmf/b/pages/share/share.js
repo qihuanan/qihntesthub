@@ -1,5 +1,5 @@
 const util = require('../../utils/util.js')
-const app = getApp()
+const app = getApp() // 分享页面
 //尺寸比例计算（页面宽度已750为准，即750*scale，所有尺寸乘以scale，即可兼容各种大小屏幕）
 const scale = wx.getSystemInfoSync().windowWidth / 750
 Page({

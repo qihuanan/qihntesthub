@@ -21,7 +21,7 @@
               <view class="active-title-bottom-item">{{line.dianshu}}</view>
           </view>
           <view class="weui-flex__item">
-              <view class="" bindtap="wxpay" data-paytype="1">线路积分</view>
+              <view class="" bindtap="gopay" data-paytype="1">线路积分</view>
               <view class="active-title-bottom-item">{{line.yijifen }}/{{line.jifen}}</view>
           </view>
         </view>
@@ -58,6 +58,7 @@
           </view>
         </view>
 
+        <!-- 
         <view class="active-title-bottom weui-flex">
           <view class="weui-flex__item " bindtap="wxpay" data-paytype="1">
               <view  class="item-liuyanban">支付1周</view>
@@ -73,12 +74,14 @@
               <view  class="item-liuyanban">支付1年</view>
           </view>
         </view>
+        -->
 
       </view>
 
       <view class="active-body">
+
         <view class="active-title-bottom weui-flex" style="height:50rpx;">
-          <view  class="item-liuyanban"> &nbsp; </view>
+         <!-- <view  class="item-liuyanban"> </view>  -->
         </view>
 
       </view>

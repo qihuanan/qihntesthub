@@ -1,5 +1,5 @@
 const util = require('../../utils/util.js')
-const app = getApp()
+const app = getApp() // 每日打卡结果页
 Page({
   data: {
     cur:5,

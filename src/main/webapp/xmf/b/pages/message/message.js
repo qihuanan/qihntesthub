@@ -1,4 +1,4 @@
-const app = getApp()
+const app = getApp() // 留言页面
 
 Page({
   data: {

@@ -1,5 +1,5 @@
 const util = require('../../utils/util.js')
-const app = getApp()
+const app = getApp() // 任务点详情页面
 
 Page({
   data: {
@@ -335,7 +335,9 @@ Page({
       }, success(res2) {
         console.log("detailon linedetailon  " + JSON.stringify(res2.data))
         //that.actvielist = res2.data.data
-        app.globalData.curpointid = res2.data.point.id 
+        if(res2.data.point.id){
+          app.globalData.curpointid = res2.data.point.id 
+        }
         // 扫码用过后清空
         app.globalData.curpointid2 = 0
         that.setData({

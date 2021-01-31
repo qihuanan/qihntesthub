@@ -1,4 +1,4 @@
-// pages/meiridaka/meiridakares.js
+// pages/meiridaka/meiridakares.js  暂时废弃，暂不删除。
 Page({
 
   /**

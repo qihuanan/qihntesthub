@@ -1,4 +1,4 @@
-const app = getApp()
+const app = getApp() // 留言成功页面
 Page({
   data: {
     baseurl: app.globalData.baseurl,

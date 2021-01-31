@@ -1,4 +1,4 @@
-<template name="tabbarout">
+<template name="tabbarout"> 
 <view class="weui-tabbar">
   <view class="weui-tabbar__item {{cur == 1 ? 'weui-bar__item_on' : ''}}">
     <navigator url="/pages/list/list" open-type="reLaunch">

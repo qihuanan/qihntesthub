@@ -1,0 +1,56 @@
+<wxs src="../../utils/filter.wxs" module="util"></wxs>
+<view class="weui-flex ">
+  <view class="weui-flex__item">
+    <view class="item-text">
+      <view class="active-title">
+        <view class="active-title-top">
+      成为会员，获得更多体验
+        </view>
+      </view>
+    </view>
+  </view>	
+</view>
+<view class="weui-flex">
+  <view  class="weui-flex__item question" > 
+    <view  class="question-desc">
+       <text>
+       {{util.format(line.name)}}
+        </text>
+    </view>
+
+    <view class="fengekuai"></view>
+
+    <view  class="weui-cells weui-cells_after-title">
+      <radio-group bindchange="radioChange">
+        <label class="weui-cell weui-check__label" wx:for="{{ritems}}" wx:key="{{item.value}}">
+          <view class="weui-cell__hd">
+            <radio value="{{item.value}}" bind-name="{{item.name}}"/>
+          </view>
+          <view class="weui-cell__bd">{{item.name}}</view>
+        </label>
+      </radio-group>
+    </view>
+
+  </view>
+</view>
+
+<block >
+
+<view  class="active-title-bottom weui-flex">
+  <view  class="weui-flex__item "  > 
+    <view class="item-liuyanban2" bindtap="wxpay">
+      <image class="liuyanbandaka-tj" src="/pages/images/tijiao.svg" ></image>
+    </view>
+  </view>
+</view>
+
+</block>
+
+
+<view class='list'>
+    <view class='li' wx:for='{{list}}' wx:key=''>{{item}}</view>
+</view>
+<view class='placeholder-view'></view>
+<view class="pretabbar"></view>
+<import src ="/pages/template/tabbar.wxml"/>
+<template is="tabbar" data="{{cur:3}}" />

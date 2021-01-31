@@ -1,38 +1,25 @@
 {
   "pages": [
    
-    
-   
-  
-    "pages/list/list",
+    "pages/list/list", 
+    "pages/wxpay/wxpay",
     "pages/meiridaka/meiridaka", 
     "pages/meiridaka/meiridakares", 
+    "pages/meiridakares/meiridakares", 
     "pages/share/share",
     "pages/detailon/detail",
-    
-    
     "pages/baoxiang/baoxiang",
-    
     "pages/login/login",
-    
     "pages/examsuccess/examsuccess",
     "pages/examfail/examfail",
-    
     "pages/message/message",
-    
     "pages/home/home",
-    
     "pages/detailmap/detail",
     "pages/detail/detail",
     "pages/detailqiandao2/detail",
-
     "pages/msgsuccess/msg_success",
     "pages/msgwarn/msg_warn",
- 
     "pages/index/index",
-    
-  
-    
     "pages/logs/logs"
   ],
   "window": {

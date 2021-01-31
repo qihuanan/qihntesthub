@@ -111,6 +111,9 @@ public class WxController extends BaseController {
         map.put("paymoney2",sparr[1].split(",")[1]);
         map.put("payday3",sparr[2].split(",")[0]);
         map.put("paymoney3",sparr[2].split(",")[1]);
+        map.put("name",line.getName());
+        map.put("description",line.getDescription());
+        map.put("line",line);
 
         this.printjson(JSONUtils.toJSON(map));
     }
@@ -127,6 +130,13 @@ public class WxController extends BaseController {
         this.setReqAndRes(request,response);
         showparam();
         String lineid = getParam("lineid");
+        Line line = null;
+        if(Utils.isNotNullOrEmpty(lineid)){
+            line = this.lineService.findById(Line.class,Long.parseLong(lineid));
+        }else {
+            line = this.lineService.findById(Line.class,4l);// 没有线路 直接支付的
+        }
+
         //String userid = getParam("userid");
         String day = getParam("day");
         String out_trade_no = getParam("out_trade_no");
@@ -159,7 +169,7 @@ public class WxController extends BaseController {
         userPay.setOrderno(out_trade_no);
         userPay.setPaytime(Utils.getDate2(0,0,0));
         userPay.setMoney(money);
-        userPay.setName(day+"-"+lineid+"-");
+        userPay.setName(day+"-"+line.getName()+"-");
         userPayService.save(userPay);
 
         user.setEndtime(userPay.getEndtime());

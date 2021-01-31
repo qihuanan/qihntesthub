@@ -1,4 +1,4 @@
-const util = require('../../utils/util.js')
+const util = require('../../utils/util.js') // 线路详情页面，首页列表进去后的页面
 const app = getApp()
 
 Page({
@@ -24,7 +24,11 @@ Page({
       })
     }
   },
-
+  gopay: function(e){
+    util.navigateTo({
+      url: '/pages/wxpay/wxpay'
+    })
+  },
   wxpay: function(e){
     var paytype = e.currentTarget.dataset.paytype
     this.islogin()
@@ -125,9 +129,6 @@ Page({
       }
     })
 
-    
-
-    
   },
 
   dakaflagtap: function(e){
