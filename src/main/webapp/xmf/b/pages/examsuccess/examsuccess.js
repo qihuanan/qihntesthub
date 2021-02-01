@@ -17,29 +17,17 @@ Page({
     // 需要付费，跳转
     var needpay = wx.getStorageSync("needpay")
     if(needpay == 1){
-      wx.showModal({
-        title: '提示',
-        content: '您需要付费才能继续签到',
-        success (res) {
-          if (res.confirm) {
-            util.navigateTo({
-              url: '/pages/wxpay/wxpay?lineid=' + app.globalData.curlineid
-            })
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-            util.navigateTo({
-              url: '/pages/wxpay/wxpay?lineid=' + app.globalData.curlineid
-            })
-          }
-        }
+      util.navigateTo({
+        url: '/pages/wxpay/wxpay?lineid=' + app.globalData.curlineid
       })
       
       return;
+    }else{
+      util.navigateTo({
+        url: "/pages/detailon/detail",
+      });
     }
 
-    util.navigateTo({
-      url: "/pages/detailon/detail",
-    });
   },
   gonext2: function (e) {
     util.navigateTo({

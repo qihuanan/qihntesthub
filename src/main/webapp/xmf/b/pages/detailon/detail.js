@@ -312,50 +312,70 @@ Page({
   },
   onShow: function (options){
     this.islogin()
-    this.getCanPlayline()
-    var userid = wx.getStorageSync("userid")
-    console.log("onLaunch userid " + userid)
-    if (userid == null || userid == '') {
-      return;
-    }
-    wx.setNavigationBarTitle({
-      title: '探索任务'
-    })
     var that = this
-    //this.getLineList(that)
+    //this.getCanPlayline()
+    var userid = wx.getStorageSync("userid")
     wx.request({
-      url: app.globalData.baseurl +'wx/linedetailon',
+      url: app.globalData.baseurl +'wx/getCanPlayline',
       header: { 'content-type': 'application/json' },
       data: {
-        code: 1,
         lineid: app.globalData.curlineid,
-        // 上个版本没有传递此参数，
-        pointid: app.globalData.curpointid2,
         userid: wx.getStorageSync("userid")
-      }, success(res2) {
-        console.log("detailon linedetailon  " + JSON.stringify(res2.data))
-        //that.actvielist = res2.data.data
-        if(res2.data.point.id){
-          app.globalData.curpointid = res2.data.point.id 
+      }, success(res1) {
+        console.log("getCanPlayline res  " + JSON.stringify(res1.data))
+        wx.setStorageSync("needpay", res1.data.needpay)
+        
+        var userid = wx.getStorageSync("userid")
+        console.log("onLaunch userid " + userid)
+        if (userid == null || userid == '') {
+          return;
         }
-        // 扫码用过后清空
-        app.globalData.curpointid2 = 0
-        that.setData({
-          line: res2.data.line, //parseFloat
-          pointlist: res2.data.pointlist,
-          tipList: res2.data.tipList,
-          point: res2.data.point,
-          longitude: res2.data.line.jingdu,
-          latitude: res2.data.line.weidu,
-          markers: res2.data.marklist,
-          initmarkers: res2.data.marklist,
-          scale: res2.data.line.ditudaxiao,
-          scalecur: res2.data.line.ditudaxiao,
-          juli: res2.data.line.qiandaojuli,
-          hasUserInfo: true
+        wx.setNavigationBarTitle({
+          title: '探索任务'
         })
+        
+        //this.getLineList(that)
+        wx.request({
+          url: app.globalData.baseurl +'wx/linedetailon',
+          header: { 'content-type': 'application/json' },
+          data: {
+            code: 1,
+            lineid: app.globalData.curlineid,
+            // 上个版本没有传递此参数，
+            pointid: app.globalData.curpointid2,
+            userid: wx.getStorageSync("userid")
+          }, success(res2) {
+            console.log("detailon linedetailon  " + JSON.stringify(res2.data))
+            //that.actvielist = res2.data.data
+            if(res2.data.point.id){
+              app.globalData.curpointid = res2.data.point.id 
+            }
+            // 扫码用过后清空
+            app.globalData.curpointid2 = 0
+            that.setData({
+              line: res2.data.line, //parseFloat
+              pointlist: res2.data.pointlist,
+              tipList: res2.data.tipList,
+              point: res2.data.point,
+              longitude: res2.data.line.jingdu,
+              latitude: res2.data.line.weidu,
+              markers: res2.data.marklist,
+              initmarkers: res2.data.marklist,
+              scale: res2.data.line.ditudaxiao,
+              scalecur: res2.data.line.ditudaxiao,
+              juli: res2.data.line.qiandaojuli,
+              hasUserInfo: true
+            })
+          }
+        })
+
       }
     })
+
+    setTimeout(function(){
+      console.log(1);
+     }, 2000)
+    
   },
   onLoad: function (options) {
     console.log("detailon onLoad " + JSON.stringify(options))
