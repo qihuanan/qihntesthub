@@ -15,18 +15,30 @@ Page({
   
   gonext: function (e) { 
     // 需要付费，跳转
-    var needpay = wx.getStorageSync("needpay")
-    if(needpay == 1){
-      util.navigateTo({
-        url: '/pages/wxpay/wxpay?lineid=' + app.globalData.curlineid
-      })
-      
-      return;
-    }else{
-      util.navigateTo({
-        url: "/pages/detailon/detail",
-      });
-    }
+    var userid = wx.getStorageSync("userid")
+    wx.request({
+      url: app.globalData.baseurl +'wx/getCanPlayline',
+      header: { 'content-type': 'application/json' },
+      data: {
+        lineid: app.globalData.curlineid,
+        userid: wx.getStorageSync("userid")
+      }, success(res2) {
+        console.log("getCanPlayline res  " + JSON.stringify(res2.data))
+        wx.setStorageSync("needpay", res2.data.needpay)
+        var needpay = wx.getStorageSync("needpay")
+        console.log('qihndebug-needpay- ' + needpay)
+        if(needpay == 1){
+          util.navigateTo({
+            url: '/pages/wxpay/wxpay?lineid=' + app.globalData.curlineid
+          })
+        }else{
+          util.navigateTo({
+            url: "/pages/detailon/detail",
+          });
+        }
+
+      }
+    })
 
   },
   gonext2: function (e) {

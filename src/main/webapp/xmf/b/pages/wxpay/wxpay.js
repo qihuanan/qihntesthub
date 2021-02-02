@@ -19,6 +19,7 @@ Page({
     exam: { picture1:''},
     money: 500,
     days:7,
+    pname:'7天体验卡',
     inputValue:'500',
     ritems: [
       { value: 'USA', name: '北京' },
@@ -40,6 +41,7 @@ Page({
     console.log('radio发生change事件，携带name值为：', e.detail)
     this.setData({
       inputValue: e.detail.value,
+      pname: e.detail.value.split('-')[2],
       money: e.detail.value.split('-')[1],
       days: e.detail.value.split('-')[0]
     })
@@ -60,7 +62,8 @@ Page({
       header: { 'content-type': 'application/json' },
       data: {
         openid: wx.getStorageSync("openid"),
-        pname: app.globalData.curlineid+'-'+that.data.days+'-'+that.data.money,
+        //pname: app.globalData.curlineid+'-'+that.data.days+'-'+that.data.money, 
+        pname: that.data.pname,
         money: that.data.money
       }, success(res2) {
         console.log("wxPay res  " + JSON.stringify(res2.data))
@@ -145,6 +148,7 @@ Page({
         that.setData({
           line: res2.data.line,
           money: paymoney1.split('-')[1],
+          pname: paymoney1.split('-')[2],
           ritems: [
             {value: paymoney1, name: payday1,checked:"true"},
             {value: paymoney2, name: payday2},
