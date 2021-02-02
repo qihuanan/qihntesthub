@@ -10,7 +10,7 @@
             <text class="jifen">积分：{{score}}</text>
           </view>
           <view class="yxq">
-            <text >会员有效期至：{{user.endtime}}</text>
+            <text >会员有效期至：{{user.endtime == 'null' ? '非会员' : user.endtime }}</text>
           </view>
         
         </view>

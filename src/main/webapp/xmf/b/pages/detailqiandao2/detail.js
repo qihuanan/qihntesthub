@@ -336,7 +336,7 @@ Page({
         }
       })*/
       
-      return;
+      return false;
     }
 
     wx.setNavigationBarTitle({
@@ -370,6 +370,14 @@ Page({
     
   },
   onLoad: function (options) {
+    // 需要付费，跳转
+    var needpay = wx.getStorageSync("needpay")
+    if(needpay == 1){
+      util.navigateTo({
+        url: '/pages/wxpay/wxpay?lineid=' + app.globalData.curlineid
+      })
+      return false;
+    }
     console.log("detailqiandao2-onLoad-cate " + options.cate) // 无用的，没有传递
     console.log("detailqiandao2-onLoad-fujiati " + options.fujiati)
     if (options && options.pointid){
