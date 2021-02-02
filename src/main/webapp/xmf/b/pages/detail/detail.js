@@ -234,7 +234,10 @@ Page({
   },
   onLoad: function (options) {
     console.log("onLoad-lineid:"+ options.lineid)
-    app.globalData.curlineid = options.lineid
+    if(options && options.lineid){
+      app.globalData.curlineid = options.lineid
+    }
+   
     return 
     var that = this
     wx.request({
