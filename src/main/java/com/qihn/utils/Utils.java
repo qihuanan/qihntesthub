@@ -635,6 +635,9 @@ public class Utils  {
 				if(hour<10){
 					sb.append("0"+hour).append(":");
 				}
+				if(hour>=10){
+					sb.append(hour).append(":");
+				}
 			}
 			if(min<10){
 				sb.append("0"+min).append(":");
