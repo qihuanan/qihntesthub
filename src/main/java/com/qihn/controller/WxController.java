@@ -428,6 +428,13 @@ public class WxController extends BaseController {
 
         Map map = new HashMap();
         map.put("data", lulist);
+        if(Utils.isNullorEmpty(user.getEndtime())){
+            user.setEndtime(" ");
+        }else {
+            if(new SimpleDateFormat("yyyy-MM-dd").parse(user.getEndtime()).getTime() < new SimpleDateFormat("yyyy-MM-dd").parse(Utils.getDate2(0,0,0)).getTime() ){
+                user.setEndtime("已过期");
+            }
+        }
         map.put("user", user);
         this.printjson(JSONUtils.toJSON(map));
     }

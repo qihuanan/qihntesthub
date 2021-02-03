@@ -33,21 +33,26 @@ public class WxpayController  extends BaseController {
 
 
 
-    @RequestMapping("/wx/wxPay")
-    @ResponseBody
-    public Object wxPay( HttpServletRequest request){
+    @RequestMapping(value = "/wx/wxPay")
+    // @ResponseBody
+    public void wxPay( HttpServletRequest request ,HttpServletResponse res){
         String openid = getParam("openid");
         String pname = getParam("pname");
         String money = getParam("money");
-        pname = "xmf-"+pname;
+        pname = ""+pname;
+        if(StringUtils.isEmpty(pname)){
+            pname = money;
+        }
         try{
             //生成的随机字符串
             String nonce_str = WxPayConfig.getRandomStringByLength(32);
             //商品名称
             String body2 = pname;
             String body = pname;
-            body = new String(body.getBytes("ISO-8859-1"),"UTF-8");
-            //body = new String(body.getBytes("UTF-8"),"UTF-8");
+            log.info("body: "+body);
+            //body = new String(body.getBytes("ISO-8859-1"),"UTF-8");
+            body = new String(body.getBytes("UTF-8"),"UTF-8");
+            log.info("body===: "+body);
             //获取本机的ip地址
             String spbill_create_ip = WxPayConfig.getIpAddr(request);
 
@@ -76,8 +81,8 @@ public class WxpayController  extends BaseController {
 
             //拼接统一下单接口使用的xml数据，要将上一步生成的签名一起拼接进去
             String xml = "<xml>" + "<appid>" + WxPayConfig.appid + "</appid>"
-                    //+ "<body><![CDATA[" + body2 + "]]></body>"
-                    + "<body>"+ body2 +"</body>"
+                    + "<body><![CDATA[" + body + "]]></body>"
+                    //+ "<body>"+ body2 +"</body>"
                     + "<mch_id>" + WxPayConfig.mch_id + "</mch_id>"
                     + "<nonce_str>" + nonce_str + "</nonce_str>"
                     + "<notify_url>" + WxPayConfig.notify_url + "</notify_url>"
@@ -129,12 +134,14 @@ public class WxpayController  extends BaseController {
             response.put("money", money);
             log.info("res: "+JSONUtils.toJSON(response));
 
-            return JSONUtils.toJSON(response);
+            res.setCharacterEncoding("UTF-8");
+            res.getWriter().println(JSONUtils.toJSON(response));
+            //return JSONUtils.toJSON(response);
         }catch(Exception e){
             e.printStackTrace();
 
         }
-        return null;
+        //return null;
     }
 
     @RequestMapping(value="/wx/wxNotify")
