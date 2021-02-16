@@ -352,7 +352,8 @@ Page({
         userid: wx.getStorageSync("userid")
       }, success(res2) {
         console.log("detail onLoad-res  " + JSON.stringify(res2.data))
-        
+        // 扫码用过后清空
+        app.globalData.curpointid2 = 0
         that.setData({
           point: res2.data.point,
           juli: res2.data.line.qiandaojuli

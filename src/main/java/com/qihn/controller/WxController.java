@@ -974,7 +974,7 @@ public class WxController extends BaseController {
         }
         // 当前签到点旗帜颜色变为 黄色
         for(int i = 0;i<marklist.size();i++){
-            if(marklist.get(i).getId() == point.getId()){
+            if(marklist.get(i).getId().longValue() == point.getId().longValue()){
                 marklist.get(i).setIconPath("/pages/images/icon-flg-ylw@2x.png");
                 marklist.get(i).setIconPath("/pages/images/svg/point-select"+Utils.formatString0(pointlist.get(i).getShunxu())+".png");
                 marklist.get(i).setWidth("30");

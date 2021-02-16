@@ -351,7 +351,7 @@ Page({
               app.globalData.curpointid = res2.data.point.id 
             }
             // 扫码用过后清空
-            app.globalData.curpointid2 = 0
+            //app.globalData.curpointid2 = 0
             that.setData({
               line: res2.data.line, //parseFloat
               pointlist: res2.data.pointlist,
