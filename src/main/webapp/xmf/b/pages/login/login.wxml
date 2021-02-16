@@ -2,7 +2,7 @@
 <view class="container">
   <view class="userinfo">
    
-    <view class="item-title">小蜜蜂探索</view>
+    <view class="item-title">小蜜探</view>
     <view class="item-title">
       <image class="logoimg" src="/pages/images/logo.png" mode="cover"></image>
     </view>

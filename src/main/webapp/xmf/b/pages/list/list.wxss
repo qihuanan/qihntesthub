@@ -17,7 +17,14 @@
   flex-wrap: nowrap;
 }
 
-
+.gengduo-image {
+  width: 100%;
+  height: 315rpx;
+  min-height: 310rpx;
+  max-height: 330rpx;
+  border-radius: 10rpx;
+  flex-shrink: 1;
+}
 
 .active-image-view {
   align-items: flex-start;
@@ -94,6 +101,11 @@
 .inputclass{
   border: 1px solid #DDDEDE;
   height: 40px;
+}
+.slogan-title {
+  color: white;
+  font-size: 40rpx;
+  font-weight: 500;
 }
 .placeholder-view {
   width: 100%;

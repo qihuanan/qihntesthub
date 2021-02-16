@@ -67,7 +67,7 @@ Page({
       if(app.globalData.curpointid != e.markerId){
         e.markerId = app.globalData.curpointid
         wx.showToast({
-          title: '顺序限制！请先完成当前签到点！',
+          title: '本线路需按顺序签到！请先完成当前签到点！',
           icon: 'none',
           duration: 4000
         })
@@ -331,7 +331,7 @@ Page({
           return;
         }
         wx.setNavigationBarTitle({
-          title: '探索任务'
+          title: '线索提示'
         })
         
         //this.getLineList(that)
@@ -341,7 +341,7 @@ Page({
           data: {
             code: 1,
             lineid: app.globalData.curlineid,
-            // 上个版本没有传递此参数，
+            // 上个版本没有传递此参数，注意
             pointid: app.globalData.curpointid2,
             userid: wx.getStorageSync("userid")
           }, success(res2) {

@@ -19,7 +19,7 @@ Page({
     tipList:[],
     point:{},
     initmarkers:{},
-    prepoint:'', // 上次的点击点
+    prepoint:'', // 上次的点击点,注意这个
     kouchujifen:1,
     tipid:0,
     juli: 1,
@@ -72,7 +72,7 @@ Page({
       if(app.globalData.curpointid != e.markerId){
         e.markerId = app.globalData.curpointid
         wx.showToast({
-          title: '顺序限制！请先完成当前签到点！',
+          title: '本线路需按顺序签到！请先完成当前签到点！',
           icon: 'none',
           duration: 4000
         })
@@ -202,7 +202,7 @@ Page({
     if (canunlock != '1'){
       console.log("detailon openIOS1 解锁顺序限制，不可解锁！")
       wx.showToast({
-        title: '解锁限制，请您按照顺序解锁！',
+        title: '本线路需按顺序签到！请先完成当前签到点！',
         icon: 'none',
         duration: 3000
       })
@@ -298,7 +298,7 @@ Page({
       title: '探索地图'
     })
     var that = this
-    //this.getLineList(that)
+    //this.getLineList(that) 
     wx.request({
       url: app.globalData.baseurl +'wx/linedetailon',
       header: { 'content-type': 'application/json' },
@@ -306,12 +306,13 @@ Page({
         code: 1,
         lineid: app.globalData.curlineid,
         // 上个版本没有传递此参数， 
-        pointid: app.globalData.curpointid3,
+        //pointid: app.globalData.curpointid3,
         userid: wx.getStorageSync("userid")
       }, success(res2) {
         console.log("detailon linedetailon  " + JSON.stringify(res2.data))
         //that.actvielist = res2.data.data
         app.globalData.curpointid = res2.data.point.id
+        
         that.setData({
           line: res2.data.line, //parseFloat
           pointlist: res2.data.pointlist,

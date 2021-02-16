@@ -2,14 +2,14 @@
 <view class="weui-tabbar">
   <view class="weui-tabbar__item {{cur == 1 ? 'weui-bar__item_on' : ''}}">
     <navigator url="/pages/list/list" open-type="reLaunch">
-      <image src="../images/home.svg" alt class="weui-tabbar__icon weui-tabbar-img"></image>
-      <view class="weui-tabbar__label">首页</view>
+      <image src="../images/list.svg" alt class="weui-tabbar__icon weui-tabbar-img"></image>
+      <view class="weui-tabbar__label">选线路</view>
     </navigator>
   </view>
   <view class="weui-tabbar__item {{cur == 5 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/home/home" open-type="reLaunch" >
+    <navigator url="/pages/home/home" >
       <image src="../images/my.svg" alt class="weui-tabbar__icon weui-tabbar-img"></image>
-      <view class="weui-tabbar__label">我</view>
+      <view class="weui-tabbar__label">我的</view>
     </navigator>
   </view>
 

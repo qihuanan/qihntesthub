@@ -33,7 +33,7 @@ Page({
           })
         }else{
           util.navigateTo({
-            url: "/pages/detailon/detail",
+            url: "/pages/detailmap/detail",
           });
         }
 

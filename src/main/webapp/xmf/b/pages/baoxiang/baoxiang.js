@@ -1,5 +1,5 @@
 const app = getApp()
-//宝箱页面功能
+//收集页面功能
 Page({
   data: {
     baseurl: app.globalData.baseurl,
@@ -44,7 +44,7 @@ Page({
   
   onShow: function (options){
     wx.setNavigationBarTitle({
-      title: '宝箱拼图'
+      title: '我的收集'
     })
   },
   onLoad: function (options) {

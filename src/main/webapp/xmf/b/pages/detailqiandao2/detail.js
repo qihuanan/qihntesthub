@@ -19,7 +19,7 @@ Page({
     juli: 1,
     fujiati: 0,
     inputValue:'',
-    ritems: [
+    ritems: [ // 注意
       { value: 'USA', name: '北京' },
       { value: 'FRA', name: '上海' },
     ],
@@ -352,6 +352,7 @@ Page({
         userid: wx.getStorageSync("userid")
       }, success(res2) {
         console.log("detail onLoad-res  " + JSON.stringify(res2.data))
+        
         that.setData({
           point: res2.data.point,
           juli: res2.data.line.qiandaojuli

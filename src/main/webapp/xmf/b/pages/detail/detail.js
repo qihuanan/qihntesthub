@@ -1,4 +1,4 @@
-const util = require('../../utils/util.js') // 线路详情页面，首页列表进去后的页面
+const util = require('../../utils/util.js') // 线路概况页面，首页列表进去后的页面
 const app = getApp()
 
 Page({
@@ -150,7 +150,7 @@ Page({
       }, success(res2) {
         console.log("dakaflagtap res  " + JSON.stringify(res2.data.data))
         util.navigateTo({
-          url: '/pages/detailon/detail?lineid=' + lineid
+          url: '/pages/detailmap/detail?lineid=' + lineid
         })
       }
     })
@@ -210,7 +210,7 @@ Page({
   },
   onShow: function (options){
     wx.setNavigationBarTitle({
-      title: '线路详情'
+      title: '线路概况'
     })
     var that = this
     wx.request({

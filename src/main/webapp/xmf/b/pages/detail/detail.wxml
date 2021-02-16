@@ -13,15 +13,15 @@
         
         <view class="active-title-bottom weui-flex">
           <view class="weui-flex__item">
-              <view class="" >总长</view>
+              <view class="" >需要行走</view>
               <view class="active-title-bottom-item">约{{line.changdu}}km</view>
           </view>
           <view class="weui-flex__item">
-              <view class="" bindtap="wxpay" data-paytype="2">打卡点</view>
+              <view class="" bindtap="wxpay" data-paytype="2">签到点数</view>
               <view class="active-title-bottom-item">{{line.dianshu}}</view>
           </view>
           <view class="weui-flex__item">
-              <view class="" bindtap="gopay" data-paytype="1">线路积分</view>
+              <view class="" bindtap="gopay" data-paytype="1">已获/总积分</view>
               <view class="active-title-bottom-item">{{line.yijifen }}/{{line.jifen}}</view>
           </view>
         </view>
@@ -31,7 +31,7 @@
               <navigator url="/pages/message/message" class="item-liuyanban">留言板</navigator>
           </view>
           <view  class="weui-flex__item " bindtap="dakaflagtap"> 
-              <navigator url="/pages/detailon/detail?lineid=1" class="item-liuyanban">开始打卡</navigator>
+              <navigator url="/pages/detailon/detail?lineid=1" class="item-liuyanban">开始签到</navigator>
           </view>
         </view>
         -->
@@ -94,6 +94,6 @@
     <view class='li' wx:for='{{list}}' wx:key=''>{{item}}</view>
 </view>
 <view class='placeholder-view'></view>
-<view class="pretabbar"></view>
-<import src ="/pages/template/tabbar.wxml"/>
-<template is="tabbar"/>
+<view class="pretabbar">　　　</view>
+<import src ="/pages/template/tabbarout.wxml"/>
+<template is="tabbarout" data="{{cur:1}}" />
