@@ -28,7 +28,7 @@
     </view>
   </view>
 <view class="weui-tabbar__item {{cur == 2 ? 'weui-bar__item_on' : ''}}">
-    <navigator url="/pages/detailon/detail"  open-type="reLaunch">
+    <navigator url="/pages/detailon/detail" >
       <image src="../images/icon-his.svg" alt class="weui-tabbar__icon weui-tabbar-img"></image>
       <view class="weui-tabbar__label">线索提示</view>
     </navigator>

@@ -27,7 +27,7 @@
 <view  class="weui-flex__item view-item " >
  <image mode="width-fix" class="gengduo-image" src="/pages/images/gengduo.jpg" ></image>
  <view class="item-text">
- <view class="slogan-title">探索世界吧， </view>
+ <view class="slogan-title">探索身边的世界吧， </view>
  <view class="slogan-title">小蜜探！ </view>
 
 </view>
@@ -35,7 +35,7 @@
 <view class="fadeIn" wx:if="{{iosDialog1}}">
     <view class="weui-mask"></view>
     <view class="weui-dialog">
-        <view class="weui-dialog__hd"><strong class="weui-dialog__title">请输入线路验证码</strong></view>
+        <view class="weui-dialog__hd"><strong class="weui-dialog__title">请输入验证码</strong></view>
         <view class="weui-dialog__bd">
         <input class="inputclass" bindinput="bindKeyInput"  placeholder="请输入" ></input>
         </view>

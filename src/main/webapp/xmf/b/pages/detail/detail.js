@@ -1,4 +1,4 @@
-const util = require('../../utils/util.js') // 线路概况页面，首页列表进去后的页面
+const util = require('../../utils/util.js') //概况页面，首页列表进去后的页面
 const app = getApp()
 
 Page({
@@ -109,13 +109,13 @@ Page({
 
                   }
                   wx.showToast({
-                    title: '下单支付ok',
+                    title: '支付成功',
                     icon: 'none'
                   })
                 },
                 "fail":function(res){
                   wx.showToast({
-                    title: '下单支付失败',
+                    title: '支付失败',
                     icon: 'none'
                   })
                 },
@@ -210,7 +210,7 @@ Page({
   },
   onShow: function (options){
     wx.setNavigationBarTitle({
-      title: '线路概况'
+      title: '叫上朋友一起探索吧-->'
     })
     var that = this
     wx.request({

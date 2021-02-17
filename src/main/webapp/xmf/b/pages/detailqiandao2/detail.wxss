@@ -51,8 +51,9 @@
 }
 .question-name {
   color: #fabf13;
-  font-size: 30rpx;
+  font-size: 35rpx;
   padding: 10px 0px;
+  font-weight: bold;
 }
 .question-desc{ 
   padding: 5px 0px;

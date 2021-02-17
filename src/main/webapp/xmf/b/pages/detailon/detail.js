@@ -67,7 +67,7 @@ Page({
       if(app.globalData.curpointid != e.markerId){
         e.markerId = app.globalData.curpointid
         wx.showToast({
-          title: '本线路需按顺序签到！请先完成当前签到点！',
+          title: '本线路需按顺序签到，请先完成当前签到点！',
           icon: 'none',
           duration: 4000
         })
@@ -145,7 +145,7 @@ Page({
         },
         fail(res) {
           wx.showToast({
-            title: '获取定位失败，请前往设置打开定位权限',
+            title: '位置信息获取失败，请前往设置开启位置服务！',
             icon: 'none',
             duration: 1000
           })
@@ -194,9 +194,9 @@ Page({
     console.log("detailon openIOS1 " + JSON.stringify(e))
     var canunlock = e.currentTarget.dataset.canunlock
     if (canunlock != '1'){
-      console.log("detailon openIOS1 解锁顺序限制，不可解锁！")
+      console.log("detailon openIOS1  请按顺序先解锁上面的提示！")
       wx.showToast({
-        title: '解锁限制，请您按照顺序解锁！',
+        title: ' 请按顺序先解锁上面的提示！',
         icon: 'none',
         duration: 3000
       })
@@ -266,7 +266,7 @@ Page({
       fail: () => {
         //不允许打开定位
         wx.showToast({
-          title: '获取定位失败，请前往设置打开定位权限',
+          title: '位置信息获取失败，请前往设置开启位置服务！',
           icon: 'none',
           duration: 3000
         })
@@ -276,7 +276,7 @@ Page({
             if (!res.authSetting['scope.userLocation']) {
               //打开提示框，提示前往设置页面
               wx.showToast({
-                title: '获取定位失败，请前往设置打开定位权限',
+                title: '位置信息获取失败，请前往设置开启位置服务！',
                 icon: 'none',
                 duration: 1000
               })
@@ -350,7 +350,7 @@ Page({
             if(res2.data.point.id){
               app.globalData.curpointid = res2.data.point.id 
             }
-            // 扫码用过后清空
+            //扫码用过后清空(lichunbo 取消下面这行代码)
             //app.globalData.curpointid2 = 0
             that.setData({
               line: res2.data.line, //parseFloat

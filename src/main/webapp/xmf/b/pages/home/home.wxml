@@ -10,7 +10,7 @@
             <text class="jifen">积分：{{score}}</text>
           </view>
           <view class="yxq">
-            <text >会员有效期至：{{user.endtime == 'null' ? '非会员' : user.endtime }}</text>
+            <text >会员期限：{{user.endtime == 'null' ? '非会员' : user.endtime }}</text>
           </view>
         
         </view>
@@ -25,12 +25,12 @@
   <view class="weui-flex__item {{showpanel == 1 ? 'iconunderline' : '' }}" data-panel="1"  bindtap="showmyactive">
 
     <image class="img-tips" src="/pages/images/box.svg" ></image>
-    <view class="dakatext">我的收集</view>
+    <view class="dakatext">我的收集盒</view>
   </view>
   <view class="weui-flex__item {{showpanel == 2 ? 'iconunderline' : '' }}" bindtap="showmyactive" data-panel="2"  >
     
     <image class="img-tips" src="/pages/images/icon-fav.svg" ></image>
-    <view class="dakatext">收藏线路</view>
+    <view class="dakatext">想去的地方</view>
   </view>
 </view>
 

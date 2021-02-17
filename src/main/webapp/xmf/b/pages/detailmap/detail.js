@@ -34,7 +34,7 @@ Page({
       id: 0,  title:'程序标记点',
       latitude: 38.992805, longitude: 120.047607,
       width: 30, height: 30,
-      iconPath: "/pages/images/location.png",
+      iconPath: "/pages/images/dituerr.png",
     }],
     polyline: [],
     controls: [{
@@ -72,7 +72,7 @@ Page({
       if(app.globalData.curpointid != e.markerId){
         e.markerId = app.globalData.curpointid
         wx.showToast({
-          title: '本线路需按顺序签到！请先完成当前签到点！',
+          title: '本线路需按顺序签到，请先完成当前签到点！',
           icon: 'none',
           duration: 4000
         })
@@ -151,7 +151,7 @@ Page({
         },
         fail(res) {
           wx.showToast({
-            title: '获取定位失败，请前往设置打开定位权限',
+            title: '位置信息获取失败，请前往设置开启位置服务！',
             icon: 'none',
             duration: 1000
           })
@@ -200,9 +200,9 @@ Page({
     console.log("detailon openIOS1 " + JSON.stringify(e))
     var canunlock = e.currentTarget.dataset.canunlock
     if (canunlock != '1'){
-      console.log("detailon openIOS1 解锁顺序限制，不可解锁！")
+      console.log("detailon openIOS1 请按顺序先解锁上面的提示！")
       wx.showToast({
-        title: '本线路需按顺序签到！请先完成当前签到点！',
+        title: '本线路需按顺序签到，请先完成当前签到点！',
         icon: 'none',
         duration: 3000
       })
@@ -272,7 +272,7 @@ Page({
       fail: () => {
         //不允许打开定位
         wx.showToast({
-          title: '获取定位失败，请前往设置打开定位权限',
+          title: '位置信息获取失败，请前往设置开启位置服务！',
           icon: 'none',
           duration: 3000
         })
@@ -282,7 +282,7 @@ Page({
             if (!res.authSetting['scope.userLocation']) {
               //打开提示框，提示前往设置页面
               wx.showToast({
-                title: '获取定位失败，请前往设置打开定位权限',
+                title: '位置信息获取失败，请前往设置开启位置服务！',
                 icon: 'none',
                 duration: 1000
               })
@@ -297,6 +297,22 @@ Page({
     wx.setNavigationBarTitle({
       title: '探索地图'
     })
+ 
+  },
+  onLoad: function (options) {
+    console.log("detailon onLoad " + JSON.stringify(options))
+    var curlineid = app.globalData.curlineid
+    console.log("detailon onLoad-curlineid " + curlineid)
+    if (options && options.lineid){
+      console.log("detailon onLoad" + options.lineid)
+      app.globalData.curlineid = options.lineid
+      curlineid = app.globalData.curlineid
+      console.log("detailon onLoad-curlineid2 " + curlineid)
+    }else{
+      //app.globalData.curlineid = 7
+    }
+    //lichunbo,下面这段内容从onshow挪到这里，这样如果是从提示页返回，就不会重置选择的签到点
+    //但有些地方我不知道是什么意思，不知道会不会有影响，你看一下
     var that = this
     //this.getLineList(that) 
     wx.request({
@@ -306,12 +322,14 @@ Page({
         code: 1,
         lineid: app.globalData.curlineid,
         // 上个版本没有传递此参数， 
-        pointid: app.globalData.curpointid3,
+        //pointid: app.globalData.curpointid3,
         userid: wx.getStorageSync("userid")
       }, success(res2) {
         console.log("detailon linedetailon  " + JSON.stringify(res2.data))
         //that.actvielist = res2.data.data
         app.globalData.curpointid = res2.data.point.id
+        //lichunbo added
+        app.globalData.curpointid2 = res2.data.point.id
         
         that.setData({
           line: res2.data.line, //parseFloat
@@ -328,21 +346,7 @@ Page({
           hasUserInfo: true
         })
       }
-    })
-  },
-  onLoad: function (options) {
-    console.log("detailon onLoad " + JSON.stringify(options))
-    var curlineid = app.globalData.curlineid
-    console.log("detailon onLoad-curlineid " + curlineid)
-    if (options && options.lineid){
-      console.log("detailon onLoad" + options.lineid)
-      app.globalData.curlineid = options.lineid
-      curlineid = app.globalData.curlineid
-      console.log("detailon onLoad-curlineid2 " + curlineid)
-    }else{
-      //app.globalData.curlineid = 7
-    }
-    
+    }) 
     
   },
 

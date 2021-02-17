@@ -80,12 +80,12 @@ Page({
             console.log("qiandaoupfile-qiandao-res  " + JSON.stringify(res2.data))
             if (res2.data.data != 'ok') {
               wx.showToast({ 
-                title: '您已签到过此任务点啦，请到下个任务点吧！',
+                title: '您已经在这里签到过，请前往下一个签到点吧！',
                 icon: 'none',
                 duration: 3000
               })
               util.navigateTo({
-                url: '/pages/examfail/examfail?failmsg=您已签到过此任务点啦，请到下个任务点吧！'
+                url: '/pages/examfail/examfail?failmsg=您已经在这里签到过，请前往下一个签到点吧！'
               })
             }
             if (res2.data.data == 'ok') {
@@ -135,12 +135,12 @@ Page({
         console.log("qiandaosubmit-qiandao-res  " + JSON.stringify(res2.data))
         if (res2.data.data == 'has') {
           wx.showToast({
-            title: '您已经在此签到过，请前往下一个签到点吧！',
+            title: '您已经在这里签到过，请前往下一个签到点吧！',
             icon: 'none',
             duration: 3000
           })
           util.navigateTo({
-            url: '/pages/examfail/examfail?failmsg=您已经在此签到过，请前往下一个签到点吧！&count=10'
+            url: '/pages/examfail/examfail?failmsg=您已经在这里签到过，请前往下一个签到点吧！&count=10'
           })
         }
         if (res2.data.data == 'err') {
@@ -151,7 +151,7 @@ Page({
         if (res2.data.data == 'errnochance') {
           
           util.navigateTo({
-            url: '/pages/examfail/examfail?failmsg=机会用光了，请到下一个签到点吧！&count=10' 
+            url: '/pages/examfail/examfail?failmsg=多次答题错误，机会用光了，请到下一个签到点吧！&count=10' 
           })
         }
         if (res2.data.data == 'ok') {
@@ -217,7 +217,7 @@ Page({
       fail: () => {
         //不允许打开定位
         wx.showToast({
-          title: '获取定位失败，请前往设置打开定位权限',
+          title: '位置信息获取失败，请前往设置开启位置服务！',
           icon: 'none',
           duration: 3000
         })
@@ -226,7 +226,7 @@ Page({
             if (!res.authSetting['scope.userLocation']) {
               //打开提示框，提示前往设置页面
               wx.showToast({
-                title: '获取定位失败，请前往设置打开定位权限',
+                title: '位置信息获取失败，请前往设置开启位置服务！',
                 icon: 'none',
                 duration: 1000
               })
@@ -248,7 +248,7 @@ Page({
       success: (res) => {
         app.globalData.curupimgsrc = res.tempImagePath
         wx.showToast({
-          title: '正在验证地址信息！请确保打开GPS定位！',
+          title: '正在验证地址信息！请保持手机位置服务处于开启状态！',
           icon: 'none',
           duration: 2000
         })
@@ -269,7 +269,7 @@ Page({
         app.globalData.curupimgsrc = res.tempFilePaths[0]
         console.log("chooseImage-res " + res.tempFilePaths)
         wx.showToast({
-          title: '正在验证地址信息！请确保打开GPS定位！',
+          title: '正在验证地址信息！请保持手机位置服务处于开启状态！',
           icon: 'none',
           duration: 2000
         })
@@ -352,8 +352,7 @@ Page({
         userid: wx.getStorageSync("userid")
       }, success(res2) {
         console.log("detail onLoad-res  " + JSON.stringify(res2.data))
-        // 扫码用过后清空
-        app.globalData.curpointid2 = 0
+        
         that.setData({
           point: res2.data.point,
           juli: res2.data.line.qiandaojuli

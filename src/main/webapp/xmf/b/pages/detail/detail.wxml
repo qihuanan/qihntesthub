@@ -17,11 +17,11 @@
               <view class="active-title-bottom-item">约{{line.changdu}}km</view>
           </view>
           <view class="weui-flex__item">
-              <view class="" bindtap="wxpay" data-paytype="2">签到点数</view>
+              <view class="" >签到点数</view>
               <view class="active-title-bottom-item">{{line.dianshu}}</view>
           </view>
           <view class="weui-flex__item">
-              <view class="" bindtap="gopay" data-paytype="1">已获/总积分</view>
+              <view class="">已获/总积分</view>
               <view class="active-title-bottom-item">{{line.yijifen }}/{{line.jifen}}</view>
           </view>
         </view>

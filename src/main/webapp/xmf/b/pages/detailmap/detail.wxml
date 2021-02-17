@@ -6,7 +6,7 @@
           {{point.name}}
         </view>
 
-           <view class="body-map-tips">点击图标可选择签到点，点击“线索提示”查看详细信息</view>
+           <view class="body-map-tips">点击图标选择签到点，点击“线索提示”查看详细信息</view>
       </view>
      </view>
      </view>

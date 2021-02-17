@@ -12,7 +12,7 @@
     <button wx:if="{{ fujiati != '1' && count == 10}}" class="userinfobtn" bindtap="gonext"> 下个任务 </button>
     <button wx:if="{{count == '2' && fujiati == '1'}}" class="userinfobtn" bindtap="gonext3"> 再试一次 </button>
     <!-- 加分任务时候显示  -->
-    <button wx:if="{{count == '2' && fujiati == '1'}}" class="userinfobtn" bindtap="gonext2"> 跳过加分任务 </button>
+    <button wx:if="{{count == '2' && fujiati == '1'}}" class="userinfobtn" bindtap="gonext2"> 跳过挖宝任务 </button>
   </view>
   
 </view>
