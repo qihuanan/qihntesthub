@@ -953,8 +953,19 @@ public class WxController extends BaseController {
                         Point finishpoint =this.pointService.findById(Point.class,pulist.get(0).getPointid()); // 当前最后时间打卡点，
 
                         log.info("当前最后打卡点： "+JSONUtils.toJSON(finishpoint));
-                       point = this.logic(finishpoint,pointlist,pulist);
-                       break;
+
+                        // 如果打卡过 但是 任务失败还有机会，那还停留在这个点，用户继续在这个点答题
+                        if(!pulist.get(0).getFinish().equals("1")){
+                            point = finishpoint;
+                            exist = false;
+                            notfinish = true;
+                            break;
+                        }else {
+                            point = this.logic(finishpoint,pointlist,pulist);
+                            break;
+                        }
+
+
                         /*if(finishpoint!=null && finishpoint.getShunxu()!=null){
                             int tarshunxu = finishpoint.getShunxu()+1;
                             if(point.getShunxu().intValue() == tarshunxu){
