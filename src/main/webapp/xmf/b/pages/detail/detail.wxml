@@ -14,7 +14,7 @@
         
         <view class="active-title-bottom weui-flex">
           <view class="weui-flex__item">
-              <view class="" bindtap="gopay" >需要行走</view>
+              <view class="" >需要行走</view>
               <view class="active-title-bottom-item">约{{line.changdu}}公里</view>
           </view>
           <view class="weui-flex__item">
