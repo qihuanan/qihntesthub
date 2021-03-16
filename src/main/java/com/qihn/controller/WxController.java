@@ -815,8 +815,16 @@ public class WxController extends BaseController {
         pu.setLineid(line.getId());
         pu.setUserid(user.getId());
         List<PointUserinfo> pulist = pointUserinfoService.findByProperties(pu,null,200,"id","desc");
+
+
+
         if(Utils.isNotNullOrEmpty(pulist)){
-            line.setYidaka(pulist.size()+"");
+            Map<String,String> temp = new HashMap();
+            for(int i=0;i<pulist.size();i++){
+                temp.put(pulist.get(i).getPointid()+"",pulist.get(i).getPointid()+"");
+            }
+
+            line.setYidaka(temp.size()+"");
         }else {
             line.setYidaka("0");
         }
@@ -1163,6 +1171,12 @@ public class WxController extends BaseController {
         List<PointUserinfo> pulist = pointUserinfoService.findByProperties(pu,null,200,null,null);
         if(Utils.isNotNullOrEmpty(pulist)){
             line.setYidaka(pulist.size()+"");
+            Map<String,String> temp = new HashMap();
+            for(int i=0;i<pulist.size();i++){
+                temp.put(pulist.get(i).getPointid()+"",pulist.get(i).getPointid()+"");
+            }
+
+            line.setYidaka(temp.size()+"");
         }else {
             line.setYidaka("0");
         }
