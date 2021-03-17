@@ -88,8 +88,8 @@ public class WxpayController  extends BaseController {
 
             //拼接统一下单接口使用的xml数据，要将上一步生成的签名一起拼接进去
             String xml = "<xml>" + "<appid>" + WxPayConfig.appid + "</appid>"
-                    + "<body><![CDATA[" + body + "]]></body>"
-                    //+ "<body>"+ body2 +"</body>"
+                    //+ "<body><![CDATA[" + body + "]]></body>"
+                    + "<body>"+ body +"</body>"
                     + "<mch_id>" + WxPayConfig.mch_id + "</mch_id>"
                     + "<nonce_str>" + nonce_str + "</nonce_str>"
                     + "<notify_url>" + WxPayConfig.notify_url + "</notify_url>"
@@ -104,8 +104,8 @@ public class WxpayController  extends BaseController {
             System.out.println("调试模式_统一下单接口 请求XML数据：" + xml);
 
             //调用统一下单接口，并接受返回的结果
-            String result = null; //HttpUtil.sendPost(WxPayConfig.pay_url, xml);
-            result = HttpClientUtils.postDataToUri(WxPayConfig.pay_url, xml,"UTF-8");
+            String result = HttpUtil.sendPost(WxPayConfig.pay_url, xml);
+            //result = HttpClientUtils.postDataToUri(WxPayConfig.pay_url, xml,"UTF-8");
 
             System.out.println("调试模式_统一下单接口 返回XML数据：" + result);
 

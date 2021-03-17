@@ -117,7 +117,7 @@ public class PayUtil {
                 }
             }
             sb.append("key=" + key);
-            String sign = Md5Util.MD5Encode(sb.toString(), "UTF-8").toUpperCase();
+            String sign = Md5Util.MD5Encode2(sb.toString(), "UTF-8").toUpperCase();
             return sign;
         }
 
@@ -125,7 +125,7 @@ public class PayUtil {
         StringBuffer sb = new StringBuffer(parameters);
 
         sb.append("&key=" + key);
-        String sign = Md5Util.MD5Encode(sb.toString(), "UTF-8").toUpperCase();
+        String sign = Md5Util.MD5Encode2(sb.toString(), "UTF-8").toUpperCase();
         return sign;
     }
 

@@ -147,7 +147,8 @@ public class HttpUtil {
             conn.setDoOutput(true);
             conn.setDoInput(true);
             // 获取URLConnection对象对应的输出流
-            out = new PrintWriter(conn.getOutputStream());
+            //out = new PrintWriter(conn.getOutputStream());
+            out = new PrintWriter(new OutputStreamWriter(conn.getOutputStream(),"UTF-8")); //这样写就行了
             // 发送请求参数
             out.print(param);
             // flush输出流的缓冲
