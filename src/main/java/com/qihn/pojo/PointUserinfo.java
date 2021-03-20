@@ -237,6 +237,9 @@ public class PointUserinfo implements Serializable {
     }
 
     public Integer getAddScore() {
+        if(addScore == null){
+            return 0;
+        }
         return addScore;
     }
 

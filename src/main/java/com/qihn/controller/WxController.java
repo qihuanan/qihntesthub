@@ -61,6 +61,100 @@ public class WxController extends BaseController {
     }
     //=========================前端=========================
 
+    @RequestMapping(value = "/wx/scoreTop", method = RequestMethod.GET)
+    public void scoreTop(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Map map = new HashMap();
+        Line line = this.lineService.findById(Line.class,Long.parseLong(getParam("lineid")));
+        PointUserinfo pointUserinfo = new PointUserinfo();
+        pointUserinfo.setLineid(line.getId());
+        pointUserinfo.setTime(Utils.getDate3(0,0,-20).getTime());
+        // 当天
+        List<PointUserinfo> pointUserinfoList = this.pointUserinfoService.findByProperties(pointUserinfo,null,5000,null,null);
+        SortedMap<Long,Integer> usermap = new TreeMap<Long,Integer>();
+        if(Utils.isNotNullOrEmpty(pointUserinfoList)) {
+            PointUserinfo pu = null;
+            for(int i=0;i<pointUserinfoList.size();i++){
+                pu = pointUserinfoList.get(i);
+                Integer temps = usermap.get(pu.getUserid());
+                if(temps==null){
+                    temps = 0;
+                }
+                usermap.put(pu.getUserid(),pu.getAddScore()+temps);
+            }
+        }
+        List<Map.Entry<Long,Integer>> list0 = this.scorelogic(usermap);
+        List<User> user0list = new ArrayList<>();
+        if(Utils.isNotNullOrEmpty(list0)){
+            for(Map.Entry<Long,Integer> temp :list0){
+               User user = this.userService.findById(User.class,temp.getKey());
+               user.setLinkmobile(temp.getValue()+"");
+               user0list.add(user);
+            }
+        }
+
+        // 7天
+        pointUserinfo.setTime(Utils.getDate3(0,0,-30).getTime());
+        pointUserinfoList = this.pointUserinfoService.findByProperties(pointUserinfo,null,5000,null,null);
+        usermap = new TreeMap<Long,Integer>();
+        if(Utils.isNotNullOrEmpty(pointUserinfoList)) {
+            PointUserinfo pu = null;
+            for(int i=0;i<pointUserinfoList.size();i++){
+                pu = pointUserinfoList.get(i);
+                Integer temps = usermap.get(pu.getUserid());
+                if(temps==null){
+                    temps = 0;
+                }
+                usermap.put(pu.getUserid(),pu.getAddScore()+temps);
+            }
+        }
+        List<Map.Entry<Long,Integer>> list7 = this.scorelogic(usermap);
+        List<User> user7list = new ArrayList<>();
+        if(Utils.isNotNullOrEmpty(list7)){
+            for(Map.Entry<Long,Integer> temp :list7){
+                User user = this.userService.findById(User.class,temp.getKey());
+                user.setLinkmobile(temp.getValue()+"");
+                user7list.add(user);
+            }
+        }
+
+        map.put("user0list",user0list);
+        map.put("user7list",user7list);
+
+
+        this.printjson(JSONUtils.toJSON(map));
+    }
+
+    private List<Map.Entry<Long,Integer>> scorelogic(SortedMap<Long,Integer> usermap){
+        if(usermap.isEmpty()){
+            return null;
+        }
+        //Map.Entry<Long,Integer> res = null;
+        for(Map.Entry<Long,Integer> temp : usermap.entrySet()){
+            System.out.println("修改前 ：sortedMap:"+temp.getKey()+" 值"+temp.getValue());
+        }
+        System.out.println("\n");
+
+
+        //这里将map.entrySet()转换成list
+        List<Map.Entry<Long,Integer>> list =
+                new ArrayList<Map.Entry<Long,Integer>>(usermap.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<Long,Integer>>(){
+            @Override
+            public int compare(Map.Entry<Long,Integer> o1, Map.Entry<Long,Integer> o2) {
+                // TODO Auto-generated method stub
+                //return o1.getValue().compareTo(o2.getValue());
+                return o2.getValue().compareTo(o1.getValue()); // 降序
+            }
+
+        });
+
+        for(Map.Entry<Long,Integer> temp :list){
+            System.out.println("修改后 ：sortedMap:"+temp.getKey()+" 值"+temp.getValue());
+        }
+        return list;
+    }
+
     @RequestMapping(value = "/wx/getCanPlayline", method = RequestMethod.GET)
     public void getCanPlayline(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map map = new HashMap();

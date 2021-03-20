@@ -50,6 +50,10 @@ public class PointUserinfoDAOImpl extends BaseDaoImpl<PointUserinfo> implements 
                     hql.append(" and c.finish =:getFinish");
                     params.put("getFinish", entity.getFinish());
                 }
+                if(Utils.isNotNullOrEmpty(entity.getTime())){
+                    hql.append(" and c.time >=:getTime");
+                    params.put("getTime", entity.getTime());
+                }
 
             }
         }
