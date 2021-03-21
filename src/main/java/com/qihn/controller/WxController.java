@@ -61,13 +61,28 @@ public class WxController extends BaseController {
     }
     //=========================前端=========================
 
+
+    @RequestMapping(value = "/wx/pointLiving", method = RequestMethod.GET)
+    public void pointLiving(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Map map = new HashMap();
+        Line line = this.lineService.findById(Line.class,Long.parseLong(getParam("lineid")));
+        PointUserinfo pointUserinfo = new PointUserinfo();
+        pointUserinfo.setLineid(line.getId());
+        List<PointUserinfo> pointUserinfoList = this.pointUserinfoService.findByProperties(pointUserinfo,null,10,"id","desc");
+        for(int i=0;i<pointUserinfoList.size();i++){
+
+        }
+
+        this.printjson(JSONUtils.toJSON(pointUserinfoList));
+    }
+
     @RequestMapping(value = "/wx/scoreTop", method = RequestMethod.GET)
     public void scoreTop(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map map = new HashMap();
         Line line = this.lineService.findById(Line.class,Long.parseLong(getParam("lineid")));
         PointUserinfo pointUserinfo = new PointUserinfo();
         pointUserinfo.setLineid(line.getId());
-        pointUserinfo.setTime(Utils.getDate3(0,0,-20).getTime());
+        //pointUserinfo.setTime(Utils.getDate3(0,0,-20).getTime());
         // 当天
         List<PointUserinfo> pointUserinfoList = this.pointUserinfoService.findByProperties(pointUserinfo,null,5000,null,null);
         SortedMap<Long,Integer> usermap = new TreeMap<Long,Integer>();
@@ -82,6 +97,27 @@ public class WxController extends BaseController {
                 usermap.put(pu.getUserid(),pu.getAddScore()+temps);
             }
         }
+
+        // 扣减签到点提示的积分
+        TipUser tu = new TipUser();
+        tu.setLineid(line.getId());
+        List<TipUser> tulist = this.tipUserService.findByProperties(tu,null,null,null,null);
+        SortedMap<Long,Integer> tumap = new TreeMap<Long,Integer>();
+        if(Utils.isNotNullOrEmpty(tulist)){
+            for(int i=0;i<tulist.size();i++){
+                tumap.put(tulist.get(i).getUserid(),tulist.get(i).getReduceScore());
+                for(Long userid: usermap.keySet()){
+                    if(tulist.get(i).getUserid().longValue() == userid){
+                        usermap.put(userid,usermap.get(userid)- tulist.get(i).getReduceScore() );
+
+                    }
+                }
+            }
+        }
+
+        // 当前线路所有积分  user0list 所有时间的 作为 7天的
+        // user1list 过滤时间 当天
+        List<User> user1list = new ArrayList<>();
         List<Map.Entry<Long,Integer>> list0 = this.scorelogic(usermap);
         List<User> user0list = new ArrayList<>();
         if(Utils.isNotNullOrEmpty(list0)){
@@ -89,11 +125,24 @@ public class WxController extends BaseController {
                User user = this.userService.findById(User.class,temp.getKey());
                user.setLinkmobile(temp.getValue()+"");
                user0list.add(user);
+
+               // 当天
+                for(int i=0;i<pointUserinfoList.size();i++){
+                    PointUserinfo pu = pointUserinfoList.get(i);
+                    if(pu.getTime()>=Utils.getDate3(0,0,0).getTime()){
+                        user1list.add(user);
+                    }
+                }
+
             }
         }
 
+
+
+
+
         // 7天
-        pointUserinfo.setTime(Utils.getDate3(0,0,-30).getTime());
+        /*pointUserinfo.setTime(Utils.getDate3(0,0,-30).getTime());
         pointUserinfoList = this.pointUserinfoService.findByProperties(pointUserinfo,null,5000,null,null);
         usermap = new TreeMap<Long,Integer>();
         if(Utils.isNotNullOrEmpty(pointUserinfoList)) {
@@ -116,9 +165,16 @@ public class WxController extends BaseController {
                 user7list.add(user);
             }
         }
-
+*/
+        if(Utils.isNullorEmpty(user1list)){
+            User u = new User();
+            u.setName("当天暂无数据");
+            u.setLinkmobile("");
+           user1list.add(u);
+        }
+        map.put("user1list",user1list);
         map.put("user0list",user0list);
-        map.put("user7list",user7list);
+        //map.put("user7list",user7list);
 
 
         this.printjson(JSONUtils.toJSON(map));
