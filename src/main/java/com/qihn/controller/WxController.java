@@ -60,7 +60,17 @@ public class WxController extends BaseController {
 
     }
     //=========================前端=========================
+//1616256000000
+//1616324793857
+    public static void main(String args[]){
+        try {
+            long time0 = new SimpleDateFormat("yyyy-MM-dd").parse(Utils.formatShortDate()).getTime();
+            System.out.println( time0);
+        }catch (Exception e){
 
+        }
+
+    }
 
     @RequestMapping(value = "/wx/pointLiving", method = RequestMethod.GET)
     public void pointLiving(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -120,24 +130,37 @@ public class WxController extends BaseController {
         List<User> user1list = new ArrayList<>();
         List<Map.Entry<Long,Integer>> list0 = this.scorelogic(usermap);
         List<User> user0list = new ArrayList<>();
+
+        // 当天 0 点
+        long time0 = new Date().getTime();
+        try {
+            time0 = new SimpleDateFormat("yyyy-MM-dd").parse(Utils.formatShortDate()).getTime();
+            System.out.println( time0);
+        }catch (Exception e){
+        }
+
         if(Utils.isNotNullOrEmpty(list0)){
             for(Map.Entry<Long,Integer> temp :list0){
                User user = this.userService.findById(User.class,temp.getKey());
                user.setLinkmobile(temp.getValue()+"");
                user0list.add(user);
-
-               // 当天
-                for(int i=0;i<pointUserinfoList.size();i++){
-                    PointUserinfo pu = pointUserinfoList.get(i);
-                    if(pu.getTime()>=Utils.getDate3(0,0,0).getTime()){
-                        user1list.add(user);
-                    }
-                }
-
             }
         }
 
-
+        // 当天过滤
+        Map<Long,Long> umap0 = new HashMap<>();
+        for(int i=0;i<pointUserinfoList.size();i++){
+            PointUserinfo pu = pointUserinfoList.get(i);
+            //log.info("time: "+pu.getTime() +" - "+ Utils.getDate3(0,0,0).getTime());
+            if(pu.getTime().longValue()>=time0){
+                umap0.put(pu.getUserid(),pu.getUserid());
+            }
+        }
+        for(int i=0;i<user0list.size();i++){
+            if(umap0.get(user0list.get(i).getId().longValue())!=null){
+                user1list.add(user0list.get(i));
+            }
+        }
 
 
 
