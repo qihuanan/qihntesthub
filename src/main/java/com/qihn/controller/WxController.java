@@ -70,7 +70,7 @@ public class WxController extends BaseController {
         pointUserinfo.setLineid(line.getId());
         List<PointUserinfo> pointUserinfoList = this.pointUserinfoService.findByProperties(pointUserinfo,null,10,"id","desc");
         for(int i=0;i<pointUserinfoList.size();i++){
-
+            pointUserinfoList.get(i).setTimestr(Utils.formatLongDate(new Date(pointUserinfoList.get(i).getTime()) ));
         }
 
         this.printjson(JSONUtils.toJSON(pointUserinfoList));

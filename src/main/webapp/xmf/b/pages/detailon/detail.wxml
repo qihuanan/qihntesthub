@@ -46,6 +46,16 @@
         </view>
         <button bindtap='gomap' class="body-bigmap" style="width:35vw">查看大图</button>
       <view class="active-body">
+        <!--实时签到信息0321-->
+        <view>
+          <block wx:for="{{pointUserinfoList }}" wx:for-index="index" wx:for-item="item" wx:key="t1"> 
+          <view class="active-title-bottom weui-flex">
+            <view class="weui-flex__item">
+              <text> {{item.username}} 在 {{item.timestr}} 签到了 {{item.pointname}}  </text>
+            </view>
+          </view>
+          </block>
+        </view>
 
         <block wx:for="{{tipList }}" wx:for-index="index" wx:key="t1">  
           <view wx:if="{{item.lockflag == 0}}" class="weui-flex__item body-item-tips">

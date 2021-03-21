@@ -20,6 +20,7 @@ Page({
     point:{},
     initmarkers:{},
     prepoint:'', // 上次的点击点
+    pointUserinfoList:'',
     kouchujifen:1,
     tipid:0,
     juli: 1,
@@ -355,6 +356,26 @@ Page({
       }
     })
   },
+
+  // 实时签到信息
+  pointLiving: function(e){
+    console.log('pointLiving-lineid: ' + app.globalData.curlineid)
+    var that = this
+    wx.request({
+      url: app.globalData.baseurl +'wx/pointLiving',
+      header: { 'content-type': 'application/json' },
+      data: {
+        lineid: app.globalData.curlineid
+      }, success(res2) {
+        console.log("pointLiving res  " + JSON.stringify(res2.data))
+        that.setData({
+          pointUserinfoList: res2.data
+        })
+      }
+    })
+
+  },
+
   onShow: function (options){
     this.islogin()
     var that = this
@@ -412,7 +433,9 @@ Page({
               scalecur: res2.data.line.ditudaxiao,
               juli: res2.data.line.qiandaojuli,
               hasUserInfo: true
+              
             })
+            that.pointLiving()
             if(res2.data.line.yidaka*2 == res2.data.line.dianshu || (res2.data.line.yidaka*2-1)==res2.data.line.dianshu){
               wx.showModal({
                 title: '探索小能手！',
