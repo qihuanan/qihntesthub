@@ -1,12 +1,13 @@
 {
   "pages": [
-   
+
     "pages/list/list", 
     "pages/wxpay/wxpay",
     "pages/meiridaka/meiridaka", 
     "pages/meiridaka/meiridakares", 
     "pages/meiridakares/meiridakares", 
-    "pages/share/share",
+    "pages/meiridakarank/detail",    
+     "pages/share/share",
     "pages/detailon/detail",
     "pages/baoxiang/baoxiang",
     "pages/login/login",

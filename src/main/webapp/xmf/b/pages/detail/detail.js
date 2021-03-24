@@ -14,6 +14,7 @@ Page({
     user1list: '', // 当天积分排行
     user0list: '', // 7 天吗，总榜
     line:'',
+    showpanel: 1,
   },
   //事件处理函数
   islogin: function () {
@@ -139,6 +140,13 @@ Page({
 
   },
 
+  showmyactive: function (e){
+    console.log(e.currentTarget.dataset.panel)
+    this.setData({ 
+      showpanel: e.currentTarget.dataset.panel
+    })
+  },
+  
   dakaflagtap: function(e){
     this.islogin()
     var userid = wx.getStorageSync("userid")

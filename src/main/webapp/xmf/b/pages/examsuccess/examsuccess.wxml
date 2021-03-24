@@ -9,10 +9,10 @@
       <view class="item-gongxi">恭喜您</view>
 -->
     <view class="item-huode">
-      <text>
-     {{util.format(success)}}
-     </text>
-     </view>
+      <rich-text nodes="{{success}}">
+      </rich-text>
+      <!--修改为富文本模式-->
+      </view>
     <view class="item-huode"></view> 
 
     <view wx:if="{{jifen != '' }}" class="item-gongxi">+{{jifen}}积分</view>

@@ -9,20 +9,43 @@ Page({
     finish:'0',
     count:'1',
     examname:'',
-    jifen:''
+    jifen:'',
+    line: {},
   },
   //事件处理函数
   
-  goshare: function (e) { 
+  gorank: function (e) { 
     util.navigateTo({
-      url: "/pages/share/share",
+      url: "/pages/meiridakarank/detail",
     });
   },
+  mrdatap: function(e){
+    util.navigateTo({
+      url: '/pages/meiridaka/meiridaka?'
+    })
 
+  },
 
   onShow:function(){
     wx.setNavigationBarTitle({
       title: '每日打卡'
+    })
+    var that = this
+    wx.request({
+      url: app.globalData.baseurl +'wx/linedetailon',
+      header: { 'content-type': 'application/json' },
+      data: {
+        code: 1,
+        lineid: 2,
+        // 上个版本没有传递此参数，注意
+        userid: wx.getStorageSync("userid")
+      }, success(res) {
+        console.log("detailon linedetailon  " + JSON.stringify(res.data))
+        that.setData({
+          line: res.data.line, //parseFloat
+          hasUserInfo: true
+         })
+      }
     })
   },
   onLoad: function (options) {

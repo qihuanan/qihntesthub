@@ -13,9 +13,9 @@
 <view class="weui-flex">
   <view  class="weui-flex__item question" > 
     <view  class="question-desc">
-       <text>
-       {{util.format(exam.description)}}
-        </text>
+      <rich-text nodes="{{exam.description}}">
+      </rich-text>
+      <!--修改为富文本模式-->
     </view>
     <view class="question-img">
       <image mode="widthFix" wx:if="{{exam.picture1 != '' }}" src="{{baseurl}}download?filename={{exam.picture1}}" ></image>

@@ -109,16 +109,13 @@
   width: 459px;
 }
 .btn1{
-  margin-top: 50rpx;
   background-color:#fabf13;
   color: white;
-  border-radius: 18rpx; 
+  border-radius: 8rpx; 
   height: 100rpx;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
   font-size: 35rpx;
+  position: fixed;
+  bottom: 0;
 }
 
 .kefu-btn {

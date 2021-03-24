@@ -7,7 +7,10 @@
     </view>
     <view class="item-gongxi">加油哦！</view>
   
-    <view class="item-huode"><text>{{util.format(failmsg)}}</text></view>
+     <view class="item-huode">
+      <rich-text nodes="{{failmsg}}">
+      </rich-text>
+      <!--修改为富文本模式-->  </view>
     
     <button wx:if="{{ fujiati != '1' && count != 10}}" class="userinfobtn" bindtap="gonext4"> 再试一次 </button>
     <button wx:if="{{ fujiati != '1' && count == 10}}" class="userinfobtn" bindtap="gonext"> 下一个点 </button>

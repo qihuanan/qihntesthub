@@ -725,24 +725,42 @@ public class WxController extends BaseController {
                     Exam exam = this.examService.findById(Exam.class,Long.parseLong(old.getExamid()));
                     map.put("exam", exam);
                     old.setCate(exam.getCate());
-                    old.setAddScore(0);
+                    if(old.getAddScore() ==null){
+                        old.setAddScore(0);
+                    }
+                    if(old.getPointid().longValue() ==1){// 每日打卡
+                    }else{
+                        //old.setAddScore(0);
+                    }
+
                     old.setChance(old.getChance()-1);
                     if(old.getCate().equals("1") || old.getCate().equals("3")){ //1: 文字答题  2: 上传图片
                         old.setPicture("");
                         if(Arrays.asList(exam.getAnswer().split(";")).contains(pointUserinfo.getAnswer()) || exam.getAnswer().contains("***")){
                             old.setPrize(exam.getPrize());
                             old.setPrizeimg(exam.getPrizeimg());
-                            old.setAddScore(Integer.parseInt(point.getJifen()));
+
+                            if(old.getPointid().longValue() ==1){// 每日打卡
+                                old.setAddScore(old.getAddScore()+ Integer.parseInt(point.getJifen()));
+                                user.setScore(user.getScore()+old.getAddScore());
+                            }else{
+
+                                if( old.getAddScore()==0){
+                                    old.setAddScore(Integer.parseInt(point.getJifen()));
+                                    user.setScore(user.getScore()+old.getAddScore());
+                                }
+
+                            }
                             map.put("data", "ok");
-                            old.setAddScore(Integer.parseInt(point.getJifen()));
-                            user.setScore(user.getScore()+old.getAddScore());
+                            //old.setAddScore(Integer.parseInt(point.getJifen()));
+
                             old.setPicture("");
                             old.setFinish("1");
                         }else{
                             old.setPrize("答案错误");
                             old.setPrizeimg("");
                             old.setFinish("0");
-                            old.setAddScore(0);
+                            //old.setAddScore(0);
                             map.put("data", "err");
                             if(old.getChance()<=0){
                                 old.setFinish("1");

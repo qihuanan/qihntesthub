@@ -436,11 +436,30 @@ Page({
               
             })
             that.pointLiving()
+            if(res2.data.line.yidaka*3 == res2.data.line.dianshu || (res2.data.line.yidaka*3-1)==res2.data.line.dianshu || (res2.data.line.yidaka*3 - 2) == res2.data.line.dianshu){
+              wx.showModal({
+                title: '探索小能手！',
+                content: '很棒哦，已经完成三分之一的签到任务啦！',
+                confirmText: '继续探索',
+                confirmColor: '#fabf13',
+                showCancel:false,
+              })
+            }
+
             if(res2.data.line.yidaka*2 == res2.data.line.dianshu || (res2.data.line.yidaka*2-1)==res2.data.line.dianshu){
               wx.showModal({
                 title: '探索小能手！',
-                content: '你的签到任务已经完成一半啦！',
+                content: '很棒哦，已经完成一半的签到任务啦！',
                 confirmText: '继续探索',
+                confirmColor: '#fabf13',
+                showCancel:false,
+              })
+            }
+            if(res2.data.line.yidaka == res2.data.line.dianshu){
+              wx.showModal({
+                title: '探索小能手！',
+                content: '太棒啦，你完成了全部签到任务！获得了'+ res2.data.line.jifen + '积分！',
+                confirmText: '确定',
                 confirmColor: '#fabf13',
                 showCancel:false,
               })

@@ -48,22 +48,24 @@
       <view class="active-body">
         <!--实时签到信息0321-->
         <view>
+          <swiper class="swiper_container" vertical="true" autoplay="true" circular="true" interval="2000">
           <block wx:for="{{pointUserinfoList }}" wx:for-index="index" wx:for-item="item" wx:key="t1"> 
           <view class="active-title-bottom weui-flex">
-            <view class="weui-flex__item">
-              <text> {{item.username}} 在 {{item.timestr}} 签到了 {{item.pointname}}  </text>
-            </view>
+            <swiper-item class="weui-flex__item qiandaogonggao">
+               <text>  {{item.timestr}} {{item.username}}在“ {{item.pointname}} ”签到 </text>
+            </swiper-item>
           </view>
           </block>
+        </swiper>
         </view>
 
         <block wx:for="{{tipList }}" wx:for-index="index" wx:key="t1">  
           <view wx:if="{{item.lockflag == 0}}" class="weui-flex__item body-item-tips">
               <view class="body-item-tips-name">{{item.name}} </view>
               <view class="body-item-tips-desc">
-                <view><text>
-                {{util.format(item.description)}}
-                </text></view>
+               <view><rich-text nodes="{{item.description}}">
+              </rich-text> </view>
+                <!--修改为富文本模式-->
                 <image mode="widthFix" wx:if="{{item.img != null && item.img != ''}}" bindtap="showimgTap" data-imgsrc="{{baseurl}}download?filename={{item.img}}"   src="{{baseurl}}download?filename={{item.img}}" class="tipimg" ></image>
               </view>
           </view>

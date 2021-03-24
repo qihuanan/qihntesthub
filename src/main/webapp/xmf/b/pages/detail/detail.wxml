@@ -83,56 +83,73 @@
 <view class='list'>
     <view class='li' wx:for='{{list}}' wx:key=''>{{item}}</view>
 </view>
+<view class='placeholder-view'></view>
 <view class="body-linedes" wx:if="{{line.description != ''}}">
-  <text>
-      {{util.format(line.description)}}
-   </text>
+  <rich-text nodes="{{line.description}}">
+  </rich-text>
+  <!--线路概述，修改为富文本模式-->
  </view>
-
- <!-- 当天和 7日积分排行榜 0321 -->
-<view>
-    <button  style="width:43vw" class="btn1" open-type="share"> 当天排行榜 </button>
-    <block wx:for="{{user1list }}" wx:for-index="index" wx:for-item="item" wx:key="t1"> 
-    <view class="active-title-bottom weui-flex">
-      <view class="weui-flex__item">
-        <image  class="userinfo-avatar" src="{{item.avatarUrl}}" mode="cover"></image>
-      </view>
-      <view class="weui-flex__item">
-        <text> {{item.name}} </text>
-      </view>
-      <view class="weui-flex__item">
-        <text>  积分：  {{item.linkmobile }}</text>
-      </view>
-    </view>
-    </block>
-</view>
-
-<view>
-  <button  style="width:43vw" class="btn1" open-type="share"> 7日排行榜 </button>
-    <block wx:for="{{user0list }}" wx:for-index="index" wx:for-item="item" wx:key="t1"> 
-    <view class="active-title-bottom weui-flex">
-      <view class="weui-flex__item">
-        <image  class="userinfo-avatar" src="{{item.avatarUrl}}" mode="cover"></image>
-      </view>
-      <view class="weui-flex__item">
-        <text> {{item.name}} </text>
-      </view>
-      <view class="weui-flex__item">
-        <text>  积分：  {{item.linkmobile }}</text>
-      </view>
-    </view>
-    </block>
-</view>
-
 <view class='placeholder-view'></view>
 <view >
  <image mode="widthFix" class='placeholder-view' src="/pages/images/slogan.svg"></image>
 </view>
 
-<view class="kefu-btn">
+<view wx:if="{{line.freenum < line.dianshu}}" class="kefu-btn">
 <button bindtap="gopay" class="kefu-btn2" style="width:40vw">
 <view class="btntxt">加入活动</view></button>
 </view>
+<view class='placeholder-view'></view>
+ <!-- 当天和 7日积分排行榜 0321 -->
+ <!-- 导航 -->
+<view class="weui-flex daohang">
+  <view class="weui-flex__item {{showpanel == 1 ? 'iconunderline' : '' }}" data-panel="1"  bindtap="showmyactive">
+
+    <image class="img-tips" src="/pages/images/arank.svg" ></image>
+    <view class="dakatext">积分排行榜</view>
+  </view>
+  <view class="weui-flex__item {{showpanel == 2 ? 'iconunderline' : '' }}" bindtap="showmyactive" data-panel="2"  >
+    
+    <image class="img-tips" src="/pages/images/brank.svg" ></image>
+    <view class="dakatext">今日排行榜</view>
+  </view>
+</view>
+
+<block wx:if="{{showpanel == 2 }}">
+    <block wx:for="{{user1list }}" wx:for-index="index" wx:for-item="item" wx:key="t1"> 
+    <view class="active-title-bottom weui-flex">
+      <view class="weui-flex__item">
+        <image  class="userinfo-avatar" src="{{item.avatarUrl}}" mode="cover"></image>
+      </view>
+      <view class="weui-flex__item btntxt">
+        <text> {{item.name}} </text>
+      </view>
+      <view  wx:if="{{item.linkmobile}}"  class="weui-flex__item btntxt">
+        <text>  积分：  {{item.linkmobile}}</text>
+      </view>
+      <view  wx:else  class="weui-flex__item btntxt">
+        <text> </text>
+      </view>
+    </view>
+    </block>
+  </block>
+
+  <block wx:if="{{showpanel == 1 }}">
+    <block wx:for="{{user0list }}" wx:for-index="index" wx:for-item="item" wx:key="t1"> 
+    <view class="active-title-bottom weui-flex">
+      <view class="weui-flex__item">
+        <image  class="userinfo-avatar" src="{{item.avatarUrl}}" mode="cover"></image>
+      </view>
+      <view class="weui-flex__item btntxt">
+        <text> {{item.name}} </text>
+      </view>
+      <view wx:if="{{item.linkmobile}}" class="weui-flex__item btntxt">
+        <text>  积分：  {{item.linkmobile}}</text>
+      </view>
+    </view>
+    </block>
+  </block>
+
+<view class='placeholder-view'></view>
 <view class="pretabbar">　　　</view>
 <import src ="/pages/template/tabbarout.wxml"/>
 <template is="tabbarout" data="{{cur:1}}" />

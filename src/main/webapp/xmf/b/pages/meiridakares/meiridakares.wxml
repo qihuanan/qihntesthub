@@ -11,11 +11,17 @@
     </view>
 
     <view class="item-tips">{{success}}</view>
-
-    <!-- 
-    <button  class="userinfobtn" bindtap="gonext"> 邀请大家一起来打卡吧 </button>
-    -->
-    <button style="width:60vw" class="btn1" bindtap="goshare" >邀请朋友一起打卡吧！</button>
+    <view class="placeholder-view"> </view>
+    <view class="item-huode">我已累计获得{{line.yijifen}}积分</view>
   </view>
-  
+</view>  
+ <view class="weui-flex">
+    <view  class="weui-flex__item " > 
+    <button style="width:40vw" class="btn1" bindtap="mrdatap" data-lineid="2" >继续打卡</button>
+    </view>
+    <view  class="weui-flex__item " > 
+    <button style="width:40vw" class="btn1" bindtap="gorank" >查看排行榜</button>
 </view>
+</view>
+<view class="placeholder-view"> </view>
+

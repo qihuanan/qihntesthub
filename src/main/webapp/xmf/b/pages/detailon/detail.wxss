@@ -83,6 +83,16 @@
   margin-left: 35rpx;
   margin-right: 35rpx;
 }
+.qiandaogonggao{
+  font-size: 25rpx;
+  color:#cc3300;
+  margin-left: 25rpx;
+  margin-right: 25rpx;
+}
+.swiper_container {
+  height: 50rpx;
+  width: 95%;
+ }
 .img-tips{
   height: 100rpx;
   width: 435rpx;

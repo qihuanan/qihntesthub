@@ -1,0 +1,30 @@
+ <!-- 当天和 7日积分排行榜 0321 -->
+ <!-- 导航 -->
+<view class="weui-flex daohang">
+  <view class="weui-flex__item {{showpanel == 1 ? 'iconunderline' : '' }}" data-panel="1"  bindtap="showmyactive">
+
+    <image class="img-tips" src="/pages/images/arank.svg" ></image>
+    <view class="dakatext">积分排行榜</view>
+  </view>
+</view>
+
+  <block wx:if="{{showpanel == 1 }}">
+    <block wx:for="{{user0list }}" wx:for-index="index" wx:for-item="item" wx:key="t1"> 
+    <view class="active-title-bottom weui-flex">
+      <view class="weui-flex__item">
+        <image  class="userinfo-avatar" src="{{item.avatarUrl}}" mode="cover"></image>
+      </view>
+      <view class="weui-flex__item btntxt">
+        <text> {{item.name}} </text>
+      </view>
+      <view wx:if="{{item.linkmobile}}" class="weui-flex__item btntxt">
+        <text>  积分：  {{item.linkmobile}}</text>
+      </view>
+    </view>
+
+    </block>
+
+  </block>
+<view class='placeholder-view'></view>
+<view class="weui-flex__item">
+<button style="width:100vw" class="btn1" bindtap="goshare"> 邀请朋友一起来打卡！</button> </view>
