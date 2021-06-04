@@ -14,7 +14,7 @@
     <commons-collections.version>3.2.1</commons-collections.version>
     <commons-io.version>2.4</commons-io.version>
     <commons-compress.version>1.8.1</commons-compress.version>
-    <httpclient4.version>4.5.2</httpclient4.version>
+    <httpclient4.version>4.5.13</httpclient4.version>
     <httpasyncclient4.version>4.1</httpasyncclient4.version>
     <djk.version>1.8</djk.version>
     <plugin.maven-clean-plugin.version>3.1.0</plugin.maven-clean-plugin.version>
